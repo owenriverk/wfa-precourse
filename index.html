@@ -75,7 +75,7 @@
   <div class="hero-content">
     <div class="hero-badge">🏔 WFA Pre-Course Learning</div>
     <h1>Wilderness First Aid<br>Online Pre-Course Modules</h1>
-    <p>Complete these 13 interactive lessons before your 2-day Wilderness First Aid course. Building your foundational knowledge now maximizes hands-on practice time in class.</p>
+    <p>Complete these 13 interactive lessons before your in-person Wilderness First Aid course. Building your foundational knowledge now maximizes hands-on practice time in class.</p>
     <div class="hero-stats">
       <div class="stat"><span class="stat-num">13</span><span class="stat-label">Interactive Lessons</span></div>
       <div class="stat"><span class="stat-num">~6 hrs</span><span class="stat-label">Total Study Time</span></div>
@@ -90,21 +90,11 @@
   <!-- Progress Tracker -->
   <div class="progress-section">
     <h2>Your Progress</h2>
-    <p>Track your pre-course preparation. Aim to complete all 13 modules before Day 1.</p>
+    <p>Track your pre-course preparation. Complete all 13 modules, then take the final exam.</p>
     <div class="progress-bar-container">
       <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
     </div>
     <div class="progress-label" id="progress-label">0 of 13 modules completed</div>
-  </div>
-
-  <!-- Download Curriculum -->
-  <div class="download-section">
-    <div style="flex:1; min-width:240px;">
-      <h2>📄 Course Curriculum Document</h2>
-      <p>Download the complete 2-day WFA course curriculum, including detailed module outlines, skills checklists, assessment rubrics, and reference materials.</p>
-      <a href="WFA_Curriculum_Overview.docx" class="download-btn">⬇ Download Curriculum (.docx)</a>
-    </div>
-    <div style="font-size: 80px; opacity: 0.3;">📋</div>
   </div>
 
   <!-- Course Info Cards -->
@@ -129,15 +119,15 @@
     <div class="info-card">
       <div class="info-icon">⚠️</div>
       <h3>Educational Use Only</h3>
-      <p>These lessons support WFA training. Do not use as a substitute for hands-on certification or professional medical care.</p>
+      <p>These lessons support WFA training. Do not use as a substitute for hands-on training or professional medical care.</p>
     </div>
   </div>
 
-  <!-- DAY 1 Modules -->
+  <!-- Modules -->
   <div class="day-divider">
     <div>
-      <h2>Day 1 Pre-Work</h2>
-      <span>Modules 01–06 • Complete before Day 1 of class</span>
+      <h2>Pre-Course Modules</h2>
+      <span>Modules 01–13 • Work through them in order, then take the final exam</span>
     </div>
   </div>
 
@@ -260,17 +250,6 @@
         <span class="card-arrow">→</span>
       </div>
     </a>
-  </div>
-
-  <!-- DAY 2 Modules -->
-  <div class="day-divider">
-    <div>
-      <h2>Day 2 Pre-Work</h2>
-      <span>Modules 07–13 • Complete before Day 2 of class</span>
-    </div>
-  </div>
-
-  <div class="lesson-grid">
     <a href="lessons/07_Spine.html" class="lesson-card" id="card-07">
       <div class="card-top">
         <div class="card-num">07</div>
@@ -411,6 +390,17 @@
     </a>
   </div>
 
+  <!-- Final Exam -->
+  <div class="download-section" id="final-exam-section">
+    <div style="flex:1; min-width:240px;">
+      <h2>📝 Final Exam</h2>
+      <p>Finished the modules? Take the 40-question final exam. Passing is 30/40 (75%). Your name, score, and completion date are recorded on a printable Record of Completion.</p>
+      <p id="exam-status" style="font-weight:700; display:none;"></p>
+      <a href="final_exam.html" class="download-btn" id="exam-btn">Start Final Exam →</a>
+    </div>
+    <div style="font-size: 80px; opacity: 0.3;">📝</div>
+  </div>
+
   <!-- Quick Reference -->
   <h2 class="section-title">Key Mnemonics Quick Reference</h2>
   <p class="section-sub">These memory tools are used throughout the course.</p>
@@ -485,7 +475,7 @@
 
 <footer>
   <p><strong>Wilderness First Aid Pre-Course Online Learning</strong></p>
-  <p>For educational use only. This content supports WFA certification training and does not replace hands-on instruction or professional medical care.</p>
+  <p>For educational use only. This content supports Wilderness First Aid training and does not replace hands-on instruction or professional medical care.</p>
   <p style="margin-top:8px; opacity:0.6; font-size:12px;">Based on current wilderness medicine best practices and evidence-based guidelines.</p>
 </footer>
 
@@ -519,6 +509,22 @@ function updateProgress() {
 }
 
 updateProgress();
+
+(function showExamStatus() {
+  try {
+    const raw = localStorage.getItem('wfa_final_exam');
+    if (!raw) return;
+    const r = JSON.parse(raw);
+    const el = document.getElementById('exam-status');
+    if (!el || !r || typeof r.score !== 'number') return;
+    el.textContent = '✓ Completed by ' + (r.name || 'student') + ' on ' + (r.date || '') +
+      ' — score ' + r.score + '/' + (r.total || 40) + ' (' + (r.pct || Math.round(r.score / (r.total || 40) * 100)) + '%)' +
+      (r.passed ? ' — Passing' : ' — Below passing, retake recommended');
+    el.style.display = 'block';
+    const btn = document.getElementById('exam-btn');
+    if (btn) btn.textContent = r.passed ? 'Review / Retake Exam →' : 'Retake Final Exam →';
+  } catch (e) {}
+})();
 </script>
 </body>
 </html>

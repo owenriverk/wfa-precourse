@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Final Exam | WFA Pre-Course</title>
+<style>
+  :root {
+    --primary: #1B4F8A; --accent: #2C7BE5; --light-bg: #E8F0FE;
+    --danger: #C0392B; --danger-bg: #FDECEA; --success: #1A6B3A; --success-bg: #E8F5E9;
+    --warning: #D35400; --warning-bg: #FFF3E0; --info: #1565C0; --info-bg: #E3F2FD;
+    --dark: #2D3748; --muted: #718096; --border: #CBD5E0; --card-bg: #F7FAFC;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F0F4F8; color: var(--dark); line-height: 1.7; }
+  .header { background: linear-gradient(135deg, #1B4F8A 0%, #2C7BE5 100%); color: white; padding: 24px 32px; }
+  .header-meta { display: flex; gap: 16px; font-size: 13px; opacity: 0.85; margin-bottom: 8px; flex-wrap: wrap; }
+  .header-meta span { background: rgba(255,255,255,0.2); padding: 3px 10px; border-radius: 12px; }
+  .header h1 { font-size: clamp(22px, 4vw, 32px); font-weight: 700; }
+  .header p { opacity: 0.9; margin-top: 6px; font-size: 16px; }
+  .header a.back { color: white; opacity: 0.85; font-size: 13px; text-decoration: none; display: inline-block; margin-bottom: 10px; }
+  .header a.back:hover { opacity: 1; text-decoration: underline; }
+  .container { max-width: 900px; margin: 0 auto; padding: 32px 24px; }
+  .card { background: white; border-radius: 10px; padding: 22px; margin: 18px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.07); border: 1px solid var(--border); }
+  .alert { border-radius: 8px; padding: 16px 20px; margin: 20px 0; border-left: 5px solid; }
+  .alert-title { font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .alert-info { background: var(--info-bg); border-color: var(--info); color: #1A237E; }
+  .alert-info .alert-title { color: var(--info); }
+  .alert-warning { background: var(--warning-bg); border-color: var(--warning); color: #7E5109; }
+  .alert-warning .alert-title { color: var(--warning); }
+  .alert-success { background: var(--success-bg); border-color: var(--success); color: #1B5E20; }
+  .alert-success .alert-title { color: var(--success); }
+  .alert-danger { background: var(--danger-bg); border-color: var(--danger); color: #7B241C; }
+  .alert-danger .alert-title { color: var(--danger); }
+  .prev-banner { display: none; background: var(--light-bg); border: 1px solid var(--accent); border-radius: 10px; padding: 14px 18px; margin: 18px 0; font-size: 14px; }
+  .prev-banner .actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .name-row label { font-weight: 700; color: var(--primary); display: block; margin-bottom: 6px; }
+  .name-row input[type="text"] { width: 100%; max-width: 420px; padding: 12px 14px; font-size: 16px; border: 2px solid var(--border); border-radius: 8px; font-family: inherit; }
+  .name-row input[type="text"]:focus { outline: none; border-color: var(--accent); }
+  .name-error { display: none; color: var(--danger); font-size: 14px; font-weight: 600; margin-top: 6px; }
+  .section-divider { background: var(--primary); color: white; padding: 10px 18px; border-radius: 10px; margin: 30px 0 6px; font-weight: 700; font-size: 15px; letter-spacing: 0.3px; }
+  .exam-q { background: white; border-radius: 10px; padding: 22px; margin: 16px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.07); border: 1px solid var(--border); }
+  .exam-q .stem { font-weight: 600; font-size: 16px; margin-bottom: 14px; }
+  .exam-q .stem .qnum { color: var(--primary); }
+  .opt { display: flex; gap: 10px; align-items: flex-start; padding: 12px 16px; border: 2px solid var(--border); border-radius: 8px; margin-bottom: 10px; cursor: pointer; font-size: 15px; background: white; transition: border-color 0.15s, background 0.15s; }
+  .opt:hover { border-color: var(--accent); background: var(--light-bg); }
+  .opt:has(input:checked) { border-color: var(--accent); background: var(--light-bg); }
+  .opt input { margin-top: 5px; accent-color: var(--accent); flex-shrink: 0; }
+  .btn { background: var(--primary); color: white; border: none; padding: 12px 26px; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 700; font-family: inherit; transition: background 0.2s; text-decoration: none; display: inline-block; }
+  .btn:hover { background: var(--accent); }
+  .btn.secondary { background: white; color: var(--primary); border: 2px solid var(--primary); }
+  .btn.secondary:hover { background: var(--light-bg); }
+  .btn.small { padding: 8px 16px; font-size: 13px; }
+  .submit-bar { text-align: center; margin: 30px 0; }
+  .score-banner { text-align: center; padding: 30px; background: white; border-radius: 12px; margin: 24px 0; border: 2px solid var(--border); }
+  .score-banner h3 { font-size: 34px; color: var(--primary); }
+  .score-banner .status { font-size: 18px; font-weight: 700; margin-top: 6px; }
+  .score-banner .status.pass { color: var(--success); }
+  .score-banner .status.fail { color: var(--warning); }
+  .missed-list { list-style: none; margin: 0; padding: 0; }
+  .missed-list li { padding: 12px 14px; border-radius: 8px; background: var(--card-bg); border: 1px solid var(--border); margin-bottom: 10px; font-size: 14px; }
+  .missed-list li strong { color: var(--primary); }
+  .missed-list .why { color: var(--muted); display: block; margin-top: 3px; }
+  .record { background: white; border: 3px double var(--primary); border-radius: 12px; padding: 34px 28px; margin: 24px 0; text-align: center; }
+  .record .record-badge { display: inline-block; background: var(--light-bg); color: var(--primary); padding: 5px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; }
+  .record h2 { color: var(--primary); font-size: 24px; margin-bottom: 4px; }
+  .record .record-sub { color: var(--muted); font-size: 14px; margin-bottom: 22px; }
+  .record .record-name { font-size: 28px; font-weight: 700; color: var(--dark); border-bottom: 2px solid var(--border); display: inline-block; padding: 0 24px 6px; margin-bottom: 20px; }
+  .record .record-facts { display: flex; gap: 28px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+  .record .fact .fact-label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); font-weight: 700; }
+  .record .fact .fact-value { font-size: 20px; font-weight: 700; color: var(--primary); }
+  .record .record-note { font-size: 12px; color: var(--muted); max-width: 520px; margin: 0 auto; line-height: 1.5; }
+  footer { background: var(--primary); color: white; padding: 32px; text-align: center; margin-top: 40px; }
+  footer p { opacity: 0.8; font-size: 14px; margin-bottom: 6px; }
+  footer a { color: white; }
+  @media (max-width: 600px) { .container { padding: 20px 14px; } .header { padding: 18px 16px; } .record { padding: 24px 14px; } }
+  @media print {
+    body * { visibility: hidden; }
+    #record-block, #record-block * { visibility: visible; }
+    #record-block { position: absolute; left: 0; top: 0; width: 100%; margin: 0; border-radius: 0; box-shadow: none; }
+    .no-print { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a class="back" href="index.html">&larr; Back to modules</a>
+  <div class="header-meta">
+    <span>&#128221; 40 Questions</span>
+    <span>&#9989; Passing: 30/40 (75%)</span>
+    <span>&#127956; Covers all 13 modules</span>
+  </div>
+  <h1>Final Exam &mdash; Wilderness First Aid Pre-Course</h1>
+  <p>The capstone knowledge check for the online pre-course modules.</p>
+</div>
+
+<div class="container">
+
+  <div class="alert alert-info">
+    <div class="alert-title">&#128203; About This Exam</div>
+    This final exam contains <strong>40 multiple-choice questions</strong> covering all 13 pre-course modules. A score of <strong>30/40 (75%)</strong> or higher is passing. When you submit, your result is saved as a <strong>record of completion</strong> with your name, score, and date &mdash; a personal study record, <em>not</em> a certification. You may retake the exam at any time; retaking overwrites your previous record.
+  </div>
+
+  <div class="alert alert-warning">
+    <div class="alert-title">&#9888;&#65039; Educational Use Only</div>
+    This content supports WFA training. It does not replace hands-on instruction or professional medical care.
+  </div>
+
+  <div class="prev-banner" id="prev-banner">
+    <strong>Previous result on file:</strong> <span id="prev-text"></span>
+    <div class="actions">
+      <button class="btn small" type="button" onclick="startRetake()">Retake exam</button>
+      <button class="btn small secondary" type="button" onclick="showStoredRecord()">View record of completion</button>
+    </div>
+  </div>
+
+  <div class="card name-row">
+    <label for="student-name">Your full name (required)</label>
+    <input type="text" id="student-name" autocomplete="name" placeholder="e.g., Jordan Rivera">
+    <div class="name-error" id="name-error">Please enter your name before submitting the exam.</div>
+  </div>
+
+  <form id="exam-form" onsubmit="return false;">
+    <div id="questions"></div>
+    <div class="submit-bar">
+      <button class="btn" type="button" onclick="submitExam()">Submit Exam</button>
+    </div>
+  </form>
+
+  <div id="results" style="display:none;">
+    <div class="score-banner">
+      <h3 id="score-text"></h3>
+      <div class="status" id="status-text"></div>
+      <p id="score-sub" style="color:var(--muted); margin-top:8px;"></p>
+    </div>
+
+    <div id="missed-wrap" class="card" style="display:none;">
+      <h3 style="color:var(--primary); margin-bottom:12px;">Questions to Review</h3>
+      <ul class="missed-list" id="missed-list"></ul>
+    </div>
+
+    <div id="record-block" class="record">
+      <div class="record-badge">Record of Completion</div>
+      <h2>Record of Completion</h2>
+      <div class="record-sub">Wilderness First Aid Pre-Course Final Exam</div>
+      <div class="record-name" id="record-name"></div>
+      <div class="record-facts">
+        <div class="fact"><div class="fact-label">Score</div><div class="fact-value" id="record-score"></div></div>
+        <div class="fact"><div class="fact-label">Result</div><div class="fact-value" id="record-result"></div></div>
+        <div class="fact"><div class="fact-label">Date</div><div class="fact-value" id="record-date"></div></div>
+      </div>
+      <div class="record-note">This record documents completion of the online pre-course final exam (passing standard: 30/40, 75%). It is a study record only &mdash; not a certification &mdash; and does not replace hands-on instruction or professional medical care.</div>
+    </div>
+
+    <div class="submit-bar no-print">
+      <button class="btn" type="button" onclick="window.print()">&#128424; Print / Save Record</button>
+      <button class="btn secondary" type="button" onclick="startRetake()">&#8634; Retake Exam</button>
+    </div>
+  </div>
+
+  <p style="margin-top:30px;"><a href="index.html" style="color:var(--primary); font-weight:600;">&larr; Back to modules</a></p>
+
+</div>
+
+<footer>
+  <p><strong>Wilderness First Aid Pre-Course Online Learning</strong></p>
+  <p>For educational use only. This content supports WFA training and does not replace hands-on instruction or professional medical care.</p>
+  <p style="margin-top:8px; opacity:0.6; font-size:12px;">Based on current wilderness medicine best practices and evidence-based guidelines.</p>
+</footer>
+
+<script>
+// Exam content. Correct answers are held only in the grading key below and are
+// never marked in the rendered form before submission.
+var QUESTIONS = [
+  { s: "Provider Safety", q: "What is the FIRST step a WFA provider should take when approaching any emergency scene?",
+    o: ["Immediately begin treating the most injured patient",
+        "Perform a scene size-up and ensure personal safety",
+        "Call for emergency services",
+        "Don your PPE and approach at a run"] },
+  { q: "Which type of consent allows you to treat an unconscious adult?",
+    o: ["Expressed consent", "Informed consent", "Implied consent", "Delegated consent"] },
+  { q: "What is the minimum PPE required before patient contact?",
+    o: ["Gown and eye protection", "Nitrile gloves", "N95 mask", "No PPE is required outdoors"] },
+  { s: "Patient Assessment", q: "In the XABCDE primary survey, what does “X” stand for?",
+    o: ["X-ray assessment", "eXtremity evaluation", "eXsanguination—life-threatening hemorrhage control", "eXamine the scene"] },
+  { q: "A patient who only responds when you call their name has a level of consciousness of:",
+    o: ["Alert", "Verbal", "Pain", "Unresponsive"] },
+  { q: "When performing a SAMPLE history, what does “L” represent?",
+    o: ["Location of pain", "Level of consciousness", "Last oral intake", "Length of symptoms"] },
+  { q: "The OPQRST mnemonic is used to:",
+    o: ["Assess a patient's level of consciousness", "Perform a head-to-toe physical exam",
+        "Characterize a patient's pain or chief complaint", "Document vital signs in a SOAP note"] },
+  { q: "In the DCAP-BTLS assessment, “T” stands for:",
+    o: ["Temperature", "Tenderness", "Trauma", "Tachycardia"] },
+  { s: "Airway Management", q: "Which airway maneuver is preferred when spinal injury is suspected?",
+    o: ["Head-tilt chin-lift", "Jaw thrust", "Neck extension", "Finger sweep"] },
+  { q: "An unconscious patient who is breathing should be placed in which position?",
+    o: ["Supine with legs elevated", "Sitting upright at 90 degrees",
+        "Recovery position (left lateral recumbent)", "Prone (face down)"] },
+  { q: "When performing rescue breathing for an adult, breaths should be delivered at a rate of approximately:",
+    o: ["One breath every 2-3 seconds",
+        "One breath every 6 seconds (about 10 breaths per minute)",
+        "One breath every 10-12 seconds",
+        "Two quick breaths every 30 seconds"] },
+  { s: "Bleeding & Wounds", q: "A patient has an arterial bleed to the thigh. Direct pressure has been applied for 10 minutes but has not controlled the bleeding. What is the next appropriate step?",
+    o: ["Pack the wound with gauze and apply more pressure",
+        "Apply a tourniquet 2-3 inches proximal to the wound",
+        "Elevate the extremity above heart level",
+        "Apply ice to constrict blood vessels"] },
+  { q: "A tourniquet has been applied. What MUST you document?",
+    o: ["The patient's blood type", "The exact time the tourniquet was applied",
+        "The name of the person who applied it", "The patient's last oral intake"] },
+  { q: "You find a patient with a large knife impaled in the abdomen. You should:",
+    o: ["Remove the knife and apply direct pressure",
+        "Stabilize the knife in place and do not remove it",
+        "Push the knife in further to stop external bleeding",
+        "Pack gauze tightly around the knife and then remove it"] },
+  { q: "Which of the following wounds should NOT be closed in the field?",
+    o: ["A clean 2 cm laceration to the forearm", "A scalp laceration with clean edges",
+        "An animal bite wound", "A wound that has been thoroughly irrigated"] },
+  { s: "Shock", q: "Which of the following is an EARLY sign of shock?",
+    o: ["Altered level of consciousness", "Absent radial pulse",
+        "Anxiety and tachycardia with pale, cool skin", "Mottled, cyanotic skin"] },
+  { q: "A patient in shock who has no suspected spinal injury should be positioned:",
+    o: ["Sitting upright",
+        "Supine (lying flat), kept warm and protected from heat loss",
+        "Supine with the legs elevated 6-12 inches",
+        "Prone with head turned to the side"] },
+  { q: "Hypothermia significantly worsens shock because it:",
+    o: ["Reduces pain sensation, masking symptoms",
+        "Impairs the blood clotting process (coagulopathy)",
+        "Increases metabolic demands on the heart",
+        "Reduces the effect of epinephrine"] },
+  { s: "Musculoskeletal Injuries", q: "Before applying a splint, what assessment MUST be performed?",
+    o: ["SAMPLE history", "OPQRST pain assessment",
+        "CSM (Circulation, Sensation, Movement)", "AVPU level of consciousness"] },
+  { q: "When splinting a fracture, you must immobilize:",
+    o: ["Only the fracture site itself", "The joint above and the joint below the fracture",
+        "The entire extremity from hip to toe", "Only the joint above the fracture"] },
+  { q: "A femur fracture is particularly dangerous because:",
+    o: ["It is impossible to splint in the field", "It causes severe nerve damage in all cases",
+        "Up to 1-2 liters of blood can be lost into the thigh", "The femur always displaces into major vessels"] },
+  { s: "Spine & Head Injuries", q: "Which finding would PREVENT you from clearing a patient's spine in the field?",
+    o: ["The patient is alert and oriented × 4",
+        "The patient has point tenderness at the midline of the neck",
+        "The mechanism of injury was a minor fall",
+        "The patient denies any numbness or tingling"] },
+  { q: "Which of the following is a RED FLAG sign of serious traumatic brain injury requiring urgent evacuation?",
+    o: ["Mild headache with full orientation", "Light sensitivity and fatigue",
+        "Decreasing level of consciousness", "Nausea without vomiting"] },
+  { q: "During a logroll, which team member is responsible for calling the count and directing the movement?",
+    o: ["The person at the patient's feet", "The person at the patient's hips",
+        "The person at the head, maintaining in-line stabilization", "Any team member may call the roll"] },
+  { s: "Heat Emergencies", q: "Which finding most clearly distinguishes heat stroke from heat exhaustion?",
+    o: ["Profuse sweating", "Altered level of consciousness", "Muscle cramping", "Elevated heart rate"] },
+  { q: "The MOST effective method of rapidly cooling a heat stroke patient in the field is:",
+    o: ["Applying cool wet cloths to the forehead only",
+        "Placing in the shade and giving cold water to drink",
+        "Cold water immersion of the entire body",
+        "Applying ice packs only to the armpits"] },
+  { s: "Cold Emergencies", q: "A patient is shivering violently, has a stumbling gait, and is showing poor judgment. This presentation is MOST consistent with:",
+    o: ["Severe hypothermia", "Mild hypothermia", "Frostbite", "Dehydration"] },
+  { q: "You find a patient in moderate hypothermia (shivering has stopped). During evacuation, you should:",
+    o: ["Vigorously rub the extremities to generate heat",
+        "Encourage the patient to walk to generate body heat",
+        "Handle gently and insulate—avoid rough movement",
+        "Apply direct heat packs to the chest over bare skin"] },
+  { q: "You have been treating a patient with deep frostbite to their feet. Rewarming is contraindicated when:",
+    o: ["The frostbite is more than 6 hours old",
+        "There is any risk of the tissue refreezing before reaching definitive care",
+        "The tissue is completely white in color",
+        "The patient reports numbness at the site"] },
+  { s: "Anaphylaxis", q: "The FIRST treatment for anaphylaxis in the field is:",
+    o: ["Oral antihistamines (diphenhydramine)", "Positioning the patient supine",
+        "Epinephrine (auto-injector)", "100% supplemental oxygen"] },
+  { q: "An EpiPen is administered into which site?",
+    o: ["Upper arm deltoid muscle", "Outer thigh", "Abdomen", "Buttock"] },
+  { q: "After administering epinephrine for anaphylaxis, the patient improves. The correct next step is:",
+    o: ["Monitor the patient; no further action needed",
+        "Give oral antihistamines and discharge the patient",
+        "Evacuate immediately—epinephrine is temporary and biphasic reactions can occur",
+        "Administer a second dose immediately"] },
+  { s: "Medical Emergencies", q: "A patient has a known history of diabetes and is found confused and diaphoretic. Which is the MOST appropriate initial treatment?",
+    o: ["Withhold all oral intake until confirmed blood sugar",
+        "Administer glucose (sugar) orally if the patient can swallow",
+        "Assume hyperglycemia and evacuate without treatment",
+        "Administer insulin if available"] },
+  { q: "Using the FAST mnemonic to recognize stroke, “A” stands for:",
+    o: ["Alertness", "Arm weakness", "Airway", "Altered speech"] },
+  { q: "A patient has their first witnessed seizure in the backcountry. After the seizure stops, you should:",
+    o: ["Restrain the patient immediately to prevent injury",
+        "Place something in their mouth to protect their tongue",
+        "Place the patient in recovery position and assess for injury",
+        "Declare the patient safe if they regain consciousness quickly"] },
+  { s: "Bites & Stings", q: "A hiker has been bitten by a rattlesnake. Which action is MOST appropriate?",
+    o: ["Make an incision at the bite and attempt to suction the venom",
+        "Apply a tight tourniquet above the bite",
+        "Immobilize the limb and evacuate to a hospital for antivenom",
+        "Apply ice to the bite site to slow venom absorption"] },
+  { q: "When removing a tick, the correct technique is:",
+    o: ["Apply petroleum jelly to suffocate the tick before removal",
+        "Use fine-tipped tweezers, grasp close to the skin, and pull with steady upward pressure",
+        "Grasp the tick's body and twist counterclockwise to unscrew it",
+        "Use a lit match to force the tick to detach"] },
+  { s: "Evacuation", q: "Which of the following conditions requires URGENT evacuation (within 1-2 hours)?",
+    o: ["A stable ankle sprain with intact CSM",
+        "A minor laceration that has been cleaned and dressed",
+        "An altered level of consciousness following head trauma",
+        "Mild dehydration with nausea in a stable patient"] },
+  { q: "When briefing EMS at patient handoff, the MIST acronym stands for:",
+    o: ["Mechanism, Injuries, Signs/vitals, Treatment",
+        "Medical history, Illness onset, Symptoms, Time",
+        "Movement, Immobilization, Stabilization, Transport",
+        "Medications, Interventions, Scene size-up, Timeline"] },
+  { q: "You are selecting a helicopter landing zone (LZ) in a clearing. The minimum recommended clear area is:",
+    o: ["25 feet × 25 feet", "50 feet × 50 feet", "100 feet × 100 feet", "200 feet × 200 feet"] }
+];
+
+// Grading key (0=A, 1=B, 2=C, 3=D) and one-line rationales, used only after submission.
+var KEY = [1,2,1,2,1,2,2,1,1,2,1,1,1,1,2,2,1,1,2,1,2,1,2,2,1,2,1,2,1,2,1,2,1,1,2,2,1,2,0,2];
+var WHY = [
+  "Scene size-up before entry prevents the responder from becoming a second victim.",
+  "Implied consent assumes an unconscious person would consent to life-saving care.",
+  "Gloves are the minimum; add further PPE based on exposure risk.",
+  "Massive hemorrhage (X) is addressed before airway in the modern trauma sequence.",
+  "In the AVPU scale, V = responds to Verbal stimulus.",
+  "L = Last oral intake (food and water, and when).",
+  "OPQRST provides a thorough pain/complaint assessment.",
+  "DCAP-BTLS: Deformity, Contusions, Abrasions, Punctures, Burns, Tenderness, Lacerations, Swelling.",
+  "Jaw thrust opens the airway without extending the neck, protecting the spine.",
+  "The recovery position uses gravity to prevent aspiration and keep the airway open.",
+  "Current AHA guidance for adult rescue breathing: one breath every 6 seconds (about 10 breaths per minute).",
+  "A tourniquet is indicated for extremity bleeding not controlled by direct pressure.",
+  "Time of application is critical for hospital providers to judge tourniquet duration and limb viability.",
+  "Impaled objects tamponade bleeding; removal can cause uncontrolled hemorrhage.",
+  "Bite wounds carry high infection risk and should be left open for drainage.",
+  "Early (compensated) shock: anxiety, tachycardia, and cool, pale skin while blood pressure is still maintained.",
+  "Current guidance is to keep a shock patient supine (flat) and prevent heat loss; routine leg elevation is no longer recommended.",
+  "The “lethal triad” in trauma: hypothermia + acidosis + coagulopathy.",
+  "CSM before and after splinting ensures neurovascular integrity is preserved.",
+  "Standard splinting rule: immobilize one joint above and one below the fracture.",
+  "Closed femur fractures can bleed 1-2 liters into the thigh, causing shock.",
+  "Midline tenderness is a criterion that cannot be cleared in the field.",
+  "Decreasing level of consciousness indicates rising intracranial pressure—a neurosurgical emergency.",
+  "The provider at the head maintains in-line stabilization and directs the roll.",
+  "Altered level of consciousness is the hallmark of heat stroke—a life-threatening emergency.",
+  "Cold water immersion is the fastest, most effective field cooling method for heat stroke.",
+  "Violent shivering with stumbling and poor judgment indicates MILD hypothermia; shivering stops as it progresses.",
+  "Rough movement in moderate/severe hypothermia can trigger ventricular fibrillation—handle gently.",
+  "Thawing and refreezing causes far more tissue damage than leaving tissue frozen until definitive care.",
+  "Epinephrine is the only effective first-line treatment; antihistamines must never delay it.",
+  "Outer thigh (vastus lateralis)—it can be given through clothing.",
+  "Epinephrine is temporary and biphasic reactions can occur; evacuation is always required after anaphylaxis.",
+  "For an altered diabetic who can swallow, give glucose—hypoglycemia is immediately correctable in the field.",
+  "FAST: Face drooping, Arm weakness, Speech difficulty, Time to act.",
+  "Post-ictal care: recovery position, assess for injury, and evacuate—a first seizure always needs medical evaluation.",
+  "Antivenom is the only effective treatment; cutting, suction, ice, and tight tourniquets are ineffective or harmful.",
+  "Fine-tipped tweezers, grasp near the skin, steady pull—never twist, burn, or smother.",
+  "Altered LOC after head trauma suggests TBI with rising intracranial pressure—urgent evacuation.",
+  "MIST: Mechanism of injury, Injuries found, Signs and vitals, Treatment given.",
+  "Standard LZ minimum: 100 ft × 100 ft, firm, level, and free of obstructions."
+];
+
+var LETTERS = ["A", "B", "C", "D"];
+var TOTAL = QUESTIONS.length;
+var PASS_MARK = 30;
+var STORE_KEY = "wfa_final_exam";
+
+function esc(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function buildExam() {
+  var box = document.getElementById("questions");
+  var html = "";
+  QUESTIONS.forEach(function (item, qi) {
+    if (item.s) html += '<div class="section-divider">' + esc(item.s) + "</div>";
+    html += '<div class="exam-q" id="q-card-' + qi + '"><div class="stem"><span class="qnum">Q' + (qi + 1) + ".</span> " + esc(item.q) + "</div>";
+    item.o.forEach(function (opt, oi) {
+      html += '<label class="opt"><input type="radio" name="q' + qi + '" value="' + oi + '"><span><strong>' + LETTERS[oi] + ".</strong> " + esc(opt) + "</span></label>";
+    });
+    html += "</div>";
+  });
+  box.innerHTML = html;
+}
+
+function getSelected(qi) {
+  var checked = document.querySelector('input[name="q' + qi + '"]:checked');
+  return checked ? parseInt(checked.value, 10) : null;
+}
+
+function localISODate(d) {
+  var m = String(d.getMonth() + 1).padStart(2, "0");
+  var day = String(d.getDate()).padStart(2, "0");
+  return d.getFullYear() + "-" + m + "-" + day;
+}
+
+function longDate(d) {
+  return d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+}
+
+function longDateFromISO(iso) {
+  var p = iso.split("-");
+  return longDate(new Date(parseInt(p[0], 10), parseInt(p[1], 10) - 1, parseInt(p[2], 10)));
+}
+
+function submitExam() {
+  var nameInput = document.getElementById("student-name");
+  var name = nameInput.value.trim();
+  var nameError = document.getElementById("name-error");
+  if (!name) {
+    nameError.style.display = "block";
+    nameInput.focus();
+    nameInput.scrollIntoView({ behavior: "smooth", block: "center" });
+    return;
+  }
+  nameError.style.display = "none";
+
+  var unanswered = [];
+  for (var i = 0; i < TOTAL; i++) {
+    if (getSelected(i) === null) unanswered.push(i + 1);
+  }
+  if (unanswered.length > 0) {
+    var ok = confirm("You have " + unanswered.length + " unanswered question(s): Q" + unanswered.join(", Q") +
+      ".\n\nUnanswered questions are scored as incorrect. Submit anyway?");
+    if (!ok) return;
+  }
+
+  var score = 0;
+  var missed = [];
+  for (var qi = 0; qi < TOTAL; qi++) {
+    var sel = getSelected(qi);
+    if (sel === KEY[qi]) {
+      score++;
+    } else {
+      missed.push({ n: qi + 1, sel: sel, key: KEY[qi] });
+    }
+  }
+  var pct = Math.round((score / TOTAL) * 100);
+  var passed = score >= PASS_MARK;
+  var now = new Date();
+
+  // Score banner
+  document.getElementById("score-text").textContent = "You scored " + score + " / " + TOTAL + " (" + pct + "%)";
+  var statusEl = document.getElementById("status-text");
+  statusEl.textContent = passed ? "Complete — Passing" : "Complete — Below passing (review the modules and retake)";
+  statusEl.className = "status " + (passed ? "pass" : "fail");
+  document.getElementById("score-sub").textContent = passed
+    ? "Great work. Your record of completion is below — print or save it for your instructor."
+    : "You need " + PASS_MARK + "/" + TOTAL + " (75%) to pass. Review the missed topics below, revisit those modules, and retake the exam.";
+
+  // Missed questions
+  var missedWrap = document.getElementById("missed-wrap");
+  var missedList = document.getElementById("missed-list");
+  if (missed.length === 0) {
+    missedWrap.style.display = "none";
+    missedList.innerHTML = "";
+  } else {
+    missedWrap.style.display = "block";
+    missedList.innerHTML = missed.map(function (m) {
+      var q = QUESTIONS[m.n - 1];
+      var yours = m.sel === null ? "no answer" : LETTERS[m.sel];
+      return "<li><strong>Q" + m.n + "</strong> (your answer: " + yours + ") — Correct: <strong>" +
+        LETTERS[m.key] + ".</strong> " + esc(q.o[m.key]) +
+        '<span class="why">' + esc(WHY[m.n - 1]) + "</span></li>";
+    }).join("");
+  }
+
+  // Record of completion
+  fillRecord(name, score, pct, passed, longDate(now));
+
+  // Persist (retaking overwrites)
+  try {
+    localStorage.setItem(STORE_KEY, JSON.stringify({
+      name: name, score: score, total: TOTAL, pct: pct,
+      date: localISODate(now), passed: passed
+    }));
+  } catch (e) { /* storage unavailable; result still shown on screen */ }
+
+  document.getElementById("results").style.display = "block";
+  document.getElementById("prev-banner").style.display = "none";
+  document.getElementById("results").scrollIntoView({ behavior: "smooth" });
+}
+
+function fillRecord(name, score, pct, passed, dateText) {
+  document.getElementById("record-name").textContent = name;
+  document.getElementById("record-score").textContent = score + "/" + TOTAL + " (" + pct + "%)";
+  document.getElementById("record-result").textContent = passed ? "Passing" : "Below passing";
+  document.getElementById("record-date").textContent = dateText;
+}
+
+function loadStored() {
+  try {
+    var raw = localStorage.getItem(STORE_KEY);
+    if (!raw) return null;
+    var r = JSON.parse(raw);
+    if (!r || typeof r.score !== "number") return null;
+    return r;
+  } catch (e) { return null; }
+}
+
+function startRetake() {
+  document.getElementById("results").style.display = "none";
+  document.getElementById("exam-form").reset();
+  document.getElementById("prev-banner").style.display = "none";
+  var nameInput = document.getElementById("student-name");
+  nameInput.scrollIntoView({ behavior: "smooth", block: "center" });
+  nameInput.focus();
+}
+
+function showStoredRecord() {
+  var r = loadStored();
+  if (!r) return;
+  fillRecord(r.name, r.score, r.pct, r.passed, longDateFromISO(r.date));
+  document.getElementById("score-text").textContent = "Previous result: " + r.score + " / " + r.total + " (" + r.pct + "%)";
+  var statusEl = document.getElementById("status-text");
+  statusEl.textContent = r.passed ? "Complete — Passing" : "Complete — Below passing (review the modules and retake)";
+  statusEl.className = "status " + (r.passed ? "pass" : "fail");
+  document.getElementById("score-sub").textContent = "Recorded " + longDateFromISO(r.date) + ". Retaking the exam overwrites this record.";
+  document.getElementById("missed-wrap").style.display = "none";
+  document.getElementById("results").style.display = "block";
+  document.getElementById("results").scrollIntoView({ behavior: "smooth" });
+}
+
+buildExam();
+
+(function initPrev() {
+  var r = loadStored();
+  if (!r) return;
+  document.getElementById("prev-text").textContent =
+    r.name + " — " + r.score + "/" + r.total + " (" + r.pct + "%) — " +
+    (r.passed ? "Passing" : "Below passing") + " — " + longDateFromISO(r.date) +
+    ". Retaking overwrites this record.";
+  document.getElementById("prev-banner").style.display = "block";
+  if (r.name) document.getElementById("student-name").value = r.name;
+})();
+</script>
+</body>
+</html>
