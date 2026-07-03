@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 11: Medical Emergencies - WFA Course</title>
+    <style>
+        :root {
+            --primary: #1B4F8A; --accent: #2C7BE5; --light-bg: #E8F0FE;
+            --danger: #C0392B; --danger-bg: #FDECEA; --success: #1A6B3A; --success-bg: #E8F5E9;
+            --warning: #D35400; --warning-bg: #FFF3E0; --info: #1565C0; --info-bg: #E3F2FD;
+            --dark: #2D3748; --muted: #718096; --border: #CBD5E0; --white: #FFFFFF;
+            --card-bg: #F7FAFC;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: var(--dark); line-height: 1.6; background: #ECEFF4; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, var(--primary), var(--accent)); color: var(--white); padding: 30px; border-radius: 8px; margin-bottom: 30px; }
+        .header h1 { margin: 0 0 10px 0; font-size: 2.2em; }
+        .meta { font-size: 0.95em; opacity: 0.95; }
+        .meta-item { margin-right: 20px; display: inline-block; }
+        .tabs { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; border-bottom: 2px solid var(--border); }
+        .tab-btn { padding: 12px 20px; background: var(--card-bg); border: 2px solid var(--border); border-bottom: none; cursor: pointer; font-size: 1em; border-radius: 8px 8px 0 0; transition: all 0.3s; }
+        .tab-btn:hover { background: var(--light-bg); }
+        .tab-btn.active { background: var(--accent); color: var(--white); border-color: var(--accent); }
+        .tab-content { display: none; background: var(--white); padding: 25px; border-radius: 0 0 8px 8px; border: 2px solid var(--border); margin-bottom: 30px; }
+        .tab-content.active { display: block; }
+        .section-title { font-size: 1.8em; color: var(--primary); margin: 30px 0 20px 0; border-left: 5px solid var(--accent); padding-left: 15px; }
+        .subsection-title { font-size: 1.3em; color: var(--accent); margin: 20px 0 12px 0; font-weight: 600; }
+        .card { background: var(--card-bg); border-left: 5px solid var(--accent); padding: 20px; margin: 20px 0; border-radius: 6px; }
+        .alert { padding: 15px; margin: 20px 0; border-radius: 6px; border-left: 5px solid; }
+        .alert-danger { background: var(--danger-bg); border-left-color: var(--danger); color: var(--danger); }
+        .alert-warning { background: var(--warning-bg); border-left-color: var(--warning); color: var(--warning); }
+        .alert-success { background: var(--success-bg); border-left-color: var(--success); color: var(--success); }
+        .alert-info { background: var(--info-bg); border-left-color: var(--info); color: var(--info); }
+        .mnemonic-box { background: linear-gradient(135deg, var(--primary), var(--accent)); color: var(--white); padding: 20px; margin: 20px 0; border-radius: 8px; font-weight: 600; font-size: 1.1em; }
+        .mnemonic-item { margin: 10px 0; }
+        .mnemonic-letter { display: inline-block; background: var(--white); color: var(--primary); width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: 700; margin-right: 10px; }
+        ul, ol { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+        .key-points { background: linear-gradient(135deg, #F093FB, #F5576C); color: var(--white); padding: 20px; margin: 25px 0; border-radius: 8px; }
+        .key-points h3 { margin-top: 0; margin-bottom: 15px; font-size: 1.3em; }
+        .key-point { margin: 8px 0; padding-left: 25px; position: relative; }
+        .key-point:before { content: "★"; position: absolute; left: 0; font-size: 1.2em; }
+        .scenario-case { background: var(--info-bg); border: 2px solid var(--info); border-radius: 8px; padding: 20px; margin: 20px 0; }
+        .scenario-case h4 { color: var(--info); margin-bottom: 12px; font-size: 1.1em; }
+        .scenario-btn { background: var(--info); color: var(--white); padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 0.95em; transition: background 0.3s; }
+        .scenario-btn:hover { background: #0d3a8a; }
+        .discussion { display: none; margin-top: 15px; background: var(--white); padding: 15px; border-radius: 6px; border-left: 4px solid var(--info); }
+        .discussion.show { display: block; }
+        .glossary { background: var(--card-bg); padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .glossary-term { margin-bottom: 15px; }
+        .glossary-term dt { color: var(--accent); font-weight: 700; font-size: 1.05em; }
+        .glossary-term dd { margin-left: 20px; margin-top: 5px; color: var(--dark); }
+        .quiz-section { background: var(--white); padding: 25px; border-radius: 8px; border: 2px solid var(--border); margin: 20px 0; }
+        .quiz-question { background: var(--card-bg); padding: 20px; margin: 20px 0; border-radius: 6px; border-left: 4px solid var(--accent); }
+        .quiz-question h4 { color: var(--dark); margin-bottom: 15px; font-size: 1.1em; }
+        .quiz-question ul { list-style: none; margin: 0; }
+        .quiz-question li { padding: 10px 12px; margin: 8px 0; background: var(--white); border: 2px solid var(--border); border-radius: 4px; cursor: pointer; transition: all 0.3s; }
+        .quiz-question li:hover { border-color: var(--accent); background: var(--light-bg); }
+        .quiz-question li.disabled { opacity: 0.6; cursor: not-allowed; }
+        .quiz-question li.correct { background: var(--success-bg); border-color: var(--success); color: var(--success); font-weight: 600; }
+        .quiz-question li.incorrect { background: var(--danger-bg); border-color: var(--danger); color: var(--danger); font-weight: 600; }
+        .explanation { display: none; margin-top: 12px; padding: 12px; border-radius: 4px; font-size: 0.95em; }
+        .explanation.show { display: block; }
+        .correct-exp { background: var(--success-bg); color: var(--success); border-left: 4px solid var(--success); }
+        .incorrect-exp { background: var(--danger-bg); color: var(--danger); border-left: 4px solid var(--danger); }
+        #score-display { display: none; background: linear-gradient(135deg, var(--primary), var(--accent)); color: var(--white); padding: 30px; border-radius: 8px; text-align: center; margin: 30px 0; }
+        #score-text { font-size: 2em; font-weight: 700; margin-bottom: 10px; }
+        #score-sub { font-size: 1.1em; opacity: 0.95; }
+        .nav-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 40px; padding-top: 20px; border-top: 2px solid var(--border); }
+        .nav-link { padding: 12px 24px; background: var(--accent); color: var(--white); text-decoration: none; border-radius: 6px; transition: background 0.3s; cursor: pointer; font-weight: 600; }
+        .nav-link:hover { background: var(--primary); }
+        .nav-link.disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+        .nav-center { text-align: center; }
+        .nav-center a { color: var(--accent); text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Lesson 11: Medical Emergencies</h1>
+            <div class="meta">
+                <span class="meta-item">Estimated Time: 35 minutes</span>
+                <span class="meta-item">Module 11 of 13</span>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('overview')">Overview</button>
+            <button class="tab-btn" onclick="showTab('ams')">Altered Mental Status</button>
+            <button class="tab-btn" onclick="showTab('seizures')">Seizures</button>
+            <button class="tab-btn" onclick="showTab('diabetes')">Diabetic Emergencies</button>
+            <button class="tab-btn" onclick="showTab('chest')">Chest Pain</button>
+            <button class="tab-btn" onclick="showTab('stroke')">Stroke</button>
+            <button class="tab-btn" onclick="showTab('scenarios')">Scenarios</button>
+            <button class="tab-btn" onclick="showTab('quiz')">Quiz</button>
+            <button class="tab-btn" onclick="showTab('summary')">Summary</button>
+        </div>
+        <div id="step-indicator" style="background:#F0F4F8;border-bottom:1px solid #CBD5E0;padding:8px 20px;font-size:13px;color:#718096;display:flex;gap:16px;align-items:center;">
+          <span id="step-text">Step 1 of 9</span>
+          <div id="step-dots" style="display:flex;gap:6px;"></div>
+        </div>
+
+        <!-- OVERVIEW TAB -->
+        <div id="overview" class="tab-content active">
+            <div class="section-title">Overview: Medical vs. Trauma</div>
+            <p>Medical emergencies (as opposed to trauma) include illnesses like stroke, seizures, heart attacks, and diabetic crises. Unlike trauma, which is usually obvious, medical emergencies can be subtle. This lesson covers recognition and field management of common medical emergencies in wilderness settings.</p>
+
+            <div class="key-points">
+                <h3>Key Points</h3>
+                <div class="key-point">AEIOU-TIPS mnemonic covers most causes of altered mental status</div>
+                <div class="key-point">When in doubt about cause, treat for hypoglycemia (glucose won't hurt a hyperglycemic patient significantly)</div>
+                <div class="key-point">Chest pain could be cardiac even in young people; always evacuate if cardiac suspected</div>
+                <div class="key-point">FAST stroke assessment: Face, Arm, Speech, Time</div>
+                <div class="key-point">Time is brain: stroke is time-sensitive condition where early hospital care prevents brain damage</div>
+            </div>
+        </div>
+
+        <!-- ALTERED MENTAL STATUS TAB -->
+        <div id="ams" class="tab-content">
+            <div class="section-title">Altered Mental Status (AMS)</div>
+
+            <div class="card">
+                <div class="subsection-title">AEIOU-TIPS Mnemonic</div>
+                <p>Systematic approach to causes of altered mental status:</p>
+
+                <div class="mnemonic-box">
+                    <div class="mnemonic-item"><span class="mnemonic-letter">A</span> <strong>Alcohol/toxins</strong></div>
+                    <div class="mnemonic-item"><span class="mnemonic-letter">E</span> <strong>Epilepsy/seizure</strong> (postictal state)</div>
+                    <div class="mnemonic-item"><span class="mnemonic-letter">I</span> <strong>Insulin</strong> (hypoglycemia, hyperglycemia)</div>
+                    <div class="mnemonic-item"><span class="mnemonic-letter">O</span> <strong>Overdose</strong> (medications, drugs)</div>
+                    <div class="mnemonic-item"><span class="mnemonic-letter">U</span> <strong>Uremia</strong> (kidney failure)</div>
+                    <div class="mnemonic-item"><span class="mnemonic-letter">T</span> <strong>Trauma</strong> (head injury, hypoxia, shock)</div>
+                    <div class="mnemonic-item"><span class="mnemonic-letter">I</span> <strong>Infection</strong> (sepsis, meningitis, encephalitis)</div>
+                    <div class="mnemonic-item"><span class="mnemonic-letter">P</span> <strong>Psychosis</strong> (psychiatric emergency)</div>
+                    <div class="mnemonic-item"><span class="mnemonic-letter">S</span> <strong>Syncope/Stroke/Shock</strong></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Assessment Approach</div>
+                <ul>
+                    <li><strong>Rapid AVPU:</strong> What is patient's level of consciousness?</li>
+                    <li><strong>SAMPLE history:</strong> Any clues to cause?</li>
+                    <li><strong>Blood glucose:</strong> Check if glucometer available (hypoglycemia is reversible and immediate threat)</li>
+                    <li><strong>Vital signs:</strong> Fever (infection), tachycardia (shock, overdose), bradycardia (head injury)</li>
+                    <li><strong>Physical exam:</strong> Look for clues: needle marks (overdose), head trauma, focal neurologic deficits</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Universal AMS Treatment</div>
+                <ul>
+                    <li><strong>Airway management:</strong> Position to protect airway</li>
+                    <li><strong>Position:</strong> Recovery position if unconscious (no spine concern)</li>
+                    <li><strong>Keep warm:</strong> Prevent hypothermia</li>
+                    <li><strong>Glucose:</strong> If hypoglycemia suspected AND patient can swallow, give glucose</li>
+                    <li><strong>Oxygen:</strong> If available and hypoxia suspected</li>
+                    <li><strong>Evacuation:</strong> Any persistent AMS requires evaluation</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SEIZURES TAB -->
+        <div id="seizures" class="tab-content">
+            <div class="section-title">Seizures</div>
+
+            <div class="card">
+                <div class="subsection-title">Types of Seizures</div>
+                <ul>
+                    <li><strong>Generalized tonic-clonic (grand mal):</strong> Loss of consciousness, stiff body (tonic), then jerking (clonic). Most dramatic.</li>
+                    <li><strong>Absence:</strong> Brief staring episodes, no jerking</li>
+                    <li><strong>Focal/partial:</strong> Jerking in one limb or one side of body</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Causes</div>
+                <ul>
+                    <li>Epilepsy (seizure disorder)</li>
+                    <li>Head trauma</li>
+                    <li>Hypoglycemia (low blood sugar)</li>
+                    <li>Hypoxia (low oxygen)</li>
+                    <li>Hyponatremia (low sodium)</li>
+                    <li>High fever</li>
+                    <li>Toxins/drugs</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Field Management DURING Seizure</div>
+                <ul>
+                    <li><strong>DO NOT:</strong> Restrain patient (can cause injury)</li>
+                    <li><strong>DO NOT:</strong> Put anything in mouth (can damage teeth/airway)</li>
+                    <li><strong>DO:</strong> Protect head from injury (padding if nearby)</li>
+                    <li><strong>DO:</strong> Time the seizure (important for medical team)</li>
+                    <li><strong>DO:</strong> Clear area of hazards</li>
+                    <li><strong>DO:</strong> Position on side if possible (protects airway)</li>
+                    <li><strong>Monitor:</strong> Breathing, color (cyanosis risk)</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Post-Ictal Phase</div>
+                <ul>
+                    <li><strong>After seizure:</strong> Confusion, drowsiness lasting minutes to hours — this is NORMAL</li>
+                    <li><strong>Patient may not remember seizure occurred</strong></li>
+                    <li><strong>Reassure and reorient patient</strong></li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">When to Evacuate</div>
+                <ul>
+                    <li><strong>Always evacuate if:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>First-ever seizure</li>
+                            <li>Prolonged seizure >5 min (status epilepticus — life-threatening)</li>
+                            <li>Multiple seizures without full recovery between</li>
+                            <li>Focal deficits after seizure</li>
+                            <li>Known epileptic with unusual seizure pattern</li>
+                            <li>Seizure following head trauma</li>
+                        </ul>
+                    </li>
+                    <li><strong>Known epileptic:</strong> If seizure is typical for patient and they recover normally, may not need evacuation IF seizure is short and patient fully recovers. Still monitor closely.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- DIABETIC EMERGENCIES TAB -->
+        <div id="diabetes" class="tab-content">
+            <div class="section-title">Diabetic Emergencies</div>
+
+            <div class="card">
+                <div class="subsection-title">Hypoglycemia (Low Blood Sugar)</div>
+                <p><strong>Definition:</strong> Blood glucose <70 mg/dL</p>
+                <ul style="margin-top: 15px;">
+                    <li><strong>Onset:</strong> RAPID (minutes to hours)</li>
+                    <li><strong>Signs:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Confusion, altered mental status</li>
+                            <li>Diaphoresis (sweating), tremor</li>
+                            <li>Tachycardia (rapid heart rate)</li>
+                            <li>Pale, cool skin</li>
+                            <li>Hunger</li>
+                            <li>Anxiety, personality change</li>
+                        </ul>
+                    </li>
+                    <li><strong>Treatment (conscious patient):</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Glucose tablets, juice, candy, sugar</li>
+                            <li>Reassess in 15 minutes</li>
+                            <li>If improved, follow with longer-acting carbs (granola, crackers)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Treatment (unconscious patient):</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>DO NOT give food/drink (aspiration risk)</li>
+                            <li>Glucose gel to buccal mucosa (inside cheek, can be absorbed through tissue)</li>
+                            <li>Glucagon injection if trained and available</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Hyperglycemia (High Blood Sugar)</div>
+                <p><strong>Definition:</strong> Blood glucose >300 mg/dL (may be >400-500 in DKA)</p>
+                <ul style="margin-top: 15px;">
+                    <li><strong>Onset:</strong> GRADUAL (hours to days)</li>
+                    <li><strong>Signs:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Excessive thirst and urination</li>
+                            <li>Fruity-smelling breath (ketones in DKA)</li>
+                            <li>Kussmaul respirations (deep, rapid breathing in DKA)</li>
+                            <li>Dehydration</li>
+                            <li>AMS in severe DKA (diabetic ketoacidosis)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Treatment:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Hydration is primary treatment</li>
+                            <li>Encourage drinking water</li>
+                            <li>NO field treatment reverses hyperglycemia quickly</li>
+                            <li>Evacuation for DKA (serious condition)</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">When in Doubt: Give Sugar</div>
+                <div class="alert alert-warning">
+                    <strong>Rule:</strong> If uncertain whether AMS is hypoglycemia or hyperglycemia, give glucose. Glucose won't significantly harm a hyperglycemic patient but can be lifesaving for hypoglycemic patient.
+                </div>
+            </div>
+        </div>
+
+        <!-- CHEST PAIN TAB -->
+        <div id="chest" class="tab-content">
+            <div class="section-title">Chest Pain & Cardiac Emergencies</div>
+
+            <div class="card">
+                <div class="subsection-title">Differential: Cardiac vs. Non-Cardiac</div>
+                <p><strong>Cardiac causes:</strong> ACS (acute coronary syndrome = angina or MI), pericarditis</p>
+                <p><strong>Non-cardiac:</strong> Musculoskeletal, esophageal, pleurisy, pulmonary embolism, pneumothorax, HAPE</p>
+
+                <ul style="margin-top: 15px;">
+                    <li><strong>Signs favoring CARDIAC:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Crushing/pressure quality</li>
+                            <li>Radiates to arm, jaw, or back</li>
+                            <li>Diaphoresis (sweating), nausea</li>
+                            <li>History of cardiac disease or risk factors</li>
+                            <li>Age >45 years</li>
+                        </ul>
+                    </li>
+                    <li><strong>If ANY concern for cardiac:</strong> Treat as ACS until proven otherwise</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Field Management of Suspected Cardiac Chest Pain</div>
+                <ul>
+                    <li><strong>Position:</strong> Usually sitting upright (position of comfort)</li>
+                    <li><strong>Aspirin:</strong> 325 mg regular or 4 × 81 mg chewable (if patient not allergic, no active bleeding/ulcer)</li>
+                    <li><strong>Nitroglycerin:</strong> ONLY if patient has their own prescription. Do NOT use someone else's.</li>
+                    <li><strong>Oxygen:</strong> If available and SpO2 low</li>
+                    <li><strong>URGENT EVACUATION</strong> for all suspected cardiac chest pain</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- STROKE TAB -->
+        <div id="stroke" class="tab-content">
+            <div class="section-title">Stroke: Time is Brain</div>
+
+            <div class="card">
+                <div class="subsection-title">FAST Stroke Assessment</div>
+                <div class="mnemonic-box">
+                    <div class="mnemonic-item"><span class="mnemonic-letter">F</span> <strong>Face droop:</strong> Ask to smile; one side drooping?</div>
+                    <div class="mnemonic-item"><span class="mnemonic-letter">A</span> <strong>Arm weakness:</strong> Raise both arms; one drift down?</div>
+                    <div class="mnemonic-item"><span class="mnemonic-letter">S</span> <strong>Speech:</strong> Repeat simple phrase; slurred or strange?</div>
+                    <div class="mnemonic-item"><span class="mnemonic-letter">T</span> <strong>Time:</strong> Call for help NOW. Thrombolytics effective within 3-4.5 hours.</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Other Stroke Signs</div>
+                <ul>
+                    <li>Sudden severe headache (worst of life)</li>
+                    <li>Vision changes</li>
+                    <li>Sudden confusion or difficulty understanding</li>
+                    <li>Sudden unilateral weakness or numbness</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Why "Time is Brain"</div>
+                <ul>
+                    <li><strong>Thrombolytics (clot-busting):</strong> Effective within 3-4.5 hours of symptom onset. Can prevent permanent brain damage if given early.</li>
+                    <li><strong>Outside this window:</strong> Limited options; brain damage already occurring</li>
+                    <li><strong>Field implication:</strong> Recognize stroke signs and URGENT evacuation. Every minute counts.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Field Management</div>
+                <ul>
+                    <li><strong>Monitor airway:</strong> Stroke affects swallowing; aspiration risk</li>
+                    <li><strong>Head position:</strong> Slightly elevated (15-30°) if no hypotension</li>
+                    <li><strong>Nothing by mouth:</strong> Due to aspiration risk</li>
+                    <li><strong>Nothing reversible in field:</strong> Can't undo a stroke in the field</li>
+                    <li><strong>URGENT EVACUATION:</strong> Time to hospital is treatment</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Stroke Mimics</div>
+                <ul>
+                    <li><strong>Hypoglycemia:</strong> Can present like stroke. Check blood glucose FIRST — treat if hypoglycemic</li>
+                    <li><strong>Todd's paralysis:</strong> Post-seizure weakness (temporary, resolves)</li>
+                    <li><strong>Complex migraine:</strong> Can cause focal neurologic symptoms</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SCENARIOS TAB -->
+        <div id="scenarios" class="tab-content">
+            <div class="section-title">Case Scenarios</div>
+
+            <div class="scenario-case">
+                <h4>Scenario 1: Sudden Weakness on Backpacking Trip</h4>
+                <p><strong>Setting:</strong> On day 3 of a 7-day trip, a 55-year-old develops sudden unilateral arm weakness and mild speech difficulty. Group is 8 hours from trailhead. No cell service but satellite communicator available.</p>
+
+                <button class="scenario-btn" onclick="toggleDiscussion('scenario1')">Show Management</button>
+                <div id="scenario1" class="discussion">
+                    <p><strong>Recognition:</strong> STROKE — sudden onset, FAST assessment positive (arm weakness + speech)</p>
+                    <p style="margin-top: 15px;"><strong>Field Actions:</strong></p>
+                    <ul>
+                        <li>Do FAST assessment completely</li>
+                        <li>Check blood glucose (to rule out hypoglycemia as cause)</li>
+                        <li>Activate satellite communicator immediately — note time of symptom onset (critical for thrombolytic window)</li>
+                        <li>Position: head elevated if no hypotension</li>
+                        <li>Nothing by mouth</li>
+                        <li>Monitor airway, breathing</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Evacuation:</strong> URGENT — helicopter or fastest possible evacuation. Goal is hospital within 3-4.5 hours of symptom onset for thrombolytic therapy.</p>
+                </div>
+            </div>
+
+            <div class="scenario-case">
+                <h4>Scenario 2: Diabetic Confusion at Camp</h4>
+                <p><strong>Setting:</strong> A diabetic patient on a guided trip becomes confused and irritable after hiking 10 miles. Group has glucometer and first aid kit. Patient says they didn't eat lunch (too busy hiking).</p>
+
+                <button class="scenario-btn" onclick="toggleDiscussion('scenario2')">Show Management</button>
+                <div id="scenario2" class="discussion">
+                    <p><strong>Recognition:</strong> Hypoglycemia likely (skipped meal, confusion, irritability)</p>
+                    <p style="margin-top: 15px;"><strong>Immediate Actions:</strong></p>
+                    <ul>
+                        <li>Check blood glucose with glucometer</li>
+                        <li>If <70 mg/dL: Give glucose tablets or juice immediately</li>
+                        <li>Reassess in 15 minutes</li>
+                        <li>If improved: Follow with more substantial carbohydrates + protein</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Evacuation:</strong> If glucose improves confusion and patient fully recovers, may not need evacuation. Rest, eat, monitor. Ensure patient eats before continuing activity.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- QUIZ TAB -->
+        <div id="quiz" class="tab-content">
+            <div class="section-title">Knowledge Check Quiz</div>
+            <div class="quiz-section" id="quizContainer"></div>
+            <div id="score-display">
+                <div id="score-text"></div>
+                <div id="score-sub"></div>
+            </div>
+        </div>
+
+        <!-- SUMMARY TAB -->
+        <div id="summary" class="tab-content">
+            <div class="section-title">Lesson Summary</div>
+
+            <div class="key-points">
+                <h3>Key Concepts</h3>
+                <div class="key-point">AEIOU-TIPS covers most causes of altered mental status</div>
+                <div class="key-point">Hypoglycemia is reversible; always consider and treat if suspected</div>
+                <div class="key-point">Seizure management: protect, don't restrain; time the event</div>
+                <div class="key-point">Diabetic emergency: hypoglycemia (rapid, emergency treat) vs. hyperglycemia (slow, comfort care)</div>
+                <div class="key-point">Chest pain: if cardiac concern, treat as ACS; aspirin + urgent evacuation</div>
+                <div class="key-point">FAST stroke assessment: Time to hospital is treatment (thrombolytics within 3-4.5 hrs)</div>
+                <div class="key-point">When in doubt about cause: treat the most immediately life-threatening condition</div>
+            </div>
+
+            <div class="glossary">
+                <div class="subsection-title">Glossary</div>
+                <div class="glossary-term">
+                    <dt>Altered Mental Status (AMS)</dt>
+                    <dd>Change in consciousness, confusion, or abnormal behavior from patient's baseline</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>AEIOU-TIPS</dt>
+                    <dd>Mnemonic for causes of altered mental status</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Seizure</dt>
+                    <dd>Uncontrolled electrical activity in brain causing loss of consciousness and/or jerking</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Status Epilepticus</dt>
+                    <dd>Prolonged seizure (>5 min) or repeated seizures without recovery; life-threatening</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Post-Ictal Phase</dt>
+                    <dd>Period after seizure with confusion and drowsiness; normal recovery period</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Hypoglycemia</dt>
+                    <dd>Low blood sugar (<70 mg/dL); emergency, rapidly reversible with glucose</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Hyperglycemia</dt>
+                    <dd>High blood sugar (>300 mg/dL); chronic problem, no field emergency treatment</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Acute Coronary Syndrome (ACS)</dt>
+                    <dd>Heart attack or unstable angina; cardiac emergency requiring immediate intervention</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>FAST Stroke Assessment</dt>
+                    <dd>Face, Arm, Speech, Time: rapid assessment for stroke symptoms</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Stroke</dt>
+                    <dd>Sudden loss of brain function from blocked (ischemic) or bleeding (hemorrhagic) blood vessel</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Todd's Paralysis</dt>
+                    <dd>Temporary weakness after seizure; resolves as post-ictal confusion clears</dd>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Footer -->
+        <div class="nav-footer">
+            <a href="10_Anaphylaxis.html" class="nav-link">← Previous</a>
+            <div class="nav-center">
+                <a href="../index.html">Home</a>
+            </div>
+            <a href="12_Bites_Stings.html" class="nav-link">Next →</a>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            const tabArr = Array.from(buttons);
+            const activeIdx = tabArr.indexOf(event.target);
+            updateStepIndicator(activeIdx);
+        }
+        function updateStepIndicator(activeIdx) {
+            const tabs = document.querySelectorAll('.tab-btn');
+            document.getElementById('step-text').textContent = 'Step ' + (activeIdx + 1) + ' of ' + tabs.length;
+            const dots = document.getElementById('step-dots');
+            dots.innerHTML = '';
+            tabs.forEach((_, i) => {
+                const d = document.createElement('div');
+                d.style.cssText = 'width:8px;height:8px;border-radius:50%;background:' + (i === activeIdx ? '#2C7BE5' : i < activeIdx ? '#1A6B3A' : '#CBD5E0') + ';';
+                dots.appendChild(d);
+            });
+        }
+
+        function toggleDiscussion(id) {
+            const disc = document.getElementById(id);
+            disc.classList.toggle('show');
+        }
+
+        const questions = [
+            { q: "AEIOU-TIPS is used to remember causes of:", options: ["Shock", "Altered mental status", "Airway obstruction", "Chest pain"], answer: 1, exp: "AEIOU-TIPS covers most medical causes of AMS." },
+            { q: "During a seizure, you should:", options: ["Restrain to prevent injury", "Protect head, clear area, do NOT restrain", "Put something in mouth", "Give glucose immediately"], answer: 1, exp: "Do NOT restrain or put anything in mouth. Protect head, time seizure, position on side." },
+            { q: "Aspirin is given for chest pain at dose of:", options: ["100 mg", "325 mg (or 4 × 81 mg)", "500 mg", "1000 mg"], answer: 1, exp: "Standard dose is 325 mg regular or 4 × 81 mg chewable for suspected cardiac chest pain." },
+            { q: "Hypoglycemia treatment in conscious patient:", options: ["Large meal", "Glucose (juice, candy, tabs) + reassess in 15 min", "Insulin injection", "IV fluids"], answer: 1, exp: "Give fast-acting glucose, reassess in 15 min, then longer-acting carbs." },
+            { q: "FAST stroke assessment stands for:", options: ["Fall, Airway, Speech, Time", "Face droop, Arm weakness, Speech, Time", "Fatigue, AMS, Stroke, Trauma", "Facial asymmetry, Ataxia, Syncope, Tachy"], answer: 1, exp: "FAST = Face, Arm, Speech, Time. Time is critical for thrombolytics." },
+            { q: "Status epilepticus (seizure >5 min) requires:", options: ["Waiting for it to stop", "Urgent evacuation", "Glucose immediately", "Mouth opening"], answer: 1, exp: "Prolonged seizure is life-threatening, requires urgent evacuation and medical intervention." },
+            { q: "Stroke patient who can swallow should receive:", options: ["Food/water for energy", "Nothing by mouth (aspiration risk)", "Aspirin", "Light exercise"], answer: 1, exp: "Nothing by mouth reduces aspiration risk. Position head elevated, monitor airway." },
+            { q: "First step in treating AMS patient:", options: ["Diagnose exact cause", "Ensure airway patency and safety", "Call family", "Give glucose"], answer: 1, exp: "Universal first step: protect airway, position safely, monitor breathing." },
+            { q: "Signs of hyperglycemia include:", options: ["Rapid onset confusion", "Gradual onset, fruity breath, excessive thirst/urination", "Diaphoresis and tremor", "Pale and tachycardic"], answer: 1, exp: "Hyperglycemia: gradual onset, fruity breath, excessive thirst/urination." },
+            { q: "Thrombolytic window for stroke is:", options: ["12-24 hours", "3-4.5 hours from onset", "1 week", "30 minutes"], answer: 1, exp: "Clot-busting drugs work within 3-4.5 hours. After that, brain damage already occurring." }
+        ];
+
+        let answered = 0;
+        const total = questions.length;
+
+        function buildQuiz() {
+            const container = document.getElementById('quizContainer');
+            questions.forEach((q, idx) => {
+                const qDiv = document.createElement('div');
+                qDiv.className = 'quiz-question';
+                qDiv.innerHTML = `
+                    <h4>Q${idx + 1}: ${q.q}</h4>
+                    <ul>
+                        ${q.options.map((opt, oi) => `
+                            <li onclick="selectAnswer(this, ${idx}, ${oi})">${opt}</li>
+                        `).join('')}
+                    </ul>
+                    <div class="explanation" id="exp-${idx}"></div>
+                `;
+                container.appendChild(qDiv);
+            });
+        }
+
+        function selectAnswer(el, qi, selected) {
+            const q = questions[qi];
+            const items = el.parentElement.querySelectorAll('li');
+            items.forEach(i => i.classList.add('disabled'));
+            const expEl = document.getElementById('exp-' + qi);
+
+            if (selected === q.answer) {
+                el.classList.add('correct');
+                expEl.className = 'explanation show correct-exp';
+                expEl.innerHTML = '✓ Correct! ' + q.exp;
+            } else {
+                el.classList.add('incorrect');
+                items[q.answer].classList.add('correct');
+                expEl.className = 'explanation show incorrect-exp';
+                expEl.innerHTML = '✗ Not quite. ' + q.exp;
+            }
+            answered++;
+            if (answered === total) showScore();
+        }
+
+        function showScore() {
+            const sc = document.querySelectorAll('.explanation.correct-exp').length;
+            const lessonId = '11';
+            const prevScore = localStorage.getItem('wfa_score_' + lessonId);
+            localStorage.setItem('wfa_completed_' + lessonId, 'true');
+            localStorage.setItem('wfa_score_' + lessonId, Math.max(sc, parseInt(prevScore || '0')));
+            const el = document.getElementById('score-display');
+            el.style.display = 'block';
+            document.getElementById('score-text').textContent = 'You scored ' + sc + ' / ' + total;
+            let msg = sc >= 8 ? '🎉 Excellent work! You are ready for the next lesson.' : sc >= 6 ? '👍 Good job! Review the sections you missed.' : '📚 Consider reviewing this lesson before moving on.';
+            if (prevScore && parseInt(prevScore) > 0) msg += ' (Previous best: ' + prevScore + '/' + total + ')';
+            document.getElementById('score-sub').textContent = msg;
+            const retryBtn = document.createElement('button');
+            retryBtn.textContent = '↺ Retry Quiz';
+            retryBtn.style.cssText = 'margin-top:16px;padding:10px 24px;background:#2C7BE5;color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;';
+            retryBtn.onclick = function() {
+                answered = 0;
+                el.style.display = 'none';
+                document.getElementById('quizContainer').innerHTML = '';
+                buildQuiz();
+                retryBtn.remove();
+            };
+            el.appendChild(retryBtn);
+            el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        buildQuiz();
+        updateStepIndicator(0);
+    </script>
+</body>
+</html>

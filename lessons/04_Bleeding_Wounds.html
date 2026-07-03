@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 04: Bleeding & Wound Management - WFA Course</title>
+    <style>
+        :root {
+            --primary: #1B4F8A; --accent: #2C7BE5; --light-bg: #E8F0FE;
+            --danger: #C0392B; --danger-bg: #FDECEA; --success: #1A6B3A; --success-bg: #E8F5E9;
+            --warning: #D35400; --warning-bg: #FFF3E0; --info: #1565C0; --info-bg: #E3F2FD;
+            --dark: #2D3748; --muted: #718096; --border: #CBD5E0; --white: #FFFFFF;
+            --card-bg: #F7FAFC;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: var(--dark); line-height: 1.6; background: #ECEFF4; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, var(--primary), var(--accent)); color: var(--white); padding: 30px; border-radius: 8px; margin-bottom: 30px; }
+        .header h1 { margin: 0 0 10px 0; font-size: 2.2em; }
+        .meta { font-size: 0.95em; opacity: 0.95; }
+        .meta-item { margin-right: 20px; display: inline-block; }
+        .tabs { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; border-bottom: 2px solid var(--border); }
+        .tab-btn { padding: 12px 20px; background: var(--card-bg); border: 2px solid var(--border); border-bottom: none; cursor: pointer; font-size: 1em; border-radius: 8px 8px 0 0; transition: all 0.3s; }
+        .tab-btn:hover { background: var(--light-bg); }
+        .tab-btn.active { background: var(--accent); color: var(--white); border-color: var(--accent); }
+        .tab-content { display: none; background: var(--white); padding: 25px; border-radius: 0 0 8px 8px; border: 2px solid var(--border); margin-bottom: 30px; }
+        .tab-content.active { display: block; }
+        .section-title { font-size: 1.8em; color: var(--primary); margin: 30px 0 20px 0; border-left: 5px solid var(--accent); padding-left: 15px; }
+        .subsection-title { font-size: 1.3em; color: var(--accent); margin: 20px 0 12px 0; font-weight: 600; }
+        .card { background: var(--card-bg); border-left: 5px solid var(--accent); padding: 20px; margin: 20px 0; border-radius: 6px; }
+        .alert { padding: 15px; margin: 20px 0; border-radius: 6px; border-left: 5px solid; }
+        .alert-danger { background: var(--danger-bg); border-left-color: var(--danger); color: var(--danger); }
+        .alert-warning { background: var(--warning-bg); border-left-color: var(--warning); color: var(--warning); }
+        .alert-success { background: var(--success-bg); border-left-color: var(--success); color: var(--success); }
+        .alert-info { background: var(--info-bg); border-left-color: var(--info); color: var(--info); }
+        .mnemonic-box { background: linear-gradient(135deg, var(--primary), var(--accent)); color: var(--white); padding: 20px; margin: 20px 0; border-radius: 8px; font-weight: 600; font-size: 1.1em; }
+        .mnemonic-item { margin: 10px 0; }
+        .mnemonic-letter { display: inline-block; background: var(--white); color: var(--primary); width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: 700; margin-right: 10px; }
+        ul, ol { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+        .key-points { background: linear-gradient(135deg, #F093FB, #F5576C); color: var(--white); padding: 20px; margin: 25px 0; border-radius: 8px; }
+        .key-points h3 { margin-top: 0; margin-bottom: 15px; font-size: 1.3em; }
+        .key-point { margin: 8px 0; padding-left: 25px; position: relative; }
+        .key-point:before { content: "★"; position: absolute; left: 0; font-size: 1.2em; }
+        .scenario-case { background: var(--info-bg); border: 2px solid var(--info); border-radius: 8px; padding: 20px; margin: 20px 0; }
+        .scenario-case h4 { color: var(--info); margin-bottom: 12px; font-size: 1.1em; }
+        .scenario-btn { background: var(--info); color: var(--white); padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 0.95em; transition: background 0.3s; }
+        .scenario-btn:hover { background: #0d47a1; }
+        .discussion { display: none; margin-top: 15px; background: var(--white); padding: 15px; border-radius: 6px; border-left: 4px solid var(--info); }
+        .discussion.show { display: block; }
+        .glossary { background: var(--card-bg); padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .glossary-term { margin-bottom: 15px; }
+        .glossary-term dt { color: var(--accent); font-weight: 700; font-size: 1.05em; }
+        .glossary-term dd { margin-left: 20px; margin-top: 5px; color: var(--dark); }
+        .quiz-section { background: var(--white); padding: 25px; border-radius: 8px; border: 2px solid var(--border); margin: 20px 0; }
+        .quiz-question { background: var(--card-bg); padding: 20px; margin: 20px 0; border-radius: 6px; border-left: 4px solid var(--accent); }
+        .quiz-question h4 { color: var(--dark); margin-bottom: 15px; font-size: 1.1em; }
+        .quiz-question ul { list-style: none; margin: 0; }
+        .quiz-question li { padding: 10px 12px; margin: 8px 0; background: var(--white); border: 2px solid var(--border); border-radius: 4px; cursor: pointer; transition: all 0.3s; }
+        .quiz-question li:hover { border-color: var(--accent); background: var(--light-bg); }
+        .quiz-question li.disabled { opacity: 0.6; cursor: not-allowed; }
+        .quiz-question li.correct { background: var(--success-bg); border-color: var(--success); color: var(--success); font-weight: 600; }
+        .quiz-question li.incorrect { background: var(--danger-bg); border-color: var(--danger); color: var(--danger); font-weight: 600; }
+        .explanation { display: none; margin-top: 12px; padding: 12px; border-radius: 4px; font-size: 0.95em; }
+        .explanation.show { display: block; }
+        .correct-exp { background: var(--success-bg); color: var(--success); border-left: 4px solid var(--success); }
+        .incorrect-exp { background: var(--danger-bg); color: var(--danger); border-left: 4px solid var(--danger); }
+        #score-display { display: none; background: linear-gradient(135deg, var(--primary), var(--accent)); color: var(--white); padding: 30px; border-radius: 8px; text-align: center; margin: 30px 0; }
+        #score-text { font-size: 2em; font-weight: 700; margin-bottom: 10px; }
+        #score-sub { font-size: 1.1em; opacity: 0.95; }
+        .nav-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 40px; padding-top: 20px; border-top: 2px solid var(--border); }
+        .nav-link { padding: 12px 24px; background: var(--accent); color: var(--white); text-decoration: none; border-radius: 6px; transition: background 0.3s; cursor: pointer; font-weight: 600; }
+        .nav-link:hover { background: var(--primary); }
+        .nav-link.disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+        .nav-center { text-align: center; }
+        .nav-center a { color: var(--accent); text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Lesson 04: Bleeding & Wound Management</h1>
+            <div class="meta">
+                <span class="meta-item">Estimated Time: 35 minutes</span>
+                <span class="meta-item">Module 04 of 13</span>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('overview')">Overview</button>
+            <button class="tab-btn" onclick="showTab('hemorrhage')">Hemorrhage Control</button>
+            <button class="tab-btn" onclick="showTab('wounds')">Wound Care</button>
+            <button class="tab-btn" onclick="showTab('internal')">Internal Bleeding</button>
+            <button class="tab-btn" onclick="showTab('scenarios')">Scenarios</button>
+            <button class="tab-btn" onclick="showTab('quiz')">Quiz</button>
+            <button class="tab-btn" onclick="showTab('summary')">Summary</button>
+        </div>
+        <div id="step-indicator" style="background:#F0F4F8;border-bottom:1px solid #CBD5E0;padding:8px 20px;font-size:13px;color:#718096;display:flex;gap:16px;align-items:center;">
+          <span id="step-text">Step 1 of 7</span>
+          <div id="step-dots" style="display:flex;gap:6px;"></div>
+        </div>
+
+        <!-- OVERVIEW TAB -->
+        <div id="overview" class="tab-content active">
+            <div class="section-title">Overview: Hemorrhage & Wound Management</div>
+            <p>Bleeding is the most preventable cause of death in trauma. This lesson covers hemorrhage control—the most critical wilderness first aid skill—and wound management to prevent infection and promote healing.</p>
+
+            <div class="alert alert-danger">
+                <strong>Critical:</strong> Exsanguinating hemorrhage (X in XABCDE) is treated BEFORE airway. Control massive bleeding immediately.
+            </div>
+
+            <div class="subsection-title">Hemorrhage is the Priority</div>
+            <ul>
+                <li>A patient can survive longer without an airway than without blood</li>
+                <li>Shock from bleeding kills faster than airway obstruction in many trauma cases</li>
+                <li>Hemorrhage control is the skill that saves the most lives in wilderness trauma</li>
+            </ul>
+
+            <div class="key-points">
+                <h3>Key Points</h3>
+                <div class="key-point">Direct pressure and time is the most effective hemorrhage control</div>
+                <div class="key-point">Tourniquets save lives when used appropriately for extremity bleeding</div>
+                <div class="key-point">Hemostatic agents (QuikClot, Combat Gauze) enhance clotting in wounds</div>
+                <div class="key-point">Wound irrigation is the most important step in wound care</div>
+                <div class="key-point">Don't close bite wounds or punctures — infection risk too high</div>
+            </div>
+        </div>
+
+        <!-- HEMORRHAGE CONTROL TAB -->
+        <div id="hemorrhage" class="tab-content">
+            <div class="section-title">Hemorrhage Control</div>
+
+            <div class="card">
+                <div class="subsection-title">Types of Bleeding</div>
+                <ul>
+                    <li><strong>Arterial (Bright Red, Pulsatile):</strong> Oxygen-rich blood from arteries. Bright red color, pulsatile flow (spurts with heartbeat). LIFE-THREATENING — urgent control needed.</li>
+                    <li><strong>Venous (Dark Red, Steady):</strong> Deoxygenated blood from veins. Darker red color, steady flow. Still serious but usually controlled more easily than arterial.</li>
+                    <li><strong>Capillary (Oozing):</strong> Slow ooze from small vessels in skin. Usually stops on its own with direct pressure.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Direct Pressure: The Gold Standard</div>
+                <ul>
+                    <li><strong>Technique:</strong> Apply firm continuous pressure with gloved hands and clean cloth/gauze directly on wound</li>
+                    <li><strong>Duration:</strong> Minimum 10 minutes of continuous pressure without peeking. Seriously — don't lift to check if bleeding stopped.</li>
+                    <li><strong>If bleeding continues:</strong> Add more dressing layers on top (do NOT remove first layer, as this disrupts clotting). Keep pressure on.</li>
+                    <li><strong>Re-bleeding:</strong> If bleeding resumes after pressure released, reapply direct pressure for another 10 minutes</li>
+                    <li><strong>Elevation:</strong> If possible, elevate bleeding area above heart (if no spine/extremity fracture concern)</li>
+                </ul>
+
+                <div class="alert alert-warning">
+                    <strong>Do NOT peek:</strong> Lifting the dressing disrupts clot formation. Keep pressure on for the full 10 minutes.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Pressure Dressing</div>
+                <ul>
+                    <li>After bleeding controlled, apply elastic bandage (ACE wrap or similar) over gauze pads</li>
+                    <li>Maintains constant pressure to keep clot intact</li>
+                    <li>Allows continued activity with some protection</li>
+                    <li>Monitor for signs of too-tight bandage: cold fingers/toes, numbness, tingling, color changes</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Tourniquet Application</div>
+                <p><strong>When to use:</strong> Life-threatening extremity bleeding NOT controlled by direct pressure</p>
+
+                <ul style="margin-top: 15px;">
+                    <li><strong>Indication:</strong> Massive bleeding from arm or leg that won't stop with direct pressure in field scenario</li>
+                    <li><strong>Location:</strong> Apply 2-3 inches ABOVE the wound, NOT on the joint</li>
+                    <li><strong>Tightness:</strong> Tighten until bleeding stops completely</li>
+                    <li><strong>Document time:</strong> Write application time directly on patient's skin (forehead works) or tourniquet</li>
+                    <li><strong>DO NOT remove in field:</strong> Once applied, leave it. Risk of massive re-bleeding if loosened.</li>
+                    <li><strong>Types:</strong> Commercial tourniquets (CAT, SOFTT-W) are more effective than improvised</li>
+                </ul>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Improvised Tourniquet</div>
+                <ul>
+                    <li>Use minimum 2-inch wide material (belt, rolled cloth)</li>
+                    <li>Windlass technique: wrap around limb above wound, place stick through loop, twist to tighten</li>
+                    <li>Less effective than commercial but can work in emergency</li>
+                    <li>Document time clearly</li>
+                </ul>
+
+                <div class="alert alert-danger">
+                    <strong>Tourniquet complications:</strong> Tissue damage from prolonged ischemia. But dead tissue from bleeding is worse. Use tourniquets when indicated.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Wound Packing: Junctional Hemorrhage</div>
+                <p><strong>When to use:</strong> Wounds in areas where tourniquets cannot be applied (groin, axilla, lower abdomen, neck)</p>
+
+                <ul style="margin-top: 15px;">
+                    <li><strong>Technique:</strong> Tightly pack clean gauze into the wound</li>
+                    <li><strong>Maintain pressure:</strong> Don't just stuff gauze and leave — maintain constant pressure</li>
+                    <li><strong>Hemostatic gauze preferred:</strong> Gauze impregnated with kaolin or chitosan enhances clotting</li>
+                    <li><strong>Duration:</strong> 3 minutes of sustained pressure with hemostatic gauze</li>
+                    <li><strong>Dressing:</strong> Once bleeding controlled, leave packing in place with pressure dressing over it</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Hemostatic Agents</div>
+                <ul>
+                    <li><strong>What they do:</strong> Gauze impregnated with clotting agents (kaolin, chitosan) enhances body's natural clotting</li>
+                    <li><strong>Products:</strong> QuikClot, Combat Gauze — commonly found in wilderness first aid kits</li>
+                    <li><strong>Application:</strong> Pack tightly into wound with sustained pressure</li>
+                    <li><strong>Dwell time:</strong> Hold pressure for at least 3 minutes</li>
+                    <li><strong>Removal:</strong> Can be rinsed out but often left in place for transport</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Epistaxis (Nosebleed)</div>
+                <ul>
+                    <li><strong>Position:</strong> Lean FORWARD (not back as old instruction said) to prevent blood draining down throat</li>
+                    <li><strong>Pressure:</strong> Pinch soft part of nose (below bone) firmly</li>
+                    <li><strong>Duration:</strong> 10-15 minutes continuous pressure</li>
+                    <li><strong>Cold compress:</strong> Apply ice/cold compress to bridge of nose and face</li>
+                    <li><strong>After control:</strong> Avoid blowing nose, strenuous activity for hours</li>
+                    <li><strong>When to evacuate:</strong> If continues >20 min with pressure, or heavy recurrent bleeding, evacuate for medical evaluation</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- WOUND CARE TAB -->
+        <div id="wounds" class="tab-content">
+            <div class="section-title">Wound Care & Infection Prevention</div>
+
+            <div class="card">
+                <div class="subsection-title">Wound Assessment</div>
+                <ul>
+                    <li><strong>Mechanism:</strong> How was the wound created? (Clean cut, crush, contamination level?)</li>
+                    <li><strong>Depth:</strong> Superficial (epidermis), partial thickness (dermis), full thickness (into subcutaneous)</li>
+                    <li><strong>Contamination:</strong> Clean (surgical), clean-contaminated, contaminated (soil, feces), dirty/infected</li>
+                    <li><strong>Neurovascular status:</strong> Is blood supply intact distal to wound? Sensation normal?</li>
+                    <li><strong>Time elapsed:</strong> How long since injury? Affects infection risk and closure decisions (>8 hrs = higher infection risk)</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Wound Types & Management</div>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Abrasion (Road Rash)</div>
+                <ul>
+                    <li>Shallow scraping of skin surface</li>
+                    <li><strong>Clean thoroughly:</strong> This is the most important step. Remove all dirt/debris. Use brush if available.</li>
+                    <li>May be painful without anesthesia — local numbing spray can help if available</li>
+                    <li>Dress with antibiotic ointment and sterile gauze</li>
+                </ul>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Laceration (Clean Cut)</div>
+                <ul>
+                    <li>Relatively clean wound edges</li>
+                    <li>Irrigate and clean thoroughly</li>
+                    <li>Consider closure if <8 hours old, clean, not infected, location appropriate</li>
+                    <li>Steri-Strips, wound tape, or sutures (trained providers only)</li>
+                </ul>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Puncture Wound</div>
+                <ul>
+                    <li>Small entrance, deep penetration</li>
+                    <li><strong>HIGH infection risk:</strong> Deep environment favors anaerobic bacteria (tetanus)</li>
+                    <li><strong>DO NOT close:</strong> Closure traps infection deep in wound</li>
+                    <li>Encourage bleeding/drainage to flush wound</li>
+                    <li>Soak in warm water if possible to promote drainage</li>
+                    <li>Tetanus prophylaxis needed if contaminated (soil, animal matter)</li>
+                </ul>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Avulsion (Tissue Flap)</div>
+                <ul>
+                    <li>Tissue torn and partially detached</li>
+                    <li>If tissue is attached, return to normal position if possible</li>
+                    <li>If tissue is completely removed, save it (may be reattachable) in clean moist container</li>
+                    <li>Irrigate wound, cover loosely (don't close tightly)</li>
+                    <li>Urgent evacuation for surgical evaluation</li>
+                </ul>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Crush Wound</div>
+                <ul>
+                    <li>Tissue crushed from blunt force</li>
+                    <li>Contaminated and high infection risk</li>
+                    <li><strong>DO NOT close:</strong> High infection risk</li>
+                    <li>Clean and dress, monitor for signs of infection</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Wound Irrigation: The Most Important Step</div>
+                <p><strong>Principle:</strong> Clean wounds are less likely to get infected</p>
+                <ul style="margin-top: 15px;">
+                    <li><strong>Volume:</strong> 200-500 mL minimum for dirty wounds. More if heavily contaminated.</li>
+                    <li><strong>Pressure:</strong> Use squeeze bottle with small hole in cap or syringe. Gentle spray, not high-pressure jet.</li>
+                    <li><strong>Solution:</strong> Clean drinking water is effective. Sterile saline ideal if available.</li>
+                    <li><strong>What NOT to use:</strong> DO NOT irrigate with hydrogen peroxide or iodine in wound bed. These damage tissue and kill healing cells.</li>
+                    <li><strong>Scrubbing:</strong> Gentle cleaning with gauze or brush to remove debris. Avoid vigorous scrubbing that damages tissue.</li>
+                </ul>
+
+                <div class="alert alert-info">
+                    <strong>Key:</strong> Clean water irrigation is more effective than any antiseptic solution at preventing infection.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Wound Closure</div>
+                <p><strong>When to close:</strong> Clean wound, <8 hours old, not a bite or puncture, edges can be approximated</p>
+                <ul style="margin-top: 15px;">
+                    <li><strong>Steri-Strips:</strong> Adhesive strips that pull edges together. Good for minor lacerations, less effective for deep wounds.</li>
+                    <li><strong>Wound closure tape:</strong> Similar to Steri-Strips</li>
+                    <li><strong>Sutures:</strong> Only by trained providers. Not typical in wilderness medicine.</li>
+                    <li><strong>Butterfly closures:</strong> Can be improvised from tape if formal strips unavailable</li>
+                </ul>
+
+                <p style="margin-top: 15px;"><strong>When NOT to close:</strong></p>
+                <ul>
+                    <li>Bite wounds (dog, cat, human) — high infection risk</li>
+                    <li>Puncture wounds — infection risk from anaerobes</li>
+                    <li>Heavily contaminated wounds (soil, feces)</li>
+                    <li>Wounds >8 hours old</li>
+                    <li>Signs of infection already present</li>
+                </ul>
+
+                <p style="margin-top: 15px;"><strong>Delayed closure:</strong> Can close loosely if at all and monitor for infection before formal closure by physician later</p>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Dressing</div>
+                <ul>
+                    <li><strong>Sterile gauze:</strong> Use clean/sterile gauze to cover wound</li>
+                    <li><strong>Non-adherent:</strong> Use non-stick gauze to avoid disturbing healing tissue when changing dressing</li>
+                    <li><strong>Cover completely:</strong> Entire wound should be covered to keep dirt out</li>
+                    <li><strong>Change frequency:</strong> Daily or whenever wet/soiled</li>
+                    <li><strong>Observation:</strong> Check for signs of infection with each dressing change</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Infection Signs & Evacuation</div>
+                <ul>
+                    <li><strong>Cellulitis:</strong> Redness expanding beyond wound edges, warmth, increasing pain</li>
+                    <li><strong>Purulent discharge:</strong> Pus draining from wound</li>
+                    <li><strong>Lymphangitis:</strong> Red streaks extending from wound (traveling toward heart) — SERIOUS, indicates systemic infection</li>
+                    <li><strong>Fever:</strong> Systemic infection sign</li>
+                    <li><strong>Swollen lymph nodes:</strong> Near wound (armpit for arm wound, groin for leg wound)</li>
+                </ul>
+
+                <div class="alert alert-danger">
+                    <strong>Red streaks from wound (lymphangitis) = urgent evacuation.</strong> This indicates infection traveling toward heart.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Tetanus & Animal Bites</div>
+                <ul>
+                    <li><strong>Tetanus risk:</strong> Any wound contaminated with soil, feces, or animal matter. Check patient's vaccination status.</li>
+                    <li><strong>Booster needed if:</strong> >5 years since last tetanus (if dirty wound), >10 years (if clean wound)</li>
+                    <li><strong>Animal bites:</strong> Wash immediately and aggressively. High infection risk (Pasteurella bacteria). Rabies risk assessment required. Report to public health.</li>
+                    <li><strong>DO NOT close animal bites:</strong> Even "minor" bites should not be closed due to infection risk</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- INTERNAL BLEEDING TAB -->
+        <div id="internal" class="tab-content">
+            <div class="section-title">Internal Bleeding</div>
+
+            <div class="card">
+                <div class="subsection-title">Recognition of Internal Bleeding</div>
+                <p><strong>Challenge:</strong> Internal bleeding is not visible but can cause massive blood loss</p>
+
+                <ul style="margin-top: 15px;">
+                    <li><strong>Abdominal signs:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Rigid/board-like abdomen (sign of peritoneal irritation)</li>
+                            <li>Distension (swelling)</li>
+                            <li>Bruising over abdomen</li>
+                            <li>Grey-Turner sign: bruising on flanks (sides)</li>
+                            <li>Cullen's sign: bruising around umbilicus (belly button)</li>
+                            <li>Note: Grey-Turner and Cullen's signs are DELAYED findings (hours), so absence early doesn't rule out bleeding</li>
+                        </ul>
+                    </li>
+                    <li><strong>Other signs:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Blood in stool (dark/tarry = upper GI bleeding, bright red = lower GI)</li>
+                            <li>Blood in urine</li>
+                            <li>Vomiting blood (hematemesis)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Shock without external bleeding:</strong> Think internal bleeding. Signs: pale, cool, diaphoretic skin; rapid pulse; weak pulses; confusion</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Field Treatment of Internal Bleeding</div>
+                <ul>
+                    <li><strong>Position:</strong> Position of comfort (usually supine, legs elevated if hypotension)</li>
+                    <li><strong>Keep warm:</strong> Prevent hypothermia which worsens shock</li>
+                    <li><strong>Nothing by mouth:</strong> Patient may need surgery; NPO (nothing by mouth) reduces aspiration risk</li>
+                    <li><strong>Urgent evacuation:</strong> No field treatment will stop internal bleeding. Get to hospital.</li>
+                    <li><strong>Monitor:</strong> Watch for deterioration; repeat vitals every 5 minutes if unstable</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Specific Internal Bleeding Scenarios</div>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Aortic Rupture/Aneurysm</div>
+                <ul>
+                    <li><strong>Signs:</strong> Severe tearing pain in back or abdomen, shock, elderly patient</li>
+                    <li><strong>Prognosis:</strong> Extremely high mortality even with surgery</li>
+                    <li><strong>Treatment:</strong> Immediate evacuation (helicopter if available)</li>
+                </ul>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Pelvic Fracture</div>
+                <ul>
+                    <li>Pelvis has large blood vessels; fracture can cause massive bleeding</li>
+                    <li><strong>Stabilization:</strong> Use pelvic binder (commercial) or improvised sheet wrap to stabilize and reduce bleeding</li>
+                    <li>Urgent evacuation</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SCENARIOS TAB -->
+        <div id="scenarios" class="tab-content">
+            <div class="section-title">Case Scenarios</div>
+
+            <div class="scenario-case">
+                <h4>Scenario 1: Rock Climbing Fall with Arterial Bleeding</h4>
+                <p><strong>Setting:</strong> A climber falls 15 feet onto rock. Left thigh has a large laceration with bright red pulsatile bleeding. Patient is conscious, in pain, and shocked. You're 2 hours from the nearest road.</p>
+
+                <button class="scenario-btn" onclick="toggleDiscussion('scenario1')">Show Management</button>
+                <div id="scenario1" class="discussion">
+                    <p><strong>Immediate Actions:</strong></p>
+                    <ul>
+                        <li>Apply direct pressure immediately with clean cloth/gauze</li>
+                        <li>Continue pressure for full 10 minutes without lifting to check</li>
+                        <li>If bleeding continues, add more dressing layers ON TOP (don't remove)</li>
+                        <li>Once bleeding controlled, assess for arterial injury below wound (neurovascular check)</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Tourniquet Decision:</strong> If direct pressure after 10 min does NOT control bleeding, apply tourniquet 2-3 inches above wound. Document time.</p>
+                    <p style="margin-top: 15px;"><strong>Shock Management:</strong> Patient showing signs of shock (pale, diaphoretic). Position supine, legs elevated if possible, keep warm with insulation.</p>
+                    <p style="margin-top: 15px;"><strong>Evacuation:</strong> URGENT. Activate emergency services. Continue monitoring vitals every 5 minutes during evacuation.</p>
+                </div>
+            </div>
+
+            <div class="scenario-case">
+                <h4>Scenario 2: Backpacker with Rigid Abdomen & Shock</h4>
+                <p><strong>Setting:</strong> A backpacker fell hard on rocks 4 miles into a wilderness area. She reports abdominal pain but no external bleeding visible. On assessment: rigid abdomen, rapidly deteriorating, pale and clammy. No signs of external bleeding.</p>
+
+                <button class="scenario-btn" onclick="toggleDiscussion('scenario2')">Show Management</button>
+                <div id="scenario2" class="discussion">
+                    <p><strong>Recognition:</strong> Rigid abdomen + shock without external bleeding = internal bleeding from abdominal trauma (likely solid organ like spleen or liver)</p>
+                    <p style="margin-top: 15px;"><strong>Field Treatment:</strong></p>
+                    <ul>
+                        <li>Position supine, elevate legs (if no spine concern)</li>
+                        <li>Keep warm — prevent hypothermia</li>
+                        <li>Nothing by mouth</li>
+                        <li>Monitor closely for deterioration</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Evacuation:</strong> URGENT — this is a surgical emergency. No field treatment will help. Immediate helicopter evacuation if available, otherwise fastest evacuation possible (may need litter carry).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- QUIZ TAB -->
+        <div id="quiz" class="tab-content">
+            <div class="section-title">Knowledge Check Quiz</div>
+            <div class="quiz-section" id="quizContainer"></div>
+            <div id="score-display">
+                <div id="score-text"></div>
+                <div id="score-sub"></div>
+            </div>
+        </div>
+
+        <!-- SUMMARY TAB -->
+        <div id="summary" class="tab-content">
+            <div class="section-title">Lesson Summary</div>
+
+            <div class="key-points">
+                <h3>Key Concepts</h3>
+                <div class="key-point">Direct pressure for minimum 10 minutes is the gold standard for hemorrhage control</div>
+                <div class="key-point">Tourniquets save lives for life-threatening extremity bleeding</div>
+                <div class="key-point">Wound packing controls junctional hemorrhage (areas where tourniquets don't apply)</div>
+                <div class="key-point">Wound irrigation with clean water is the most important infection prevention step</div>
+                <div class="key-point">Don't close bite wounds, punctures, or heavily contaminated wounds</div>
+                <div class="key-point">Internal bleeding without external signs requires urgent evacuation</div>
+                <div class="key-point">Red streaks from wound (lymphangitis) indicate urgent evacuation needed</div>
+            </div>
+
+            <div class="glossary">
+                <div class="subsection-title">Glossary</div>
+                <div class="glossary-term">
+                    <dt>Hemorrhage</dt>
+                    <dd>Bleeding; loss of blood from blood vessels</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Tourniquet</dt>
+                    <dd>Device or material applied above extremity wound to stop bleeding by compression</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Hemostasis</dt>
+                    <dd>Stopping of bleeding; formation of blood clot</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Wound Packing</dt>
+                    <dd>Tight packing of gauze into wounds to control junctional hemorrhage</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Hemostatic Gauze</dt>
+                    <dd>Gauze impregnated with clotting agents (kaolin, chitosan) that enhance blood clotting</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Laceration</dt>
+                    <dd>Clean cut or tear in skin with defined edges</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Avulsion</dt>
+                    <dd>Tissue torn away from body; partial or complete detachment</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Cellulitis</dt>
+                    <dd>Spreading inflammation and infection of skin and surrounding tissues</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Lymphangitis</dt>
+                    <dd>Infection of lymphatic vessels; red streaks extending from wound toward heart; serious, requires urgent treatment</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Exsanguination</dt>
+                    <dd>Massive loss of blood leading to death</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Direct Pressure</dt>
+                    <dd>Application of firm continuous pressure directly on wound to control bleeding</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Pressure Dressing</dt>
+                    <dd>Elastic bandage applied over gauze to maintain constant pressure after bleeding controlled</dd>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Footer -->
+        <div class="nav-footer">
+            <a href="03_Airway.html" class="nav-link">← Previous</a>
+            <div class="nav-center">
+                <a href="../index.html">Home</a>
+            </div>
+            <a href="05_Shock.html" class="nav-link">Next →</a>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            const tabArr = Array.from(buttons);
+            const activeIdx = tabArr.indexOf(event.target);
+            updateStepIndicator(activeIdx);
+        }
+        function updateStepIndicator(activeIdx) {
+            const tabs = document.querySelectorAll('.tab-btn');
+            document.getElementById('step-text').textContent = 'Step ' + (activeIdx + 1) + ' of ' + tabs.length;
+            const dots = document.getElementById('step-dots');
+            dots.innerHTML = '';
+            tabs.forEach((_, i) => {
+                const d = document.createElement('div');
+                d.style.cssText = 'width:8px;height:8px;border-radius:50%;background:' + (i === activeIdx ? '#2C7BE5' : i < activeIdx ? '#1A6B3A' : '#CBD5E0') + ';';
+                dots.appendChild(d);
+            });
+        }
+
+        function toggleDiscussion(id) {
+            const disc = document.getElementById(id);
+            disc.classList.toggle('show');
+        }
+
+        const questions = [
+            { q: "Tourniquet should be placed:", options: ["Directly on the wound", "2-3 inches above the wound", "Below the wound", "At the nearest joint"], answer: 1, exp: "Tourniquets should be placed 2-3 inches ABOVE the wound. Below the wound would not compress the bleeding vessel." },
+            { q: "After applying a tourniquet, you should:", options: ["Remove it every 30 minutes", "Note the exact time of application on the patient", "Loosen it if the patient complains of pain", "Apply ice over it"], answer: 1, exp: "Document the time of tourniquet application clearly on patient's skin or tourniquet itself. This critical info guides hospital care." },
+            { q: "The ideal irrigation solution for wound cleaning in wilderness:", options: ["Hydrogen peroxide", "Clean drinking water", "Iodine solution", "Rubbing alcohol"], answer: 1, exp: "Clean drinking water is effective and doesn't damage tissue like peroxide or iodine. High-volume irrigation is key." },
+            { q: "Which wound type should NOT be closed in field?:", options: ["Clean laceration <8 hours", "Bite wound", "Small abrasion", "Superficial cut"], answer: 1, exp: "Bite wounds have high infection risk (Pasteurella bacteria). Do NOT close. Instead irrigate, dress, and monitor." },
+            { q: "Signs of wound infection include all EXCEPT:", options: ["Red streaks from wound", "Purulent discharge", "Normal temperature", "Expanding redness and warmth"], answer: 2, exp: "Fever (elevated temperature) IS a sign of infection. Normal temperature would be reassuring for NO infection." },
+            { q: "Hemostatic gauze should be:", options: ["Placed loosely on wound", "Packed tightly with sustained pressure", "Applied dry without pressure", "Changed every 5 minutes"], answer: 1, exp: "Hemostatic gauze (QuikClot, Combat Gauze) must be packed tightly into wound with 3 minutes of pressure to activate clotting." },
+            { q: "Internal bleeding should be suspected when:", options: ["Patient has minor laceration", "Patient shows shock with NO external bleeding source", "Patient has minor bruising", "Patient has mild pain only"], answer: 1, exp: "Internal bleeding: Think of shock without visible bleeding. Rigid abdomen, bruising, signs of shock without external wound." },
+            { q: "Direct pressure for hemorrhage should be maintained minimum:", options: ["1-2 minutes", "10 minutes", "30 seconds", "Only until bleeding slows"], answer: 1, exp: "Direct pressure must be continuous for 10 minutes without lifting to check. Lifting disrupts clot formation." },
+            { q: "Wound packing is indicated for:", options: ["Superficial abrasions", "Junctional wounds (groin, axilla, neck)", "Minor lacerations", "Burns"], answer: 1, exp: "Wound packing controls hemorrhage in areas where tourniquets can't be applied (junctional wounds)." },
+            { q: "Patient with bite wound should:", options: ["Have wound closed immediately", "Have wound irrigated aggressively and NOT closed", "Apply tourniquet", "Ignore if animal looked healthy"], answer: 1, exp: "Always irrigate aggressively and leave open. Do NOT close. High infection risk even from \"innocent\" looking bites." }
+        ];
+
+        let answered = 0;
+        const total = questions.length;
+
+        function buildQuiz() {
+            const container = document.getElementById('quizContainer');
+            questions.forEach((q, idx) => {
+                const qDiv = document.createElement('div');
+                qDiv.className = 'quiz-question';
+                qDiv.innerHTML = `
+                    <h4>Q${idx + 1}: ${q.q}</h4>
+                    <ul>
+                        ${q.options.map((opt, oi) => `
+                            <li onclick="selectAnswer(this, ${idx}, ${oi})">${opt}</li>
+                        `).join('')}
+                    </ul>
+                    <div class="explanation" id="exp-${idx}"></div>
+                `;
+                container.appendChild(qDiv);
+            });
+        }
+
+        function selectAnswer(el, qi, selected) {
+            const q = questions[qi];
+            const items = el.parentElement.querySelectorAll('li');
+            items.forEach(i => i.classList.add('disabled'));
+            const expEl = document.getElementById('exp-' + qi);
+
+            if (selected === q.answer) {
+                el.classList.add('correct');
+                expEl.className = 'explanation show correct-exp';
+                expEl.innerHTML = '✓ Correct! ' + q.exp;
+            } else {
+                el.classList.add('incorrect');
+                items[q.answer].classList.add('correct');
+                expEl.className = 'explanation show incorrect-exp';
+                expEl.innerHTML = '✗ Not quite. ' + q.exp;
+            }
+            answered++;
+            if (answered === total) showScore();
+        }
+
+        function showScore() {
+            const sc = document.querySelectorAll('.explanation.correct-exp').length;
+            const lessonId = '04';
+            const prevScore = localStorage.getItem('wfa_score_' + lessonId);
+            localStorage.setItem('wfa_completed_' + lessonId, 'true');
+            localStorage.setItem('wfa_score_' + lessonId, Math.max(sc, parseInt(prevScore || '0')));
+            const el = document.getElementById('score-display');
+            el.style.display = 'block';
+            document.getElementById('score-text').textContent = 'You scored ' + sc + ' / ' + total;
+            let msg = sc >= 8 ? '🎉 Excellent work! You are ready for the next lesson.' : sc >= 6 ? '👍 Good job! Review the sections you missed.' : '📚 Consider reviewing this lesson before moving on.';
+            if (prevScore && parseInt(prevScore) > 0) msg += ' (Previous best: ' + prevScore + '/' + total + ')';
+            document.getElementById('score-sub').textContent = msg;
+            const retryBtn = document.createElement('button');
+            retryBtn.textContent = '↺ Retry Quiz';
+            retryBtn.style.cssText = 'margin-top:16px;padding:10px 24px;background:#2C7BE5;color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;';
+            retryBtn.onclick = function() {
+                answered = 0;
+                el.style.display = 'none';
+                document.getElementById('quizContainer').innerHTML = '';
+                buildQuiz();
+                retryBtn.remove();
+            };
+            el.appendChild(retryBtn);
+            el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        buildQuiz();
+        updateStepIndicator(0);
+    </script>
+</body>
+</html>

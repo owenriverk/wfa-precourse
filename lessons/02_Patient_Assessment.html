@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 02: Patient Assessment System - WFA Course</title>
+    <style>
+        :root {
+            --primary: #1B4F8A; --accent: #2C7BE5; --light-bg: #E8F0FE;
+            --danger: #C0392B; --danger-bg: #FDECEA; --success: #1A6B3A; --success-bg: #E8F5E9;
+            --warning: #D35400; --warning-bg: #FFF3E0; --info: #1565C0; --info-bg: #E3F2FD;
+            --dark: #2D3748; --muted: #718096; --border: #CBD5E0; --white: #FFFFFF;
+            --card-bg: #F7FAFC;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: var(--dark); line-height: 1.6; background: #ECEFF4; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, var(--primary), var(--accent)); color: var(--white); padding: 30px; border-radius: 8px; margin-bottom: 30px; }
+        .header h1 { margin: 0 0 10px 0; font-size: 2.2em; }
+        .meta { font-size: 0.95em; opacity: 0.95; }
+        .meta-item { margin-right: 20px; display: inline-block; }
+        .tabs { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; border-bottom: 2px solid var(--border); }
+        .tab-btn { padding: 12px 20px; background: var(--card-bg); border: 2px solid var(--border); border-bottom: none; cursor: pointer; font-size: 1em; border-radius: 8px 8px 0 0; transition: all 0.3s; }
+        .tab-btn:hover { background: var(--light-bg); }
+        .tab-btn.active { background: var(--accent); color: var(--white); border-color: var(--accent); }
+        .tab-content { display: none; background: var(--white); padding: 25px; border-radius: 0 0 8px 8px; border: 2px solid var(--border); margin-bottom: 30px; }
+        .tab-content.active { display: block; }
+        .section-title { font-size: 1.8em; color: var(--primary); margin: 30px 0 20px 0; border-left: 5px solid var(--accent); padding-left: 15px; }
+        .subsection-title { font-size: 1.3em; color: var(--accent); margin: 20px 0 12px 0; font-weight: 600; }
+        .card { background: var(--card-bg); border-left: 5px solid var(--accent); padding: 20px; margin: 20px 0; border-radius: 6px; }
+        .alert { padding: 15px; margin: 20px 0; border-radius: 6px; border-left: 5px solid; }
+        .alert-danger { background: var(--danger-bg); border-left-color: var(--danger); color: var(--danger); }
+        .alert-warning { background: var(--warning-bg); border-left-color: var(--warning); color: var(--warning); }
+        .alert-success { background: var(--success-bg); border-left-color: var(--success); color: var(--success); }
+        .alert-info { background: var(--info-bg); border-left-color: var(--info); color: var(--info); }
+        .mnemonic-box { background: linear-gradient(135deg, var(--primary), var(--accent)); color: var(--white); padding: 20px; margin: 20px 0; border-radius: 8px; font-weight: 600; font-size: 1.1em; }
+        .mnemonic-item { margin: 10px 0; }
+        .mnemonic-letter { display: inline-block; background: var(--white); color: var(--primary); width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: 700; margin-right: 10px; }
+        ul, ol { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+        .key-points { background: linear-gradient(135deg, #F093FB, #F5576C); color: var(--white); padding: 20px; margin: 25px 0; border-radius: 8px; }
+        .key-points h3 { margin-top: 0; margin-bottom: 15px; font-size: 1.3em; }
+        .key-point { margin: 8px 0; padding-left: 25px; position: relative; }
+        .key-point:before { content: "★"; position: absolute; left: 0; font-size: 1.2em; }
+        .scenario-case { background: var(--info-bg); border: 2px solid var(--info); border-radius: 8px; padding: 20px; margin: 20px 0; }
+        .scenario-case h4 { color: var(--info); margin-bottom: 12px; font-size: 1.1em; }
+        .scenario-btn { background: var(--info); color: var(--white); padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 0.95em; transition: background 0.3s; }
+        .scenario-btn:hover { background: #0d47a1; }
+        .discussion { display: none; margin-top: 15px; background: var(--white); padding: 15px; border-radius: 6px; border-left: 4px solid var(--info); }
+        .discussion.show { display: block; }
+        .glossary { background: var(--card-bg); padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .glossary-term { margin-bottom: 15px; }
+        .glossary-term dt { color: var(--accent); font-weight: 700; font-size: 1.05em; }
+        .glossary-term dd { margin-left: 20px; margin-top: 5px; color: var(--dark); }
+        .quiz-section { background: var(--white); padding: 25px; border-radius: 8px; border: 2px solid var(--border); margin: 20px 0; }
+        .quiz-question { background: var(--card-bg); padding: 20px; margin: 20px 0; border-radius: 6px; border-left: 4px solid var(--accent); }
+        .quiz-question h4 { color: var(--dark); margin-bottom: 15px; font-size: 1.1em; }
+        .quiz-question ul { list-style: none; margin: 0; }
+        .quiz-question li { padding: 10px 12px; margin: 8px 0; background: var(--white); border: 2px solid var(--border); border-radius: 4px; cursor: pointer; transition: all 0.3s; }
+        .quiz-question li:hover { border-color: var(--accent); background: var(--light-bg); }
+        .quiz-question li.disabled { opacity: 0.6; cursor: not-allowed; }
+        .quiz-question li.correct { background: var(--success-bg); border-color: var(--success); color: var(--success); font-weight: 600; }
+        .quiz-question li.incorrect { background: var(--danger-bg); border-color: var(--danger); color: var(--danger); font-weight: 600; }
+        .explanation { display: none; margin-top: 12px; padding: 12px; border-radius: 4px; font-size: 0.95em; }
+        .explanation.show { display: block; }
+        .correct-exp { background: var(--success-bg); color: var(--success); border-left: 4px solid var(--success); }
+        .incorrect-exp { background: var(--danger-bg); color: var(--danger); border-left: 4px solid var(--danger); }
+        #score-display { display: none; background: linear-gradient(135deg, var(--primary), var(--accent)); color: var(--white); padding: 30px; border-radius: 8px; text-align: center; margin: 30px 0; }
+        #score-text { font-size: 2em; font-weight: 700; margin-bottom: 10px; }
+        #score-sub { font-size: 1.1em; opacity: 0.95; }
+        .nav-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 40px; padding-top: 20px; border-top: 2px solid var(--border); }
+        .nav-link { padding: 12px 24px; background: var(--accent); color: var(--white); text-decoration: none; border-radius: 6px; transition: background 0.3s; cursor: pointer; font-weight: 600; }
+        .nav-link:hover { background: var(--primary); }
+        .nav-link.disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+        .nav-center { text-align: center; }
+        .nav-center a { color: var(--accent); text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Lesson 02: Patient Assessment System</h1>
+            <div class="meta">
+                <span class="meta-item">Estimated Time: 40 minutes</span>
+                <span class="meta-item">Module 02 of 13</span>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('overview')">Overview</button>
+            <button class="tab-btn" onclick="showTab('primary')">Primary Survey</button>
+            <button class="tab-btn" onclick="showTab('secondary')">Secondary Survey</button>
+            <button class="tab-btn" onclick="showTab('vitals')">Vitals & Documentation</button>
+            <button class="tab-btn" onclick="showTab('scenarios')">Scenarios</button>
+            <button class="tab-btn" onclick="showTab('quiz')">Quiz</button>
+            <button class="tab-btn" onclick="showTab('summary')">Summary</button>
+        </div>
+        <div id="step-indicator" style="background:#F0F4F8;border-bottom:1px solid #CBD5E0;padding:8px 20px;font-size:13px;color:#718096;display:flex;gap:16px;align-items:center;">
+          <span id="step-text">Step 1 of 7</span>
+          <div id="step-dots" style="display:flex;gap:6px;"></div>
+        </div>
+
+        <!-- OVERVIEW TAB -->
+        <div id="overview" class="tab-content active">
+            <div class="section-title">Overview: Systematic Patient Assessment</div>
+            <p>The foundation of wilderness first aid is a systematic approach to patient assessment. This lesson introduces the XABCDE primary survey and the comprehensive secondary survey that follows. These tools help you quickly identify life threats and prioritize treatment in remote environments.</p>
+
+            <div class="alert alert-info">
+                <strong>Key Principle:</strong> In wilderness medicine, assessment and treatment happen concurrently. You don't wait for a complete assessment before treating life threats.
+            </div>
+
+            <div class="subsection-title">Why Systematic Assessment?</div>
+            <ul>
+                <li><strong>Ensures nothing is missed:</strong> Systematic approach covers all body systems and potential injuries</li>
+                <li><strong>Prioritizes treatment:</strong> Life-threatening conditions are identified and addressed first</li>
+                <li><strong>Guides evacuation decisions:</strong> Assessment findings determine urgency and level of care needed</li>
+                <li><strong>Documents continuity:</strong> Clear hand-off information to higher-level providers</li>
+                <li><strong>Reduces provider anxiety:</strong> Structured approach increases confidence in decision-making</li>
+            </ul>
+
+            <div class="key-points">
+                <h3>Key Points</h3>
+                <div class="key-point">Assessment is dynamic — reassess frequently and adjust treatment as patient condition changes</div>
+                <div class="key-point">In wilderness, your assessment skills ARE your diagnostic tools — use them thoroughly</div>
+                <div class="key-point">Document findings clearly for handoff to higher-level providers</div>
+            </div>
+        </div>
+
+        <!-- PRIMARY SURVEY TAB -->
+        <div id="primary" class="tab-content">
+            <div class="section-title">Primary Survey: XABCDE</div>
+            <p>The primary survey identifies and treats life-threatening conditions. Each step addresses immediate threats to life. Treatment happens as you identify each problem.</p>
+
+            <div class="mnemonic-box">
+                <div class="mnemonic-item"><span class="mnemonic-letter">X</span> Exsanguinating hemorrhage</div>
+                <div class="mnemonic-item"><span class="mnemonic-letter">A</span> Airway</div>
+                <div class="mnemonic-item"><span class="mnemonic-letter">B</span> Breathing</div>
+                <div class="mnemonic-item"><span class="mnemonic-letter">C</span> Circulation</div>
+                <div class="mnemonic-item"><span class="mnemonic-letter">D</span> Disability</div>
+                <div class="mnemonic-item"><span class="mnemonic-letter">E</span> Expose/Environment</div>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">X = Exsanguinating Hemorrhage</div>
+                <p><strong>Definition:</strong> Massive life-threatening bleeding that must be controlled BEFORE any other assessment step.</p>
+                <ul>
+                    <li>Life-threatening bleeding is the most preventable cause of death in trauma</li>
+                    <li>Look for arterial bleeding: bright red, pulsatile, often from extremities or groin</li>
+                    <li>Apply direct pressure immediately and continuously</li>
+                    <li>Use tourniquets for life-threatening extremity bleeding uncontrolled by direct pressure</li>
+                    <li>Pack wounds in areas where tourniquets cannot be applied (neck, axilla, groin)</li>
+                </ul>
+                <div class="alert alert-danger">
+                    <strong>Critical:</strong> Exsanguinating hemorrhage is assessed and treated before checking airway. If a patient is actively losing massive amounts of blood, hemorrhage control is the priority.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">A = Airway</div>
+                <p><strong>Goal:</strong> Ensure the airway is patent (open) and not at risk of obstruction.</p>
+                <ul>
+                    <li><strong>Assessment:</strong> Look for movement of chest/abdomen, listen for sounds, feel for air movement</li>
+                    <li><strong>Obstructive sounds:</strong> Gurgling (fluid/blood), stridor (partial obstruction), snoring (tongue relaxation)</li>
+                </ul>
+
+                <div class="subsection-title" style="margin-top: 15px;">Opening Techniques</div>
+                <ul>
+                    <li><strong>Head-tilt chin-lift:</strong> Use when NO spinal injury is suspected. Tilt head back gently, lift chin upward. Opens airway by lifting tongue off pharynx.</li>
+                    <li><strong>Jaw thrust:</strong> Use when spinal injury IS suspected. Grip the angles of the mandible (jaw), pull forward without tilting head. Protects cervical spine.</li>
+                </ul>
+
+                <div class="subsection-title" style="margin-top: 15px;">Positioning</div>
+                <ul>
+                    <li>Unconscious patient with no spinal concern: <strong>recovery position</strong> (left side, head on extended arm, top leg bent for stability) to protect airway if vomiting occurs</li>
+                    <li>Suspected spinal injury: maintain <strong>supine alignment</strong> with stabilization</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">B = Breathing</div>
+                <p><strong>Goal:</strong> Ensure adequate ventilation (air moving in and out) and oxygenation.</p>
+                <ul>
+                    <li><strong>Respiratory rate:</strong> Normal adult is 12-20 breaths per minute. Rates <10 or >30 are concerning.</li>
+                    <li><strong>Depth:</strong> Adequate tidal volume — chest rises and falls visibly</li>
+                    <li><strong>Effort:</strong> Is breathing effortless or labored?</li>
+                    <li><strong>Auscultation:</strong> Listen for equal breath sounds bilaterally (both sides)</li>
+                </ul>
+
+                <div class="subsection-title" style="margin-top: 15px;">Signs of Respiratory Distress</div>
+                <ul>
+                    <li>Tachypnea (fast breathing) with retractions (skin pulling inward)</li>
+                    <li>Use of accessory muscles (neck muscles, between ribs)</li>
+                    <li>Nasal flaring (nostril expansion)</li>
+                    <li>Tripod position (patient sitting forward on hands)</li>
+                    <li>Paradoxical motion (abdomen goes in when chest goes out — opposite of normal)</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">C = Circulation</div>
+                <p><strong>Goal:</strong> Assess heart rate, rhythm, and perfusion status (how well blood is circulating).</p>
+                <ul>
+                    <li><strong>Pulse check:</strong> Check carotid pulse if unconscious (feel on neck), radial pulse if conscious (wrist)</li>
+                    <li><strong>Rate:</strong> Normal is 60-100 bpm at rest. <60 (bradycardia) or >100 (tachycardia) can indicate problems.</li>
+                    <li><strong>Rhythm:</strong> Regular or irregular? Regularly irregular patterns may suggest specific conditions.</li>
+                    <li><strong>Quality:</strong> Strong/thready (weak)? Bounding (forceful)?</li>
+                </ul>
+
+                <div class="subsection-title" style="margin-top: 15px;">Skin Assessment (Signs of Perfusion)</div>
+                <ul>
+                    <li><strong>Color:</strong> Pink (normal), pale (poor perfusion/cold), mottled (shock/severe hypoperfusion), cyanotic (blue — hypoxia)</li>
+                    <li><strong>Temperature:</strong> Warm (normal), cool/cold (peripheral vasoconstriction from shock or cold exposure)</li>
+                    <li><strong>Moisture:</strong> Dry (normal), moist/diaphoretic (sweating — shock, cardiac event, fear, exertion)</li>
+                </ul>
+                <div class="alert alert-warning">
+                    <strong>Shock triad:</strong> Pale, cool, diaphoretic skin indicates shock or poor perfusion. Immediate treatment and urgent evacuation required.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">D = Disability (Neurologic Status)</div>
+                <p><strong>Goal:</strong> Quickly assess level of consciousness and neurologic function.</p>
+
+                <div class="subsection-title" style="margin-top: 15px;">AVPU Scale</div>
+                <ul>
+                    <li><strong>Alert:</strong> Patient is awake and oriented, aware of surroundings</li>
+                    <li><strong>Verbal:</strong> Patient responds to verbal stimulus (voice), but may be confused</li>
+                    <li><strong>Pain:</strong> Patient only responds to painful stimulus (pinch, sternal rub)</li>
+                    <li><strong>Unresponsive:</strong> No response to any stimulus</li>
+                </ul>
+
+                <div class="subsection-title" style="margin-top: 15px;">Pupil Assessment (PERLA)</div>
+                <ul>
+                    <li><strong>P</strong>upils <strong>E</strong>qual: Both pupils same size</li>
+                    <li><strong>R</strong>ound: Not irregular or fixed in shape</li>
+                    <li><strong>R</strong>eactive: Constrict when light shined in, dilate in darkness</li>
+                    <li><strong>L</strong>ight reaction normal</li>
+                    <li><strong>A</strong>ccomodation: Focus at different distances</li>
+                </ul>
+                <p><strong>Note:</strong> Unequal pupils, fixed pupils, or slow light reaction can indicate serious brain injury. GCS (Glasgow Coma Scale) is briefly mentioned in wilderness medicine as it requires training but is used by many providers.</p>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">E = Expose/Environment</div>
+                <p><strong>Goal:</strong> Fully examine the patient to identify all injuries while preventing heat loss.</p>
+                <ul>
+                    <li>Respectfully undress the patient to expose all potential injury sites (maintain privacy as much as possible)</li>
+                    <li>Perform a visual and tactile inspection of the entire body, front and back</li>
+                    <li>Look for wounds, deformities, swelling, bruising</li>
+                    <li><strong>Prevent hypothermia:</strong> Once exposed, re-cover patient with blankets or insulation immediately</li>
+                    <li>Consider environmental hazards: weather, temperature, additional dangers at scene</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SECONDARY SURVEY TAB -->
+        <div id="secondary" class="tab-content">
+            <div class="section-title">Secondary Survey: Comprehensive Head-to-Toe Exam</div>
+            <p>The secondary survey is a systematic, detailed physical examination performed AFTER life threats are identified and stabilized. It identifies injuries requiring treatment and guides evacuation decisions.</p>
+
+            <div class="card">
+                <div class="subsection-title">Head-to-Toe Physical Exam Sequence</div>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Head Assessment (DCAP-BTLS)</div>
+                <ul>
+                    <li><strong>D</strong>eformity: Abnormal shape or asymmetry?</li>
+                    <li><strong>C</strong>ontusions: Bruising indicating trauma?</li>
+                    <li><strong>A</strong>brasions: Scrapes or road rash?</li>
+                    <li><strong>P</strong>unctures/Penetrations: Wounds breaking the skin?</li>
+                    <li><strong>B</strong>urns: Any thermal injuries?</li>
+                    <li><strong>T</strong>entativeness: Is the patient guarding/protecting area (indicating pain/injury)?</li>
+                    <li><strong>L</strong>acerations: Cuts?</li>
+                    <li><strong>S</strong>welling: Edema?</li>
+                </ul>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Neck Assessment</div>
+                <ul>
+                    <li><strong>JVD (Jugular Vein Distension):</strong> Veins in neck distended? May indicate heart failure, tension pneumothorax, or tamponade</li>
+                    <li><strong>Tracheal deviation:</strong> Is the windpipe centered? Deviation to one side suggests tension pneumothorax</li>
+                    <li>Palpate for tenderness, swelling, steps/deformity in spine</li>
+                </ul>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Chest Assessment</div>
+                <ul>
+                    <li>Look for paradoxical motion (flail segment where ribs move opposite to rest of chest)</li>
+                    <li>Listen for equal breath sounds bilaterally</li>
+                    <li>Feel for crepitus (air in tissues making crackling sound)</li>
+                    <li>Check for deformity or swelling</li>
+                </ul>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Abdomen Assessment</div>
+                <ul>
+                    <li>Divide abdomen into four quadrants (right upper, left upper, right lower, left lower)</li>
+                    <li>Look for distension (swelling), bruising, penetrating wounds</li>
+                    <li>Gently palpate each quadrant for tenderness</li>
+                    <li>Check for guarding (patient tightens muscles when you touch) and rigidity (hard, boardlike abdomen)</li>
+                    <li>Guarding and rigidity suggest internal bleeding or peritonitis — urgent evacuation</li>
+                </ul>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Pelvis Assessment</div>
+                <ul>
+                    <li>Gently press on the pelvis ONCE to assess stability</li>
+                    <li>DO NOT press repeatedly if unstable (can worsen bleeding)</li>
+                    <li>Instability suggests pelvic fracture with potential for massive internal bleeding</li>
+                </ul>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Extremities Assessment</div>
+                <ul>
+                    <li>Check each limb for deformity, swelling, wounds, color</li>
+                    <li><strong>Neurovascular (NV) check:</strong> Distal to injury, assess circulation (pulses, skin color/temp), sensation, motor function (can they move/squeeze your hands?)</li>
+                    <li><strong>CSM Check:</strong> Color, Sensation, Motor function distal to injury</li>
+                    <li>Document NV status carefully — guides splinting decisions</li>
+                </ul>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Back Assessment</div>
+                <ul>
+                    <li>Log-roll patient carefully (maintain spinal alignment if concerned about spine injury)</li>
+                    <li>Inspect posterior for wounds, bruising, deformity</li>
+                    <li>Palpate spine for tenderness or steps/deformity</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">SAMPLE History</div>
+                <p>Complete history to understand the patient's baseline health and incident context:</p>
+
+                <ul>
+                    <li><strong>S = Signs & Symptoms:</strong> What is the patient's main complaint? What are they experiencing?
+                        <ul style="margin-top: 8px;">
+                            <li><strong>OPQRST for pain:</strong>
+                                <ul>
+                                    <li><strong>O</strong>nset: When did it start?</li>
+                                    <li><strong>P</strong>rovocation: What makes it worse?</li>
+                                    <li><strong>Q</strong>uality: Sharp, dull, burning, pressure, aching?</li>
+                                    <li><strong>R</strong>adiation: Does it spread to other areas?</li>
+                                    <li><strong>S</strong>everity: Pain scale 0-10</li>
+                                    <li><strong>T</strong>ime: How long has it been happening?</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><strong>A = Allergies:</strong> Medications, foods, environmental? Any anaphylaxis history?</li>
+                    <li><strong>M = Medications:</strong> Current medications including over-the-counter supplements?</li>
+                    <li><strong>P = Past Medical History:</strong> Previous surgeries, illnesses, chronic conditions, recent illness?</li>
+                    <li><strong>L = Last Oral Intake:</strong> Food and water consumed, timing? Important for vomiting/anesthesia concerns.</li>
+                    <li><strong>E = Events:</strong> What happened leading up to this incident? Mechanism of injury?</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Vital Signs Documentation</div>
+                <ul>
+                    <li><strong>Pulse:</strong> Rate and quality (strong vs. weak/thready)</li>
+                    <li><strong>Respirations:</strong> Rate and depth of breathing</li>
+                    <li><strong>Skin:</strong> Color, temperature, moisture</li>
+                    <li><strong>Level of Consciousness:</strong> AVPU scale and any changes</li>
+                    <li><strong>Pupils:</strong> Equal, round, reactive to light?</li>
+                    <li><strong>Temperature:</strong> If thermometer available; otherwise assess by touch</li>
+                    <li><strong>Pain Scale:</strong> Patient-reported pain level 0-10</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Field Impression Formulation</div>
+                <p>After assessment, develop your working diagnosis (field impression). This is your best guess of what's wrong based on:</p>
+                <ul>
+                    <li>Mechanism of injury (what happened)</li>
+                    <li>Signs and symptoms patient is experiencing</li>
+                    <li>Physical examination findings</li>
+                    <li>Patient history</li>
+                    <li>Environmental context</li>
+                </ul>
+                <p><strong>Document clearly:</strong> "Patient is a 45-year-old male hiker who fell 10 feet onto his left leg. Complains of severe pain. Left leg is swollen, deformed, neurovascularly intact distally. Field impression: left tibia/fibula fracture."</p>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Serial Reassessment Intervals</div>
+                <p>Patient condition can change. Reassess and document findings at regular intervals:</p>
+                <ul>
+                    <li><strong>Stable patient:</strong> Reassess every 15 minutes</li>
+                    <li><strong>Unstable patient:</strong> Reassess every 5 minutes</li>
+                    <li>Document trends: Is the patient improving, stable, or deteriorating?</li>
+                    <li>Adjustments to treatment should be guided by reassessment findings</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- VITALS & DOCUMENTATION TAB -->
+        <div id="vitals" class="tab-content">
+            <div class="section-title">Vital Signs & Patient Documentation</div>
+
+            <div class="card">
+                <div class="subsection-title">Complete Vital Signs</div>
+                <div class="alert alert-info">
+                    <strong>Vital signs are objective measurements:</strong> They don't lie. Changes in vitals often precede patient complaints.
+                </div>
+
+                <ul style="margin-top: 15px;">
+                    <li><strong>Pulse (Heart Rate):</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Normal adult: 60-100 bpm at rest</li>
+                            <li>Count for 15 seconds, multiply by 4 for quick assessment</li>
+                            <li>Rate, rhythm (regular vs. irregular), quality (strong vs. weak/thready)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Respirations (Breathing Rate):</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Normal adult: 12-20 breaths per minute</li>
+                            <li>Count for 60 seconds for accuracy</li>
+                            <li>Assess depth and effort in addition to rate</li>
+                        </ul>
+                    </li>
+                    <li><strong>Skin Assessment:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Color: Pink (normal), pale, mottled, cyanotic (blue)</li>
+                            <li>Temperature: Warm, cool, cold</li>
+                            <li>Moisture: Dry, moist, diaphoretic (sweating)</li>
+                            <li>This trio tells you a lot about perfusion and shock status</li>
+                        </ul>
+                    </li>
+                    <li><strong>Level of Consciousness:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>AVPU scale (Alert, Verbal, Pain, Unresponsive)</li>
+                            <li>Any deterioration is concerning and requires escalation of treatment</li>
+                        </ul>
+                    </li>
+                    <li><strong>Pupils:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Equal size and reactivity to light?</li>
+                            <li>Unequal pupils may indicate serious brain pathology</li>
+                        </ul>
+                    </li>
+                    <li><strong>Temperature:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Core body temperature if thermometer available</li>
+                            <li>Otherwise, general assessment (warm, cool, cold)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Pain Scale:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Patient-reported pain: 0 (no pain) to 10 (worst pain imaginable)</li>
+                            <li>Track changes after pain management interventions</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Documentation: SOAP Notes</div>
+                <p>Clear documentation ensures continuity of care when handing off to higher-level providers. Use SOAP format:</p>
+
+                <ul style="margin-top: 15px;">
+                    <li><strong>S = Subjective:</strong> What the patient tells you
+                        <ul style="margin-top: 8px;">
+                            <li>Chief complaint</li>
+                            <li>History of present illness</li>
+                            <li>SAMPLE history</li>
+                            <li>Patient's own words</li>
+                        </ul>
+                    </li>
+                    <li><strong>O = Objective:</strong> What you measure and observe
+                        <ul style="margin-top: 8px;">
+                            <li>Vital signs</li>
+                            <li>Physical examination findings</li>
+                            <li>Mechanism of injury</li>
+                            <li>Observable signs and symptoms</li>
+                        </ul>
+                    </li>
+                    <li><strong>A = Assessment:</strong> Your working diagnosis
+                        <ul style="margin-top: 8px;">
+                            <li>Field impression based on all information gathered</li>
+                            <li>What do you think is wrong with this patient?</li>
+                        </ul>
+                    </li>
+                    <li><strong>P = Plan:</strong> Your treatment and evacuation decision
+                        <ul style="margin-top: 8px;">
+                            <li>Treatments initiated and response</li>
+                            <li>Evacuation urgency (urgent vs. non-urgent)</li>
+                            <li>Mode of evacuation (walking, litter, helicopter)</li>
+                            <li>Monitoring plan during evacuation</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SCENARIOS TAB -->
+        <div id="scenarios" class="tab-content">
+            <div class="section-title">Case Scenarios</div>
+
+            <div class="scenario-case">
+                <h4>Scenario 1: Unresponsive Hiker on Remote Trail</h4>
+                <p><strong>Setting:</strong> Your group finds a 62-year-old male hiker unresponsive on a mountain trail, 6 miles from the trailhead. He has no obvious external injuries, no ID on him, and you have basic first aid training and a satellite communicator.</p>
+
+                <button class="scenario-btn" onclick="toggleDiscussion('scenario1')">Show Assessment Approach</button>
+                <div id="scenario1" class="discussion">
+                    <p><strong>Primary Survey:</strong></p>
+                    <ul>
+                        <li>X: Check for massive bleeding — none visible</li>
+                        <li>A: Check airway — unresponsive patient, no breath sounds suggesting obstruction</li>
+                        <li>B: Check breathing — is he breathing? Rate? If breathing, is it adequate?</li>
+                        <li>C: Check pulse — carotid pulse present? Rate and quality?</li>
+                        <li>D: AVPU — he's unresponsive. Check pupils. Any obvious head trauma?</li>
+                        <li>E: Undress to check for injuries. Any signs of trauma, medical alert bracelet?</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Secondary Survey:</strong></p>
+                    <ul>
+                        <li>Full head-to-toe exam looking for cause of unconsciousness</li>
+                        <li>Check blood glucose if glucometer available (could be diabetic emergency)</li>
+                        <li>Assess for head trauma, stroke, seizure, medication effects</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Documentation:</strong> Unresponsive male, unknown name, no mechanism of injury identifiable. Pupils: equal and reactive. Breathing regular at 14/min. Pulse 88 bpm regular. Skin warm and dry. No obvious signs of trauma. Field impression: Altered mental status — etiology unknown (possible stroke, cardiac event, medication effect, hypoglycemia). Urgent evacuation via helicopter. Activate satellite communicator for SAR response.</p>
+                </div>
+            </div>
+
+            <div class="scenario-case">
+                <h4>Scenario 2: Rock Climber with Multiple Complaints</h4>
+                <p><strong>Setting:</strong> A 28-year-old rock climber is rappelling down a cliff when a rope catches. She falls 8 feet onto a ledge with loose rock. She's conscious but in significant pain, complaining of wrist pain, left knee swelling, and left shoulder pain. She's shaken up but insists she's okay. Your group is 3 hours from the trailhead.</p>
+
+                <button class="scenario-btn" onclick="toggleDiscussion('scenario2')">Show Assessment Approach</button>
+                <div id="scenario2" class="discussion">
+                    <p><strong>Primary Survey:</strong></p>
+                    <ul>
+                        <li>X: No massive bleeding visible</li>
+                        <li>A: Patient is alert and speaking — airway is patent</li>
+                        <li>B: She's speaking in full sentences, not labored breathing</li>
+                        <li>C: Radial pulse present, regular, adequate rate. Skin is pink, normal temp and moisture</li>
+                        <li>D: Alert and oriented × 3 (knows person, place, time). Pupils equal and reactive.</li>
+                        <li>E: Mechanism of fall — 8 feet. Potential for significant injuries. Expose to check for hidden injuries.</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Secondary Survey:</strong></p>
+                    <ul>
+                        <li>Head to toe exam — focus on areas of complaint</li>
+                        <li>Left wrist: assess for fracture. NV check distal to injury. Compare to right wrist.</li>
+                        <li>Left knee: swelling present. Assess NV status. Can she bear weight?</li>
+                        <li>Left shoulder: pain with movement. Assess NV. Range of motion. Suspected dislocation vs. fracture vs. strain?</li>
+                        <li>Vital signs: Establish baseline for pain management</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Documentation:</strong> 28-year-old female, fall 8 feet onto ledge. Alert and oriented. Pain in left wrist (deformity present, NV intact), left knee (swelling, no deformity, able to bear weight), left shoulder (pain with movement, no deformity, NV intact). Vital signs stable. No head injury signs. Field impression: Multiple musculoskeletal injuries — left wrist possible fracture, left knee contusion/possible ligament injury, left shoulder strain/possible dislocation. Non-urgent evacuation — can walk with assistance or litter depending on patient tolerance and terrain difficulty. Splint wrist and knee. Monitor neurovascular status.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- QUIZ TAB -->
+        <div id="quiz" class="tab-content">
+            <div class="section-title">Knowledge Check Quiz</div>
+            <div class="quiz-section" id="quizContainer"></div>
+            <div id="score-display">
+                <div id="score-text"></div>
+                <div id="score-sub"></div>
+            </div>
+        </div>
+
+        <!-- SUMMARY TAB -->
+        <div id="summary" class="tab-content">
+            <div class="section-title">Lesson Summary</div>
+
+            <div class="key-points">
+                <h3>Key Concepts</h3>
+                <div class="key-point">The XABCDE primary survey identifies and treats life threats in order of lethality</div>
+                <div class="key-point">Exsanguinating hemorrhage is addressed before airway — prevent death from bleeding first</div>
+                <div class="key-point">The secondary survey is a systematic head-to-toe exam performed after life threats are stabilized</div>
+                <div class="key-point">SAMPLE history and OPQRST for pain characterization guide assessment</div>
+                <div class="key-point">Vital signs document patient status; changes indicate need for treatment adjustment</div>
+                <div class="key-point">Serial reassessment (every 5-15 min depending on stability) tracks patient trajectory</div>
+                <div class="key-point">Clear SOAP documentation ensures continuity when handing off to higher-level providers</div>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Assessment Creates the Treatment Plan</div>
+                <p>Your assessment findings directly guide treatment priorities and evacuation decisions. A thorough, systematic assessment is the foundation of good wilderness medicine. Take time to do it well, but work efficiently — you don't need to be slow, you need to be thorough.</p>
+            </div>
+
+            <div class="glossary">
+                <div class="subsection-title">Glossary</div>
+                <div class="glossary-term">
+                    <dt>Primary Survey</dt>
+                    <dd>Rapid assessment (XABCDE) identifying and treating life-threatening conditions</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Secondary Survey</dt>
+                    <dd>Comprehensive head-to-toe physical exam performed after primary survey stabilization</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>AVPU</dt>
+                    <dd>Scale for consciousness: Alert, Verbal, Pain, Unresponsive</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>XABCDE</dt>
+                    <dd>Primary survey mnemonic: Exsanguinating hemorrhage, Airway, Breathing, Circulation, Disability, Expose</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>OPQRST</dt>
+                    <dd>Pain characterization: Onset, Provocation, Quality, Radiation, Severity, Time</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>SAMPLE</dt>
+                    <dd>History framework: Signs/Symptoms, Allergies, Medications, Past history, Last intake, Events</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>DCAP-BTLS</dt>
+                    <dd>Head assessment: Deformity, Contusions, Abrasions, Punctures, Burns, Tenderness, Lacerations, Swelling</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Tachycardia</dt>
+                    <dd>Elevated heart rate, typically >100 bpm at rest; can indicate shock, fear, pain, fever</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Diaphoretic</dt>
+                    <dd>Sweating, often cold and clammy; sign of shock, cardiac event, pain, or fear</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Field Impression</dt>
+                    <dd>Working diagnosis based on all assessment findings; guides treatment plan</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Serial Assessment</dt>
+                    <dd>Repeated reassessment at intervals (every 5-15 min) to track patient status changes</dd>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Footer -->
+        <div class="nav-footer">
+            <a href="01_Provider_Safety.html" class="nav-link">← Previous</a>
+            <div class="nav-center">
+                <a href="../index.html">Home</a>
+            </div>
+            <a href="03_Airway.html" class="nav-link">Next →</a>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            const tabArr = Array.from(buttons);
+            const activeIdx = tabArr.indexOf(event.target);
+            updateStepIndicator(activeIdx);
+        }
+        function updateStepIndicator(activeIdx) {
+            const tabs = document.querySelectorAll('.tab-btn');
+            document.getElementById('step-text').textContent = 'Step ' + (activeIdx + 1) + ' of ' + tabs.length;
+            const dots = document.getElementById('step-dots');
+            dots.innerHTML = '';
+            tabs.forEach((_, i) => {
+                const d = document.createElement('div');
+                d.style.cssText = 'width:8px;height:8px;border-radius:50%;background:' + (i === activeIdx ? '#2C7BE5' : i < activeIdx ? '#1A6B3A' : '#CBD5E0') + ';';
+                dots.appendChild(d);
+            });
+        }
+
+        function toggleDiscussion(id) {
+            const disc = document.getElementById(id);
+            disc.classList.toggle('show');
+        }
+
+        // Quiz data
+        const questions = [
+            { q: "XABCDE: The X stands for:", options: ["X-ray examination", "Exsanguinating hemorrhage", "Exposure", "External burns"], answer: 1, exp: "X = Exsanguinating hemorrhage (massive life-threatening bleeding). This is checked and treated BEFORE airway." },
+            { q: "Head-tilt chin-lift should be avoided when:", options: ["Patient is unconscious", "Spinal injury is suspected", "Patient is breathing", "Patient is a child"], answer: 1, exp: "Head-tilt chin-lift tilts the cervical spine, potentially worsening a spine injury. Use jaw thrust instead when spine injury is suspected." },
+            { q: "AVPU stands for:", options: ["Airway, Vision, Pulse, Unconscious", "Alert, Verbal, Pain, Unresponsive", "Airway, Vital signs, Pupils, Unresponsive", "Alert, Vital signs, Pain, Unconscious"], answer: 1, exp: "AVPU is the consciousness scale: Alert (awake and oriented), Verbal (responds to voice), Pain (responds to pain), Unresponsive (no response)." },
+            { q: "Normal adult respiratory rate is:", options: ["6-10 breaths/min", "12-20 breaths/min", "25-30 breaths/min", "30-40 breaths/min"], answer: 1, exp: "Normal adult respiratory rate is 12-20 breaths per minute. Rates below 10 or above 30 are concerning." },
+            { q: "OPQRST is used to:", options: ["Assess pupils", "Characterize pain systematically", "Check circulation", "Document the scene"], answer: 1, exp: "OPQRST (Onset, Provocation, Quality, Radiation, Severity, Time) is the systematic way to ask a patient about their pain." },
+            { q: "Skin that is pale, cool, and moist (diaphoretic) suggests:", options: ["Heat stroke", "Shock or poor perfusion", "Fever", "Normal response"], answer: 1, exp: "Pale, cool, diaphoretic skin is the classic triad of shock (poor tissue perfusion). This patient needs urgent treatment and evacuation." },
+            { q: "A stable patient should have vital signs reassessed every:", options: ["5 minutes", "15 minutes", "30 minutes", "60 minutes"], answer: 1, exp: "Stable patients are reassessed every 15 minutes. Unstable patients (shock, altered consciousness, etc.) are reassessed every 5 minutes." },
+            { q: "Tracheal deviation suggests:", options: ["Normal anatomy", "Tension pneumothorax (toward opposite side)", "Common cold", "Head injury"], answer: 1, exp: "Tracheal deviation is a sign of tension pneumothorax — the trachea shifts AWAY from the side of the pneumothorax. This is a life threat." },
+            { q: "The SAMPLE history 'L' stands for:", options: ["Level of consciousness", "Last oral intake", "Location of pain", "LOC assessment"], answer: 1, exp: "'L' in SAMPLE = Last oral intake (food and water consumed). This is important for vomiting risk and aspiration concerns." },
+            { q: "The primary survey purpose is to:", options: ["Document everything", "Find and treat life threats immediately", "Take vital signs", "Obtain medical history"], answer: 1, exp: "The primary survey (XABCDE) is designed to quickly identify and treat immediately life-threatening conditions in order of lethality." }
+        ];
+
+        let answered = 0;
+        const total = questions.length;
+
+        function buildQuiz() {
+            const container = document.getElementById('quizContainer');
+            questions.forEach((q, idx) => {
+                const qDiv = document.createElement('div');
+                qDiv.className = 'quiz-question';
+                qDiv.innerHTML = `
+                    <h4>Q${idx + 1}: ${q.q}</h4>
+                    <ul>
+                        ${q.options.map((opt, oi) => `
+                            <li onclick="selectAnswer(this, ${idx}, ${oi})">${opt}</li>
+                        `).join('')}
+                    </ul>
+                    <div class="explanation" id="exp-${idx}"></div>
+                `;
+                container.appendChild(qDiv);
+            });
+        }
+
+        function selectAnswer(el, qi, selected) {
+            const q = questions[qi];
+            const items = el.parentElement.querySelectorAll('li');
+            items.forEach(i => i.classList.add('disabled'));
+            const expEl = document.getElementById('exp-' + qi);
+
+            if (selected === q.answer) {
+                el.classList.add('correct');
+                expEl.className = 'explanation show correct-exp';
+                expEl.innerHTML = '✓ Correct! ' + q.exp;
+            } else {
+                el.classList.add('incorrect');
+                items[q.answer].classList.add('correct');
+                expEl.className = 'explanation show incorrect-exp';
+                expEl.innerHTML = '✗ Not quite. ' + q.exp;
+            }
+            answered++;
+            if (answered === total) showScore();
+        }
+
+        function showScore() {
+            const sc = document.querySelectorAll('.explanation.correct-exp').length;
+            const lessonId = '02';
+            const prevScore = localStorage.getItem('wfa_score_' + lessonId);
+            localStorage.setItem('wfa_completed_' + lessonId, 'true');
+            localStorage.setItem('wfa_score_' + lessonId, Math.max(sc, parseInt(prevScore || '0')));
+            const el = document.getElementById('score-display');
+            el.style.display = 'block';
+            document.getElementById('score-text').textContent = 'You scored ' + sc + ' / ' + total;
+            let msg = sc >= 8 ? '🎉 Excellent work! You are ready for the next lesson.' : sc >= 6 ? '👍 Good job! Review the sections you missed.' : '📚 Consider reviewing this lesson before moving on.';
+            if (prevScore && parseInt(prevScore) > 0) msg += ' (Previous best: ' + prevScore + '/' + total + ')';
+            document.getElementById('score-sub').textContent = msg;
+            const retryBtn = document.createElement('button');
+            retryBtn.textContent = '↺ Retry Quiz';
+            retryBtn.style.cssText = 'margin-top:16px;padding:10px 24px;background:#2C7BE5;color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;';
+            retryBtn.onclick = function() {
+                answered = 0;
+                el.style.display = 'none';
+                document.getElementById('quizContainer').innerHTML = '';
+                buildQuiz();
+                retryBtn.remove();
+            };
+            el.appendChild(retryBtn);
+            el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        buildQuiz();
+        updateStepIndicator(0);
+    </script>
+</body>
+</html>

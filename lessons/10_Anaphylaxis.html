@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 10: Anaphylaxis & Allergic Reactions - WFA Course</title>
+    <style>
+        :root {
+            --primary: #8B0000; --accent: #DC143C; --light-bg: #FFE4E1;
+            --danger: #8B0000; --danger-bg: #FFE4E1; --success: #1A6B3A; --success-bg: #E8F5E9;
+            --warning: #FF6347; --warning-bg: #FFE4E1; --info: #8B0000; --info-bg: #FFE4E1;
+            --dark: #2D3748; --muted: #718096; --border: #CBD5E0; --white: #FFFFFF;
+            --card-bg: #F7FAFC;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: var(--dark); line-height: 1.6; background: #ECEFF4; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #DC143C, #8B0000); color: var(--white); padding: 30px; border-radius: 8px; margin-bottom: 30px; }
+        .header h1 { margin: 0 0 10px 0; font-size: 2.2em; }
+        .meta { font-size: 0.95em; opacity: 0.95; }
+        .meta-item { margin-right: 20px; display: inline-block; }
+        .tabs { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; border-bottom: 2px solid var(--border); }
+        .tab-btn { padding: 12px 20px; background: var(--card-bg); border: 2px solid var(--border); border-bottom: none; cursor: pointer; font-size: 1em; border-radius: 8px 8px 0 0; transition: all 0.3s; }
+        .tab-btn:hover { background: var(--light-bg); }
+        .tab-btn.active { background: #DC143C; color: var(--white); border-color: #DC143C; }
+        .tab-content { display: none; background: var(--white); padding: 25px; border-radius: 0 0 8px 8px; border: 2px solid var(--border); margin-bottom: 30px; }
+        .tab-content.active { display: block; }
+        .section-title { font-size: 1.8em; color: #8B0000; margin: 30px 0 20px 0; border-left: 5px solid #DC143C; padding-left: 15px; }
+        .subsection-title { font-size: 1.3em; color: #DC143C; margin: 20px 0 12px 0; font-weight: 600; }
+        .card { background: var(--card-bg); border-left: 5px solid #DC143C; padding: 20px; margin: 20px 0; border-radius: 6px; }
+        .alert { padding: 15px; margin: 20px 0; border-radius: 6px; border-left: 5px solid; }
+        .alert-danger { background: var(--danger-bg); border-left-color: var(--danger); color: var(--danger); }
+        .alert-warning { background: var(--warning-bg); border-left-color: var(--warning); color: var(--warning); }
+        .alert-success { background: var(--success-bg); border-left-color: var(--success); color: var(--success); }
+        .alert-info { background: var(--info-bg); border-left-color: var(--info); color: var(--info); }
+        .mnemonic-box { background: linear-gradient(135deg, #DC143C, #8B0000); color: var(--white); padding: 20px; margin: 20px 0; border-radius: 8px; font-weight: 600; font-size: 1.1em; }
+        .mnemonic-item { margin: 10px 0; }
+        .mnemonic-letter { display: inline-block; background: var(--white); color: #DC143C; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: 700; margin-right: 10px; }
+        ul, ol { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+        .key-points { background: linear-gradient(135deg, #DC143C, #8B0000); color: var(--white); padding: 20px; margin: 25px 0; border-radius: 8px; }
+        .key-points h3 { margin-top: 0; margin-bottom: 15px; font-size: 1.3em; }
+        .key-point { margin: 8px 0; padding-left: 25px; position: relative; }
+        .key-point:before { content: "★"; position: absolute; left: 0; font-size: 1.2em; }
+        .scenario-case { background: var(--info-bg); border: 2px solid var(--info); border-radius: 8px; padding: 20px; margin: 20px 0; }
+        .scenario-case h4 { color: var(--info); margin-bottom: 12px; font-size: 1.1em; }
+        .scenario-btn { background: var(--info); color: var(--white); padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 0.95em; transition: background 0.3s; }
+        .scenario-btn:hover { background: #6b0000; }
+        .discussion { display: none; margin-top: 15px; background: var(--white); padding: 15px; border-radius: 6px; border-left: 4px solid var(--info); }
+        .discussion.show { display: block; }
+        .glossary { background: var(--card-bg); padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .glossary-term { margin-bottom: 15px; }
+        .glossary-term dt { color: #DC143C; font-weight: 700; font-size: 1.05em; }
+        .glossary-term dd { margin-left: 20px; margin-top: 5px; color: var(--dark); }
+        .quiz-section { background: var(--white); padding: 25px; border-radius: 8px; border: 2px solid var(--border); margin: 20px 0; }
+        .quiz-question { background: var(--card-bg); padding: 20px; margin: 20px 0; border-radius: 6px; border-left: 4px solid #DC143C; }
+        .quiz-question h4 { color: var(--dark); margin-bottom: 15px; font-size: 1.1em; }
+        .quiz-question ul { list-style: none; margin: 0; }
+        .quiz-question li { padding: 10px 12px; margin: 8px 0; background: var(--white); border: 2px solid var(--border); border-radius: 4px; cursor: pointer; transition: all 0.3s; }
+        .quiz-question li:hover { border-color: #DC143C; background: var(--light-bg); }
+        .quiz-question li.disabled { opacity: 0.6; cursor: not-allowed; }
+        .quiz-question li.correct { background: var(--success-bg); border-color: var(--success); color: var(--success); font-weight: 600; }
+        .quiz-question li.incorrect { background: var(--danger-bg); border-color: var(--danger); color: var(--danger); font-weight: 600; }
+        .explanation { display: none; margin-top: 12px; padding: 12px; border-radius: 4px; font-size: 0.95em; }
+        .explanation.show { display: block; }
+        .correct-exp { background: var(--success-bg); color: var(--success); border-left: 4px solid var(--success); }
+        .incorrect-exp { background: var(--danger-bg); color: var(--danger); border-left: 4px solid var(--danger); }
+        #score-display { display: none; background: linear-gradient(135deg, #DC143C, #8B0000); color: var(--white); padding: 30px; border-radius: 8px; text-align: center; margin: 30px 0; }
+        #score-text { font-size: 2em; font-weight: 700; margin-bottom: 10px; }
+        #score-sub { font-size: 1.1em; opacity: 0.95; }
+        .nav-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 40px; padding-top: 20px; border-top: 2px solid var(--border); }
+        .nav-link { padding: 12px 24px; background: #DC143C; color: var(--white); text-decoration: none; border-radius: 6px; transition: background 0.3s; cursor: pointer; font-weight: 600; }
+        .nav-link:hover { background: #8B0000; }
+        .nav-link.disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+        .nav-center { text-align: center; }
+        .nav-center a { color: #DC143C; text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Lesson 10: Anaphylaxis & Allergic Reactions</h1>
+            <div class="meta">
+                <span class="meta-item">Estimated Time: 25 minutes</span>
+                <span class="meta-item">Module 10 of 13</span>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('overview')">Overview</button>
+            <button class="tab-btn" onclick="showTab('spectrum')">Allergic Spectrum</button>
+            <button class="tab-btn" onclick="showTab('ana')">Anaphylaxis Recognition</button>
+            <button class="tab-btn" onclick="showTab('epi')">EpiPen Administration</button>
+            <button class="tab-btn" onclick="showTab('manage')">Field Management</button>
+            <button class="tab-btn" onclick="showTab('scenarios')">Scenarios</button>
+            <button class="tab-btn" onclick="showTab('quiz')">Quiz</button>
+            <button class="tab-btn" onclick="showTab('summary')">Summary</button>
+        </div>
+        <div id="step-indicator" style="background:#F0F4F8;border-bottom:1px solid #CBD5E0;padding:8px 20px;font-size:13px;color:#718096;display:flex;gap:16px;align-items:center;">
+          <span id="step-text">Step 1 of 8</span>
+          <div id="step-dots" style="display:flex;gap:6px;"></div>
+        </div>
+
+        <!-- OVERVIEW TAB -->
+        <div id="overview" class="tab-content active">
+            <div class="section-title">Overview: Allergic & Anaphylactic Reactions</div>
+            <p>Allergies are immune reactions to foreign substances. Most are minor (itching, hives), but some can rapidly become life-threatening. This lesson covers the spectrum from localized allergies to anaphylactic shock requiring immediate epinephrine injection.</p>
+
+            <div class="alert alert-danger">
+                <strong>Critical:</strong> Anaphylaxis is a medical emergency. Epinephrine MUST be given immediately — it's the first-line treatment, not a last resort.
+            </div>
+
+            <div class="key-points">
+                <h3>Key Points</h3>
+                <div class="key-point">Anaphylaxis is a severe, rapid-onset allergic reaction affecting multiple body systems</div>
+                <div class="key-point">Epinephrine is the FIRST-line treatment for anaphylaxis, not diphenhydramine (Benadryl)</div>
+                <div class="key-point">Common wilderness triggers: bee/wasp/fire ant stings, food allergies, medications</div>
+                <div class="key-point">Biphasic anaphylaxis: second wave can occur 4-12 hours later; all anaphylaxis requires evacuation</div>
+                <div class="key-point">Time is critical: symptoms develop in minutes; treatment is lifesaving</div>
+            </div>
+        </div>
+
+        <!-- ALLERGIC SPECTRUM TAB -->
+        <div id="spectrum" class="tab-content">
+            <div class="section-title">Allergic Reaction Spectrum</div>
+
+            <div class="card">
+                <div class="subsection-title">Immune Mechanism</div>
+                <ul>
+                    <li><strong>IgE-mediated:</strong> Immunoglobulin E antibodies bind to mast cells. When allergen exposure occurs, mast cells degranulate (break open), releasing histamine and other mediators.</li>
+                    <li><strong>Histamine effects:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Causes blood vessel leakage (edema/swelling)</li>
+                            <li>Increases vascular permeability</li>
+                            <li>Causes bronchoconstriction (airway narrowing)</li>
+                            <li>Causes vasodilation (blood vessel widening)</li>
+                            <li>Triggers itch and hives</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Mild (Localized) Allergic Reaction</div>
+                <ul>
+                    <li><strong>Signs:</strong> Hives (urticaria) and itching at site of sting/contact. Mild erythema (redness) but no systemic involvement.</li>
+                    <li><strong>Example:</strong> Mosquito bite that itches and causes small raised bump</li>
+                    <li><strong>Treatment:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Diphenhydramine (Benadryl) 25-50mg orally</li>
+                            <li>Hydrocortisone cream topically for itch</li>
+                            <li>Ice/cool compress</li>
+                        </ul>
+                    </li>
+                    <li><strong>Monitoring:</strong> Watch for 4-6 hours for progression to systemic symptoms</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Moderate (Systemic) Allergic Reaction</div>
+                <ul>
+                    <li><strong>Signs:</strong> Hives spreading beyond contact site, angioedema (swelling of lips/tongue/face), mild bronchospasm (some wheezing), mild GI symptoms (nausea)</li>
+                    <li><strong>Concerning but not yet anaphylaxis:</strong> One system primarily affected OR multiple mild symptoms</li>
+                    <li><strong>Treatment:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Diphenhydramine (Benadryl) 25-50mg</li>
+                            <li>Consider epinephrine (if any respiratory symptoms)</li>
+                            <li>Monitor closely — reaction could progress to anaphylaxis</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Severe (Anaphylaxis)</div>
+                <p><strong>Definition:</strong> Severe, rapid-onset allergic reaction involving ≥2 body systems OR a single life-threatening reaction</p>
+                <ul style="margin-top: 15px;">
+                    <li><strong>Criteria for anaphylaxis:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Skin involvement (hives/flushing) PLUS respiratory symptoms (wheezing, stridor, dyspnea) OR cardiovascular symptoms (hypotension, dizziness, syncope)</li>
+                            <li>OR: Respiratory OR cardiovascular symptoms alone if known allergen exposure</li>
+                        </ul>
+                    </li>
+                    <li><strong>THIS IS A MEDICAL EMERGENCY</strong></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ANAPHYLAXIS RECOGNITION TAB -->
+        <div id="ana" class="tab-content">
+            <div class="section-title">Anaphylaxis Recognition</div>
+
+            <div class="card">
+                <div class="subsection-title">Signs & Symptoms</div>
+                <ul>
+                    <li><strong>Skin:</strong> Urticaria (hives) throughout body, flushing, pruritus (intense itching)</li>
+                    <li><strong>Respiratory:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Bronchospasm: wheezing, shortness of breath, chest tightness</li>
+                            <li>Upper airway edema: stridor (high-pitched breathing), voice changes, difficulty swallowing</li>
+                            <li>Dyspnea (shortness of breath)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Cardiovascular:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Hypotension (low blood pressure): dizziness, syncope (fainting), shock</li>
+                            <li>Tachycardia (rapid heart rate)</li>
+                            <li>Chest pain or palpitations</li>
+                        </ul>
+                    </li>
+                    <li><strong>GI:</strong> Nausea, vomiting, cramping, diarrhea</li>
+                    <li><strong>Neurologic:</strong> Anxiety, confusion, sense of impending doom</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Time Course</div>
+                <ul>
+                    <li><strong>Onset:</strong> Usually within MINUTES (up to 1 hour) of allergen exposure</li>
+                    <li><strong>Faster onset = more severe reaction</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Symptoms within 5 min = severe, life-threatening</li>
+                            <li>Symptoms 15-30 min = more time to intervene</li>
+                        </ul>
+                    </li>
+                    <li><strong>Why speed matters:</strong> Rapid swelling of airway can obstruct breathing. Shock develops quickly. This is URGENT.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Common Triggers in Wilderness</div>
+                <ul>
+                    <li><strong>Insect stings (MOST COMMON):</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Hymenoptera (bees, wasps, hornets)</li>
+                            <li>Fire ants</li>
+                            <li>Anaphylaxis risk: ~1% of sting victims</li>
+                        </ul>
+                    </li>
+                    <li><strong>Food:</strong> Peanuts, tree nuts, shellfish, eggs, milk</li>
+                    <li><strong>Medications:</strong> Penicillin, NSAIDs, aspirin</li>
+                    <li><strong>Latex:</strong> From gloves, equipment</li>
+                    <li><strong>Venom:</strong> Snake venom (rare)</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Biphasic Anaphylaxis</div>
+                <ul>
+                    <li><strong>What:</strong> Second wave of anaphylactic symptoms occurring 4-12 hours after initial reaction</li>
+                    <li><strong>Frequency:</strong> 5-20% of anaphylaxis cases</li>
+                    <li><strong>Why:</strong> More mast cells degranulating or continued allergen effect</li>
+                    <li><strong>Clinical importance:</strong> ALL anaphylaxis patients MUST be evacuated and monitored in hospital. Can't predict who will have biphasic reaction.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- EPIPEN ADMINISTRATION TAB -->
+        <div id="epi" class="tab-content">
+            <div class="section-title">EpiPen (Epinephrine Auto-Injector) Administration</div>
+
+            <div class="card">
+                <div class="subsection-title">Epinephrine Mechanism</div>
+                <ul>
+                    <li><strong>Alpha-1 effects:</strong> Vasoconstriction (raises blood pressure, reverses shock)</li>
+                    <li><strong>Beta-1 effects:</strong> Increased heart rate and contractility (improves cardiac output)</li>
+                    <li><strong>Beta-2 effects:</strong> Bronchodilation (opens airways, reverses bronchospasm)</li>
+                    <li><strong>Net result:</strong> Reverses the cardinal signs of anaphylaxis (hypotension, bronchospasm, angioedema)</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">EpiPen Dosing</div>
+                <ul>
+                    <li><strong>Adult EpiPen:</strong> 0.3 mg epinephrine 1:1000</li>
+                    <li><strong>EpiPen Jr (pediatric):</strong> 0.15 mg, for children approximately 15-30 kg (30-66 lbs)</li>
+                    <li><strong>Smaller children <15 kg:</strong> 0.15 mg or specialty pediatric dosing</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Injection Technique</div>
+                <ul>
+                    <li><strong>Site:</strong> Lateral mid-thigh (outer aspect of thigh, halfway between hip and knee)</li>
+                    <li><strong>Advantage of thigh:</strong> Good muscle mass for absorption, easily accessible (even through pants if necessary), far from vital structures</li>
+                    <li><strong>Steps:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Remove blue safety release cap (at top)</li>
+                            <li>Hold auto-injector firmly with orange tip (needle) pointing DOWN</li>
+                            <li>Swing and push orange tip firmly against lateral thigh at 90° angle (straight into thigh)</li>
+                            <li>HOLD in place for 3-10 seconds (full duration depends on model — read instructions)</li>
+                            <li>Remove and massage injection site for 10 seconds</li>
+                        </ul>
+                    </li>
+                    <li><strong>Can inject through clothing:</strong> Denim/fabric won't block needle</li>
+                </ul>
+
+                <div class="alert alert-info">
+                    <strong>Practice:</strong> Know how to use your EpiPen before you need it. Carry trainer (practice) auto-injector on trips to review technique.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Onset & Duration</div>
+                <ul>
+                    <li><strong>Onset:</strong> 5-15 minutes</li>
+                    <li><strong>Duration:</strong> 20-30 minutes</li>
+                    <li><strong>Can repeat:</strong> EpiPen can be given every 5-15 minutes if no improvement or symptoms recur</li>
+                    <li><strong>Carry multiple:</strong> Persons with known anaphylaxis risk should carry ≥2 EpiPens</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Side Effects</div>
+                <ul>
+                    <li>Palpitations (feeling heart beating forcefully)</li>
+                    <li>Tremor, shakiness</li>
+                    <li>Headache, anxiety</li>
+                    <li><strong>These are expected and temporary.</strong> Far better than death from anaphylaxis.</li>
+                </ul>
+            </card>
+        </div>
+
+        <!-- FIELD MANAGEMENT TAB -->
+        <div id="manage" class="tab-content">
+            <div class="section-title">Anaphylaxis Field Management</div>
+
+            <div class="card">
+                <div class="subsection-title">Treatment Priority: Epinephrine FIRST</div>
+                <div class="alert alert-danger">
+                    <strong>CRITICAL:</strong> Give epinephrine BEFORE diphenhydramine (Benadryl). Epinephrine is first-line. Do not delay for other medications.
+                </div>
+
+                <ul style="margin-top: 15px;">
+                    <li><strong>Immediate:</strong> Epinephrine IM (intramuscular in thigh)</li>
+                    <li><strong>Then follow with:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Oral or IM diphenhydramine 25-50mg</li>
+                            <li>Oral corticosteroids if available (prednisone 40-60mg) — do NOT delay epinephrine for this</li>
+                            <li>Albuterol inhaler if available for bronchospasm</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Patient Positioning</div>
+                <ul>
+                    <li><strong>Respiratory distress:</strong> Sitting upright (easier breathing)</li>
+                    <li><strong>Hypotension/shock:</strong> Supine (flat) with legs elevated (increases blood return to heart)</li>
+                    <li><strong>Nausea/vomiting risk:</strong> Recovery position (on side) if unconscious</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Complete Field Management</div>
+                <ol style="margin-top: 15px;">
+                    <li>Recognize anaphylaxis — don't wait for "confirmation"</li>
+                    <li>Give epinephrine IM immediately (0.3 mg adult, 0.15 mg child)</li>
+                    <li>Position patient (upright if respiratory distress, supine if shock)</li>
+                    <li>Give supplemental oxygen if available</li>
+                    <li>Establish IV access if trained (NOT before epinephrine)</li>
+                    <li>Follow with diphenhydramine and corticosteroids</li>
+                    <li>Monitor vital signs and airway continuously</li>
+                    <li><strong>URGENT EVACUATION</strong> — all anaphylaxis requires hospital evaluation</li>
+                </ol>
+            </card>
+
+            <div class="card">
+                <div class="subsection-title">Biphasic Reaction Monitoring</div>
+                <ul>
+                    <li>Even if patient improves dramatically after epinephrine, symptoms can recur 4-12 hours later</li>
+                    <li>NO field observation is adequate — hospital monitoring required</li>
+                    <li>Patient must be evacuated even if feeling well</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">What NOT to Do</div>
+                <ul>
+                    <li><strong>DO NOT:</strong> Give oral fluids if airway swelling (aspiration risk)</li>
+                    <li><strong>DO NOT:</strong> Use only antihistamines thinking it will stop anaphylaxis (it won't)</li>
+                    <li><strong>DO NOT:</strong> Delay evacuation if patient "feels better" after epinephrine</li>
+                    <li><strong>DO NOT:</strong> Refuse epinephrine due to side effects (dying is worse)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SCENARIOS TAB -->
+        <div id="scenarios" class="tab-content">
+            <div class="section-title">Case Scenarios</div>
+
+            <div class="scenario-case">
+                <h4>Scenario 1: Bee Sting with Anaphylaxis on Trail</h4>
+                <p><strong>Setting:</strong> A hiker is stung by multiple bees while hiking. Within 5 minutes, develops rapid wheezing, hives spreading across body, and swelling of lips. She's becoming anxious and short of breath. You have her EpiPen in the group first aid kit.</p>
+
+                <button class="scenario-btn" onclick="toggleDiscussion('scenario1')">Show Management</button>
+                <div id="scenario1" class="discussion">
+                    <p><strong>Recognition:</strong> Anaphylaxis — stung, rapid onset of respiratory (wheezing) + skin (hives) involvement. This is ANAPHYLAXIS.</p>
+                    <p style="margin-top: 15px;"><strong>Immediate Actions:</strong></p>
+                    <ul>
+                        <li>Get EpiPen from first aid kit</li>
+                        <li>Remove blue cap, position with orange tip toward thigh</li>
+                        <li>Inject IM into lateral thigh (can go through pants)</li>
+                        <li>Hold 3-10 seconds, then massage area</li>
+                        <li>Position upright (respiratory distress)</li>
+                        <li>Monitor airway — if swelling worsens, be ready to manage airway</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Follow-up:</strong></p>
+                    <ul>
+                        <li>Give diphenhydramine if available</li>
+                        <li>Albuterol inhaler if wheezing continues</li>
+                        <li>URGENT evacuation — activate emergency services</li>
+                        <li>Watch for biphasic reaction during evacuation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="scenario-case">
+                <h4>Scenario 2: Unknown Food Allergen at Camp</h4>
+                <p><strong>Setting:</strong> A backpacker accidentally eats trail mix containing peanuts (known allergy) shared by groupmate. 15 minutes later, throat feels tight, she's dizzy, and breaking out in hives. She has an EpiPen but says "Maybe I'm overreacting."</p>
+
+                <button class="scenario-btn" onclick="toggleDiscussion('scenario2')">Show Management</button>
+                <div id="scenario2" class="discussion">
+                    <p><strong>Recognition:</strong> Anaphylaxis — known allergen exposure, throat tightness (airway involvement), dizziness (cardiovascular), hives (skin). Signs meeting anaphylaxis criteria.</p>
+                    <p style="margin-top: 15px;"><strong>Key point:</strong> Don't hesitate due to patient minimizing symptoms. Rapid progression is likely.</p>
+                    <p style="margin-top: 15px;"><strong>Management:</strong></p>
+                    <ul>
+                        <li>Get EpiPen immediately, do NOT delay</li>
+                        <li>Inject into thigh</li>
+                        <li>Position supine with legs elevated (dizziness/shock)</li>
+                        <li>If available: oxygen, diphenhydramine</li>
+                        <li>Prepare for helicopter evacuation (dizziness suggests cardiovascular involvement)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- QUIZ TAB -->
+        <div id="quiz" class="tab-content">
+            <div class="section-title">Knowledge Check Quiz</div>
+            <div class="quiz-section" id="quizContainer"></div>
+            <div id="score-display">
+                <div id="score-text"></div>
+                <div id="score-sub"></div>
+            </div>
+        </div>
+
+        <!-- SUMMARY TAB -->
+        <div id="summary" class="tab-content">
+            <div class="section-title">Lesson Summary</div>
+
+            <div class="key-points">
+                <h3>Key Concepts</h3>
+                <div class="key-point">Anaphylaxis is severe allergic reaction affecting multiple body systems; life-threatening emergency</div>
+                <div class="key-point">Epinephrine is FIRST-line treatment; give immediately IM to lateral thigh</div>
+                <div class="key-point">EpiPen adult = 0.3 mg, pediatric = 0.15 mg</div>
+                <div class="key-point">Common triggers: bee/wasp stings, food allergies, medications</div>
+                <div class="key-point">Rapid onset (minutes) = emergency; speed of epinephrine delivery is critical</div>
+                <div class="key-point">Biphasic reaction possible 4-12 hours later; always evacuate</div>
+                <div class="key-point">Position patient: upright if respiratory distress, supine if shock</div>
+            </div>
+
+            <div class="glossary">
+                <div class="subsection-title">Glossary</div>
+                <div class="glossary-term">
+                    <dt>Anaphylaxis</dt>
+                    <dd>Severe, rapid-onset allergic reaction affecting ≥2 body systems or a single life-threatening reaction</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Epinephrine</dt>
+                    <dd>Hormone that reverses anaphylaxis by causing vasoconstriction, bronchodilation, and increased heart contractility</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Auto-Injector</dt>
+                    <dd>Self-administering syringe (EpiPen) delivering fixed dose of epinephrine via intramuscular injection</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Urticaria</dt>
+                    <dd>Hives; raised, itchy skin lesions from allergic reaction</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Angioedema</dt>
+                    <dd>Swelling of deeper skin and tissue layers, often affecting lips, tongue, and face</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Bronchospasm</dt>
+                    <dd>Constriction of bronchi (airways) causing wheezing and shortness of breath</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Biphasic Reaction</dt>
+                    <dd>Second wave of anaphylactic symptoms 4-12 hours after initial reaction</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Diphenhydramine</dt>
+                    <dd>Antihistamine (Benadryl); secondary treatment for anaphylaxis after epinephrine</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>IgE</dt>
+                    <dd>Immunoglobulin E; antibody involved in allergic reactions</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Allergen</dt>
+                    <dd>Foreign substance that triggers allergic reaction</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Histamine</dt>
+                    <dd>Substance released by mast cells during allergic reaction; causes itching, swelling, bronchoconstriction</dd>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Footer -->
+        <div class="nav-footer">
+            <a href="09_Cold.html" class="nav-link">← Previous</a>
+            <div class="nav-center">
+                <a href="../index.html">Home</a>
+            </div>
+            <a href="11_Medical.html" class="nav-link">Next →</a>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            const tabArr = Array.from(buttons);
+            const activeIdx = tabArr.indexOf(event.target);
+            updateStepIndicator(activeIdx);
+        }
+        function updateStepIndicator(activeIdx) {
+            const tabs = document.querySelectorAll('.tab-btn');
+            document.getElementById('step-text').textContent = 'Step ' + (activeIdx + 1) + ' of ' + tabs.length;
+            const dots = document.getElementById('step-dots');
+            dots.innerHTML = '';
+            tabs.forEach((_, i) => {
+                const d = document.createElement('div');
+                d.style.cssText = 'width:8px;height:8px;border-radius:50%;background:' + (i === activeIdx ? '#2C7BE5' : i < activeIdx ? '#1A6B3A' : '#CBD5E0') + ';';
+                dots.appendChild(d);
+            });
+        }
+
+        function toggleDiscussion(id) {
+            const disc = document.getElementById(id);
+            disc.classList.toggle('show');
+        }
+
+        const questions = [
+            { q: "The FIRST-LINE treatment for anaphylaxis is:", options: ["Diphenhydramine (Benadryl)", "Epinephrine", "Corticosteroids", "Albuterol"], answer: 1, exp: "Epinephrine IM (auto-injector) is FIRST-LINE. Do NOT delay for other meds. Epinephrine reverses hypotension, bronchospasm, and angioedema." },
+            { q: "EpiPen is injected into the:", options: ["Upper arm", "Lateral mid-thigh", "Buttocks", "Abdomen"], answer: 1, exp: "Lateral mid-thigh is the correct site. Good muscle mass, accessible even through clothing, away from vital structures." },
+            { q: "Biphasic anaphylaxis refers to:", options: ["Two types of allergies", "Second wave of symptoms 4-12 hrs after initial reaction", "Anaphylaxis twice in one year", "Simultaneous allergic in two body areas"], answer: 1, exp: "Biphasic occurs in 5-20% of cases. Second wave possible even after patient improves. ALWAYS evacuate anaphylaxis." },
+            { q: "Patient with anaphylaxis + hypotension should be positioned:", options: ["Sitting upright", "Supine with legs elevated", "On their side", "Standing"], answer: 1, exp: "Supine with legs elevated increases blood return to heart, improving cardiac output and blood pressure." },
+            { q: "Signs of anaphylaxis include all EXCEPT:", options: ["Urticaria and hives", "Bronchospasm and wheezing", "Slow steady improvement without treatment", "Hypotension"], answer: 2, exp: "Anaphylaxis worsens WITHOUT treatment. Hives, wheezing, and shock are classic. Improvement only after epinephrine." },
+            { q: "EpiPen Jr is used for children weighing:", options: ["Under 10 kg", "15-30 kg", "30-50 kg", "Over 50 kg"], answer: 1, exp: "EpiPen Jr (0.15 mg) for approximately 15-30 kg (30-66 lbs). Smaller children may need different dosing." },
+            { q: "After anaphylaxis improves with epinephrine:", options: ["Release patient if they feel better", "Evacuate ALL patients regardless of improvement", "Repeat epinephrine after 1 hour", "Give diphenhydramine instead of evacuating"], answer: 1, exp: "Biphasic reaction possible. Hospital monitoring essential. Do NOT keep patient in field based on improvement." },
+            { q: "Diphenhydramine in anaphylaxis should be given:", options: ["BEFORE epinephrine", "AFTER epinephrine as secondary treatment", "As the primary treatment", "Never given"], answer: 1, exp: "Diphenhydramine is secondary. Epinephrine FIRST (saves life), then diphenhydramine to prevent recurrence." },
+            { q: "Epinephrine's mechanism includes:", options: ["Slowing heart rate", "Vasoconstriction, bronchodilation, and increased cardiac output", "Reducing inflammation only", "Blocking histamine receptors"], answer: 1, exp: "Epinephrine works via alpha-1 (vasoconstriction), beta-1 (cardiac output), beta-2 (bronchodilation). This reverses anaphylaxis." },
+            { q: "Anaphylaxis is most correctly defined as:", options: ["Any allergic reaction", "Severe life-threatening multisystem allergic reaction", "Localized skin reaction", "Any reaction to bee sting"], answer: 1, exp: "Anaphylaxis = severe, rapid-onset affecting ≥2 systems OR single life-threatening reaction. Not just any sting/allergy." }
+        ];
+
+        let answered = 0;
+        const total = questions.length;
+
+        function buildQuiz() {
+            const container = document.getElementById('quizContainer');
+            questions.forEach((q, idx) => {
+                const qDiv = document.createElement('div');
+                qDiv.className = 'quiz-question';
+                qDiv.innerHTML = `
+                    <h4>Q${idx + 1}: ${q.q}</h4>
+                    <ul>
+                        ${q.options.map((opt, oi) => `
+                            <li onclick="selectAnswer(this, ${idx}, ${oi})">${opt}</li>
+                        `).join('')}
+                    </ul>
+                    <div class="explanation" id="exp-${idx}"></div>
+                `;
+                container.appendChild(qDiv);
+            });
+        }
+
+        function selectAnswer(el, qi, selected) {
+            const q = questions[qi];
+            const items = el.parentElement.querySelectorAll('li');
+            items.forEach(i => i.classList.add('disabled'));
+            const expEl = document.getElementById('exp-' + qi);
+
+            if (selected === q.answer) {
+                el.classList.add('correct');
+                expEl.className = 'explanation show correct-exp';
+                expEl.innerHTML = '✓ Correct! ' + q.exp;
+            } else {
+                el.classList.add('incorrect');
+                items[q.answer].classList.add('correct');
+                expEl.className = 'explanation show incorrect-exp';
+                expEl.innerHTML = '✗ Not quite. ' + q.exp;
+            }
+            answered++;
+            if (answered === total) showScore();
+        }
+
+        function showScore() {
+            const sc = document.querySelectorAll('.explanation.correct-exp').length;
+            const lessonId = '10';
+            const prevScore = localStorage.getItem('wfa_score_' + lessonId);
+            localStorage.setItem('wfa_completed_' + lessonId, 'true');
+            localStorage.setItem('wfa_score_' + lessonId, Math.max(sc, parseInt(prevScore || '0')));
+            const el = document.getElementById('score-display');
+            el.style.display = 'block';
+            document.getElementById('score-text').textContent = 'You scored ' + sc + ' / ' + total;
+            let msg = sc >= 8 ? '🎉 Excellent work! You are ready for the next lesson.' : sc >= 6 ? '👍 Good job! Review the sections you missed.' : '📚 Consider reviewing this lesson before moving on.';
+            if (prevScore && parseInt(prevScore) > 0) msg += ' (Previous best: ' + prevScore + '/' + total + ')';
+            document.getElementById('score-sub').textContent = msg;
+            const retryBtn = document.createElement('button');
+            retryBtn.textContent = '↺ Retry Quiz';
+            retryBtn.style.cssText = 'margin-top:16px;padding:10px 24px;background:#2C7BE5;color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;';
+            retryBtn.onclick = function() {
+                answered = 0;
+                el.style.display = 'none';
+                document.getElementById('quizContainer').innerHTML = '';
+                buildQuiz();
+                retryBtn.remove();
+            };
+            el.appendChild(retryBtn);
+            el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        buildQuiz();
+        updateStepIndicator(0);
+    </script>
+</body>
+</html>

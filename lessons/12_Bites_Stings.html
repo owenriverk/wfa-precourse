@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 12: Bites, Stings & Envenomation | Wilderness First Aid</title>
+<style>
+:root {
+  --primary: #1B4F8A; --accent: #2C7BE5; --light-bg: #E8F0FE;
+  --danger: #C0392B; --danger-bg: #FDECEA; --success: #1A6B3A; --success-bg: #E8F5E9;
+  --warning: #D35400; --warning-bg: #FFF3E0; --info: #1565C0; --info-bg: #E3F2FD;
+  --dark: #2D3748; --muted: #718096; --border: #CBD5E0; --white: #FFFFFF;
+  --card-bg: #F7FAFC;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F0F4F8; color: var(--dark); line-height: 1.7; }
+.header { background: linear-gradient(135deg, #1B4F8A 0%, #2C7BE5 100%); color: white; padding: 24px 32px; }
+.header-meta { display: flex; gap: 16px; font-size: 13px; opacity: 0.85; margin-bottom: 8px; flex-wrap: wrap; }
+.header-meta span { background: rgba(255,255,255,0.2); padding: 3px 10px; border-radius: 12px; }
+.header h1 { font-size: clamp(22px, 4vw, 32px); font-weight: 700; }
+.header p { opacity: 0.9; margin-top: 6px; font-size: 16px; }
+.tabs { display: flex; background: white; border-bottom: 2px solid var(--border); overflow-x: auto; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.tab { padding: 14px 20px; cursor: pointer; font-size: 14px; font-weight: 600; color: var(--muted); border-bottom: 3px solid transparent; margin-bottom: -2px; white-space: nowrap; transition: all 0.2s; }
+.tab:hover { color: var(--accent); background: var(--light-bg); }
+.tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+.section { display: none; max-width: 900px; margin: 0 auto; padding: 32px 24px; }
+.section.active { display: block; }
+h2 { font-size: 26px; color: var(--primary); margin: 28px 0 14px; border-left: 4px solid var(--accent); padding-left: 14px; }
+h3 { font-size: 20px; color: var(--dark); margin: 22px 0 10px; }
+h4 { font-size: 16px; color: var(--primary); margin: 16px 0 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+p { margin-bottom: 14px; }
+ul, ol { margin: 10px 0 16px 24px; }
+li { margin-bottom: 7px; }
+.alert { border-radius: 8px; padding: 16px 20px; margin: 20px 0; border-left: 5px solid; }
+.alert-title { font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.alert-danger { background: var(--danger-bg); border-color: var(--danger); color: #7B241C; }
+.alert-danger .alert-title { color: var(--danger); }
+.alert-warning { background: var(--warning-bg); border-color: var(--warning); color: #7E5109; }
+.alert-warning .alert-title { color: var(--warning); }
+.alert-info { background: var(--info-bg); border-color: var(--info); color: #1A237E; }
+.alert-info .alert-title { color: var(--info); }
+.alert-success { background: var(--success-bg); border-color: var(--success); color: #1B5E20; }
+.alert-success .alert-title { color: var(--success); }
+.card { background: white; border-radius: 10px; padding: 22px; margin: 18px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.07); border: 1px solid var(--border); }
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 18px 0; }
+.objective-list { list-style: none; margin: 0; padding: 0; }
+.objective-list li { padding: 10px 14px; border-radius: 6px; background: var(--light-bg); margin-bottom: 8px; padding-left: 40px; position: relative; }
+.objective-list li::before { content: "✓"; position: absolute; left: 12px; color: var(--accent); font-weight: 700; }
+table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 14px; }
+th { background: var(--primary); color: white; padding: 12px 14px; text-align: left; }
+td { padding: 11px 14px; border-bottom: 1px solid var(--border); }
+tr:nth-child(even) td { background: var(--card-bg); }
+.scenario-case { background: white; border-radius: 10px; border: 1px solid var(--border); margin: 20px 0; overflow: hidden; }
+.scenario-header { background: var(--primary); color: white; padding: 14px 20px; font-weight: 600; font-size: 16px; }
+.scenario-body { padding: 20px; }
+.toggle-btn { background: var(--accent); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; margin-top: 12px; transition: background 0.2s; }
+.toggle-btn:hover { background: var(--primary); }
+.discussion { display: none; margin-top: 16px; padding: 16px; background: var(--success-bg); border-radius: 8px; border-left: 4px solid var(--success); }
+.discussion.visible { display: block; }
+.quiz-question { background: white; border-radius: 10px; padding: 22px; margin: 20px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.07); border: 1px solid var(--border); }
+.quiz-question p { font-weight: 600; font-size: 16px; margin-bottom: 14px; }
+.quiz-options { list-style: none; padding: 0; margin: 0; }
+.quiz-options li { padding: 12px 16px; border: 2px solid var(--border); border-radius: 8px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s; font-size: 15px; }
+.quiz-options li:hover { border-color: var(--accent); background: var(--light-bg); }
+.quiz-options li.correct { background: var(--success-bg); border-color: var(--success); color: var(--success); font-weight: 600; }
+.quiz-options li.incorrect { background: var(--danger-bg); border-color: var(--danger); color: var(--danger); }
+.quiz-options li.disabled { pointer-events: none; }
+.explanation { display: none; margin-top: 12px; padding: 12px 16px; border-radius: 6px; font-size: 14px; }
+.explanation.show { display: block; }
+.explanation.correct-exp { background: var(--success-bg); color: var(--success); border-left: 4px solid var(--success); }
+.explanation.incorrect-exp { background: var(--danger-bg); color: var(--danger); border-left: 4px solid var(--danger); }
+.score-banner { text-align: center; padding: 30px; background: white; border-radius: 12px; margin: 24px 0; border: 2px solid var(--border); }
+.score-banner h3 { font-size: 32px; color: var(--primary); }
+.score-banner p { color: var(--muted); }
+.glossary dt { font-weight: 700; color: var(--primary); margin-top: 14px; }
+.glossary dd { margin-left: 20px; color: var(--dark); margin-bottom: 8px; }
+.key-points { background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; border-radius: 12px; padding: 24px; margin: 24px 0; }
+.key-points h3 { margin-bottom: 14px; font-size: 20px; color: white; margin-top: 0; }
+.key-points ul { margin-left: 20px; }
+.key-points li { margin-bottom: 8px; opacity: 0.95; }
+.mnemonic-box { background: var(--light-bg); border: 2px solid var(--accent); border-radius: 10px; padding: 20px; margin: 16px 0; }
+.mnemonic-box h4 { color: var(--accent); margin-bottom: 12px; }
+.mnemonic-row { display: flex; gap: 12px; margin-bottom: 8px; align-items: flex-start; }
+.mnemonic-letter { background: var(--primary); color: white; width: 36px; height: 36px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; flex-shrink: 0; }
+.mnemonic-text { padding-top: 4px; }
+.mnemonic-text strong { color: var(--primary); }
+.nav-footer { background: white; border-top: 1px solid var(--border); padding: 18px 32px; display: flex; justify-content: space-between; align-items: center; max-width: 900px; margin: 20px auto 0; border-radius: 8px; box-shadow: 0 -2px 8px rgba(0,0,0,0.05); }
+.nav-btn { background: var(--primary); color: white; border: none; padding: 10px 22px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; text-decoration: none; display: inline-block; transition: background 0.2s; }
+.nav-btn:hover { background: var(--accent); }
+.nav-btn.secondary { background: white; color: var(--primary); border: 2px solid var(--primary); }
+.nav-btn.secondary:hover { background: var(--light-bg); }
+.home-link { color: var(--muted); font-size: 13px; text-decoration: none; }
+.home-link:hover { color: var(--primary); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-meta">
+    <span>Module 12 of 13</span>
+    <span>25 minutes</span>
+    <span>Wilderness First Aid</span>
+  </div>
+  <h1>Lesson 12: Bites, Stings & Envenomation</h1>
+  <p>Managing animal and insect injuries in the wilderness</p>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('overview')">Overview</div>
+  <div class="tab" onclick="showTab('animal_bites')">Animal Bites</div>
+  <div class="tab" onclick="showTab('snakebite')">Venomous Snakebite</div>
+  <div class="tab" onclick="showTab('insect_spider')">Insect & Spider Bites</div>
+  <div class="tab" onclick="showTab('ticks_marine')">Ticks & Marine</div>
+  <div class="tab" onclick="showTab('scenarios_12')">Scenarios</div>
+  <div class="tab" onclick="showTab('quiz')">Quiz</div>
+  <div class="tab" onclick="showTab('summary_12')">Summary</div>
+</div>
+<div id="step-indicator" style="background:#F0F4F8;border-bottom:1px solid #CBD5E0;padding:8px 20px;font-size:13px;color:#718096;display:flex;gap:16px;align-items:center;">
+  <span id="step-text">Step 1 of 8</span>
+  <div id="step-dots" style="display:flex;gap:6px;"></div>
+</div>
+
+<!-- OVERVIEW TAB -->
+<div id="overview" class="section active">
+  <h2>Module Overview</h2>
+
+  <h3>Learning Objectives</h3>
+  <ul class="objective-list">
+    <li>Assess and manage animal bite wounds with proper wound care priorities</li>
+    <li>Recognize and manage venomous snakebites including pit viper and coral snake envenomation</li>
+    <li>Treat hymenoptera stings, spider bites, and identify neurotoxic vs. cytotoxic presentations</li>
+    <li>Properly remove ticks and recognize tick-borne illness presentations</li>
+    <li>Manage marine envenomation including jellyfish, stingray, and sea urchin injuries</li>
+  </ul>
+
+  <h3>Why This Module Matters</h3>
+  <p>Bites and stings are common wilderness injuries that can range from minor to life-threatening. Proper field management of envenomation can prevent serious complications, reduce pain, and may save a life. Your knowledge of species-specific venom effects and appropriate interventions will determine whether a patient has an excellent outcome or suffers permanent tissue damage or death. Additionally, understanding rabies exposure and the critical time window for post-exposure prophylaxis is essential public health knowledge for any wilderness provider.</p>
+
+  <h3>Envenomation in the Wilderness</h3>
+  <p>North American wilderness areas contain numerous venomous animals, from snakes and spiders to marine creatures. Envenomation occurs when venom is injected into tissue, and the effects vary dramatically based on the species. Hemotoxic venoms (pit vipers) cause local tissue destruction and coagulation abnormalities, while neurotoxic venoms (coral snakes, some spiders) affect the nervous system. Your ability to identify the offending species and recognize the type of venom effect will guide your treatment decisions. Many bites occur when people accidentally disturb an animal—prevention through awareness and protective behavior is always the best medicine, but this module focuses on response when an exposure has already occurred.</p>
+</div>
+
+<!-- ANIMAL BITES TAB -->
+<div id="animal_bites" class="section">
+  <h2>Animal Bite Assessment & Management</h2>
+
+  <h3>Wound Assessment Priorities</h3>
+  <p>When evaluating an animal bite, gather information systematically:</p>
+  <ul>
+    <li><strong>Depth:</strong> Does the bite penetrate the dermis? Are deeper structures (tendon, bone, vessel) involved?</li>
+    <li><strong>Mechanism:</strong> Was it a crush injury, puncture, tear, or laceration? This affects infection and healing risk.</li>
+    <li><strong>Contamination:</strong> All animal bites are contaminated. Note the animal species and whether it was provoked or unprovoked.</li>
+    <li><strong>Neurovascular Status:</strong> Check distal pulses, capillary refill, sensation, and motor function. Serious bites may require urgent vascular assessment.</li>
+    <li><strong>Time Elapsed:</strong> How long since the bite occurred? This affects infection risk and wound closure decisions.</li>
+  </ul>
+
+  <h3>Wound Care Principles</h3>
+  <p><strong>Aggressive irrigation is the most important intervention for animal bite wounds.</strong> Use clean water or saline and irrigate copiously—aim for at least 1-2 liters for a significant bite. Irrigation removes bacteria and debris that would otherwise establish infection. Do NOT close bite wounds with sutures or adhesive strips in the wilderness setting. Bite wounds should be left open to drain and should heal by secondary intention. Closure increases infection risk by sealing bacteria inside the wound.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4>Dogs & Cats</h4>
+      <p>Most common bite sources. Clean, puncture-type wounds. Infection risk is moderate if not contaminated with environmental debris. Current pet vaccination status is important for rabies assessment.</p>
+    </div>
+    <div class="card">
+      <h4>Wild Mammals (Bear, Mountain Lion)</h4>
+      <p>Crush and laceration injuries with severe tissue damage. Often result in major hemorrhage and deep tissue trauma. Treat as major trauma until proven otherwise.</p>
+    </div>
+    <div class="card">
+      <h4>Rodents & Rabbits</h4>
+      <p>Small puncture wounds with low rabies risk. Clean with irrigation. Infection risk is low to moderate. No rabies risk from rodents (documented cases are extraordinarily rare).</p>
+    </div>
+    <div class="card">
+      <h4>Human Bites</h4>
+      <p>High infection risk due to oral flora. More contaminated than many animal bites. Treat aggressively with irrigation and evacuation. Always irrigate thoroughly and do NOT close the wound.</p>
+    </div>
+  </div>
+
+  <h3>Rabies Assessment & Management</h3>
+  <div class="alert alert-danger">
+    <div class="alert-title">RABIES: Nearly 100% Fatal Without Post-Exposure Prophylaxis</div>
+    <p>Once clinical symptoms appear, rabies is virtually always fatal. However, post-exposure prophylaxis (PEP) is highly effective if given before symptoms develop. The window for PEP is a few days to several weeks, depending on the bite location.</p>
+  </div>
+
+  <table>
+    <tr>
+      <th>Risk Category</th>
+      <th>Animal Examples</th>
+    </tr>
+    <tr>
+      <td><strong>HIGH RISK</strong></td>
+      <td>Bats, raccoons, foxes, skunks, coyotes, unvaccinated dogs and cats</td>
+    </tr>
+    <tr>
+      <td><strong>LOW RISK</strong></td>
+      <td>Rodents (squirrels, rats, mice), lagomorphs (rabbits, hares)</td>
+    </tr>
+  </table>
+
+  <h3>Post-Exposure Prophylaxis (PEP)</h3>
+  <p>PEP consists of a series of rabies vaccines (modern versions use 4 doses over 14 days) and, for high-risk exposures, rabies immunoglobulin. PEP must be started as soon as possible after exposure—ideally within days, certainly within 2 weeks. If the patient is bitten in the wilderness, they must be evacuated urgently for medical evaluation and PEP initiation. There is no field alternative to hospital-based PEP.</p>
+
+  <h3>Special Consideration: Bat Exposure</h3>
+  <p>Bats have very small teeth and can inflict bites that go unnoticed. If a bat is found in the room with a person who was sleeping, and the person cannot rule out direct contact, standard public health guidance recommends assuming potential exposure and proceeding with rabies PEP evaluation. Do not dismiss bat exposures as insignificant.</p>
+
+  <h3>Reporting Requirements</h3>
+  <div class="alert alert-info">
+    <div class="alert-title">Public Health Reporting</div>
+    <p>All significant animal bites must be reported to local public health authorities. This applies especially to bites from wild animals or unvaccinated domestic animals. Public health officials will assess rabies risk and coordinate testing of the animal if possible.</p>
+  </div>
+
+  <h3>Bear and Mountain Lion Attacks</h3>
+  <p>These are severe trauma situations. Your first priority is to extricate the victim safely—ensure the animal is no longer a threat. Then treat as major trauma with emphasis on hemorrhage control and shock management. These bites often involve crush injuries, lacerations to multiple body areas, and potential vascular injuries. Transport urgently.</p>
+</div>
+
+<!-- VENOMOUS SNAKEBITE TAB -->
+<div id="snakebite" class="section">
+  <h2>Venomous Snakebite Management</h2>
+
+  <h3>North American Venomous Snakes</h3>
+  <table>
+    <tr>
+      <th>Species</th>
+      <th>Characteristics</th>
+      <th>Venom Type & Effects</th>
+    </tr>
+    <tr>
+      <td><strong>Pit Vipers:</strong> Rattlesnakes, Copperheads, Cottonmouths</td>
+      <td>Heat-sensing pits between eyes and nostrils; triangular head; rattles (rattlesnakes)</td>
+      <td><strong>Hemotoxic:</strong> Local tissue destruction, progressive swelling, coagulation abnormalities, bleeding</td>
+    </tr>
+    <tr>
+      <td><strong>Coral Snake</strong></td>
+      <td>Colorful bands (red, yellow, black); small mouth; no rattles; docile</td>
+      <td><strong>Neurotoxic:</strong> Delayed neurologic symptoms; may have minimal local signs initially</td>
+    </tr>
+  </table>
+
+  <div class="mnemonic-box">
+    <h4>Coral Snake Identification</h4>
+    <div class="mnemonic-row">
+      <div class="mnemonic-letter">R</div>
+      <div class="mnemonic-text"><strong>Red touches Yellow,</strong> Kill a fellow</div>
+    </div>
+    <div class="mnemonic-row">
+      <div class="mnemonic-letter">R</div>
+      <div class="mnemonic-text"><strong>Red touches Black,</strong> Friend of Jack</div>
+    </div>
+    <p style="margin-top: 12px; font-size: 14px; font-style: italic;">This rhyme identifies the coral snake: the red and yellow bands touch each other. Non-venomous mimics (like the kingsnake) have red and black bands touching.</p>
+  </div>
+
+  <h3>Signs of Envenomation</h3>
+  <h4>Local Signs (Pit Viper)</h4>
+  <ul>
+    <li>Fang marks (may be 1-4 marks depending on strike angle)</li>
+    <li>Immediate pain at bite site</li>
+    <li>Progressive swelling within minutes to hours</li>
+    <li><strong>Mark swelling boundary with a pen and note the time every 15 minutes</strong> to objectively assess progression</li>
+  </ul>
+
+  <h4>Systemic Signs (Pit Viper)</h4>
+  <ul>
+    <li>Nausea and vomiting</li>
+    <li>Weakness and fatigue</li>
+    <li>Numbness and paresthesias (often perioral)</li>
+    <li>Bleeding or bruising distant from bite (coagulopathy)</li>
+    <li>Hypotension, tachycardia, shock</li>
+  </ul>
+
+  <h4>Systemic Signs (Coral Snake)</h4>
+  <ul>
+    <li>Delayed onset (may be hours)</li>
+    <li>Ptosis (drooping eyelids)</li>
+    <li>Diplopia (double vision)</li>
+    <li>Respiratory paralysis (most dangerous)</li>
+    <li>Can occur with minimal local symptoms initially</li>
+  </ul>
+
+  <h3>Dry Bite</h3>
+  <p>Approximately 20% of venomous snakebites result in minimal or no venom injection ("dry bite"). However, you cannot determine this in the field. Observe all snakebite patients for 8-12 hours for signs of envenomation. If no swelling or systemic signs develop within this window, a dry bite is likely. Document serial marking of swelling to support this assessment.</p>
+
+  <h3>Correct Field Management for Pit Viper Bites</h3>
+  <ul>
+    <li><strong>Calm the patient and minimize movement:</strong> Movement increases venom spread. Keep the patient at rest.</li>
+    <li><strong>Remove jewelry and tight clothing:</strong> Swelling is inevitable. Remove constrictive items before swelling makes removal difficult.</li>
+    <li><strong>Immobilize the extremity at heart level:</strong> Splint or sling to prevent movement. Position at same level as heart (not elevated, as gravity may increase local swelling).</li>
+    <li><strong>Mark swelling with pen and time every 15 minutes:</strong> Objective documentation of progression guides treatment decisions.</li>
+    <li><strong>Urgent evacuation:</strong> Antivenom is the only definitive treatment and must be administered in a hospital. Evacuate immediately.</li>
+    <li><strong>Nothing by mouth:</strong> Nil per os status in case surgical intervention is needed.</li>
+    <li><strong>Monitor vital signs:</strong> Reassess XABCDE every 5 minutes for systemic signs.</li>
+  </ul>
+
+  <div class="alert alert-danger">
+    <div class="alert-title">DO NOT Do These Things</div>
+    <ul style="margin-bottom: 0;">
+      <li>Cut an X over fang marks and suck—ineffective and causes additional tissue damage and infection</li>
+      <li>Apply a tourniquet—can cause more tissue damage than the venom itself</li>
+      <li>Apply ice—causes frostbite and worsens tissue damage</li>
+      <li>Use electric shock—no evidence of benefit, and causes burns</li>
+      <li>Apply constriction bands to pit viper bites—can increase compartment syndrome risk (appropriate only for neurotoxic coral snake, NOT pit vipers)</li>
+    </ul>
+  </div>
+
+  <h3>Coral Snake vs. Pit Viper: Critical Difference</h3>
+  <p><strong>Pressure Immobilization Bandaging is appropriate for coral snake (neurotoxic) bites but NOT for pit viper bites (hemotoxic).</strong> Coral snake venom spreads through the lymphatic system, and pressure immobilization delays lymphatic spread. Pit viper venom causes local tissue destruction, and immobilization does not prevent this—in fact, increasing local pressure can worsen compartment syndrome. Use immobilization only for coral snakes.</p>
+
+  <h3>Antivenom</h3>
+  <p>Antivenom is administered only in the hospital setting. Modern pit viper antivenom (CroFab, Anavip) is highly effective if given early. Coral snake antivenom (less commonly used) requires careful administration due to potential adverse reactions. All snakebite patients bitten by a potentially venomous species should be evacuated for hospital evaluation and possible antivenom administration, regardless of initial symptoms.</p>
+</div>
+
+<!-- INSECT & SPIDER BITES TAB -->
+<div id="insect_spider" class="section">
+  <h2>Insect Stings & Spider Bites</h2>
+
+  <h3>Hymenoptera Stings: Bees, Wasps, Yellow Jackets, Hornets, Fire Ants</h3>
+
+  <h4>Bee Stingers</h4>
+  <p>Honeybee stingers are barbed and remain embedded in the skin, continuing to inject venom even after the insect has flown away. <strong>Remove the stinger by scraping with a straight edge (card, nail file, knife) rather than squeezing with fingers or tweezers.</strong> Squeezing compresses the venom sac and injects more venom. Scraping dislodges the stinger mechanically without compressing the sac.</p>
+
+  <h4>Local Reaction</h4>
+  <p>Pain, redness, and swelling at the sting site. Treat with ice, NSAIDs, and topical antihistamines or corticosteroid cream.</p>
+
+  <h4>Large Local Reaction</h4>
+  <p>Swelling extending far from the sting site, sometimes reaching joints (e.g., massive arm swelling from a sting on the hand). This is not anaphylaxis—it is a localized hypersensitivity reaction. Treat with oral antihistamines and systemic corticosteroids if available. Monitor for anaphylaxis (see Module 10).</p>
+
+  <h4>Fire Ants</h4>
+  <p>Fire ant stings produce sterile pustules. Do NOT pop them, as this introduces infection. Leave pustules intact. They will typically resolve without complications if left alone.</p>
+
+  <h3>Black Widow Spider Envenomation</h3>
+
+  <h4>Identification</h4>
+  <p>Shiny black spider with a distinctive red hourglass marking on the abdomen. Body size approximately pea-sized.</p>
+
+  <h4>Venom & Effects</h4>
+  <p>Black widow venom is neurotoxic (alpha-latrotoxin), targeting presynaptic nerve terminals. This causes uncontrolled acetylcholine release, leading to characteristic symptoms.</p>
+
+  <h4>Signs & Symptoms</h4>
+  <ul>
+    <li>Localized bite pain (often minimal initially)</li>
+    <li>Severe painful muscle cramps spreading from bite site within 30 minutes to hours</li>
+    <li>Characteristic: rigid abdomen (abdominal muscles involved), but cramping can affect any muscle group</li>
+    <li>Diaphoresis (sweating), hypertension, tachycardia</li>
+    <li>Nausea and vomiting</li>
+    <li>Pain in thighs and chest</li>
+    <li>Potentially respiratory compromise if respiratory muscles are involved</li>
+  </ul>
+
+  <h4>Field Management</h4>
+  <p>Pain management with NSAIDs and ice. Evacuation is recommended as antivenom (black widow antivenom) is available in hospitals and highly effective. Monitor for respiratory distress.</p>
+
+  <h3>Brown Recluse Spider Envenomation</h3>
+
+  <h4>Identification</h4>
+  <p>Brown spider with a distinctive violin-shaped marking on the cephalothorax. Has 6 eyes arranged in pairs (most spiders have 8).</p>
+
+  <h4>Venom & Effects</h4>
+  <p>Brown recluse venom is cytotoxic, causing tissue necrosis. This creates the characteristic "sinking lesion" or "volcano lesion" as tissue dies.</p>
+
+  <h4>Signs & Symptoms</h4>
+  <ul>
+    <li><strong>Initially painless bite</strong> (may be unnoticed)</li>
+    <li>2-8 hours: pain appears, redness develops, blister forms</li>
+    <li>24-72 hours: blue-black necrotic center forms, lesion "sinks" as tissue dies</li>
+    <li>Systemic symptoms rare but possible: fever, hemolysis (extremely rare)</li>
+    <li>Lesion can be disfiguring</li>
+  </ul>
+
+  <h4>Field Management</h4>
+  <p>Clean the wound, apply ice, mark the lesion boundary with a pen to track progression. Evacuate for medical evaluation. There is no antivenom available in the United States for brown recluse bite; treatment is supportive and focused on wound management and infection prevention.</p>
+
+  <h3>Black Widow vs. Brown Recluse Comparison</h3>
+  <table>
+    <tr>
+      <th>Feature</th>
+      <th>Black Widow</th>
+      <th>Brown Recluse</th>
+    </tr>
+    <tr>
+      <td><strong>Venom Type</strong></td>
+      <td>Neurotoxic</td>
+      <td>Cytotoxic</td>
+    </tr>
+    <tr>
+      <td><strong>Bite Pain</strong></td>
+      <td>Often minimal</td>
+      <td>Initially painless</td>
+    </tr>
+    <tr>
+      <td><strong>Primary Effect</strong></td>
+      <td>Muscle cramps, systemic symptoms</td>
+      <td>Tissue necrosis at bite site</td>
+    </tr>
+    <tr>
+      <td><strong>Onset</strong></td>
+      <td>Minutes to hours</td>
+      <td>Hours to days</td>
+    </tr>
+    <tr>
+      <td><strong>Antivenom</strong></td>
+      <td>Available</td>
+      <td>Not available in US</td>
+    </tr>
+  </table>
+</div>
+
+<!-- TICKS & MARINE TAB -->
+<div id="ticks_marine" class="section">
+  <h2>Tick Removal & Tick-Borne Illness</h2>
+
+  <h3>Proper Tick Removal</h3>
+  <p><strong>Use fine-tipped tweezers to grasp the tick as close to the skin as possible. Pull steadily upward.</strong> Do NOT twist, crush, or use petroleum jelly, alcohol, or heat (burning). These methods stress the tick and may cause it to inject more pathogen into the host.</p>
+
+  <h4>After Removal</h4>
+  <ul>
+    <li>Clean the bite site with soap and water</li>
+    <li>Wash hands</li>
+    <li>Seal the tick in a plastic bag if possible (for potential testing later)</li>
+    <li>Do NOT crush the tick with bare hands</li>
+  </ul>
+
+  <h3>Disease Transmission Timeline</h3>
+  <p>Most tick-borne diseases require the tick to be attached for 24-36 hours before transmission occurs. Early removal within the first 24 hours significantly reduces disease transmission risk.</p>
+
+  <h3>Tick-Borne Diseases</h3>
+  <table>
+    <tr>
+      <th>Disease</th>
+      <th>Tick Vector</th>
+      <th>Key Clinical Features</th>
+    </tr>
+    <tr>
+      <td><strong>Lyme Disease</strong></td>
+      <td>Deer tick (Ixodes)</td>
+      <td>Bull's-eye rash (erythema migrans), flu-like symptoms, arthritis, CNS involvement possible</td>
+    </tr>
+    <tr>
+      <td><strong>Rocky Mountain Spotted Fever</strong></td>
+      <td>Dog tick, wood tick</td>
+      <td>Rash starts wrists/ankles and spreads centrally, fever, headache, can be fatal if untreated</td>
+    </tr>
+    <tr>
+      <td><strong>Ehrlichiosis</strong></td>
+      <td>Deer tick, Lone Star tick</td>
+      <td>Fever, headache, myalgia, rash (sometimes), thrombocytopenia</td>
+    </tr>
+    <tr>
+      <td><strong>Anaplasmosis</strong></td>
+      <td>Deer tick, Lone Star tick</td>
+      <td>Similar to Ehrlichiosis: fever, headache, myalgia, lab abnormalities</td>
+    </tr>
+  </table>
+
+  <h2>Marine Envenomation</h2>
+
+  <h3>Jellyfish Stings</h3>
+  <p>Jellyfish nematocysts (stinging cells) fire when triggered, injecting venom. Treat by:</p>
+  <ul>
+    <li>Rinse with salt water (NOT fresh water, which can trigger nematocysts to fire)</li>
+    <li>Remove visible tentacles using a card or object (not bare hands)</li>
+    <li>Apply commercial deactivator if available—vinegar is appropriate for box jellyfish in Australia, but for most common jellyfish species, vinegar may not be effective; efficacy varies by species</li>
+    <li>Apply heat: hot water (45°C / 113°F) for 20-45 minutes may help reduce pain after deactivation</li>
+  </ul>
+
+  <h3>Stingray Injury</h3>
+  <p>Stingray spines create a puncture wound and inject venom, typically into the foot or ankle. Pain is severe.</p>
+  <ul>
+    <li>Immerse affected limb in hot water (45°C / 113°F) for 30-90 minutes—this is more important than removing the spine initially</li>
+    <li>Irrigate the wound</li>
+    <li>Remove the barb if accessible without causing further injury</li>
+    <li>Evacuate for wound management and evaluation for deep injury</li>
+  </ul>
+
+  <h3>Sea Urchin Spines</h3>
+  <p>Sea urchin spines embed in the skin and can break off. Spines can be toxic and irritating.</p>
+  <ul>
+    <li>Remove accessible spines with tweezers</li>
+    <li>Apply hot water immersion (45°C / 113°F)</li>
+    <li>Evacuate if multiple spines are embedded or if there is risk of infection</li>
+  </ul>
+</div>
+
+<!-- SCENARIOS TAB -->
+<div id="scenarios_12" class="section">
+  <h2>Scenario-Based Learning</h2>
+
+  <div class="scenario-case">
+    <div class="scenario-header">Scenario 1: Rattlesnake on the Trail</div>
+    <div class="scenario-body">
+      <p><strong>Setting:</strong> A hiker 5 miles from the trailhead reports being bitten on the ankle by what they believe was a rattlesnake. You arrive 10 minutes after the bite. The ankle is swollen and bruised, with two fang marks visible. The patient is anxious and nauseated.</p>
+
+      <p><strong>Questions to Consider:</strong></p>
+      <ul>
+        <li>What are your first assessment priorities?</li>
+        <li>What field interventions will you perform?</li>
+        <li>What are you NOT going to do?</li>
+        <li>What is your evacuation plan?</li>
+      </ul>
+
+      <button class="toggle-btn" onclick="toggleDiscussion(this)">Show Discussion</button>
+      <div class="discussion">
+        <strong>Assessment & Decision-Making:</strong>
+        <ul>
+          <li><strong>Primary assessment:</strong> Ensure the snake is not still present (scene safety). Perform XABCDE. Is there hemodynamic instability, respiratory distress, or signs of systemic envenomation (nausea, vomiting, hypotension)?</li>
+          <li><strong>Secondary assessment:</strong> Note the time of bite. Examine the bite site: two fang marks suggests pit viper (could be dry bite, but assume envenomation). Document baseline swelling with a pen and note the time.</li>
+          <li><strong>Field interventions:</strong> Remove patient's boot and sock carefully. Remove any jewelry (rings). Immobilize the extremity. Position the ankle at approximately heart level (not elevated). Establish IV access if trained and equipment available. NPO status.</li>
+          <li><strong>What NOT to do:</strong> Do NOT cut and suck. Do NOT apply a tourniquet or constriction band. Do NOT apply ice. Do NOT attempt to kill or capture the snake.</li>
+          <li><strong>Evacuation:</strong> 5 miles from trailhead at 30 minutes per mile (slow pace with immobilized patient) = approximately 2.5 hours walking. Urgent evacuation is needed. If you have a satellite communicator, activate it immediately for rescue dispatch. Call for helicopter evacuation if available and weather permits. Do NOT delay evacuation.</li>
+          <li><strong>Monitoring:</strong> Check vital signs every 5 minutes. Re-mark swelling every 15 minutes. Watch for signs of systemic envenomation. Keep patient at rest. Reassure—anxiety increases sympathetic response which can worsen symptoms.</li>
+          <li><strong>Definitive care:</strong> All pit viper bites require hospital evaluation for possible antivenom, regardless of symptoms. Even dry bites warrant observation.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="scenario-case">
+    <div class="scenario-header">Scenario 2: Bat in the Cabin</div>
+    <div class="scenario-body">
+      <p><strong>Setting:</strong> You are camp staff. In the morning, a cabin of 8 campers (ages 12-15) reports that they woke up and found a bat in the cabin with them overnight. No one reports being bitten, but several were sleeping soundly. The bat has flown away.</p>
+
+      <p><strong>Questions to Consider:</strong></p>
+      <ul>
+        <li>Is this a rabies exposure situation?</li>
+        <li>What do you need to do?</li>
+      </ul>
+
+      <button class="toggle-btn" onclick="toggleDiscussion(this)">Show Discussion</button>
+      <div class="discussion">
+        <strong>Decision & Action:</strong>
+        <ul>
+          <li><strong>YES—this IS a rabies exposure situation.</strong> Bats have very small teeth and can inflict bites that go unnoticed during sleep. Standard public health guidance states that if a bat is found in a room with a sleeping person and direct contact cannot be ruled out, assume potential exposure.</li>
+          <li><strong>Do NOT dismiss this situation.</strong> Do NOT assume "no visible bite means no exposure."</li>
+          <li><strong>Immediate actions:</strong> Call the local health department and medical director immediately. All 8 campers require evaluation for post-exposure prophylaxis (PEP).</li>
+          <li><strong>Notification:</strong> Notify parents/guardians of each camper immediately. Document the time the bat was discovered, which campers were in the cabin, and any symptoms noted.</li>
+          <li><strong>Bat handling:</strong> Do NOT attempt to catch or kill the bat (additional exposure risk). If the bat is already contained, contact public health authorities for safe handling and possible testing.</li>
+          <li><strong>Next steps:</strong> Arrange urgent medical evaluation for all campers. PEP must be started as soon as possible after exposure. The vaccines used today are much safer than those used historically.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ TAB -->
+<div id="quiz" class="section">
+  <h2>Knowledge Check: Bites, Stings & Envenomation</h2>
+  <p>Answer the following 10 questions. Your explanation will appear after each selection. Try to achieve 80% or higher.</p>
+
+  <div id="quiz-box"></div>
+
+  <div id="score-display" class="score-banner" style="display: none;">
+    <h3 id="score-text"></h3>
+    <p id="score-sub"></p>
+  </div>
+</div>
+
+<!-- SUMMARY TAB -->
+<div id="summary_12" class="section">
+  <h2>Module Summary</h2>
+
+  <div class="key-points">
+    <h3>Key Takeaways</h3>
+    <ul>
+      <li>All animal bite wounds should be irrigated aggressively and left open to drain—do NOT close them in the wilderness.</li>
+      <li>Rabies exposure via bats requires PEP even without a visible bite; assume exposure if a bat was in the room with a sleeping person.</li>
+      <li>Pit viper bites: immobilize, mark swelling, do NOT use tourniquet, ice, or constriction. Evacuate for antivenom.</li>
+      <li>Coral snake bites are neurotoxic and may have minimal local signs but can cause respiratory failure. Use pressure immobilization.</li>
+      <li>Bee stingers should be scraped, not squeezed, to avoid injecting additional venom.</li>
+      <li>Black widow venom causes muscle cramps and systemic symptoms; brown recluse causes local tissue necrosis.</li>
+      <li>Remove ticks with steady upward traction using fine tweezers; early removal (within 24 hours) reduces disease transmission.</li>
+      <li>Marine envenomation: salt water for jellyfish, hot water immersion for stingray and sea urchin.</li>
+    </ul>
+  </div>
+
+  <h3>Glossary of Terms</h3>
+  <dl class="glossary">
+    <dt>Envenomation</dt>
+    <dd>The injection of venom into tissue by an animal (snake, spider, insect).</dd>
+
+    <dt>Hemotoxin</dt>
+    <dd>Venom that affects blood cells and the circulatory system, causing local tissue destruction and coagulation abnormalities. Characteristic of pit vipers.</dd>
+
+    <dt>Neurotoxin</dt>
+    <dd>Venom that affects the nervous system. Characteristic of coral snakes and some spiders; can cause paralysis.</dd>
+
+    <dt>Antivenom</dt>
+    <dd>Antibodies against a specific venom, administered intravenously to counteract envenomation. Used for pit vipers, black widows, and other serious bites.</dd>
+
+    <dt>Rabies</dt>
+    <dd>A viral infection transmitted via saliva, nearly always fatal once clinical symptoms appear. Preventable with post-exposure prophylaxis.</dd>
+
+    <dt>Post-Exposure Prophylaxis (PEP)</dt>
+    <dd>Series of vaccines and immunoglobulin given after potential rabies exposure to prevent infection.</dd>
+
+    <dt>Dry Bite</dt>
+    <dd>A venomous snakebite in which little or no venom is injected. Occurs in approximately 20% of pit viper bites. Requires observation for 8-12 hours.</dd>
+
+    <dt>Black Widow Spider</dt>
+    <dd>Venomous spider with distinctive red hourglass marking; venom is neurotoxic and causes muscle cramps and systemic symptoms.</dd>
+
+    <dt>Brown Recluse Spider</dt>
+    <dd>Venomous spider with violin-shaped marking; venom is cytotoxic and causes local tissue necrosis in a "sinking lesion" pattern.</dd>
+
+    <dt>Tick-Borne Illness</dt>
+    <dd>Infections transmitted by infected ticks, including Lyme disease, Rocky Mountain Spotted Fever, Ehrlichiosis, and Anaplasmosis.</dd>
+
+    <dt>Necrotizing</dt>
+    <dd>Causing tissue death; characteristic of brown recluse venom effect.</dd>
+
+    <dt>Pressure Immobilization</dt>
+    <dd>Technique using elastic bandages to restrict lymphatic spread of venom; appropriate for neurotoxic bites (coral snake) but not hemotoxic (pit viper).</dd>
+  </dl>
+
+  <div class="alert alert-info">
+    <div class="alert-title">References & Further Reading</div>
+    <p>Wilderness Medicine: Beyond First Aid (6th ed.) - Tilton & Tilton<br>
+    Emergency War Surgery (NATO Handbook) - covers severe trauma from animal attacks<br>
+    CDC Rabies Information: cdc.gov/rabies<br>
+    UpToDate: Snakebite, Tick Removal, Marine Envenomation</p>
+  </div>
+</div>
+
+<div class="nav-footer">
+  <a href="../index.html" class="home-link">Back to Course Home</a>
+  <div>
+    <a href="11_Medical.html" class="nav-btn secondary">Previous Lesson</a>
+    <a href="13_Evacuation.html" class="nav-btn">Next Lesson</a>
+  </div>
+</div>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+  const tabs = Array.from(document.querySelectorAll('.tab'));
+  const activeIdx = tabs.indexOf(event.target);
+  updateStepIndicator(activeIdx);
+}
+function updateStepIndicator(activeIdx) {
+  const tabs = document.querySelectorAll('.tab');
+  document.getElementById('step-text').textContent = 'Step ' + (activeIdx + 1) + ' of ' + tabs.length;
+  const dots = document.getElementById('step-dots');
+  dots.innerHTML = '';
+  tabs.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.style.cssText = 'width:8px;height:8px;border-radius:50%;background:' + (i === activeIdx ? '#2C7BE5' : i < activeIdx ? '#1A6B3A' : '#CBD5E0') + ';';
+    dots.appendChild(d);
+  });
+}
+
+function toggleDiscussion(btn) {
+  const disc = btn.nextElementSibling;
+  disc.classList.toggle('visible');
+  btn.textContent = disc.classList.contains('visible') ? 'Hide Discussion' : 'Show Discussion';
+}
+
+const questions = [
+  {q: "The MOST important initial treatment for an animal bite wound is:", options: ["Suturing immediately", "Aggressive irrigation with clean water", "Oral antibiotics", "Tourniquet application"], answer: 1, exp: "Aggressive irrigation removes bacteria and debris. Animal bites should NOT be sutured in the wilderness—they must be left open to drain and heal by secondary intention."},
+  {q: "Snakebite field management: which action is CORRECT?", options: ["Cut an X over fang marks and suction", "Apply ice to reduce swelling", "Immobilize the extremity at heart level and evacuate urgently", "Apply a tourniquet above bite"], answer: 2, exp: "Correct field management is immobilization at heart level and urgent evacuation. Cut-and-suck is ineffective, ice causes frostbite, and tourniquets cause more damage than the venom."},
+  {q: "The coral snake rhyme 'Red touches yellow, kill a fellow' helps:", options: ["Identify bee species", "Distinguish coral snakes from non-venomous mimics", "Determine venom amount", "Predict bite severity"], answer: 1, exp: "The rhyme identifies coral snakes by their color bands—red and yellow bands touch each other in coral snakes, while non-venomous mimics have red and black bands touching."},
+  {q: "Pressure immobilization bandaging is appropriate for:", options: ["All snakebites", "Pit viper bites only", "Neurotoxic bites (coral snake) but NOT pit viper bites", "Spider bites"], answer: 2, exp: "Pressure immobilization works for neurotoxic venoms by delaying lymphatic spread. Pit viper venom causes local tissue damage, and pressure immobilization does not help and may worsen compartment syndrome."},
+  {q: "A bee stinger should be removed by:", options: ["Squeezing and pulling with fingers", "Scraping with a straight edge to avoid compressing the venom sac", "Burning", "Leaving it in place"], answer: 1, exp: "Scraping removes the stinger without compressing the venom sac. Squeezing injects more venom into the victim."},
+  {q: "Black widow spider envenomation characteristically causes:", options: ["Local necrosis at bite site", "Painful muscle cramps spreading from bite, diaphoresis, hypertension", "No symptoms", "Immediate anaphylaxis only"], answer: 1, exp: "Black widow venom is neurotoxic and causes painful muscle cramps (often abdominal), sweating, and hypertension—not local tissue necrosis."},
+  {q: "Proper tick removal involves:", options: ["Burning the tick off", "Applying petroleum jelly to suffocate it", "Grasping near the skin with fine tweezers and pulling steadily upward", "Twisting the tick counterclockwise"], answer: 2, exp: "Use fine tweezers to grasp as close to the skin as possible and pull steadily upward. Other methods stress the tick and may increase pathogen injection."},
+  {q: "A stingray envenomation should be treated with:", options: ["Cold water immersion", "Hot water immersion (45°C/113°F) for 30-90 minutes", "Tourniquet", "Incision and drainage"], answer: 1, exp: "Hot water immersion is the primary treatment for stingray envenomation. It inactivates venom and provides pain relief."},
+  {q: "Bat exposure in a room with a sleeping person:", options: ["Is never a rabies concern", "Requires evaluation for post-exposure prophylaxis even without visible bite", "Only requires treatment if bite wound is found", "Can be safely observed for 2 weeks before deciding on PEP"], answer: 1, exp: "Bats can inflict unnoticed bites during sleep. Standard public health guidance: if a bat is in the room with a sleeping person, assume potential exposure and proceed with PEP evaluation."},
+  {q: "Brown recluse spider bite characteristically causes:", options: ["Immediate severe pain and muscle cramps", "Initially painless bite with delayed necrotic tissue damage", "Anaphylaxis", "Neurotoxic symptoms"], answer: 1, exp: "Brown recluse venom is cytotoxic. Bites are initially painless, but within hours to days, necrotic lesions develop as tissue dies."}
+];
+
+let answered = 0;
+const total = questions.length;
+
+function buildQuiz() {
+  const box = document.getElementById('quiz-box');
+  questions.forEach((q, qi) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-question';
+    div.innerHTML = '<p>'+(qi+1)+'. '+q.q+'</p><ul class="quiz-options">'+q.options.map((o,oi)=>'<li onclick="selectAnswer(this,'+qi+','+oi+')">'+String.fromCharCode(65+oi)+'. '+o+'</li>').join('')+'</ul><div class="explanation" id="exp-'+qi+'"></div>';
+    box.appendChild(div);
+  });
+}
+
+function selectAnswer(el, qi, selected) {
+  const q = questions[qi];
+  const items = el.parentElement.querySelectorAll('li');
+  items.forEach(i => i.classList.add('disabled'));
+  const expEl = document.getElementById('exp-'+qi);
+  if(selected===q.answer){ el.classList.add('correct'); expEl.className='explanation show correct-exp'; expEl.innerHTML='✓ Correct! '+q.exp; }
+  else { el.classList.add('incorrect'); items[q.answer].classList.add('correct'); expEl.className='explanation show incorrect-exp'; expEl.innerHTML='✗ Not quite. '+q.exp; }
+  answered++;
+  if(answered===total) showScore();
+}
+
+function showScore() {
+  const sc = document.querySelectorAll('.explanation.correct-exp').length;
+  const lessonId = '12';
+  const prevScore = localStorage.getItem('wfa_score_' + lessonId);
+  localStorage.setItem('wfa_completed_' + lessonId, 'true');
+  localStorage.setItem('wfa_score_' + lessonId, Math.max(sc, parseInt(prevScore || '0')));
+  const el = document.getElementById('score-display');
+  el.style.display = 'block';
+  document.getElementById('score-text').textContent = 'You scored ' + sc + ' / ' + total;
+  let msg = sc >= 8 ? '🎉 Excellent work! You are ready for the next lesson.' : sc >= 6 ? '👍 Good job! Review the sections you missed.' : '📚 Consider reviewing this lesson before moving on.';
+  if (prevScore && parseInt(prevScore) > 0) msg += ' (Previous best: ' + prevScore + '/' + total + ')';
+  document.getElementById('score-sub').textContent = msg;
+  const retryBtn = document.createElement('button');
+  retryBtn.textContent = '↺ Retry Quiz';
+  retryBtn.style.cssText = 'margin-top:16px;padding:10px 24px;background:#2C7BE5;color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;';
+  retryBtn.onclick = function() {
+    answered = 0;
+    el.style.display = 'none';
+    document.getElementById('quiz-box').innerHTML = '';
+    buildQuiz();
+    retryBtn.remove();
+  };
+  el.appendChild(retryBtn);
+  el.scrollIntoView({behavior:'smooth'});
+}
+
+buildQuiz();
+updateStepIndicator(0);
+</script>
+
+</body>
+</html>

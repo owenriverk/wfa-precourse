@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 01: Provider Safety & Scene Management | WFA Pre-Course</title>
+<style>
+  :root {
+    --primary: #1B4F8A; --accent: #2C7BE5; --light-bg: #E8F0FE;
+    --danger: #C0392B; --danger-bg: #FDECEA; --success: #1A6B3A; --success-bg: #E8F5E9;
+    --warning: #D35400; --warning-bg: #FFF3E0; --info: #1565C0; --info-bg: #E3F2FD;
+    --dark: #2D3748; --muted: #718096; --border: #CBD5E0; --white: #FFFFFF;
+    --card-bg: #F7FAFC; --tab-active: #1B4F8A; --tab-inactive: #718096;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F0F4F8; color: var(--dark); line-height: 1.7; }
+  .header { background: linear-gradient(135deg, #1B4F8A 0%, #2C7BE5 100%); color: white; padding: 24px 32px; }
+  .header-meta { display: flex; gap: 16px; font-size: 13px; opacity: 0.85; margin-bottom: 8px; flex-wrap: wrap; }
+  .header-meta span { background: rgba(255,255,255,0.2); padding: 3px 10px; border-radius: 12px; }
+  .header h1 { font-size: clamp(22px, 4vw, 32px); font-weight: 700; }
+  .header p { opacity: 0.9; margin-top: 6px; font-size: 16px; }
+  .tabs { display: flex; background: white; border-bottom: 2px solid var(--border); overflow-x: auto; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .tab { padding: 14px 20px; cursor: pointer; font-size: 14px; font-weight: 600; color: var(--tab-inactive); border-bottom: 3px solid transparent; margin-bottom: -2px; white-space: nowrap; transition: all 0.2s; }
+  .tab:hover { color: var(--accent); background: var(--light-bg); }
+  .tab.active { color: var(--tab-active); border-bottom-color: var(--tab-active); }
+  .section { display: none; max-width: 900px; margin: 0 auto; padding: 32px 24px; }
+  .section.active { display: block; }
+  h2 { font-size: 26px; color: var(--primary); margin: 28px 0 14px; border-left: 4px solid var(--accent); padding-left: 14px; }
+  h3 { font-size: 20px; color: var(--dark); margin: 22px 0 10px; }
+  h4 { font-size: 16px; color: var(--primary); margin: 16px 0 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  p { margin-bottom: 14px; }
+  ul, ol { margin: 10px 0 16px 24px; }
+  li { margin-bottom: 7px; }
+  .alert { border-radius: 8px; padding: 16px 20px; margin: 20px 0; border-left: 5px solid; }
+  .alert-title { font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .alert-danger { background: var(--danger-bg); border-color: var(--danger); color: #7B241C; }
+  .alert-danger .alert-title { color: var(--danger); }
+  .alert-warning { background: var(--warning-bg); border-color: var(--warning); color: #7E5109; }
+  .alert-warning .alert-title { color: var(--warning); }
+  .alert-info { background: var(--info-bg); border-color: var(--info); color: #1A237E; }
+  .alert-info .alert-title { color: var(--info); }
+  .alert-success { background: var(--success-bg); border-color: var(--success); color: #1B5E20; }
+  .alert-success .alert-title { color: var(--success); }
+  .card { background: white; border-radius: 10px; padding: 22px; margin: 18px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.07); border: 1px solid var(--border); }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin: 18px 0; }
+  .objective-list { list-style: none; margin: 0; padding: 0; }
+  .objective-list li { padding: 10px 14px; border-radius: 6px; background: var(--light-bg); margin-bottom: 8px; padding-left: 40px; position: relative; }
+  .objective-list li::before { content: "✓"; position: absolute; left: 12px; color: var(--accent); font-weight: 700; }
+  table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 14px; }
+  th { background: var(--primary); color: white; padding: 12px 14px; text-align: left; }
+  td { padding: 11px 14px; border-bottom: 1px solid var(--border); }
+  tr:nth-child(even) td { background: var(--card-bg); }
+  .scenario-case { background: white; border-radius: 10px; border: 1px solid var(--border); margin: 20px 0; overflow: hidden; }
+  .scenario-header { background: var(--primary); color: white; padding: 14px 20px; font-weight: 600; font-size: 16px; }
+  .scenario-body { padding: 20px; }
+  .scenario-body p { margin-bottom: 10px; }
+  .toggle-btn { background: var(--accent); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; margin-top: 12px; transition: background 0.2s; }
+  .toggle-btn:hover { background: var(--primary); }
+  .discussion { display: none; margin-top: 16px; padding: 16px; background: var(--success-bg); border-radius: 8px; border-left: 4px solid var(--success); }
+  .discussion.visible { display: block; }
+  .quiz-container { margin: 10px 0; }
+  .quiz-question { background: white; border-radius: 10px; padding: 22px; margin: 20px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.07); border: 1px solid var(--border); }
+  .quiz-question p { font-weight: 600; font-size: 16px; margin-bottom: 14px; }
+  .quiz-options { list-style: none; padding: 0; margin: 0; }
+  .quiz-options li { padding: 12px 16px; border: 2px solid var(--border); border-radius: 8px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s; font-size: 15px; }
+  .quiz-options li:hover { border-color: var(--accent); background: var(--light-bg); }
+  .quiz-options li.correct { background: var(--success-bg); border-color: var(--success); color: var(--success); font-weight: 600; }
+  .quiz-options li.incorrect { background: var(--danger-bg); border-color: var(--danger); color: var(--danger); }
+  .quiz-options li.disabled { pointer-events: none; }
+  .explanation { display: none; margin-top: 12px; padding: 12px 16px; border-radius: 6px; font-size: 14px; }
+  .explanation.show { display: block; }
+  .explanation.correct-exp { background: var(--success-bg); color: var(--success); border-left: 4px solid var(--success); }
+  .explanation.incorrect-exp { background: var(--danger-bg); color: var(--danger); border-left: 4px solid var(--danger); }
+  .score-banner { text-align: center; padding: 30px; background: white; border-radius: 12px; margin: 24px 0; border: 2px solid var(--border); }
+  .score-banner h3 { font-size: 32px; color: var(--primary); }
+  .score-banner p { color: var(--muted); }
+  .glossary dt { font-weight: 700; color: var(--primary); margin-top: 14px; }
+  .glossary dd { margin-left: 20px; color: var(--dark); }
+  .key-points { background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; border-radius: 12px; padding: 24px; margin: 24px 0; }
+  .key-points h3 { margin-bottom: 14px; font-size: 20px; }
+  .key-points ul { margin-left: 20px; }
+  .key-points li { margin-bottom: 8px; opacity: 0.95; }
+  .nav-footer { background: white; border-top: 1px solid var(--border); padding: 18px 32px; display: flex; justify-content: space-between; align-items: center; max-width: 900px; margin: 20px auto 0; border-radius: 8px; box-shadow: 0 -2px 8px rgba(0,0,0,0.05); }
+  .nav-btn { background: var(--primary); color: white; border: none; padding: 10px 22px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; text-decoration: none; display: inline-block; transition: background 0.2s; }
+  .nav-btn:hover { background: var(--accent); }
+  .nav-btn.secondary { background: white; color: var(--primary); border: 2px solid var(--primary); }
+  .nav-btn.secondary:hover { background: var(--light-bg); }
+  .home-link { color: var(--muted); font-size: 13px; text-decoration: none; }
+  .home-link:hover { color: var(--primary); }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+  .badge-red { background: var(--danger-bg); color: var(--danger); }
+  .badge-green { background: var(--success-bg); color: var(--success); }
+  .badge-blue { background: var(--light-bg); color: var(--primary); }
+  .badge-orange { background: var(--warning-bg); color: var(--warning); }
+  .mnemonic-box { background: var(--light-bg); border: 2px solid var(--accent); border-radius: 10px; padding: 20px; margin: 16px 0; }
+  .mnemonic-box h4 { color: var(--accent); margin-bottom: 12px; }
+  .mnemonic-row { display: flex; gap: 12px; margin-bottom: 8px; align-items: flex-start; }
+  .mnemonic-letter { background: var(--primary); color: white; width: 36px; height: 36px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; flex-shrink: 0; }
+  .mnemonic-text { padding-top: 4px; }
+  .mnemonic-text strong { color: var(--primary); }
+  @media (max-width: 600px) { .section { padding: 20px 14px; } .header { padding: 18px 16px; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-meta">
+    <span>📚 Module 01 of 13</span>
+    <span>⏱ 20 minutes</span>
+    <span>🏔 WFA Pre-Course</span>
+  </div>
+  <h1>Lesson 01: Provider Safety & Scene Management</h1>
+  <p>Learn how to keep yourself safe, assess any scene before helping, and understand your role as a Wilderness First Aider.</p>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('overview')">Overview</div>
+  <div class="tab" onclick="showTab('scope')">Your Role & Scope</div>
+  <div class="tab" onclick="showTab('scene')">Scene Safety</div>
+  <div class="tab" onclick="showTab('consent')">Consent & Legal</div>
+  <div class="tab" onclick="showTab('scenarios')">Scenarios</div>
+  <div class="tab" onclick="showTab('quiz')">Quiz</div>
+  <div class="tab" onclick="showTab('summary')">Summary</div>
+</div>
+<div id="step-indicator" style="background:#F0F4F8;border-bottom:1px solid #CBD5E0;padding:8px 20px;font-size:13px;color:#718096;display:flex;gap:16px;align-items:center;">
+  <span id="step-text">Step 1 of 7</span>
+  <div id="step-dots" style="display:flex;gap:6px;"></div>
+</div>
+
+<!-- OVERVIEW -->
+<div class="section active" id="overview">
+  <h2>Learning Objectives</h2>
+  <p>By the end of this lesson, you will be able to:</p>
+  <ul class="objective-list">
+    <li>Define the role of a Wilderness First Aider and understand your scope of practice</li>
+    <li>Apply Body Substance Isolation (BSI) principles using available PPE in wilderness settings</li>
+    <li>Conduct a scene size-up to identify hazards before approaching any patient</li>
+    <li>Apply the principles of informed and implied consent when helping patients</li>
+    <li>Understand Good Samaritan legal protections and documentation requirements</li>
+  </ul>
+
+  <div class="alert alert-info">
+    <div class="alert-title">📋 Why This Module Matters</div>
+    Provider safety is the foundation of emergency response. A rescuer who becomes a patient themselves helps no one. Every response begins with YOU — your safety, your PPE, and your assessment of the scene.
+  </div>
+
+  <h2>What is Wilderness First Aid?</h2>
+  <p>Wilderness First Aid (WFA) is a certification that prepares individuals to recognize and manage medical emergencies in remote or austere environments — places where the arrival of advanced medical care may be delayed by <strong>30 minutes to several days</strong>.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4>🏥 Urban EMS</h4>
+      <ul>
+        <li>ALS backup minutes away</li>
+        <li>Stabilize and hand off</li>
+        <li>Full equipment available</li>
+        <li>Protocols followed strictly</li>
+        <li>Transport &lt; 20 minutes</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>🏔 Wilderness First Aid</h4>
+      <ul>
+        <li>Help may be hours/days away</li>
+        <li>Must assess and treat fully</li>
+        <li>Improvise with available gear</li>
+        <li>Judgment-based decisions</li>
+        <li>Monitor over extended time</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SCOPE -->
+<div class="section" id="scope">
+  <h2>Your Role as a WFA Provider</h2>
+  <p>Understanding your scope of practice protects both you and your patients. Wilderness medicine certifications exist on a spectrum:</p>
+
+  <table>
+    <tr><th>Certification</th><th>Hours</th><th>Key Capabilities</th></tr>
+    <tr><td><strong>WFA</strong></td><td>16–20 hrs</td><td>Basic assessment, hemorrhage control, splinting, environmental emergencies, evacuation decisions</td></tr>
+    <tr><td><strong>WFR</strong></td><td>70–80 hrs</td><td>All WFA + medication administration, spine clearing, advanced improvisation, extended care</td></tr>
+    <tr><td><strong>WEMT</strong></td><td>120+ hrs</td><td>All WFR + EMT skills integrated for wilderness context</td></tr>
+    <tr><td><strong>Wilderness MD</strong></td><td>Medical degree + training</td><td>Full scope of medical practice in remote settings</td></tr>
+  </table>
+
+  <div class="alert alert-warning">
+    <div class="alert-title">⚠️ Scope of Practice</div>
+    Always operate within your training and certification. Do not attempt skills you were not trained for. When in doubt, <strong>do less, monitor more, and evacuate</strong>.
+  </div>
+
+  <h2>Body Substance Isolation (BSI)</h2>
+  <p>BSI means treating all blood and body fluids as potentially infectious. In the wilderness, you may have limited PPE — use what you have.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4>🧤 Gloves (Essential)</h4>
+      <p>Always the first priority. Non-latex nitrile gloves are preferred. If unavailable, use plastic bags, extra clothing, or any barrier between you and body fluids.</p>
+    </div>
+    <div class="card">
+      <h4>👓 Eye Protection</h4>
+      <p>Sunglasses can serve as protective eyewear when splashes are possible. Most important when controlling arterial bleeding.</p>
+    </div>
+    <div class="card">
+      <h4>😷 Face Protection</h4>
+      <p>A CPR face shield or mask protects during rescue breathing. Improvised: a piece of clothing with a hole cut for breathing.</p>
+    </div>
+  </div>
+
+  <h3>After Removing Gloves</h3>
+  <ol>
+    <li>Grasp the outside of one glove at the wrist — peel off turning inside-out</li>
+    <li>Hold the removed glove in your gloved hand</li>
+    <li>Slide two fingers inside the remaining glove — peel off turning inside-out over the first glove</li>
+    <li>Dispose of both gloves together in a waste bag</li>
+    <li>Wash hands thoroughly or use hand sanitizer (min. 60% alcohol)</li>
+  </ol>
+
+  <div class="alert alert-success">
+    <div class="alert-title">✓ Field Decontamination</div>
+    Without running water, use hand sanitizer if available. Any wound exposure to your own skin should be washed with clean water and soap as soon as possible. Report exposures when you return to civilization.
+  </div>
+</div>
+
+<!-- SCENE -->
+<div class="section" id="scene">
+  <h2>Scene Size-Up</h2>
+  <p>Before approaching ANY patient, perform a rapid scene size-up. This takes <strong>5–15 seconds</strong> and could save your life.</p>
+
+  <div class="mnemonic-box">
+    <h4>The Scene Size-Up Checklist</h4>
+    <div class="mnemonic-row"><div class="mnemonic-letter">S</div><div class="mnemonic-text"><strong>Safety</strong> — Is the scene safe for me to enter? Ongoing hazards? Additional dangers?</div></div>
+    <div class="mnemonic-row"><div class="mnemonic-letter">S</div><div class="mnemonic-text"><strong>Scene</strong> — What happened? How many patients? Any witnesses?</div></div>
+    <div class="mnemonic-row"><div class="mnemonic-letter">M</div><div class="mnemonic-text"><strong>Mechanism</strong> — What caused the injury? High energy vs. low energy?</div></div>
+    <div class="mnemonic-row"><div class="mnemonic-letter">H</div><div class="mnemonic-text"><strong>Help</strong> — Do I need to call for assistance now? Can I manage this alone?</div></div>
+    <div class="mnemonic-row"><div class="mnemonic-letter">P</div><div class="mnemonic-text"><strong>Protection</strong> — Am I wearing appropriate BSI/PPE?</div></div>
+  </div>
+
+  <h2>Types of Scene Hazards</h2>
+  <div class="card-grid">
+    <div class="card">
+      <h4>⚡ Environmental</h4>
+      <ul>
+        <li>Lightning (ongoing storm)</li>
+        <li>Avalanche zones</li>
+        <li>Swift water</li>
+        <li>Unstable terrain</li>
+        <li>Extreme heat or cold</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>🐻 Wildlife</h4>
+      <ul>
+        <li>Animal still present at scene</li>
+        <li>Venomous snake near patient</li>
+        <li>Agitated wildlife</li>
+        <li>Bee/wasp nest vicinity</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>👥 Human Factors</h4>
+      <ul>
+        <li>Unstable group members</li>
+        <li>Hostile bystanders</li>
+        <li>Fire or toxic smoke</li>
+        <li>Moving vehicles/boats</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>⬆️ Structural</h4>
+      <ul>
+        <li>Falling rocks or debris</li>
+        <li>Unstable structures</li>
+        <li>Vertical exposure</li>
+        <li>Anchor instability</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="alert alert-danger">
+    <div class="alert-title">🚨 Never Enter an Unsafe Scene</div>
+    A rescuer who becomes a second victim doubles the problem. If the scene is not safe and cannot be made safe, establish a safe perimeter, call for specialized rescue resources, and wait. Bystander pressure to "do something" does not make an unsafe scene safe.
+  </div>
+
+  <h2>Mechanism of Injury (MOI)</h2>
+  <p>MOI tells you what forces acted on the patient's body and helps predict hidden injuries. High-energy MOI requires a more thorough assessment.</p>
+
+  <table>
+    <tr><th>High-Energy MOI</th><th>Low-Energy MOI</th></tr>
+    <tr><td>Fall &gt;3× patient's height</td><td>Simple trip and fall</td></tr>
+    <tr><td>High-speed vehicle crash</td><td>Low-speed ground-level fall</td></tr>
+    <tr><td>Direct high-force impact</td><td>Overuse/repetitive injury</td></tr>
+    <tr><td>Diving into water</td><td>Minor blunt force</td></tr>
+    <tr><td>Explosive blast</td><td>Gradual onset symptoms</td></tr>
+  </table>
+
+  <h2>Documentation: The SOAP Note</h2>
+  <p>The SOAP note is the standard format for documenting patient information in wilderness medicine. You'll practice this throughout the course.</p>
+  <div class="mnemonic-box">
+    <h4>SOAP Note Format</h4>
+    <div class="mnemonic-row"><div class="mnemonic-letter">S</div><div class="mnemonic-text"><strong>Subjective</strong> — What the patient tells you: chief complaint, history (SAMPLE), symptoms</div></div>
+    <div class="mnemonic-row"><div class="mnemonic-letter">O</div><div class="mnemonic-text"><strong>Objective</strong> — What you find: vital signs, physical exam findings, LOC</div></div>
+    <div class="mnemonic-row"><div class="mnemonic-letter">A</div><div class="mnemonic-text"><strong>Assessment</strong> — Your field impression: what do you think is wrong?</div></div>
+    <div class="mnemonic-row"><div class="mnemonic-letter">P</div><div class="mnemonic-text"><strong>Plan</strong> — Treatment given, evacuation decision, monitoring plan</div></div>
+  </div>
+</div>
+
+<!-- CONSENT -->
+<div class="section" id="consent">
+  <h2>Consent in Emergency Care</h2>
+  <p>Before treating any patient, you must obtain <strong>consent</strong>. Treating someone without consent is legally considered battery.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4>📢 Informed Consent</h4>
+      <p><strong>Who:</strong> Conscious, alert adults capable of making decisions</p>
+      <p><strong>How:</strong> Identify yourself, your training, what you intend to do, and ask permission: <em>"My name is Alex, I'm a Wilderness First Aider. I'd like to assess your injury. Is that okay?"</em></p>
+      <p><strong>What:</strong> Patient must understand the situation and agree to treatment</p>
+    </div>
+    <div class="card">
+      <h4>🔇 Implied Consent</h4>
+      <p><strong>Who:</strong> Unconscious patients, patients with severely altered mental status</p>
+      <p><strong>How:</strong> The law assumes that a reasonable person in this situation WOULD consent to life-saving treatment</p>
+      <p><strong>What:</strong> Proceed with necessary interventions without explicit verbal agreement</p>
+    </div>
+    <div class="card">
+      <h4>👶 Pediatric Consent</h4>
+      <p><strong>Who:</strong> Patients under 18 (minors)</p>
+      <p><strong>How:</strong> Ideally, consent from parent or guardian. If unavailable in emergent situation, implied consent applies.</p>
+      <p><strong>What:</strong> Always document your attempts to contact guardians</p>
+    </div>
+    <div class="card">
+      <h4>🚫 Refusal of Care</h4>
+      <p>A conscious, competent adult has the RIGHT to refuse treatment. If a patient refuses:</p>
+      <ul>
+        <li>Ensure they understand the risks</li>
+        <li>Document the refusal</li>
+        <li>Ensure they are not altered (drugs, head injury)</li>
+        <li>Continue to monitor if safe to do so</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Good Samaritan Laws</h2>
+  <p>Most jurisdictions have laws protecting lay rescuers who provide emergency care in good faith. Good Samaritan protections generally require:</p>
+  <ul>
+    <li>You act in <strong>good faith</strong> to help someone in an emergency</li>
+    <li>You do not act with <strong>gross negligence</strong> or willful misconduct</li>
+    <li>You act within your <strong>level of training</strong></li>
+    <li>You do not accept <strong>payment</strong> for the care</li>
+    <li>You <strong>stay and help</strong> until relieved or the patient is in better hands</li>
+  </ul>
+
+  <div class="alert alert-warning">
+    <div class="alert-title">⚠️ Legal Note</div>
+    Good Samaritan laws vary significantly by state/country. This course provides general guidance — always consult your local laws. The best legal protection is thorough documentation and acting within your scope of training.
+  </div>
+
+  <h2>Duty to Act & Abandonment</h2>
+  <p>As a WFA provider without a professional role, you generally have a <em>moral</em> but not legal duty to respond (unless your employer or role requires it, e.g., a guide). However, once you begin caring for a patient, you MUST NOT abandon them. Abandonment occurs when:</p>
+  <ul>
+    <li>You leave a patient in a worse or no-better situation than you found them</li>
+    <li>You stop care without transferring to someone of equal or greater training</li>
+    <li>You leave without the patient's informed consent to discontinue</li>
+  </ul>
+</div>
+
+<!-- SCENARIOS -->
+<div class="section" id="scenarios">
+  <h2>Clinical Scenarios</h2>
+  <p>Apply what you've learned to these realistic wilderness situations. Read each scenario, form your response, then reveal the discussion.</p>
+
+  <div class="scenario-case">
+    <div class="scenario-header">🏔 Scenario 1: The Fallen Hiker</div>
+    <div class="scenario-body">
+      <p><strong>Setting:</strong> You're hiking a steep trail when you hear a cry for help. You see a hiker lying 30 feet off the trail at the base of a rocky slope. There are loose rocks above. The patient appears conscious and is holding their leg. There are no other group members around.</p>
+      <p><strong>Questions to consider:</strong></p>
+      <ul>
+        <li>What is your FIRST action before approaching the patient?</li>
+        <li>What specific hazards do you identify?</li>
+        <li>What BSI precautions will you take with the supplies in your day pack?</li>
+        <li>What information do you need to determine if you call for help now?</li>
+      </ul>
+      <button class="toggle-btn" onclick="toggleDiscussion(this)">Show Discussion</button>
+      <div class="discussion">
+        <p><strong>1. Scene Size-Up First:</strong> Before moving toward the patient, stop and assess the slope above. Are there more loose rocks? Is the patient in a position where more rocks could fall? Look for the most sheltered approach path.</p>
+        <p><strong>2. Hazards identified:</strong> Loose rocks on the slope above (ongoing hazard), unstable terrain to approach, possible additional injury from falling while you traverse, isolation (no other rescuers on scene).</p>
+        <p><strong>3. BSI:</strong> Put on gloves from your pack. If you don't have gloves, you could use a clean bandana or plastic bag over your hands for initial contact — but any substantial wound care requires a barrier.</p>
+        <p><strong>4. Decision to call for help:</strong> Factors include: apparent severity of injury (can they walk?), distance from trailhead, available daylight, group resources, communication device availability. If the mechanism looks significant (fall of 10+ feet onto rock), call for help sooner rather than later.</p>
+        <p><strong>Key takeaway:</strong> Rushing to the patient is the most natural impulse — and the most dangerous. The scene size-up is non-negotiable.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="scenario-case">
+    <div class="scenario-header">⛺ Scenario 2: Consent Complication</div>
+    <div class="scenario-body">
+      <p><strong>Setting:</strong> You're a camp counselor and a 15-year-old camper has a significant laceration on their arm from a sharp rock. The wound is bleeding steadily but is controlled with pressure. The camper says "I'm fine, leave me alone, don't touch me." They are alert and appear upset but not confused.</p>
+      <p><strong>Questions to consider:</strong></p>
+      <ul>
+        <li>Is this patient's refusal valid? Can they legally refuse care?</li>
+        <li>What steps do you take next?</li>
+        <li>When would implied consent apply here?</li>
+      </ul>
+      <button class="toggle-btn" onclick="toggleDiscussion(this)">Show Discussion</button>
+      <div class="discussion">
+        <p><strong>Refusal by a minor:</strong> A 15-year-old is considered a minor in virtually all jurisdictions. While you should respect their emotions and not be forceful, a minor cannot legally refuse medical care on their own — that authority rests with their parents or guardians.</p>
+        <p><strong>Steps to take:</strong></p>
+        <ul>
+          <li>Remain calm and empathetic. Ask "Can you tell me why you don't want me to help?"</li>
+          <li>Contact parents/guardians and camp director immediately</li>
+          <li>Document the patient's statements and your actions</li>
+          <li>If the bleeding becomes uncontrolled or the patient loses consciousness, implied consent allows you to treat</li>
+          <li>Never use force — get adult authorities involved</li>
+        </ul>
+        <p><strong>Implied consent trigger:</strong> If the patient becomes unconscious, severely altered, or the injury becomes immediately life-threatening, treat under implied consent while getting help.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="section" id="quiz">
+  <h2>Knowledge Check</h2>
+  <p>Test your understanding. Click on the answer you think is correct.</p>
+  <div id="score-display" style="display:none;" class="score-banner">
+    <h3 id="score-text"></h3>
+    <p id="score-sub"></p>
+  </div>
+  <div class="quiz-container" id="quiz-box"></div>
+</div>
+
+<!-- SUMMARY -->
+<div class="section" id="summary">
+  <div class="key-points">
+    <h3>🎯 Key Takeaways</h3>
+    <ul>
+      <li>Your safety ALWAYS comes first — never enter an unsafe scene</li>
+      <li>BSI: treat all blood and body fluids as potentially infectious; use available barriers</li>
+      <li>Scene size-up: assess for Safety, Scene, Mechanism, Help needed, Protection (BSI)</li>
+      <li>High-energy MOI predicts hidden injuries — always perform a thorough assessment</li>
+      <li>Obtain informed consent from conscious adults; implied consent applies to the unconscious</li>
+      <li>Once you start care, you cannot abandon the patient</li>
+      <li>Document everything using SOAP note format</li>
+    </ul>
+  </div>
+
+  <h2>Glossary</h2>
+  <dl class="glossary">
+    <dt>BSI (Body Substance Isolation)</dt>
+    <dd>A set of precautions taken to prevent exposure to blood and body fluids from any patient, assuming all are potentially infectious.</dd>
+    <dt>Scene Size-Up</dt>
+    <dd>A rapid assessment performed before approaching a patient to identify hazards, determine the number of patients, understand the mechanism of injury, and ensure personal safety.</dd>
+    <dt>Informed Consent</dt>
+    <dd>A conscious, competent adult's agreement to receive medical treatment after being informed of who you are, your training level, and what you plan to do.</dd>
+    <dt>Implied Consent</dt>
+    <dd>The legal assumption that an unconscious or severely impaired patient would consent to life-saving care if they were able to do so.</dd>
+    <dt>Good Samaritan Law</dt>
+    <dd>Legal protection afforded to lay rescuers who provide emergency care in good faith, without negligence, and without expectation of compensation.</dd>
+    <dt>MOI (Mechanism of Injury)</dt>
+    <dd>The forces and circumstances that caused a patient's injury, used to predict potential injuries even when not yet apparent.</dd>
+    <dt>SOAP Note</dt>
+    <dd>A standardized documentation format: Subjective, Objective, Assessment, Plan — used to record patient information and treatment.</dd>
+    <dt>Abandonment</dt>
+    <dd>The illegal act of stopping care for a patient without transferring responsibility to an equal or higher-level provider, or without the patient's informed agreement.</dd>
+  </dl>
+
+  <div class="alert alert-info">
+    <div class="alert-title">📖 References</div>
+    Auerbach PS. <em>Wilderness Medicine</em>, 7th ed. Philadelphia: Elsevier, 2017. | Forgey WW. <em>Wilderness Medical Society Practice Guidelines</em>, 6th ed. 2016. | American Heart Association BLS Guidelines, 2020.
+  </div>
+</div>
+
+<div class="nav-footer">
+  <a href="../index.html" class="home-link">🏠 Course Home</a>
+  <span style="color:var(--muted); font-size:13px;">Lesson 1 of 13</span>
+  <a href="02_Patient_Assessment.html" class="nav-btn">Next: Patient Assessment →</a>
+</div>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+  const tabs = Array.from(document.querySelectorAll('.tab'));
+  const activeIdx = tabs.indexOf(event.target);
+  updateStepIndicator(activeIdx);
+}
+function updateStepIndicator(activeIdx) {
+  const tabs = document.querySelectorAll('.tab');
+  document.getElementById('step-text').textContent = 'Step ' + (activeIdx + 1) + ' of ' + tabs.length;
+  const dots = document.getElementById('step-dots');
+  dots.innerHTML = '';
+  tabs.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.style.cssText = 'width:8px;height:8px;border-radius:50%;background:' + (i === activeIdx ? '#2C7BE5' : i < activeIdx ? '#1A6B3A' : '#CBD5E0') + ';';
+    dots.appendChild(d);
+  });
+}
+function toggleDiscussion(btn) {
+  const disc = btn.nextElementSibling;
+  disc.classList.toggle('visible');
+  btn.textContent = disc.classList.contains('visible') ? 'Hide Discussion' : 'Show Discussion';
+}
+
+const questions = [
+  { q: "What is the FIRST thing you should do when arriving at an emergency scene?", options: ["Rush to the patient immediately", "Perform a scene size-up to identify hazards", "Call 911", "Start CPR"], answer: 1, exp: "Correct! Scene safety comes before patient contact. A rescuer who is injured becomes a second patient and makes the situation worse." },
+  { q: "Body Substance Isolation (BSI) means:", options: ["Only wearing gloves when blood is visible", "Treating all blood and body fluids as potentially infectious", "Only wearing masks during respiratory emergencies", "Avoiding all patient contact"], answer: 1, exp: "BSI requires treating ALL blood and body fluids as potentially infectious, regardless of whether the patient appears healthy. You cannot tell if someone has a bloodborne illness by looking at them." },
+  { q: "Implied consent allows you to treat a patient who is:", options: ["Refusing care but conscious", "Unconscious or severely altered and unable to consent", "A minor with parents present", "Awake and alert"], answer: 1, exp: "Implied consent applies when a patient cannot give informed consent due to unconsciousness or severe mental status impairment. The law assumes a reasonable person would want life-saving treatment." },
+  { q: "Which of the following is a HIGH-energy mechanism of injury?", options: ["Stepping on a rock and rolling an ankle", "A fall from a height greater than 3 times the patient's height", "Sunburn from a full day hiking", "A minor blister from new boots"], answer: 1, exp: "High-energy MOI (fall >3× height, vehicle crash, diving) predicts serious hidden injuries and requires a more thorough assessment even if the patient looks okay initially." },
+  { q: "Once you begin providing care to a patient, you:", options: ["Can leave when you feel like it", "Cannot leave until care is transferred to someone of equal or higher training", "Can leave if you tell the patient goodbye", "Have no legal obligation to stay"], answer: 1, exp: "Abandonment is illegal and unethical. Once you initiate care, you are responsible for the patient until you transfer care to equal/higher training or the patient is stable and able to self-care." },
+  { q: "A conscious 30-year-old hiker refuses your offer of help. You should:", options: ["Force them to accept treatment", "Respect the refusal after ensuring they understand the risks; document their decision", "Call police immediately", "Leave without documenting anything"], answer: 1, exp: "Competent adults have the right to refuse care. Your responsibility is to ensure they understand the risks of refusal, document everything, and monitor if possible." },
+  { q: "The SOAP note format stands for:", options: ["Scene, Objective, Assessment, Plan", "Subjective, Objective, Assessment, Plan", "Safety, Observation, Action, Protocol", "Signs, Output, Airway, Perfusion"], answer: 1, exp: "SOAP stands for Subjective (patient's history/complaints), Objective (your exam findings and vital signs), Assessment (field impression), Plan (treatment and evacuation)." },
+  { q: "Good Samaritan laws generally protect you when you:", options: ["Act with gross negligence", "Provide emergency care in good faith within your training level", "Accept payment for your services", "Are a paid professional responder"], answer: 1, exp: "Good Samaritan protections apply to lay rescuers who act in good faith, within their training level, without gross negligence, and without accepting compensation." },
+  { q: "When removing contaminated gloves, the correct technique ensures:", options: ["The outside of the gloves touches your bare skin", "The outside of the gloves never touches your bare skin", "You use scissors to cut gloves off", "You pull from the fingers first"], answer: 1, exp: "Proper removal technique (doffing) keeps the contaminated outer surfaces contained inside the rolled gloves, preventing contact with your bare skin." },
+  { q: "SAMPLE history stands for:", options: ["Symptoms, Allergies, Medications, Past history, Last intake, Events", "Signs, Airway, Mechanism, Pulse, LOC, Exposure", "Subjective, Assessment, MOI, Pupils, LOC, Environment", "Scene, Age, MOI, Pain, LOC, Events"], answer: 0, exp: "SAMPLE: Signs/Symptoms, Allergies, Medications, Pertinent past history, Last oral intake, Events leading to the emergency. This is the standard patient history format in emergency medicine." }
+];
+
+let answered = 0;
+const total = questions.length;
+
+function buildQuiz() {
+  const box = document.getElementById('quiz-box');
+  questions.forEach((q, qi) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-question';
+    div.innerHTML = `<p>${qi+1}. ${q.q}</p>
+      <ul class="quiz-options">${q.options.map((o,oi)=>`<li onclick="selectAnswer(this,${qi},${oi})">${String.fromCharCode(65+oi)}. ${o}</li>`).join('')}</ul>
+      <div class="explanation" id="exp-${qi}"></div>`;
+    box.appendChild(div);
+  });
+}
+
+function selectAnswer(el, qi, selected) {
+  const q = questions[qi];
+  const items = el.parentElement.querySelectorAll('li');
+  items.forEach(i => i.classList.add('disabled'));
+  const expEl = document.getElementById(`exp-${qi}`);
+  if(selected === q.answer) {
+    el.classList.add('correct');
+    expEl.className = 'explanation show correct-exp';
+    expEl.innerHTML = '✓ Correct! ' + q.exp;
+  } else {
+    el.classList.add('incorrect');
+    items[q.answer].classList.add('correct');
+    expEl.className = 'explanation show incorrect-exp';
+    expEl.innerHTML = '✗ Not quite. ' + q.exp;
+  }
+  answered++;
+  if(answered === total) showScore();
+}
+
+function showScore() {
+  const sc = document.querySelectorAll('.explanation.correct-exp').length;
+  const lessonId = '01';
+  const prevScore = localStorage.getItem('wfa_score_' + lessonId);
+  localStorage.setItem('wfa_completed_' + lessonId, 'true');
+  localStorage.setItem('wfa_score_' + lessonId, Math.max(sc, parseInt(prevScore || '0')));
+  const el = document.getElementById('score-display');
+  el.style.display = 'block';
+  document.getElementById('score-text').textContent = `You scored ${sc} / ${total}`;
+  let msg = sc >= 8 ? '🎉 Excellent work! You are ready for the next lesson.' : sc >= 6 ? '👍 Good job! Review the sections you missed.' : '📚 Consider reviewing this lesson before moving on.';
+  if (prevScore && parseInt(prevScore) > 0) msg += ` (Previous best: ${prevScore}/${total})`;
+  document.getElementById('score-sub').textContent = msg;
+  const retryBtn = document.createElement('button');
+  retryBtn.textContent = '↺ Retry Quiz';
+  retryBtn.style.cssText = 'margin-top:16px;padding:10px 24px;background:#2C7BE5;color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;';
+  retryBtn.onclick = function() {
+    answered = 0;
+    el.style.display = 'none';
+    document.getElementById('quiz-box').innerHTML = '';
+    buildQuiz();
+    retryBtn.remove();
+  };
+  el.appendChild(retryBtn);
+  el.scrollIntoView({behavior:'smooth'});
+}
+
+buildQuiz();
+updateStepIndicator(0);
+</script>
+</body>
+</html>

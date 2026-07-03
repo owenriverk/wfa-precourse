@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wilderness First Aid | Online Pre-Course Learning</title>
+<style>
+  :root {
+    --primary: #1B4F8A; --accent: #2C7BE5; --light-bg: #E8F0FE;
+    --danger: #C0392B; --success: #1A6B3A; --warning: #D35400;
+    --dark: #2D3748; --muted: #718096; --border: #CBD5E0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F0F4F8; color: var(--dark); }
+  .hero { background: linear-gradient(135deg, #1B4F8A 0%, #0D47A1 50%, #2C7BE5 100%); color: white; padding: 64px 32px; text-align: center; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
+  .hero-content { position: relative; max-width: 800px; margin: 0 auto; }
+  .hero-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 20px; }
+  .hero h1 { font-size: clamp(28px, 5vw, 52px); font-weight: 800; margin-bottom: 16px; line-height: 1.2; }
+  .hero p { font-size: 18px; opacity: 0.9; max-width: 600px; margin: 0 auto 32px; line-height: 1.6; }
+  .hero-stats { display: flex; gap: 32px; justify-content: center; flex-wrap: wrap; margin-top: 32px; }
+  .stat { text-align: center; }
+  .stat-num { font-size: 32px; font-weight: 800; display: block; }
+  .stat-label { font-size: 13px; opacity: 0.8; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 48px 24px; }
+  .section-title { font-size: 28px; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+  .section-sub { color: var(--muted); margin-bottom: 32px; font-size: 16px; }
+  .lesson-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; margin-bottom: 48px; }
+  .lesson-card { background: white; border-radius: 12px; border: 1px solid var(--border); overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; text-decoration: none; color: inherit; display: block; }
+  .lesson-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(27,79,138,0.15); }
+  .card-top { padding: 20px 20px 16px; display: flex; align-items: flex-start; gap: 14px; }
+  .card-num { background: var(--primary); color: white; width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; flex-shrink: 0; }
+  .card-meta { flex: 1; }
+  .card-meta h3 { font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 4px; line-height: 1.3; }
+  .card-meta p { font-size: 13px; color: var(--muted); }
+  .card-tags { padding: 0 20px 16px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 10px; }
+  .tag-blue { background: var(--light-bg); color: var(--accent); }
+  .tag-red { background: #FDECEA; color: var(--danger); }
+  .tag-green { background: #E8F5E9; color: var(--success); }
+  .tag-orange { background: #FFF3E0; color: var(--warning); }
+  .card-footer { padding: 12px 20px; background: #F7FAFC; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .card-time { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 5px; }
+  .card-arrow { color: var(--accent); font-size: 18px; font-weight: 700; }
+  .day-divider { background: var(--primary); color: white; padding: 14px 24px; border-radius: 10px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+  .day-divider h2 { font-size: 20px; font-weight: 700; }
+  .day-divider span { font-size: 13px; opacity: 0.8; }
+  .progress-section { background: white; border-radius: 12px; border: 1px solid var(--border); padding: 28px; margin-bottom: 48px; }
+  .progress-section h2 { font-size: 22px; color: var(--primary); margin-bottom: 6px; }
+  .progress-section p { color: var(--muted); margin-bottom: 20px; }
+  .progress-bar-container { background: #E2E8F0; border-radius: 20px; height: 12px; overflow: hidden; margin-bottom: 8px; }
+  .progress-bar { background: linear-gradient(90deg, var(--accent), var(--success)); height: 100%; border-radius: 20px; transition: width 0.5s; }
+  .progress-label { font-size: 13px; color: var(--muted); }
+  .download-section { background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; border-radius: 12px; padding: 32px; margin-bottom: 48px; display: flex; align-items: center; gap: 32px; flex-wrap: wrap; }
+  .download-section h2 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+  .download-section p { opacity: 0.9; margin-bottom: 16px; font-size: 15px; }
+  .download-btn { background: white; color: var(--primary); padding: 12px 24px; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 15px; transition: opacity 0.2s; display: inline-block; }
+  .download-btn:hover { opacity: 0.9; }
+  .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 48px; }
+  .info-card { background: white; border-radius: 10px; padding: 20px; border: 1px solid var(--border); }
+  .info-card h3 { font-size: 15px; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+  .info-card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+  .info-icon { font-size: 28px; margin-bottom: 10px; }
+  footer { background: var(--primary); color: white; padding: 32px; text-align: center; }
+  footer p { opacity: 0.8; font-size: 14px; margin-bottom: 6px; }
+  @media (max-width: 600px) { .hero { padding: 40px 16px; } .hero-stats { gap: 24px; } .container { padding: 32px 16px; } }
+  .card-completed { border-color: #1A6B3A !important; }
+  .card-completed .card-num { background: #1A6B3A !important; }
+  .card-score { font-size: 12px; font-weight: 700; color: #1A6B3A; background: #E8F5E9; padding: 3px 8px; border-radius: 10px; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">🏔 WFA Pre-Course Learning</div>
+    <h1>Wilderness First Aid<br>Online Pre-Course Modules</h1>
+    <p>Complete these 13 interactive lessons before your 2-day Wilderness First Aid course. Building your foundational knowledge now maximizes hands-on practice time in class.</p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">13</span><span class="stat-label">Interactive Lessons</span></div>
+      <div class="stat"><span class="stat-num">~6 hrs</span><span class="stat-label">Total Study Time</span></div>
+      <div class="stat"><span class="stat-num">130+</span><span class="stat-label">Quiz Questions</span></div>
+      <div class="stat"><span class="stat-num">26+</span><span class="stat-label">Clinical Scenarios</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Progress Tracker -->
+  <div class="progress-section">
+    <h2>Your Progress</h2>
+    <p>Track your pre-course preparation. Aim to complete all 13 modules before Day 1.</p>
+    <div class="progress-bar-container">
+      <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+    </div>
+    <div class="progress-label" id="progress-label">0 of 13 modules completed</div>
+  </div>
+
+  <!-- Download Curriculum -->
+  <div class="download-section">
+    <div style="flex:1; min-width:240px;">
+      <h2>📄 Course Curriculum Document</h2>
+      <p>Download the complete 2-day WFA course curriculum, including detailed module outlines, skills checklists, assessment rubrics, and reference materials.</p>
+      <a href="WFA_Curriculum_Overview.docx" class="download-btn">⬇ Download Curriculum (.docx)</a>
+    </div>
+    <div style="font-size: 80px; opacity: 0.3;">📋</div>
+  </div>
+
+  <!-- Course Info Cards -->
+  <h2 class="section-title">Before You Begin</h2>
+  <p class="section-sub">What you need to know about this pre-course work.</p>
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="info-icon">🎯</div>
+      <h3>How to Use These Lessons</h3>
+      <p>Work through modules in order. Each lesson takes 20–40 minutes. Complete all quizzes — they reinforce the most important concepts.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-icon">📚</div>
+      <h3>Pre-Course vs. In-Class</h3>
+      <p>These modules cover the cognitive knowledge. Skills practice (splinting, CPR, wound care) happens in class with hands-on guidance.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-icon">🔁</div>
+      <h3>Review Anytime</h3>
+      <p>You can revisit any module after the course as a reference. The glossaries and key points make great quick-reference tools on trips.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-icon">⚠️</div>
+      <h3>Educational Use Only</h3>
+      <p>These lessons support WFA training. Do not use as a substitute for hands-on certification or professional medical care.</p>
+    </div>
+  </div>
+
+  <!-- DAY 1 Modules -->
+  <div class="day-divider">
+    <div>
+      <h2>Day 1 Pre-Work</h2>
+      <span>Modules 01–06 • Complete before Day 1 of class</span>
+    </div>
+  </div>
+
+  <div class="lesson-grid">
+    <a href="lessons/01_Provider_Safety.html" class="lesson-card" id="card-01">
+      <div class="card-top">
+        <div class="card-num">01</div>
+        <div class="card-meta">
+          <h3>Provider Safety & Scene Management</h3>
+          <p>Your role, BSI, scene size-up, consent, legal protections</p>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-blue">Scene Safety</span>
+        <span class="tag tag-blue">BSI/PPE</span>
+        <span class="tag tag-blue">Consent & Law</span>
+        <span class="tag tag-blue">SOAP Note</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-time">⏱ 20 minutes</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="lessons/02_Patient_Assessment.html" class="lesson-card" id="card-02">
+      <div class="card-top">
+        <div class="card-num">02</div>
+        <div class="card-meta">
+          <h3>Patient Assessment System</h3>
+          <p>XABCDE primary survey, secondary survey, SAMPLE history, vital signs</p>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-red">Primary Survey</span>
+        <span class="tag tag-blue">XABCDE</span>
+        <span class="tag tag-blue">SAMPLE History</span>
+        <span class="tag tag-blue">Vital Signs</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-time">⏱ 40 minutes</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="lessons/03_Airway.html" class="lesson-card" id="card-03">
+      <div class="card-top">
+        <div class="card-num">03</div>
+        <div class="card-meta">
+          <h3>Airway & Breathing Emergencies</h3>
+          <p>Airway management, rescue breathing, CPR, wilderness modifications</p>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-red">Life Threat</span>
+        <span class="tag tag-blue">Airway</span>
+        <span class="tag tag-blue">CPR</span>
+        <span class="tag tag-blue">Pneumothorax</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-time">⏱ 30 minutes</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="lessons/04_Bleeding_Wounds.html" class="lesson-card" id="card-04">
+      <div class="card-top">
+        <div class="card-num">04</div>
+        <div class="card-meta">
+          <h3>Bleeding & Wound Management</h3>
+          <p>Hemorrhage control, tourniquets, wound irrigation, infection prevention</p>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-red">Life Threat</span>
+        <span class="tag tag-red">Hemorrhage</span>
+        <span class="tag tag-blue">Tourniquet</span>
+        <span class="tag tag-blue">Wound Care</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-time">⏱ 35 minutes</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="lessons/05_Shock.html" class="lesson-card" id="card-05">
+      <div class="card-top">
+        <div class="card-num">05</div>
+        <div class="card-meta">
+          <h3>Shock Recognition & Treatment</h3>
+          <p>Types of shock, early recognition, field treatment, evacuation decisions</p>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-red">Life Threat</span>
+        <span class="tag tag-red">Hypovolemic</span>
+        <span class="tag tag-orange">Field Treatment</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-time">⏱ 25 minutes</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="lessons/06_Musculoskeletal.html" class="lesson-card" id="card-06">
+      <div class="card-top">
+        <div class="card-num">06</div>
+        <div class="card-meta">
+          <h3>Musculoskeletal Injuries</h3>
+          <p>Fractures, dislocations, splinting, neurovascular assessment</p>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-blue">Fractures</span>
+        <span class="tag tag-blue">Splinting</span>
+        <span class="tag tag-blue">CSM Check</span>
+        <span class="tag tag-orange">Dislocations</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-time">⏱ 35 minutes</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- DAY 2 Modules -->
+  <div class="day-divider">
+    <div>
+      <h2>Day 2 Pre-Work</h2>
+      <span>Modules 07–13 • Complete before Day 2 of class</span>
+    </div>
+  </div>
+
+  <div class="lesson-grid">
+    <a href="lessons/07_Spine.html" class="lesson-card" id="card-07">
+      <div class="card-top">
+        <div class="card-num">07</div>
+        <div class="card-meta">
+          <h3>Head, Neck & Spine Injuries</h3>
+          <p>Wilderness spine assessment, TBI, spine clearing, logroll</p>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-red">TBI</span>
+        <span class="tag tag-blue">Spine Assessment</span>
+        <span class="tag tag-blue">Concussion</span>
+        <span class="tag tag-orange">Immobilization</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-time">⏱ 35 minutes</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="lessons/08_Heat.html" class="lesson-card" id="card-08">
+      <div class="card-top">
+        <div class="card-num">08</div>
+        <div class="card-meta">
+          <h3>Heat-Related Emergencies</h3>
+          <p>Heat illness spectrum, heat stroke treatment, hyponatremia, prevention</p>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-red">Heat Stroke</span>
+        <span class="tag tag-orange">Hyponatremia</span>
+        <span class="tag tag-green">Prevention</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-time">⏱ 25 minutes</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="lessons/09_Cold.html" class="lesson-card" id="card-09">
+      <div class="card-top">
+        <div class="card-num">09</div>
+        <div class="card-meta">
+          <h3>Cold-Related Emergencies</h3>
+          <p>Hypothermia staging, frostbite, rewarming, cold injury prevention</p>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-red">Hypothermia</span>
+        <span class="tag tag-blue">Frostbite</span>
+        <span class="tag tag-orange">Rewarming</span>
+        <span class="tag tag-green">Prevention</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-time">⏱ 30 minutes</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="lessons/10_Anaphylaxis.html" class="lesson-card" id="card-10">
+      <div class="card-top">
+        <div class="card-num">10</div>
+        <div class="card-meta">
+          <h3>Anaphylaxis & Allergic Reactions</h3>
+          <p>Reaction spectrum, EpiPen administration, biphasic response</p>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-red">Life Threat</span>
+        <span class="tag tag-red">Anaphylaxis</span>
+        <span class="tag tag-blue">EpiPen</span>
+        <span class="tag tag-orange">Diphenhydramine</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-time">⏱ 25 minutes</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="lessons/11_Medical.html" class="lesson-card" id="card-11">
+      <div class="card-top">
+        <div class="card-num">11</div>
+        <div class="card-meta">
+          <h3>Medical Emergencies</h3>
+          <p>AMS, seizures, diabetic emergencies, chest pain, stroke recognition</p>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-red">Cardiac</span>
+        <span class="tag tag-red">Stroke</span>
+        <span class="tag tag-blue">Seizures</span>
+        <span class="tag tag-orange">Diabetes</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-time">⏱ 35 minutes</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="lessons/12_Bites_Stings.html" class="lesson-card" id="card-12">
+      <div class="card-top">
+        <div class="card-num">12</div>
+        <div class="card-meta">
+          <h3>Bites, Stings & Envenomation</h3>
+          <p>Animal bites, snakebite, spiders, ticks, marine envenomation</p>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-orange">Snakebite</span>
+        <span class="tag tag-orange">Rabies</span>
+        <span class="tag tag-blue">Tick Removal</span>
+        <span class="tag tag-blue">Spiders</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-time">⏱ 25 minutes</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="lessons/13_Evacuation.html" class="lesson-card" id="card-13">
+      <div class="card-top">
+        <div class="card-num">13</div>
+        <div class="card-meta">
+          <h3>Evacuation & Patient Transport</h3>
+          <p>Evacuation decisions, patient packaging, improvised litters, calling for help</p>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-blue">Evacuation</span>
+        <span class="tag tag-blue">Litters</span>
+        <span class="tag tag-green">SAR</span>
+        <span class="tag tag-orange">PLB/Satellite</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-time">⏱ 30 minutes</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- Quick Reference -->
+  <h2 class="section-title">Key Mnemonics Quick Reference</h2>
+  <p class="section-sub">These memory tools are used throughout the course.</p>
+  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:14px; margin-bottom:48px;">
+    <div style="background:white;border-radius:10px;padding:18px;border:1px solid var(--border);">
+      <div style="font-weight:800;color:var(--primary);font-size:20px;margin-bottom:10px;">XABCDE</div>
+      <div style="font-size:13px;line-height:1.8;">
+        <strong>X</strong> — Exsanguinating hemorrhage<br>
+        <strong>A</strong> — Airway<br>
+        <strong>B</strong> — Breathing<br>
+        <strong>C</strong> — Circulation<br>
+        <strong>D</strong> — Disability (neuro)<br>
+        <strong>E</strong> — Expose/Environment
+      </div>
+    </div>
+    <div style="background:white;border-radius:10px;padding:18px;border:1px solid var(--border);">
+      <div style="font-weight:800;color:var(--primary);font-size:20px;margin-bottom:10px;">SAMPLE</div>
+      <div style="font-size:13px;line-height:1.8;">
+        <strong>S</strong> — Signs & Symptoms<br>
+        <strong>A</strong> — Allergies<br>
+        <strong>M</strong> — Medications<br>
+        <strong>P</strong> — Past history<br>
+        <strong>L</strong> — Last oral intake<br>
+        <strong>E</strong> — Events
+      </div>
+    </div>
+    <div style="background:white;border-radius:10px;padding:18px;border:1px solid var(--border);">
+      <div style="font-weight:800;color:var(--primary);font-size:20px;margin-bottom:10px;">OPQRST</div>
+      <div style="font-size:13px;line-height:1.8;">
+        <strong>O</strong> — Onset<br>
+        <strong>P</strong> — Provocation<br>
+        <strong>Q</strong> — Quality<br>
+        <strong>R</strong> — Radiation<br>
+        <strong>S</strong> — Severity (0-10)<br>
+        <strong>T</strong> — Time
+      </div>
+    </div>
+    <div style="background:white;border-radius:10px;padding:18px;border:1px solid var(--border);">
+      <div style="font-weight:800;color:var(--primary);font-size:20px;margin-bottom:10px;">SOAP Note</div>
+      <div style="font-size:13px;line-height:1.8;">
+        <strong>S</strong> — Subjective (history)<br>
+        <strong>O</strong> — Objective (exam)<br>
+        <strong>A</strong> — Assessment (impression)<br>
+        <strong>P</strong> — Plan (treatment + evac)
+      </div>
+    </div>
+    <div style="background:white;border-radius:10px;padding:18px;border:1px solid var(--border);">
+      <div style="font-weight:800;color:var(--primary);font-size:20px;margin-bottom:10px;">AVPU</div>
+      <div style="font-size:13px;line-height:1.8;">
+        <strong>A</strong> — Alert<br>
+        <strong>V</strong> — Verbal response<br>
+        <strong>P</strong> — Pain response<br>
+        <strong>U</strong> — Unresponsive
+      </div>
+    </div>
+    <div style="background:white;border-radius:10px;padding:18px;border:1px solid var(--border);">
+      <div style="font-weight:800;color:var(--primary);font-size:20px;margin-bottom:10px;">DCAP-BTLS</div>
+      <div style="font-size:13px;line-height:1.8;">
+        <strong>D</strong> — Deformity<br>
+        <strong>C</strong> — Contusions<br>
+        <strong>A</strong> — Abrasions<br>
+        <strong>P</strong> — Punctures/Penetrations<br>
+        <strong>B</strong> — Burns<br>
+        <strong>T</strong> — Tenderness<br>
+        <strong>L</strong> — Lacerations<br>
+        <strong>S</strong> — Swelling
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p><strong>Wilderness First Aid Pre-Course Online Learning</strong></p>
+  <p>For educational use only. This content supports WFA certification training and does not replace hands-on instruction or professional medical care.</p>
+  <p style="margin-top:8px; opacity:0.6; font-size:12px;">Based on current wilderness medicine best practices and evidence-based guidelines.</p>
+</footer>
+
+<script>
+const lessonIds = ['01','02','03','04','05','06','07','08','09','10','11','12','13'];
+
+function updateProgress() {
+  let completedCount = 0;
+  lessonIds.forEach(id => {
+    const card = document.getElementById('card-' + id);
+    if (!card) return;
+    const footer = card.querySelector('.card-footer');
+    try {
+      const done = localStorage.getItem('wfa_completed_' + id) === 'true';
+      const score = localStorage.getItem('wfa_score_' + id);
+      if (done) {
+        completedCount++;
+        card.classList.add('card-completed');
+        if (footer && !footer.querySelector('.card-score')) {
+          const badge = document.createElement('span');
+          badge.className = 'card-score';
+          badge.innerHTML = score ? `✓ ${score}/10` : '✓ Done';
+          footer.insertBefore(badge, footer.querySelector('.card-arrow'));
+        }
+      }
+    } catch(e) {}
+  });
+  const pct = Math.round((completedCount / lessonIds.length) * 100);
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = completedCount + ' of ' + lessonIds.length + ' modules completed (' + pct + '%)';
+}
+
+updateProgress();
+</script>
+</body>
+</html>

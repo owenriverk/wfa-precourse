@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 08: Heat-Related Emergencies - WFA Course</title>
+    <style>
+        :root {
+            --primary: #1B4F8A; --accent: #2C7BE5; --light-bg: #E8F0FE;
+            --danger: #C0392B; --danger-bg: #FDECEA; --success: #1A6B3A; --success-bg: #E8F5E9;
+            --warning: #D35400; --warning-bg: #FFF3E0; --info: #1565C0; --info-bg: #E3F2FD;
+            --dark: #2D3748; --muted: #718096; --border: #CBD5E0; --white: #FFFFFF;
+            --card-bg: #F7FAFC;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: var(--dark); line-height: 1.6; background: #ECEFF4; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #E74C3C, #C0392B); color: var(--white); padding: 30px; border-radius: 8px; margin-bottom: 30px; }
+        .header h1 { margin: 0 0 10px 0; font-size: 2.2em; }
+        .meta { font-size: 0.95em; opacity: 0.95; }
+        .meta-item { margin-right: 20px; display: inline-block; }
+        .tabs { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; border-bottom: 2px solid var(--border); }
+        .tab-btn { padding: 12px 20px; background: var(--card-bg); border: 2px solid var(--border); border-bottom: none; cursor: pointer; font-size: 1em; border-radius: 8px 8px 0 0; transition: all 0.3s; }
+        .tab-btn:hover { background: var(--light-bg); }
+        .tab-btn.active { background: #E74C3C; color: var(--white); border-color: #E74C3C; }
+        .tab-content { display: none; background: var(--white); padding: 25px; border-radius: 0 0 8px 8px; border: 2px solid var(--border); margin-bottom: 30px; }
+        .tab-content.active { display: block; }
+        .section-title { font-size: 1.8em; color: #C0392B; margin: 30px 0 20px 0; border-left: 5px solid #E74C3C; padding-left: 15px; }
+        .subsection-title { font-size: 1.3em; color: #E74C3C; margin: 20px 0 12px 0; font-weight: 600; }
+        .card { background: var(--card-bg); border-left: 5px solid #E74C3C; padding: 20px; margin: 20px 0; border-radius: 6px; }
+        .alert { padding: 15px; margin: 20px 0; border-radius: 6px; border-left: 5px solid; }
+        .alert-danger { background: var(--danger-bg); border-left-color: var(--danger); color: var(--danger); }
+        .alert-warning { background: var(--warning-bg); border-left-color: var(--warning); color: var(--warning); }
+        .alert-success { background: var(--success-bg); border-left-color: var(--success); color: var(--success); }
+        .alert-info { background: var(--info-bg); border-left-color: var(--info); color: var(--info); }
+        .mnemonic-box { background: linear-gradient(135deg, #E74C3C, #C0392B); color: var(--white); padding: 20px; margin: 20px 0; border-radius: 8px; font-weight: 600; font-size: 1.1em; }
+        .mnemonic-item { margin: 10px 0; }
+        .mnemonic-letter { display: inline-block; background: var(--white); color: #E74C3C; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: 700; margin-right: 10px; }
+        ul, ol { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+        .key-points { background: linear-gradient(135deg, #E74C3C, #F39C12); color: var(--white); padding: 20px; margin: 25px 0; border-radius: 8px; }
+        .key-points h3 { margin-top: 0; margin-bottom: 15px; font-size: 1.3em; }
+        .key-point { margin: 8px 0; padding-left: 25px; position: relative; }
+        .key-point:before { content: "★"; position: absolute; left: 0; font-size: 1.2em; }
+        .scenario-case { background: var(--warning-bg); border: 2px solid var(--warning); border-radius: 8px; padding: 20px; margin: 20px 0; }
+        .scenario-case h4 { color: var(--warning); margin-bottom: 12px; font-size: 1.1em; }
+        .scenario-btn { background: var(--warning); color: var(--white); padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 0.95em; transition: background 0.3s; }
+        .scenario-btn:hover { background: #b8860b; }
+        .discussion { display: none; margin-top: 15px; background: var(--white); padding: 15px; border-radius: 6px; border-left: 4px solid var(--warning); }
+        .discussion.show { display: block; }
+        .glossary { background: var(--card-bg); padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .glossary-term { margin-bottom: 15px; }
+        .glossary-term dt { color: #E74C3C; font-weight: 700; font-size: 1.05em; }
+        .glossary-term dd { margin-left: 20px; margin-top: 5px; color: var(--dark); }
+        .quiz-section { background: var(--white); padding: 25px; border-radius: 8px; border: 2px solid var(--border); margin: 20px 0; }
+        .quiz-question { background: var(--card-bg); padding: 20px; margin: 20px 0; border-radius: 6px; border-left: 4px solid #E74C3C; }
+        .quiz-question h4 { color: var(--dark); margin-bottom: 15px; font-size: 1.1em; }
+        .quiz-question ul { list-style: none; margin: 0; }
+        .quiz-question li { padding: 10px 12px; margin: 8px 0; background: var(--white); border: 2px solid var(--border); border-radius: 4px; cursor: pointer; transition: all 0.3s; }
+        .quiz-question li:hover { border-color: #E74C3C; background: var(--light-bg); }
+        .quiz-question li.disabled { opacity: 0.6; cursor: not-allowed; }
+        .quiz-question li.correct { background: var(--success-bg); border-color: var(--success); color: var(--success); font-weight: 600; }
+        .quiz-question li.incorrect { background: var(--danger-bg); border-color: var(--danger); color: var(--danger); font-weight: 600; }
+        .explanation { display: none; margin-top: 12px; padding: 12px; border-radius: 4px; font-size: 0.95em; }
+        .explanation.show { display: block; }
+        .correct-exp { background: var(--success-bg); color: var(--success); border-left: 4px solid var(--success); }
+        .incorrect-exp { background: var(--danger-bg); color: var(--danger); border-left: 4px solid var(--danger); }
+        #score-display { display: none; background: linear-gradient(135deg, #E74C3C, #C0392B); color: var(--white); padding: 30px; border-radius: 8px; text-align: center; margin: 30px 0; }
+        #score-text { font-size: 2em; font-weight: 700; margin-bottom: 10px; }
+        #score-sub { font-size: 1.1em; opacity: 0.95; }
+        .nav-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 40px; padding-top: 20px; border-top: 2px solid var(--border); }
+        .nav-link { padding: 12px 24px; background: #E74C3C; color: var(--white); text-decoration: none; border-radius: 6px; transition: background 0.3s; cursor: pointer; font-weight: 600; }
+        .nav-link:hover { background: #C0392B; }
+        .nav-link.disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+        .nav-center { text-align: center; }
+        .nav-center a { color: #E74C3C; text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Lesson 08: Heat-Related Emergencies</h1>
+            <div class="meta">
+                <span class="meta-item">Estimated Time: 25 minutes</span>
+                <span class="meta-item">Module 08 of 13</span>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('overview')">Overview</button>
+            <button class="tab-btn" onclick="showTab('therm')">Thermoregulation</button>
+            <button class="tab-btn" onclick="showTab('spectrum')">Heat Illness Spectrum</button>
+            <button class="tab-btn" onclick="showTab('stroke')">Heat Stroke Emergency</button>
+            <button class="tab-btn" onclick="showTab('hyponat')">Hyponatremia</button>
+            <button class="tab-btn" onclick="showTab('prevent')">Prevention</button>
+            <button class="tab-btn" onclick="showTab('scenarios')">Scenarios</button>
+            <button class="tab-btn" onclick="showTab('quiz')">Quiz</button>
+            <button class="tab-btn" onclick="showTab('summary')">Summary</button>
+        </div>
+        <div id="step-indicator" style="background:#F0F4F8;border-bottom:1px solid #CBD5E0;padding:8px 20px;font-size:13px;color:#718096;display:flex;gap:16px;align-items:center;">
+          <span id="step-text">Step 1 of 9</span>
+          <div id="step-dots" style="display:flex;gap:6px;"></div>
+        </div>
+
+        <!-- OVERVIEW TAB -->
+        <div id="overview" class="tab-content active">
+            <div class="section-title">Overview: Heat Emergencies in Wilderness</div>
+            <p>Heat illness represents a spectrum from minor cramps to life-threatening heat stroke. This lesson covers recognition and field management of heat-related illnesses that can occur in wilderness settings, particularly during summer hiking, desert travel, and high-exertion activities.</p>
+
+            <div class="alert alert-danger">
+                <strong>Critical:</strong> Heat stroke (core temp >40°C with altered mental status) is an immediate life threat requiring aggressive cooling NOW, not transport first.
+            </div>
+
+            <div class="subsection-title">Why Heat Illness Matters in Wilderness</div>
+            <ul>
+                <li><strong>Exertion in heat:</strong> Hiking, climbing, and mountaineering generate metabolic heat; combined with environmental heat = rapid core temperature rise</li>
+                <li><strong>Limited access to cooling:</strong> In remote locations, cool water may not be available</li>
+                <li><strong>Dehydration:</strong> Wilderness trips may have inadequate water; dehydration impairs heat loss via sweating</li>
+                <li><strong>Delayed evacuation:</strong> Hours may pass before reaching hospital, so field cooling is critical</li>
+            </ul>
+
+            <div class="key-points">
+                <h3>Key Points</h3>
+                <div class="key-point">Heat stroke is core temp >40°C (104°F) WITH altered mental status; it's a medical emergency</div>
+                <div class="key-point">Cool FIRST, transport second for heat stroke</div>
+                <div class="key-point">Cold water immersion is most effective field cooling method</div>
+                <div class="key-point">Hyponatremia (too much water intake) can mimic heat exhaustion but requires different treatment</div>
+            </div>
+        </div>
+
+        <!-- THERMOREGULATION TAB -->
+        <div id="therm" class="tab-content">
+            <div class="section-title">Thermoregulation: How Body Maintains Temperature</div>
+
+            <div class="card">
+                <div class="subsection-title">Heat Production</div>
+                <ul>
+                    <li><strong>Basal metabolism:</strong> Normal cellular function generates heat</li>
+                    <li><strong>Muscle activity (exercise):</strong> Largest source of heat in active individual</li>
+                    <li><strong>Shivering:</strong> Involuntary muscle contractions that generate heat in cold</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Heat Loss Mechanisms</div>
+                <ul>
+                    <li><strong>Radiation:</strong> Emission of infrared radiation from body to environment. Largest source of heat loss at rest (no exertion).</li>
+                    <li><strong>Conduction:</strong> Direct contact — heat transfers to cooler surface (ground, water, cold object)</li>
+                    <li><strong>Convection:</strong> Moving air or water carries heat away. Wind increases heat loss. Water is much more effective than air.</li>
+                    <li><strong>Evaporation:</strong> Sweating and sweat evaporation. MOST effective during exercise. High humidity impairs evaporation (limits cooling).</li>
+                    <li><strong>Respiration:</strong> Minor route — exhaled air carries heat away</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Thermoregulation Center</div>
+                <ul>
+                    <li><strong>Hypothalamus:</strong> Acts like thermostat. Detects core temperature changes.</li>
+                    <li><strong>Responses to high temperature:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Cutaneous vasodilation: blood vessels near skin dilate, increasing heat radiation/conduction</li>
+                            <li>Sweating: produces moisture for evaporative cooling (most effective in heat/exercise)</li>
+                            <li>Decreased metabolic rate: body produces less heat</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Risk Factors for Heat Illness</div>
+                <ul>
+                    <li><strong>Environmental:</strong> High temperature, high humidity (impairs sweating/evaporation), direct sun, no breeze</li>
+                    <li><strong>Exertion:</strong> High-intensity activity generates metabolic heat</li>
+                    <li><strong>Dehydration:</strong> Impairs sweating; less fluid for evaporation</li>
+                    <li><strong>Medications:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Anticholinergics (dry mouth meds) — decrease sweating</li>
+                            <li>Diuretics (water pills) — cause fluid loss</li>
+                            <li>Antipsychotics — impair heat regulation</li>
+                            <li>Beta-blockers — impair exercise tolerance</li>
+                        </ul>
+                    </li>
+                    <li><strong>Alcohol:</strong> Impairs judgment; causes vasodilation (more heat loss at rest) and dehydration</li>
+                    <li><strong>Obesity:</strong> Excess insulation; less surface area for heat loss relative to mass</li>
+                    <li><strong>Age extremes:</strong> Very young and elderly have less effective thermoregulation</li>
+                    <li><strong>Prior heat illness:</strong> Increases risk of recurrence; may have permanent loss of heat-tolerance</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- HEAT ILLNESS SPECTRUM TAB -->
+        <div id="spectrum" class="tab-content">
+            <div class="section-title">Heat Illness Spectrum: Mild to Severe</div>
+
+            <div class="card">
+                <div class="subsection-title">Heat Cramps</div>
+                <p><strong>What:</strong> Painful involuntary muscle spasms, usually legs and abdomen</p>
+                <ul style="margin-top: 15px;">
+                    <li><strong>When:</strong> During or immediately after exercise in heat</li>
+                    <li><strong>Cause:</strong> Loss of salt (sodium) and fluid combined with muscle fatigue</li>
+                    <li><strong>Signs:</strong> Muscle pain/spasms in legs, abdomen. Patient is usually alert, sweating, normal temp.</li>
+                    <li><strong>Treatment:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Stop activity, rest in cool environment</li>
+                            <li>Oral electrolyte solution (sports drink, salty broth) — salt AND fluid</li>
+                            <li>Gentle stretching of affected muscles</li>
+                            <li>Usually self-resolving within 15-20 minutes</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Heat Syncope (Fainting)</div>
+                <ul>
+                    <li><strong>What:</strong> Brief loss of consciousness from reduced blood flow to brain</li>
+                    <li><strong>Mechanism:</strong> Vasodilation causes blood pooling in extremities; blood pressure drops</li>
+                    <li><strong>When:</strong> During or shortly after standing in heat</li>
+                    <li><strong>Treatment:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Lie supine (flat on back)</li>
+                            <li>Move to cool environment</li>
+                            <li>Oral fluids if conscious</li>
+                            <li>Usually benign; patient recovers quickly</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Heat Exhaustion</div>
+                <p><strong>What:</strong> Systemic response to heat; body is struggling but still functioning. Core temp usually <40°C.</p>
+                <ul style="margin-top: 15px;">
+                    <li><strong>Signs:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Heavy sweating (may see sweat-soaked clothing)</li>
+                            <li>Weakness, dizziness, headache</li>
+                            <li>Nausea/vomiting</li>
+                            <li>Tachycardia (rapid pulse)</li>
+                            <li>Cool/pale/clammy skin (from sweating and vasoconstriction attempting to preserve core temp)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Treatment:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Move to cool shade or air-conditioned environment</li>
+                            <li>Remove excess clothing</li>
+                            <li>Active cooling: apply cool/cold water, fan, ice packs if available</li>
+                            <li>Oral rehydration: cool water or electrolyte solution if patient can drink</li>
+                            <li>Rest</li>
+                            <li>Monitor — patient should improve within 30 minutes</li>
+                            <li>If no improvement or deterioration, evacuate (may be heat stroke)</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Heat Stroke: The Emergency</div>
+                <p><strong>Definition:</strong> Core temperature >40°C (104°F) WITH altered mental status. This is a medical emergency.</p>
+
+                <ul style="margin-top: 15px;">
+                    <li><strong>Two types:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li><strong>Classic heat stroke:</strong> Elderly, sedentary, prolonged exposure to hot environment. Often HOT DRY SKIN (sweating mechanism has failed).</li>
+                            <li><strong>Exertional heat stroke:</strong> Young healthy athletes during intense exercise. May STILL BE SWEATING despite high core temp.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Signs of heat stroke:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Core temp >40°C (104°F) if measured</li>
+                            <li>Altered mental status: confusion, combative, irrational behavior, unconsciousness</li>
+                            <li>Hot skin (dry or wet depending on type)</li>
+                            <li>Tachycardia, tachypnea</li>
+                            <li>May have seizures</li>
+                        </ul>
+                    </li>
+                    <li><strong>Why it's an emergency:</strong> High core temp damages brain, heart, kidneys, liver. Death and organ failure can occur rapidly.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- HEAT STROKE EMERGENCY TAB -->
+        <div id="stroke" class="tab-content">
+            <div class="section-title">Heat Stroke: Emergency Management</div>
+
+            <div class="alert alert-danger">
+                <strong>COOL FIRST, TRANSPORT SECOND</strong> — Aggressive immediate cooling is the priority for heat stroke. Every minute counts.
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Recognition</div>
+                <ul>
+                    <li>Patient with high heat exposure + altered mental status + hot skin = HEAT STROKE until proven otherwise</li>
+                    <li>May be unconscious (severe) or just confused/combative (milder but still heat stroke)</li>
+                    <li>Don't wait for thermometer confirmation if clinical picture fits</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Cooling Methods: Ranked by Effectiveness</div>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">1. Cold Water Immersion (MOST EFFECTIVE)</div>
+                <ul>
+                    <li>Fill tub, stream, or large container with cool/cold water</li>
+                    <li>Immerse patient up to neck (head out of water to manage airway)</li>
+                    <li>Can reduce core temp 0.1-0.2°C per minute</li>
+                    <li>Monitor for seizures, vomiting</li>
+                    <li><strong>Only issue:</strong> Not always available in wilderness, but if you're near river/lake, USE IT</li>
+                </ul>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">2. Ice Packs to High Blood Flow Areas</div>
+                <ul>
+                    <li>Apply to neck, armpits (axillae), groin where major blood vessels near skin</li>
+                    <li>Ice against skin may cause frostbite if directly applied — wrap in cloth</li>
+                    <li>Effective but slower than immersion</li>
+                </ul>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">3. Evaporative Cooling</div>
+                <ul>
+                    <li>Wet the patient's skin with cool water</li>
+                    <li>Use fan (or wave cloth) to create air movement (convection)</li>
+                    <li>Evaporation of water carries heat away</li>
+                    <li>Effective but slower than immersion</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Cooling Endpoint</div>
+                <ul>
+                    <li><strong>Stop cooling when core temp reaches 39°C (102.2°F)</strong></li>
+                    <li>If you continue cooling to lower temps, risk of overshoot (temp drops too much) and hypothermia</li>
+                    <li>If no thermometer, cool until patient is conscious/improving and stops sweating</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Supportive Care During Cooling</div>
+                <ul>
+                    <li><strong>Airway:</strong> Position patient for airway safety, monitor breathing</li>
+                    <li><strong>Recovery position:</strong> If unconscious and no spine concern, position on side to prevent aspiration if vomiting</li>
+                    <li><strong>Monitor for complications:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Seizures: can occur with heat stroke; don't restrain, protect from injury</li>
+                            <li>Vomiting: aspiration risk; position to allow drainage</li>
+                        </ul>
+                    </li>
+                    <li><strong>Do NOT give oral fluids:</strong> Patient may not be able to swallow safely</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Evacuation</div>
+                <ul>
+                    <li><strong>All heat stroke = URGENT evacuation</strong> even if patient improves with cooling</li>
+                    <li>Complications can develop hours after cooling</li>
+                    <li>Hospital evaluation and monitoring essential</li>
+                    <li>Call for helicopter if available; patient needs advanced care</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- HYPONATREMIA TAB -->
+        <div id="hyponat" class="tab-content">
+            <div class="section-title">Hyponatremia: Water Intoxication</div>
+
+            <div class="card">
+                <div class="subsection-title">What is Hyponatremia?</div>
+                <ul>
+                    <li><strong>Definition:</strong> Serum sodium <135 mEq/L (normal ~140)</li>
+                    <li><strong>Cause:</strong> Excessive plain water intake without sodium replacement, especially during prolonged endurance activity</li>
+                    <li><strong>Common in:</strong> Marathon runners, ultramarathons, very long hiking days</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">How It Happens</div>
+                <ul>
+                    <li>Athlete/hiker drinks large quantities of plain water (no electrolytes)</li>
+                    <li>Fluid intake exceeds both sweat loss and urine output</li>
+                    <li>Blood sodium becomes diluted</li>
+                    <li>Water moves into cells (osmotic effect), causing cerebral edema (brain swelling)</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Signs & Symptoms</div>
+                <ul>
+                    <li>Nausea, headache, dizziness</li>
+                    <li>Confusion, disorientation</li>
+                    <li><strong>Seizures in severe cases</strong></li>
+                    <li><strong>MIMICS heat exhaustion:</strong> Weakness, confusion, feels like patient overheated</li>
+                </ul>
+
+                <div class="alert alert-warning">
+                    <strong>Key distinction from heat exhaustion:</strong> Patient drank EXCESSIVE plain water (a LOT), and urine is CLEAR. Heat exhaustion patient may have dark urine from dehydration.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Field Treatment</div>
+                <ul>
+                    <li><strong>STOP water intake:</strong> Do NOT give more plain water</li>
+                    <li><strong>Restrict fluid:</strong> Limit total fluids</li>
+                    <li><strong>Sodium supplementation:</strong> Encourage salty foods (nuts, broth, pretzels, beef jerky)</li>
+                    <li><strong>Small amount hypertonic fluid if available:</strong> 3% saline — but this is advanced; not typically in wilderness kits</li>
+                    <li><strong>Evacuation:</strong> Symptomatic hyponatremia requires hospital evaluation</li>
+                </ul>
+
+                <div class="alert alert-danger">
+                    <strong>Critical mistake:</strong> Misidentifying as heat exhaustion and giving plain water can be FATAL. The water makes hyponatremia worse.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Prevention</div>
+                <ul>
+                    <li>For activities >3-4 hours: use electrolyte drinks (sports drinks) instead of plain water</li>
+                    <li>Drink to thirst, not beyond</li>
+                    <li>Electrolyte drinks contain sodium and carbohydrates — ideal for prolonged activity</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- PREVENTION TAB -->
+        <div id="prevent" class="tab-content">
+            <div class="section-title">Prevention of Heat Illness</div>
+
+            <div class="card">
+                <div class="subsection-title">Heat Acclimatization</div>
+                <ul>
+                    <li><strong>What:</strong> Adaptation of body to heat exposure over time</li>
+                    <li><strong>Timeline:</strong> Takes 10-14 days of progressively increasing activity in heat</li>
+                    <li><strong>Adaptations achieved:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Earlier sweating and more profuse sweating</li>
+                            <li>Decreased sweat sodium (conserves salts)</li>
+                            <li>Increased plasma volume (more blood = better cooling efficiency)</li>
+                            <li>Better cardiac output</li>
+                            <li>Lower core temperature during exercise</li>
+                        </ul>
+                    </li>
+                    <li><strong>Bottom line:</strong> Acclimatized individuals tolerate heat much better. Plan heat exposure gradually if going to hot environment.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">WBGT: Wet Bulb Globe Temperature</div>
+                <ul>
+                    <li><strong>What:</strong> Most accurate index of heat stress, accounting for temperature, humidity, radiant heat, and wind</li>
+                    <li><strong>More accurate than air temperature alone because:</strong> Humidity greatly affects evaporative cooling ability</li>
+                    <li><strong>Uses:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Sports/military establish activity modification based on WBGT thresholds</li>
+                            <li>Typical threshold: suspend strenuous activity if WBGT >32°C (90°F)</li>
+                            <li>Work-rest ratios: at high WBGT, require frequent breaks and hydration</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Hydration Guidelines</div>
+                <ul>
+                    <li><strong>General rule:</strong> Drink to thirst in most situations</li>
+                    <li><strong>Pre-hydration:</strong> Drink water before activity (well-hydrated starting point)</li>
+                    <li><strong>For activities >1 hour:</strong> Use electrolyte drinks with sodium and carbohydrates (sports drinks)</li>
+                    <li><strong>Avoid excessive hydration:</strong> More water than needed increases hyponatremia risk</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Clothing & Environmental</div>
+                <ul>
+                    <li><strong>Clothing:</strong> Light color (reflects heat), loose fit (air circulation), moisture-wicking material</li>
+                    <li><strong>Sun protection:</strong> Hat, sunscreen to reduce radiant heat absorption</li>
+                    <li><strong>Activity timing:</strong> Avoid peak sun hours (10am-4pm) if possible</li>
+                    <li><strong>Buddy system:</strong> Watch partners for early signs of heat illness (often can't recognize own symptoms)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SCENARIOS TAB -->
+        <div id="scenarios" class="tab-content">
+            <div class="section-title">Case Scenarios</div>
+
+            <div class="scenario-case">
+                <h4>Scenario 1: Runner Collapses at Wilderness Marathon Finish</h4>
+                <p><strong>Setting:</strong> A runner completes a wilderness marathon (26 miles) on a hot day. At the finish, she collapses, confused and agitated. Her skin is hot and flushed. Bystanders say she's "acting weird," seems disoriented. No access to running water, but there's a creek nearby.</p>
+
+                <button class="scenario-btn" onclick="toggleDiscussion('scenario1')">Show Management</button>
+                <div id="scenario1" class="discussion">
+                    <p><strong>Recognition:</strong> Heat exposure + altered mental status + hot skin = HEAT STROKE</p>
+                    <p style="margin-top: 15px;"><strong>Immediate Action:</strong></p>
+                    <ul>
+                        <li>Transport to creek immediately</li>
+                        <li>Immerse in cool water up to neck</li>
+                        <li>Begin cooling NOW — don't wait for evacuation</li>
+                        <li>Monitor for seizures, vomiting</li>
+                        <li>If thermometer available, check core temp (likely >40°C)</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Continue cooling until:</strong> Core temp reaches 39°C or patient regains consciousness and stops sweating</p>
+                    <p style="margin-top: 15px;"><strong>After cooling:</strong> Evacuate urgently for hospital evaluation. Complications can develop hours later.</p>
+                </div>
+            </div>
+
+            <div class="scenario-case">
+                <h4>Scenario 2: Confused Hiker with Excessive Water Intake</h4>
+                <p><strong>Setting:</strong> After a 12-mile hike on a warm day, a participant becomes confused and complains of headache. On questioning: drank about 8 liters of water (way more than normal). Urine is clear. No fever. Skin is cool and moist (not hot).</p>
+
+                <button class="scenario-btn" onclick="toggleDiscussion('scenario2')">Show Management</button>
+                <div id="scenario2" class="discussion">
+                    <p><strong>Recognition:</strong> Excessive plain water intake + confusion + clear urine = HYPONATREMIA (not heat exhaustion)</p>
+                    <p style="margin-top: 15px;"><strong>Critical:</strong> This is NOT heat exhaustion, so DO NOT give more water.</p>
+                    <p style="margin-top: 15px;"><strong>Field Treatment:</strong></p>
+                    <ul>
+                        <li>STOP water intake immediately</li>
+                        <li>Restrict fluids</li>
+                        <li>Offer salty snacks (nuts, beef jerky, broth)</li>
+                        <li>Rest in cool environment</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Evacuation:</strong> Symptomatic hyponatremia requires urgent hospital evaluation and possible 3% saline IV.</p>
+                    <p style="margin-top: 15px;"><strong>Key lesson:</strong> For activities >3-4 hours, use sports drinks (electrolytes), not plain water alone.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- QUIZ TAB -->
+        <div id="quiz" class="tab-content">
+            <div class="section-title">Knowledge Check Quiz</div>
+            <div class="quiz-section" id="quizContainer"></div>
+            <div id="score-display">
+                <div id="score-text"></div>
+                <div id="score-sub"></div>
+            </div>
+        </div>
+
+        <!-- SUMMARY TAB -->
+        <div id="summary" class="tab-content">
+            <div class="section-title">Lesson Summary</div>
+
+            <div class="key-points">
+                <h3>Key Concepts</h3>
+                <div class="key-point">Heat stroke (core temp >40°C WITH altered mental status) is a medical emergency</div>
+                <div class="key-point">Cool FIRST, transport second for heat stroke — don't wait for hospital</div>
+                <div class="key-point">Cold water immersion is the most effective cooling method</div>
+                <div class="key-point">Heat illness spectrum: cramps → syncope → exhaustion → stroke</div>
+                <div class="key-point">Hyponatremia (water intoxication) mimics heat exhaustion but requires fluid restriction, not more water</div>
+                <div class="key-point">Heat acclimatization takes 10-14 days and improves heat tolerance significantly</div>
+                <div class="key-point">Electrolyte drinks (not plain water) for activities >1 hour</div>
+            </div>
+
+            <div class="glossary">
+                <div class="subsection-title">Glossary</div>
+                <div class="glossary-term">
+                    <dt>Thermoregulation</dt>
+                    <dd>Body's ability to maintain constant core temperature through heat production and loss</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Heat Cramps</dt>
+                    <dd>Painful muscle spasms during/after exertion in heat; caused by salt and fluid loss</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Heat Syncope</dt>
+                    <dd>Fainting from vasodilation and blood pooling during/after standing in heat</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Heat Exhaustion</dt>
+                    <dd>Systemic response to heat stress (sweating, weakness, nausea, rapid pulse) without altered mental status</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Heat Stroke</dt>
+                    <dd>Core temperature >40°C with altered mental status; medical emergency requiring immediate cooling</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Hyponatremia</dt>
+                    <dd>Low serum sodium from excessive plain water intake without electrolyte replacement</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>WBGT</dt>
+                    <dd>Wet Bulb Globe Temperature; most accurate heat stress index accounting for temperature, humidity, radiant heat, and wind</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Evaporative Cooling</dt>
+                    <dd>Heat loss through evaporation of sweat or applied water; most effective during exercise</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Heat Acclimatization</dt>
+                    <dd>Body adaptation to heat over 10-14 days of exposure; improves sweating, plasma volume, and heat tolerance</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Exertional Heat Illness</dt>
+                    <dd>Heat illness occurring during exercise, especially in young athletes; may occur with continued sweating even at high core temperature</dd>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Footer -->
+        <div class="nav-footer">
+            <a href="07_Spine.html" class="nav-link">← Previous</a>
+            <div class="nav-center">
+                <a href="../index.html">Home</a>
+            </div>
+            <a href="09_Cold.html" class="nav-link">Next →</a>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            const tabArr = Array.from(buttons);
+            const activeIdx = tabArr.indexOf(event.target);
+            updateStepIndicator(activeIdx);
+        }
+        function updateStepIndicator(activeIdx) {
+            const tabs = document.querySelectorAll('.tab-btn');
+            document.getElementById('step-text').textContent = 'Step ' + (activeIdx + 1) + ' of ' + tabs.length;
+            const dots = document.getElementById('step-dots');
+            dots.innerHTML = '';
+            tabs.forEach((_, i) => {
+                const d = document.createElement('div');
+                d.style.cssText = 'width:8px;height:8px;border-radius:50%;background:' + (i === activeIdx ? '#2C7BE5' : i < activeIdx ? '#1A6B3A' : '#CBD5E0') + ';';
+                dots.appendChild(d);
+            });
+        }
+
+        function toggleDiscussion(id) {
+            const disc = document.getElementById(id);
+            disc.classList.toggle('show');
+        }
+
+        const questions = [
+            { q: "Heat stroke is defined by:", options: ["Heavy sweating and cramps", "Core temp >40°C (104°F) with altered mental status", "Core temp >38°C with fatigue", "Fainting in hot weather"], answer: 1, exp: "Heat stroke requires BOTH high core temperature (>40°C) AND altered mental status (confusion, aggression, unconsciousness)." },
+            { q: "The FIRST priority in treating heat stroke is:", options: ["Call 911 and wait", "Aggressive cooling immediately", "Give oral fluids", "Monitor vital signs"], answer: 1, exp: "Cool FIRST, transport second. Every minute of high core temperature damages organs. Immediate cooling is lifesaving." },
+            { q: "Hyponatremia in endurance athletes is caused by:", options: ["Excessive sweating only", "Drinking too much plain water diluting sodium", "Dehydration", "Heat exhaustion progression"], answer: 1, exp: "Water intoxication happens when athlete drinks large amounts of plain water without sodium replacement, diluting blood sodium." },
+            { q: "The most effective field cooling method for heat stroke is:", options: ["Shade alone", "Cold water immersion", "Oral fluids only", "Fan without water"], answer: 1, exp: "Cold water immersion can cool at 0.1-0.2°C per minute. This is fastest field method available." },
+            { q: "Exertional heat stroke differs from classic in that:", options: ["Only occurs in elderly", "Occurs in healthy people during exercise and may present with sweating", "Core temperature is lower", "Mental status is always normal"], answer: 1, exp: "Exertional heat stroke occurs in young athletes during intense exercise. Confusing point: patient may still be SWEATING despite high core temp." },
+            { q: "Ice packs for heat stroke should be applied to:", options: ["Only the forehead", "Neck, axillae (armpits), groin", "Extremities only", "The abdomen"], answer: 1, exp: "These areas have major blood vessels near skin, allowing efficient cooling through these high-flow regions." },
+            { q: "Heat acclimatization requires:", options: ["1-2 days", "10-14 days", "1 month", "1 week"], answer: 1, exp: "Takes 10-14 days of progressively increasing activity in heat for body to adapt and improve heat tolerance." },
+            { q: "Patient with hyponatremia should receive:", options: ["Large amounts of plain water", "Restricted water and sodium supplementation", "IV normal saline immediately", "No treatment needed"], answer: 1, exp: "Hyponatremia: restrict water intake, encourage salty foods. More plain water makes it worse." },
+            { q: "Heat cramps are caused by:", options: ["High altitude exposure", "Salt and fluid loss during exertion", "Cardiac arrhythmia", "Dehydration alone"], answer: 1, exp: "Heat cramps = sodium and fluid loss plus muscle fatigue. Treatment: rest, electrolyte solution (salt + fluid), stretching." },
+            { q: "Cooling for heat stroke should STOP when core temp reaches:", options: ["37°C (98.6°F)", "39°C (102.2°F)", "Normal mental status returns", "40°C (104°F)"], answer: 1, exp: "Stop cooling at 39°C to avoid overshoot (dropping too low) and hypothermia. Continue only if mental status improving." }
+        ];
+
+        let answered = 0;
+        const total = questions.length;
+
+        function buildQuiz() {
+            const container = document.getElementById('quizContainer');
+            questions.forEach((q, idx) => {
+                const qDiv = document.createElement('div');
+                qDiv.className = 'quiz-question';
+                qDiv.innerHTML = `
+                    <h4>Q${idx + 1}: ${q.q}</h4>
+                    <ul>
+                        ${q.options.map((opt, oi) => `
+                            <li onclick="selectAnswer(this, ${idx}, ${oi})">${opt}</li>
+                        `).join('')}
+                    </ul>
+                    <div class="explanation" id="exp-${idx}"></div>
+                `;
+                container.appendChild(qDiv);
+            });
+        }
+
+        function selectAnswer(el, qi, selected) {
+            const q = questions[qi];
+            const items = el.parentElement.querySelectorAll('li');
+            items.forEach(i => i.classList.add('disabled'));
+            const expEl = document.getElementById('exp-' + qi);
+
+            if (selected === q.answer) {
+                el.classList.add('correct');
+                expEl.className = 'explanation show correct-exp';
+                expEl.innerHTML = '✓ Correct! ' + q.exp;
+            } else {
+                el.classList.add('incorrect');
+                items[q.answer].classList.add('correct');
+                expEl.className = 'explanation show incorrect-exp';
+                expEl.innerHTML = '✗ Not quite. ' + q.exp;
+            }
+            answered++;
+            if (answered === total) showScore();
+        }
+
+        function showScore() {
+            const sc = document.querySelectorAll('.explanation.correct-exp').length;
+            const lessonId = '08';
+            const prevScore = localStorage.getItem('wfa_score_' + lessonId);
+            localStorage.setItem('wfa_completed_' + lessonId, 'true');
+            localStorage.setItem('wfa_score_' + lessonId, Math.max(sc, parseInt(prevScore || '0')));
+            const el = document.getElementById('score-display');
+            el.style.display = 'block';
+            document.getElementById('score-text').textContent = 'You scored ' + sc + ' / ' + total;
+            let msg = sc >= 8 ? '🎉 Excellent work! You are ready for the next lesson.' : sc >= 6 ? '👍 Good job! Review the sections you missed.' : '📚 Consider reviewing this lesson before moving on.';
+            if (prevScore && parseInt(prevScore) > 0) msg += ' (Previous best: ' + prevScore + '/' + total + ')';
+            document.getElementById('score-sub').textContent = msg;
+            const retryBtn = document.createElement('button');
+            retryBtn.textContent = '↺ Retry Quiz';
+            retryBtn.style.cssText = 'margin-top:16px;padding:10px 24px;background:#2C7BE5;color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;';
+            retryBtn.onclick = function() {
+                answered = 0;
+                el.style.display = 'none';
+                document.getElementById('quizContainer').innerHTML = '';
+                buildQuiz();
+                retryBtn.remove();
+            };
+            el.appendChild(retryBtn);
+            el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        buildQuiz();
+        updateStepIndicator(0);
+    </script>
+</body>
+</html>

@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 03: Airway & Breathing Emergencies - WFA Course</title>
+    <style>
+        :root {
+            --primary: #1B4F8A; --accent: #2C7BE5; --light-bg: #E8F0FE;
+            --danger: #C0392B; --danger-bg: #FDECEA; --success: #1A6B3A; --success-bg: #E8F5E9;
+            --warning: #D35400; --warning-bg: #FFF3E0; --info: #1565C0; --info-bg: #E3F2FD;
+            --dark: #2D3748; --muted: #718096; --border: #CBD5E0; --white: #FFFFFF;
+            --card-bg: #F7FAFC;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: var(--dark); line-height: 1.6; background: #ECEFF4; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, var(--primary), var(--accent)); color: var(--white); padding: 30px; border-radius: 8px; margin-bottom: 30px; }
+        .header h1 { margin: 0 0 10px 0; font-size: 2.2em; }
+        .meta { font-size: 0.95em; opacity: 0.95; }
+        .meta-item { margin-right: 20px; display: inline-block; }
+        .tabs { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; border-bottom: 2px solid var(--border); }
+        .tab-btn { padding: 12px 20px; background: var(--card-bg); border: 2px solid var(--border); border-bottom: none; cursor: pointer; font-size: 1em; border-radius: 8px 8px 0 0; transition: all 0.3s; }
+        .tab-btn:hover { background: var(--light-bg); }
+        .tab-btn.active { background: var(--accent); color: var(--white); border-color: var(--accent); }
+        .tab-content { display: none; background: var(--white); padding: 25px; border-radius: 0 0 8px 8px; border: 2px solid var(--border); margin-bottom: 30px; }
+        .tab-content.active { display: block; }
+        .section-title { font-size: 1.8em; color: var(--primary); margin: 30px 0 20px 0; border-left: 5px solid var(--accent); padding-left: 15px; }
+        .subsection-title { font-size: 1.3em; color: var(--accent); margin: 20px 0 12px 0; font-weight: 600; }
+        .card { background: var(--card-bg); border-left: 5px solid var(--accent); padding: 20px; margin: 20px 0; border-radius: 6px; }
+        .alert { padding: 15px; margin: 20px 0; border-radius: 6px; border-left: 5px solid; }
+        .alert-danger { background: var(--danger-bg); border-left-color: var(--danger); color: var(--danger); }
+        .alert-warning { background: var(--warning-bg); border-left-color: var(--warning); color: var(--warning); }
+        .alert-success { background: var(--success-bg); border-left-color: var(--success); color: var(--success); }
+        .alert-info { background: var(--info-bg); border-left-color: var(--info); color: var(--info); }
+        .mnemonic-box { background: linear-gradient(135deg, var(--primary), var(--accent)); color: var(--white); padding: 20px; margin: 20px 0; border-radius: 8px; font-weight: 600; font-size: 1.1em; }
+        .mnemonic-item { margin: 10px 0; }
+        .mnemonic-letter { display: inline-block; background: var(--white); color: var(--primary); width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: 700; margin-right: 10px; }
+        ul, ol { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+        .key-points { background: linear-gradient(135deg, #F093FB, #F5576C); color: var(--white); padding: 20px; margin: 25px 0; border-radius: 8px; }
+        .key-points h3 { margin-top: 0; margin-bottom: 15px; font-size: 1.3em; }
+        .key-point { margin: 8px 0; padding-left: 25px; position: relative; }
+        .key-point:before { content: "★"; position: absolute; left: 0; font-size: 1.2em; }
+        .scenario-case { background: var(--info-bg); border: 2px solid var(--info); border-radius: 8px; padding: 20px; margin: 20px 0; }
+        .scenario-case h4 { color: var(--info); margin-bottom: 12px; font-size: 1.1em; }
+        .scenario-btn { background: var(--info); color: var(--white); padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 0.95em; transition: background 0.3s; }
+        .scenario-btn:hover { background: #0d47a1; }
+        .discussion { display: none; margin-top: 15px; background: var(--white); padding: 15px; border-radius: 6px; border-left: 4px solid var(--info); }
+        .discussion.show { display: block; }
+        .glossary { background: var(--card-bg); padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .glossary-term { margin-bottom: 15px; }
+        .glossary-term dt { color: var(--accent); font-weight: 700; font-size: 1.05em; }
+        .glossary-term dd { margin-left: 20px; margin-top: 5px; color: var(--dark); }
+        .quiz-section { background: var(--white); padding: 25px; border-radius: 8px; border: 2px solid var(--border); margin: 20px 0; }
+        .quiz-question { background: var(--card-bg); padding: 20px; margin: 20px 0; border-radius: 6px; border-left: 4px solid var(--accent); }
+        .quiz-question h4 { color: var(--dark); margin-bottom: 15px; font-size: 1.1em; }
+        .quiz-question ul { list-style: none; margin: 0; }
+        .quiz-question li { padding: 10px 12px; margin: 8px 0; background: var(--white); border: 2px solid var(--border); border-radius: 4px; cursor: pointer; transition: all 0.3s; }
+        .quiz-question li:hover { border-color: var(--accent); background: var(--light-bg); }
+        .quiz-question li.disabled { opacity: 0.6; cursor: not-allowed; }
+        .quiz-question li.correct { background: var(--success-bg); border-color: var(--success); color: var(--success); font-weight: 600; }
+        .quiz-question li.incorrect { background: var(--danger-bg); border-color: var(--danger); color: var(--danger); font-weight: 600; }
+        .explanation { display: none; margin-top: 12px; padding: 12px; border-radius: 4px; font-size: 0.95em; }
+        .explanation.show { display: block; }
+        .correct-exp { background: var(--success-bg); color: var(--success); border-left: 4px solid var(--success); }
+        .incorrect-exp { background: var(--danger-bg); color: var(--danger); border-left: 4px solid var(--danger); }
+        #score-display { display: none; background: linear-gradient(135deg, var(--primary), var(--accent)); color: var(--white); padding: 30px; border-radius: 8px; text-align: center; margin: 30px 0; }
+        #score-text { font-size: 2em; font-weight: 700; margin-bottom: 10px; }
+        #score-sub { font-size: 1.1em; opacity: 0.95; }
+        .nav-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 40px; padding-top: 20px; border-top: 2px solid var(--border); }
+        .nav-link { padding: 12px 24px; background: var(--accent); color: var(--white); text-decoration: none; border-radius: 6px; transition: background 0.3s; cursor: pointer; font-weight: 600; }
+        .nav-link:hover { background: var(--primary); }
+        .nav-link.disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+        .nav-center { text-align: center; }
+        .nav-center a { color: var(--accent); text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Lesson 03: Airway & Breathing Emergencies</h1>
+            <div class="meta">
+                <span class="meta-item">Estimated Time: 30 minutes</span>
+                <span class="meta-item">Module 03 of 13</span>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('overview')">Overview</button>
+            <button class="tab-btn" onclick="showTab('airway')">Airway Management</button>
+            <button class="tab-btn" onclick="showTab('breathing')">Breathing Emergencies</button>
+            <button class="tab-btn" onclick="showTab('cpr')">CPR in the Wilderness</button>
+            <button class="tab-btn" onclick="showTab('scenarios')">Scenarios</button>
+            <button class="tab-btn" onclick="showTab('quiz')">Quiz</button>
+            <button class="tab-btn" onclick="showTab('summary')">Summary</button>
+        </div>
+        <div id="step-indicator" style="background:#F0F4F8;border-bottom:1px solid #CBD5E0;padding:8px 20px;font-size:13px;color:#718096;display:flex;gap:16px;align-items:center;">
+          <span id="step-text">Step 1 of 7</span>
+          <div id="step-dots" style="display:flex;gap:6px;"></div>
+        </div>
+
+        <!-- OVERVIEW TAB -->
+        <div id="overview" class="tab-content active">
+            <div class="section-title">Overview: Airway & Breathing</div>
+            <p>The airway is your primary lifeline. Without adequate oxygen, a patient will die within minutes. This lesson covers recognition and management of airway and breathing emergencies in the wilderness setting where advanced equipment may be limited.</p>
+
+            <div class="alert alert-danger">
+                <strong>Critical:</strong> Airway and breathing problems are immediately life-threatening. Assessment and management happen as part of the primary survey (A-B in XABCDE).
+            </div>
+
+            <div class="subsection-title">Why This Matters in Wilderness Medicine</div>
+            <ul>
+                <li><strong>Remote location:</strong> You may not have advanced airway equipment. Positioning and manual maneuvers are your primary tools.</li>
+                <li><strong>Delayed evacuation:</strong> Maintaining an adequate airway for hours until rescue is possible</li>
+                <li><strong>Altitude effects:</strong> Lower oxygen levels at elevation compound breathing problems</li>
+                <li><strong>Cold/heat:</strong> Respiratory rate and work of breathing change with environmental extremes</li>
+            </ul>
+
+            <div class="key-points">
+                <h3>Key Points</h3>
+                <div class="key-point">The tongue is the most common cause of airway obstruction in unconscious patients</div>
+                <div class="key-point">Rescue breathing is a wilderness first responder skill that can sustain life until advanced help arrives</div>
+                <div class="key-point">CPR in the wilderness may be prolonged — do not assume a hypothermic patient is dead</div>
+            </div>
+        </div>
+
+        <!-- AIRWAY MANAGEMENT TAB -->
+        <div id="airway" class="tab-content">
+            <div class="section-title">Airway Management</div>
+
+            <div class="card">
+                <div class="subsection-title">Airway Anatomy</div>
+                <p>Understanding the airway path helps you recognize obstruction:</p>
+                <ul>
+                    <li><strong>Nose/Mouth:</strong> Entry points for air</li>
+                    <li><strong>Pharynx:</strong> Common area for obstruction from tongue, blood, vomit, edema</li>
+                    <li><strong>Larynx:</strong> Voice box; can swell from allergic reaction or trauma</li>
+                    <li><strong>Trachea:</strong> Windpipe; main airway to lungs</li>
+                    <li><strong>Bronchi:</strong> Split into right and left, enter lungs</li>
+                </ul>
+
+                <div class="subsection-title" style="margin-top: 15px;">Common Causes of Obstruction</div>
+                <ul>
+                    <li><strong>Tongue (most common in unconscious patients):</strong> Relaxes and blocks pharynx</li>
+                    <li><strong>Foreign body:</strong> Food, rock, dentures, vomit</li>
+                    <li><strong>Blood/Vomit:</strong> Fluids occlude airway</li>
+                    <li><strong>Swelling (edema):</strong> Allergic reaction, infection, inhalation injury, trauma</li>
+                    <li><strong>Direct injury:</strong> Trauma to neck, direct laryngeal damage</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Opening Techniques</div>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Head-Tilt Chin-Lift</div>
+                <ul>
+                    <li><strong>When to use:</strong> No spinal injury concern</li>
+                    <li><strong>How:</strong> Place one hand on forehead, gently tilt head back. Place fingers under chin and lift upward. Lifts tongue off pharynx.</li>
+                    <li><strong>Advantage:</strong> Opens airway effectively in most cases</li>
+                    <li><strong>Disadvantage:</strong> May worsen cervical spine injury if one exists</li>
+                </ul>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Jaw Thrust</div>
+                <ul>
+                    <li><strong>When to use:</strong> Spinal injury is suspected (trauma, fall, mechanism unknown)</li>
+                    <li><strong>How:</strong> Grip the angles of the mandible (jaw) from below and behind. Pull forward without tilting head. Maintains cervical spine alignment.</li>
+                    <li><strong>Advantage:</strong> Opens airway while protecting cervical spine</li>
+                    <li><strong>Disadvantage:</strong> More difficult, requires practice</li>
+                </ul>
+
+                <div class="alert alert-warning">
+                    <strong>Important:</strong> Jaw thrust is more difficult than head-tilt chin-lift. Practice this skill before you need it in the field.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Recovery Position</div>
+                <p><strong>When to use:</strong> Unconscious patient who is breathing, no spinal injury concern</p>
+                <ul>
+                    <li>Turns patient on their side</li>
+                    <li>Positions head on extended arm to keep airway open</li>
+                    <li>Top leg bent for stability</li>
+                    <li><strong>Why:</strong> If patient vomits, fluid drains from mouth instead of aspirating into lungs</li>
+                    <li><strong>Monitor:</strong> Watch for vomiting, position airway, reassess breathing</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Suctioning & Airway Clearing</div>
+                <ul>
+                    <li><strong>Patient positioning:</strong> Head-down to allow gravity to drain fluids</li>
+                    <li><strong>Finger sweep:</strong> Use only if you can VISIBLY see an object. Never perform blind finger sweeps in adults (risk of pushing obstruction deeper).</li>
+                    <li><strong>Patient coughing:</strong> If patient is semi-conscious or conscious, encourage coughing to help expel fluid or foreign material</li>
+                    <li><strong>Suction improvisation:</strong> If suction device unavailable, roll patient on side, let gravity work</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Nasopharyngeal Airway (NPA)</div>
+                <p><strong>What it is:</strong> Soft tube inserted through nose to keep airway patent in obtunded patient</p>
+                <ul>
+                    <li><strong>When to use:</strong> Unconscious or severely altered patient with loss of airway tone (tongue blocking airway)</li>
+                    <li><strong>Does NOT:</strong> Protect from aspiration — patient can still vomit and aspirate</li>
+                    <li><strong>Sizing:</strong> Measure from nostril to earlobe for length</li>
+                    <li><strong>Insertion technique:</strong> Lubricate tube, insert with bevel toward septum (midline), angle gently</li>
+                    <li><strong>Contraindication:</strong> DO NOT use if basilar skull fracture suspected (fracture at base of skull). Risk of tube entering cranial vault. Signs: Battle's sign (bruise behind ear), raccoon eyes (bruising around eyes), CSF from nose/ears.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Oropharyngeal Airway (OPA)</div>
+                <p><strong>What it is:</strong> Hard curved tube placed in mouth over tongue</p>
+                <ul>
+                    <li><strong>When to use:</strong> Unconscious patients with absent gag reflex only. If patient has gag reflex, they may vomit.</li>
+                    <li><strong>Note:</strong> Less commonly used in wilderness; NPA preferred because OPA is more likely to trigger vomiting</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- BREATHING EMERGENCIES TAB -->
+        <div id="breathing" class="tab-content">
+            <div class="section-title">Breathing Emergencies</div>
+
+            <div class="card">
+                <div class="subsection-title">Recognizing Respiratory Distress</div>
+                <p><strong>Signs a patient is struggling to breathe:</strong></p>
+                <ul>
+                    <li><strong>Rate:</strong> Tachypnea (>20 breaths/min) or bradypnea (<10 breaths/min)</li>
+                    <li><strong>Accessory muscle use:</strong> Neck muscles (SCM) and muscles between ribs (intercostals) working hard</li>
+                    <li><strong>Nasal flaring:</strong> Nostrils expand with each breath (sign of effort)</li>
+                    <li><strong>Pursed lips:</strong> Patient breathing against resistance</li>
+                    <li><strong>Tripod position:</strong> Patient sitting forward on hands to use accessory muscles</li>
+                    <li><strong>Abnormal sounds:</strong> Stridor (high-pitched inhalation sound), wheezing, gurgling, snoring</li>
+                </ul>
+
+                <div class="alert alert-danger">
+                    <strong>Critical sign:</strong> Silent chest (no breath sounds) in a patient with respiratory distress is extremely serious. Immediate aggressive airway management needed.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Asthma in the Field</div>
+                <ul>
+                    <li><strong>Common triggers:</strong> Exercise, cold air, allergens, emotional stress</li>
+                    <li><strong>Signs:</strong> Wheezing, shortness of breath, chest tightness, cough</li>
+                    <li><strong>Treatment:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Sit patient upright</li>
+                            <li>Use patient's own bronchodilator inhaler (albuterol/salbutamol) — 1-2 puffs, repeat every 5 min if needed</li>
+                            <li>Calm the patient (anxiety worsens bronchospasm)</li>
+                            <li>Provide oxygen if available</li>
+                            <li>Hydration: encourage sipping water</li>
+                        </ul>
+                    </li>
+                    <li><strong>When to evacuate:</strong> If no improvement within 15-20 min of treatment, or worsening, evacuate urgently</li>
+                    <li><strong>Status asthmaticus:</strong> Severe asthma attack not responding to bronchodilators — life-threatening, requires urgent evacuation</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Pneumothorax (Collapsed Lung)</div>
+                <ul>
+                    <li><strong>What is it:</strong> Air enters the space around the lung, causing collapse</li>
+                    <li><strong>Signs:</strong> Absent or diminished breath sounds on one side, chest pain, dyspnea</li>
+                    <li><strong>Tension pneumothorax (EMERGENCY):</strong> Pressure builds, pushing heart and great vessels. Signs: tracheal deviation (trachea shifts AWAY from affected side), JVD (jugular vein distension), hypotension, shock.</li>
+                    <li><strong>Field recognition:</strong> WFR can recognize, not definitively diagnose. Needle decompression is advanced scope (WFR+).</li>
+                    <li><strong>Field treatment:</strong> Position of comfort, monitor airway, oxygen if available, urgent evacuation</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">High Altitude Pulmonary Edema (HAPE)</div>
+                <ul>
+                    <li><strong>What is it:</strong> Fluid fills lungs from pressure changes at altitude</li>
+                    <li><strong>When it occurs:</strong> Typically >2,500m (8,000 ft), usually day 2-3 at altitude</li>
+                    <li><strong>Signs:</strong> Cough (often with pink frothy sputum), crackles on auscultation, severe dyspnea, fatigue worse than peers</li>
+                    <li><strong>Risk factors:</strong> Rapid ascent, exertion at altitude, prior HAPE, individual susceptibility</li>
+                    <li><strong>Treatment:</strong> IMMEDIATE descent (even 500m helps). Oxygen if available. Position upright. DO NOT delay descent.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Chest Injuries Affecting Breathing</div>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Flail Segment</div>
+                <ul>
+                    <li><strong>What:</strong> Multiple rib fractures causing segment to move opposite to rest of chest (paradoxical motion)</li>
+                    <li><strong>Signs:</strong> Chest pain, dyspnea, paradoxical motion visible</li>
+                    <li><strong>Treatment:</strong> Pain control, splinting (taping or rolled sheet around chest to stabilize), position of comfort, oxygen</li>
+                </ul>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Open Pneumothorax (Sucking Chest Wound)</div>
+                <ul>
+                    <li><strong>What:</strong> Penetrating wound to chest wall allowing air in/out with breathing</li>
+                    <li><strong>Signs:</strong> Hole in chest, air sounds with breathing, dyspnea</li>
+                    <li><strong>Treatment:</strong> Cover with 3-sided occlusive dressing (tape 3 sides, leave 1 side loose to allow air to escape but prevent air from entering). Monitor for tension pneumothorax development. Urgent evacuation.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- CPR IN WILDERNESS TAB -->
+        <div id="cpr" class="tab-content">
+            <div class="section-title">CPR in the Wilderness</div>
+
+            <div class="card">
+                <div class="subsection-title">When to Start CPR</div>
+                <ul>
+                    <li>Patient is unresponsive (no response to verbal or pain stimulus)</li>
+                    <li>Patient is NOT breathing or only gasping (agonal respirations)</li>
+                    <li>No pulse check needed — if unresponsive and not breathing, start CPR</li>
+                </ul>
+
+                <div class="alert alert-info">
+                    <strong>Note:</strong> Gasping is NOT normal breathing. A patient who is gasping still needs CPR.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">CPR Technique</div>
+                <ul>
+                    <li><strong>Compression rate:</strong> 100-120 compressions per minute (roughly the beat of a fast song)</li>
+                    <li><strong>Depth:</strong> 2-2.4 inches (5-6 cm) for adults. "Push hard and fast."</li>
+                    <li><strong>Hand position:</strong> Heel of one hand on center of chest, other hand on top, arms straight</li>
+                    <li><strong>Full recoil:</strong> Let chest fully recoil between compressions</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">CPR Ratios & Rescue Breathing</div>
+                <ul>
+                    <li><strong>Two-rescuer CPR:</strong> 30 compressions : 2 breaths (30:2)</li>
+                    <li><strong>Single rescuer with AED:</strong> Continuous compressions with 1 breath every 6 seconds (10 breaths per minute)</li>
+                    <li><strong>Rescue breathing:</strong> Mouth-to-mouth or mouth-to-barrier technique
+                        <ul style="margin-top: 8px;">
+                            <li>Tilt head back (if no spine concern)</li>
+                            <li>Pinch nose, seal mouth, blow for 1 second</li>
+                            <li>Adequate volume = chest rises with each breath</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="alert alert-warning">
+                    <strong>Wilderness reality:</strong> If you're uncomfortable doing rescue breathing, hands-only CPR (continuous compressions without breaths) is better than stopping CPR. In remote locations, continuous compressions until exhaustion or EMS arrival is common practice.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">When to Withhold or Stop CPR</div>
+                <p><strong>When NOT to start CPR:</strong></p>
+                <ul>
+                    <li>Obvious death: decapitation, rigor mortis, dependent lividity (gravity-dependent purple discoloration)</li>
+                    <li>Injuries incompatible with life</li>
+                    <li>Standing orders or DNR (Do Not Resuscitate) documents</li>
+                </ul>
+
+                <p style="margin-top: 15px;"><strong>When to stop CPR:</strong></p>
+                <ul>
+                    <li>ROSC (Return of Spontaneous Circulation) — patient has a pulse and is breathing</li>
+                    <li>Exhaustion: you can no longer perform CPR</li>
+                    <li>Prolonged cardiac arrest (generally 30 min) without ROSC in a normothermic patient</li>
+                    <li><strong>EXCEPTION — Hypothermia or drowning:</strong> "No one is dead until warm and dead." Continue CPR even after prolonged arrest if hypothermia or drowning suspected.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Hypothermia & Cardiac Arrest</div>
+                <p><strong>Critical principle:</strong> A severely hypothermic patient may have an undetectable pulse and appear dead but still be resuscitable. "No one is dead until warm and dead."</p>
+                <ul>
+                    <li>Continue CPR during evacuation if hypothermia suspected</li>
+                    <li>Core rewarming (warmed IV fluids, heated oxygen) may restore life even after hours without pulse</li>
+                    <li>Case reports of full recovery after cardiac arrest from extreme hypothermia (core temp <20°C/68°F)</li>
+                </ul>
+
+                <div class="alert alert-success">
+                    <strong>Remember:</strong> A hypothermic patient is not dead until they are warm AND dead. Keep CPR going.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">AED (Automated External Defibrillator)</div>
+                <ul>
+                    <li><strong>What it does:</strong> Analyzes heart rhythm and delivers shock if defibrillation indicated</li>
+                    <li><strong>When available:</strong> Many wilderness rescue organizations carry AEDs</li>
+                    <li><strong>Wet victim:</strong> Dry chest before applying pads if wet</li>
+                    <li><strong>Chest hair:</strong> OK to place pads over. Do NOT stop to shave.</li>
+                    <li><strong>Pacemaker/ICD:</strong> Place pads to avoid implanted device if possible, but don't delay defibrillation</li>
+                    <li><strong>Use:</strong> Turn on, follow prompts, continue CPR between shocks</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SCENARIOS TAB -->
+        <div id="scenarios" class="tab-content">
+            <div class="section-title">Case Scenarios</div>
+
+            <div class="scenario-case">
+                <h4>Scenario 1: Unconscious Drowning Victim on Riverbank</h4>
+                <p><strong>Setting:</strong> A swimmer is pulled from a river by a friend. Victim is unconscious, not breathing, no palpable pulse. You're 2 miles from trailhead with limited supplies and a satellite communicator.</p>
+
+                <button class="scenario-btn" onclick="toggleDiscussion('scenario1')">Show Management</button>
+                <div id="scenario1" class="discussion">
+                    <p><strong>Immediate Actions:</strong></p>
+                    <ul>
+                        <li>Position victim supine on firm surface</li>
+                        <li>Assess responsiveness and breathing (take up to 10 seconds)</li>
+                        <li>No breathing detected — start CPR immediately</li>
+                        <li>If alone: 30 compressions, 2 rescue breaths (30:2)</li>
+                        <li>Continue CPR while activating satellite communicator for SAR helicopter</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Water Aspiration Concern:</strong> Drowning victims may have aspirated water. CPR effectiveness may be limited. Continue anyway — CPR is the only hope.</p>
+                    <p style="margin-top: 15px;"><strong>Hypothermia Consideration:</strong> Cold water drowning = potential for survival even after prolonged submersion. Continue CPR. Do NOT stop due to time elapsed.</p>
+                    <p style="margin-top: 15px;"><strong>Evacuation:</strong> URGENT. Continue CPR during evacuation. Only stop if ROSC, exhaustion, or definite signs of death.</p>
+                </div>
+            </div>
+
+            <div class="scenario-case">
+                <h4>Scenario 2: Asthma Attack on Remote Trail</h4>
+                <p><strong>Setting:</strong> A 35-year-old with known asthma is hiking at 9,000 ft elevation. She starts wheezing and shortness of breath after a strenuous climb. She has her rescue inhaler (albuterol) with her but is becoming more distressed and wheezy despite use.</p>
+
+                <button class="scenario-btn" onclick="toggleDiscussion('scenario2')">Show Management</button>
+                <div id="scenario2" class="discussion">
+                    <p><strong>Assessment:</strong></p>
+                    <ul>
+                        <li>Respiratory distress — wheezing, dyspnea, tachypnea</li>
+                        <li>Accessory muscle use likely</li>
+                        <li>Anxiety (worsens bronchospasm)</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Immediate Treatment:</strong></p>
+                    <ul>
+                        <li>Stop activity, sit patient upright</li>
+                        <li>Help use albuterol inhaler — 1-2 puffs, can repeat every 5 minutes (max 3 times)</li>
+                        <li>Calm patient (speak slowly, reassure)</li>
+                        <li>Offer small sips of water</li>
+                        <li>Observe for response to medication</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Evacuation Decision:</strong> If wheezing improves within 15-20 min and patient breathing normally, can continue hiking at slow pace. If no improvement or worsens, urgent evacuation required. At altitude, evacuation to lower elevation also helps (more oxygen available).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- QUIZ TAB -->
+        <div id="quiz" class="tab-content">
+            <div class="section-title">Knowledge Check Quiz</div>
+            <div class="quiz-section" id="quizContainer"></div>
+            <div id="score-display">
+                <div id="score-text"></div>
+                <div id="score-sub"></div>
+            </div>
+        </div>
+
+        <!-- SUMMARY TAB -->
+        <div id="summary" class="tab-content">
+            <div class="section-title">Lesson Summary</div>
+
+            <div class="key-points">
+                <h3>Key Concepts</h3>
+                <div class="key-point">The tongue is the most common airway obstruction in unconscious patients</div>
+                <div class="key-point">Head-tilt chin-lift vs. jaw thrust: choose based on spinal injury concern</div>
+                <div class="key-point">Recovery position protects airway if patient vomits</div>
+                <div class="key-point">Recognize respiratory distress: rate, effort, sounds, patient positioning</div>
+                <div class="key-point">Asthma in field: position, use bronchodilator, calm patient, evacuate if no improvement</div>
+                <div class="key-point">CPR: 100-120 compressions/min, 2-2.4 inch depth, 30:2 ratio with rescue breathing</div>
+                <div class="key-point">Hypothermia exception: continue CPR — patient not dead until warm and dead</div>
+                <div class="key-point">AED: use if available, continue CPR between shocks</div>
+            </div>
+
+            <div class="glossary">
+                <div class="subsection-title">Glossary</div>
+                <div class="glossary-term">
+                    <dt>Airway</dt>
+                    <dd>Passage through which air travels from nose/mouth to lungs</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Jaw Thrust</dt>
+                    <dd>Airway opening technique that pulls jaw forward without tilting head; used when spine injury suspected</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Head-Tilt Chin-Lift</dt>
+                    <dd>Airway opening technique that tilts head back and lifts chin; use when no spine injury</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Recovery Position</dt>
+                    <dd>Placement of unconscious breathing patient on side to protect airway from aspiration</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>NPA</dt>
+                    <dd>Nasopharyngeal airway; soft tube inserted through nose to maintain airway patency</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>OPA</dt>
+                    <dd>Oropharyngeal airway; hard tube placed in mouth over tongue</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>CPR</dt>
+                    <dd>Cardiopulmonary resuscitation; chest compressions and rescue breathing to maintain circulation and oxygenation</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>FBAO</dt>
+                    <dd>Foreign body airway obstruction; blockage of airway by object, food, or debris</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Pneumothorax</dt>
+                    <dd>Collapsed lung from air entering pleural space</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>ROSC</dt>
+                    <dd>Return of spontaneous circulation; patient has detectable pulse during CPR</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Stridor</dt>
+                    <dd>High-pitched sound on inhalation indicating upper airway obstruction</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Apnea</dt>
+                    <dd>Absence of breathing</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Tachypnea</dt>
+                    <dd>Rapid breathing; adult >20 breaths per minute</dd>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Footer -->
+        <div class="nav-footer">
+            <a href="02_Patient_Assessment.html" class="nav-link">← Previous</a>
+            <div class="nav-center">
+                <a href="../index.html">Home</a>
+            </div>
+            <a href="04_Bleeding_Wounds.html" class="nav-link">Next →</a>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            const tabArr = Array.from(buttons);
+            const activeIdx = tabArr.indexOf(event.target);
+            updateStepIndicator(activeIdx);
+        }
+        function updateStepIndicator(activeIdx) {
+            const tabs = document.querySelectorAll('.tab-btn');
+            document.getElementById('step-text').textContent = 'Step ' + (activeIdx + 1) + ' of ' + tabs.length;
+            const dots = document.getElementById('step-dots');
+            dots.innerHTML = '';
+            tabs.forEach((_, i) => {
+                const d = document.createElement('div');
+                d.style.cssText = 'width:8px;height:8px;border-radius:50%;background:' + (i === activeIdx ? '#2C7BE5' : i < activeIdx ? '#1A6B3A' : '#CBD5E0') + ';';
+                dots.appendChild(d);
+            });
+        }
+
+        function toggleDiscussion(id) {
+            const disc = document.getElementById(id);
+            disc.classList.toggle('show');
+        }
+
+        const questions = [
+            { q: "Most common cause of airway obstruction in unconscious patient:", options: ["Foreign body", "The tongue", "Blood", "Swelling"], answer: 1, exp: "The tongue relaxes and falls back into the pharynx when consciousness is lost, blocking the airway. This is the most common obstruction." },
+            { q: "Jaw thrust is preferred when:", options: ["Patient is alert", "Spinal injury is suspected", "Patient is a child", "Airway is clear"], answer: 1, exp: "Jaw thrust maintains cervical spine alignment without tilting the head, protecting a potentially injured spine." },
+            { q: "NPA (nasopharyngeal airway) is contraindicated in:", options: ["Unconscious patients", "Suspected basilar skull fracture", "Obtunded patients", "Patients over 65"], answer: 1, exp: "Basilar skull fracture at base of skull means risk of tube entering cranial vault instead of airway. Signs include Battle's sign or raccoon eyes." },
+            { q: "Recovery position is used when a patient:", options: ["Is in cardiac arrest", "Is unconscious but breathing with no spinal concern", "Has a spine injury", "Is alert and ambulatory"], answer: 1, exp: "Recovery position (on side) protects airway if unconscious breathing patient vomits." },
+            { q: "Correct adult CPR compression rate:", options: ["60-80/min", "100-120/min", "140-160/min", "80-100/min"], answer: 1, exp: "CPR compressions should be 100-120 per minute. This is roughly the beat of a fast song." },
+            { q: "A sucking chest wound should be covered with:", options: ["Nothing - leave open", "A 3-sided occlusive dressing", "A completely sealed dressing", "A thick pressure dressing"], answer: 1, exp: "3-sided dressing (tape 3 sides, leave 1 loose) allows air to escape during exhalation but prevents air from entering during inhalation." },
+            { q: "'Not dead until warm and dead' applies to:", options: ["Heatstroke patients", "Hypothermic cardiac arrest", "Lightning-strike victims", "All cardiac arrest patients"], answer: 1, exp: "Severe hypothermia can cause apparent cardiac arrest but patient may be resuscitable after rewarming. Continue CPR." },
+            { q: "Signs of tension pneumothorax include all EXCEPT:", options: ["Tracheal deviation away from affected side", "Jugular vein distension", "Fever", "Hypotension and shock"], answer: 2, exp: "Tension pneumothorax is a mechanical problem, not an infection. Fever is not expected. JVD, tracheal deviation, and shock are classic signs." },
+            { q: "Stridor (high-pitched sound on inhalation) indicates:", options: ["Fluid in the lungs", "Partial upper airway obstruction", "Normal breathing", "Bronchospasm in lower airways"], answer: 1, exp: "Stridor is a high-pitched sound on inhalation indicating partial upper airway obstruction (larynx/pharynx level)." },
+            { q: "Compression to breath ratio for one-rescuer adult CPR:", options: ["15:1", "30:2", "15:2", "5:1"], answer: 1, exp: "Standard CPR is 30 compressions followed by 2 rescue breaths (30:2). Single rescuer: continue this ratio." }
+        ];
+
+        let answered = 0;
+        const total = questions.length;
+
+        function buildQuiz() {
+            const container = document.getElementById('quizContainer');
+            questions.forEach((q, idx) => {
+                const qDiv = document.createElement('div');
+                qDiv.className = 'quiz-question';
+                qDiv.innerHTML = `
+                    <h4>Q${idx + 1}: ${q.q}</h4>
+                    <ul>
+                        ${q.options.map((opt, oi) => `
+                            <li onclick="selectAnswer(this, ${idx}, ${oi})">${opt}</li>
+                        `).join('')}
+                    </ul>
+                    <div class="explanation" id="exp-${idx}"></div>
+                `;
+                container.appendChild(qDiv);
+            });
+        }
+
+        function selectAnswer(el, qi, selected) {
+            const q = questions[qi];
+            const items = el.parentElement.querySelectorAll('li');
+            items.forEach(i => i.classList.add('disabled'));
+            const expEl = document.getElementById('exp-' + qi);
+
+            if (selected === q.answer) {
+                el.classList.add('correct');
+                expEl.className = 'explanation show correct-exp';
+                expEl.innerHTML = '✓ Correct! ' + q.exp;
+            } else {
+                el.classList.add('incorrect');
+                items[q.answer].classList.add('correct');
+                expEl.className = 'explanation show incorrect-exp';
+                expEl.innerHTML = '✗ Not quite. ' + q.exp;
+            }
+            answered++;
+            if (answered === total) showScore();
+        }
+
+        function showScore() {
+            const sc = document.querySelectorAll('.explanation.correct-exp').length;
+            const lessonId = '03';
+            const prevScore = localStorage.getItem('wfa_score_' + lessonId);
+            localStorage.setItem('wfa_completed_' + lessonId, 'true');
+            localStorage.setItem('wfa_score_' + lessonId, Math.max(sc, parseInt(prevScore || '0')));
+            const el = document.getElementById('score-display');
+            el.style.display = 'block';
+            document.getElementById('score-text').textContent = 'You scored ' + sc + ' / ' + total;
+            let msg = sc >= 8 ? '🎉 Excellent work! You are ready for the next lesson.' : sc >= 6 ? '👍 Good job! Review the sections you missed.' : '📚 Consider reviewing this lesson before moving on.';
+            if (prevScore && parseInt(prevScore) > 0) msg += ' (Previous best: ' + prevScore + '/' + total + ')';
+            document.getElementById('score-sub').textContent = msg;
+            const retryBtn = document.createElement('button');
+            retryBtn.textContent = '↺ Retry Quiz';
+            retryBtn.style.cssText = 'margin-top:16px;padding:10px 24px;background:#2C7BE5;color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;';
+            retryBtn.onclick = function() {
+                answered = 0;
+                el.style.display = 'none';
+                document.getElementById('quizContainer').innerHTML = '';
+                buildQuiz();
+                retryBtn.remove();
+            };
+            el.appendChild(retryBtn);
+            el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        buildQuiz();
+        updateStepIndicator(0);
+    </script>
+</body>
+</html>

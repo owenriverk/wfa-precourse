@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 07: Head, Neck & Spine Injuries</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #E8F0FE;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1B4F8A 0%, #2C7BE5 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .header-meta {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            font-size: 0.95em;
+            margin-top: 15px;
+        }
+
+        .tabs-container {
+            display: flex;
+            flex-wrap: wrap;
+            background: white;
+            border-bottom: 2px solid #2C7BE5;
+            overflow-x: auto;
+            padding: 0 20px;
+        }
+
+        .tab-button {
+            padding: 15px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 500;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .tab-button:hover {
+            color: #2C7BE5;
+        }
+
+        .tab-button.active {
+            color: #1B4F8A;
+            border-bottom-color: #2C7BE5;
+        }
+
+        .content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section h2 {
+            color: #1B4F8A;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-left: 5px solid #2C7BE5;
+            padding-left: 15px;
+        }
+
+        .section h3 {
+            color: #2C7BE5;
+            font-size: 1.3em;
+            margin-top: 25px;
+            margin-bottom: 12px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-left: 5px solid;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+
+        .alert-danger {
+            border-left-color: #C0392B;
+            background-color: #fadbd8;
+            color: #7b241c;
+        }
+
+        .alert-warning {
+            border-left-color: #D35400;
+            background-color: #fdebd0;
+            color: #6e2c0a;
+        }
+
+        .alert-info {
+            border-left-color: #2C7BE5;
+            background-color: #d6eaf8;
+            color: #1B4F8A;
+        }
+
+        .alert-success {
+            border-left-color: #1A6B3A;
+            background-color: #d5f4e6;
+            color: #0b3618;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        thead {
+            background-color: #1B4F8A;
+            color: white;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tbody tr:hover {
+            background-color: #E8F0FE;
+        }
+
+        .scenario {
+            background: white;
+            border: 2px solid #2C7BE5;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .scenario-title {
+            font-weight: bold;
+            color: #1B4F8A;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .scenario-case {
+            font-style: italic;
+            background: #E8F0FE;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+
+        .toggle-button {
+            background-color: #2C7BE5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px 0;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .toggle-button:hover {
+            background-color: #1B4F8A;
+        }
+
+        .discussion {
+            display: none;
+            background: #d6eaf8;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border-left: 4px solid #2C7BE5;
+        }
+
+        .discussion.show {
+            display: block;
+        }
+
+        .quiz-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .question-box {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 6px;
+            border-left: 4px solid #2C7BE5;
+        }
+
+        .question-text {
+            font-weight: bold;
+            color: #1B4F8A;
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+
+        .answer-option {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 12px 15px;
+            margin: 8px 0;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.98em;
+        }
+
+        .answer-option:hover {
+            border-color: #2C7BE5;
+            background-color: #E8F0FE;
+        }
+
+        .answer-option.correct {
+            background-color: #d5f4e6;
+            border-color: #1A6B3A;
+            color: #0b3618;
+        }
+
+        .answer-option.incorrect {
+            background-color: #fadbd8;
+            border-color: #C0392B;
+            color: #7b241c;
+        }
+
+        .answer-option:disabled {
+            cursor: default;
+        }
+
+        .explanation {
+            display: none;
+            margin-top: 10px;
+            padding: 12px;
+            background: white;
+            border-radius: 4px;
+            font-size: 0.95em;
+            color: #333;
+        }
+
+        .explanation.show {
+            display: block;
+        }
+
+        .score-box {
+            background: linear-gradient(135deg, #1A6B3A 0%, #2d8a57 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .glossary {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .glossary-item {
+            margin: 15px 0;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .glossary-item:last-child {
+            border-bottom: none;
+        }
+
+        .term {
+            font-weight: bold;
+            color: #1B4F8A;
+            font-size: 1.05em;
+        }
+
+        .definition {
+            color: #555;
+            margin-top: 5px;
+            font-size: 0.95em;
+        }
+
+        .footer {
+            background: #1B4F8A;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .nav-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 900px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        .nav-link:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .objectives {
+            background: #E8F0FE;
+            border-left: 4px solid #2C7BE5;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .objectives h4 {
+            color: #1B4F8A;
+            margin-bottom: 10px;
+        }
+
+        .objectives ul {
+            margin-left: 20px;
+        }
+
+        .objectives li {
+            margin: 8px 0;
+            color: #333;
+        }
+
+        .key-point {
+            background: #fdebd0;
+            border-left: 4px solid #D35400;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+
+            .header-meta {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .tab-button {
+                padding: 12px 15px;
+                font-size: 0.85em;
+            }
+
+            .nav-footer {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Lesson 07: Head, Neck & Spine Injuries</h1>
+        <div class="header-meta">
+            <span>⏱️ Estimated Reading Time: 35 minutes</span>
+            <span>📚 Wilderness First Aid Course</span>
+        </div>
+    </div>
+
+    <div class="tabs-container">
+        <button class="tab-button active" onclick="switchTab('overview')">Overview</button>
+        <button class="tab-button" onclick="switchTab('anatomy')">Spinal Anatomy</button>
+        <button class="tab-button" onclick="switchTab('assessment')">Assessment</button>
+        <button class="tab-button" onclick="switchTab('tbi')">Traumatic Brain Injury</button>
+        <button class="tab-button" onclick="switchTab('management')">Field Management</button>
+        <button class="tab-button" onclick="switchTab('scenarios')">Scenarios</button>
+        <button class="tab-button" onclick="switchTab('quiz')">Quiz</button>
+        <button class="tab-button" onclick="switchTab('summary')">Summary</button>
+    </div>
+    <div id="step-indicator" style="background:#F0F4F8;border-bottom:1px solid #CBD5E0;padding:8px 20px;font-size:13px;color:#718096;display:flex;gap:16px;align-items:center;">
+      <span id="step-text">Step 1 of 8</span>
+      <div id="step-dots" style="display:flex;gap:6px;"></div>
+    </div>
+
+    <div class="content">
+        <!-- OVERVIEW -->
+        <div id="overview" class="section active">
+            <h2>Overview</h2>
+
+            <div class="objectives">
+                <h4>Learning Objectives</h4>
+                <ul>
+                    <li>Understand spinal anatomy and mechanisms of spine injury</li>
+                    <li>Apply Wilderness Spine Assessment (WSA) criteria to clear the spine in the field</li>
+                    <li>Perform manual in-line stabilization and proper logroll technique</li>
+                    <li>Apply cervical collar correctly</li>
+                    <li>Recognize and manage traumatic brain injury (TBI) including concussion</li>
+                    <li>Identify signs of increased intracranial pressure (ICP) and basilar skull fractures</li>
+                    <li>Understand GCS scoring and when to evacuate TBI patients</li>
+                </ul>
+            </div>
+
+            <p>Head, neck, and spine injuries represent some of the most challenging and consequential emergencies in wilderness medicine. A simple fall can result in spinal cord injury leading to permanent paralysis. A bump to the head can cause traumatic brain injury with subtle but serious consequences. Yet not every head or neck injury requires aggressive spine precautions — determining which patients truly need spinal immobilization is a critical skill.</p>
+
+            <p>This lesson teaches evidence-based assessment for spine clearance in the field and the recognition and management of head injuries, including concussion and intracranial emergencies.</p>
+
+            <div class="alert alert-danger">
+                <strong>Golden Rule:</strong> When in doubt about potential spine injury, immobilize and stabilize until proven otherwise. Spinal cord damage is irreversible; conservative management is justified.
+            </div>
+        </div>
+
+        <!-- SPINAL ANATOMY -->
+        <div id="anatomy" class="section">
+            <h2>Spinal Anatomy & Injury Mechanisms</h2>
+
+            <h3>Spinal Column Regions</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Region</th>
+                        <th>Vertebrae</th>
+                        <th>Location</th>
+                        <th>Injury Patterns</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Cervical (C)</strong></td>
+                        <td>C1-C7</td>
+                        <td>Neck; most mobile, least protected</td>
+                        <td>High-risk region; injuries often catastrophic (quadriplegia)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Thoracic (T)</strong></td>
+                        <td>T1-T12</td>
+                        <td>Mid-back; protected by rib cage</td>
+                        <td>Often associated with significant trauma; spinal cord injury common</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Lumbar (L)</strong></td>
+                        <td>L1-L5</td>
+                        <td>Lower back; most stable region</td>
+                        <td>Weight-bearing; fractures common but cord injury less severe (cauda equina syndrome)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sacral (S)</strong></td>
+                        <td>S1-S5 (fused)</td>
+                        <td>Lowest spine; fused to pelvis</td>
+                        <td>Part of pelvis; fractures usually from extreme trauma</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Spinal Cord Anatomy</h3>
+            <p>The spinal cord is a bundle of nerves running through the vertebral column from the brainstem to approximately L1. Nerve roots branch off at each level to supply the body. Damage to the cord at any level disrupts function below that level:</p>
+            <ul style="margin-left: 20px;">
+                <li><strong>Cervical injury (C1-C4):</strong> Can be fatal (respirations controlled by C3-C5); causes quadriplegia (paralysis of all four limbs)</li>
+                <li><strong>Cervical injury (C5-C8):</strong> Quadriplegia with variable arm and hand function</li>
+                <li><strong>Thoracic injury:</strong> Paraplegia (paralysis of lower limbs)</li>
+                <li><strong>Lumbar injury:</strong> Cauda equina syndrome (variable leg paralysis, bowel/bladder dysfunction)</li>
+            </ul>
+
+            <h3>Mechanisms of Spinal Injury</h3>
+
+            <p><strong>Axial Load (Compression):</strong> Force applied along the length of the spine. Example: diver hitting bottom, falling and landing on buttocks with legs straight, falling from height and landing on feet. Causes vertebral compression fractures.</p>
+
+            <p><strong>Hyperflexion:</strong> Excessive forward bending. Example: head-on collision, being struck from behind. Can cause vertebral fractures and ligament rupture.</p>
+
+            <p><strong>Hyperextension:</strong> Excessive backward bending. Example: rear-end collision, struck on forehead. Can cause fractures and spinal cord damage.</p>
+
+            <p><strong>Rotation/Distraction:</strong> Twisting or pulling forces. Example: rollover accident, being twisted. High-energy; often associated with fracture-dislocations and severe cord injury.</p>
+
+            <h3>NEXUS Criteria Review</h3>
+            <p>The NEXUS criteria help identify which patients need C-spine imaging. In wilderness, you use similar logic to determine who needs spine precautions. A patient with ANY of the following requires spine immobilization:</p>
+            <ul style="margin-left: 20px;">
+                <li>Focal neurological deficit (weakness, paralysis)</li>
+                <li>Midline spine tenderness</li>
+                <li>Altered mental status or intoxication</li>
+                <li>Distracting injury (severe pain elsewhere)</li>
+                <li>High-risk mechanism (significant fall, high-speed motor vehicle, axial load)</li>
+            </ul>
+        </div>
+
+        <!-- WILDERNESS SPINE ASSESSMENT -->
+        <div id="assessment" class="section">
+            <h2>Wilderness Spine Assessment (WSA)</h2>
+
+            <h3>When Can You Clear the Spine?</h3>
+
+            <p>In remote wilderness settings, you may be able to safely clear the spine without imaging. The Wilderness Spine Assessment (WSA) criteria allow clearance when ALL of the following are met:</p>
+
+            <div class="alert alert-success">
+                <strong>WSA Clearance Criteria (All Must Be Present):</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Reliable patient (not intoxicated, not altered mental status)</li>
+                    <li>No loss of consciousness</li>
+                    <li>No distracting injuries (injuries causing severe pain elsewhere)</li>
+                    <li>No midline spine tenderness on palpation</li>
+                    <li>No neurological deficits (normal strength, sensation, reflexes)</li>
+                    <li>No high-risk mechanism (simple fall from <10 feet, low-speed)</li>
+                </ul>
+                If ALL criteria are met, spine can be cleared and normal activity resumed.
+            </div>
+
+            <h3>Manual In-Line Stabilization Technique</h3>
+
+            <p>If spine injury is possible, stabilize the head and neck:</p>
+            <ol style="margin-left: 20px;">
+                <li>Rescuer holds patient's head with hands on both sides, keeping head neutral (not flexed, extended, or rotated)</li>
+                <li>Maintain gentle traction if necessary to keep airway aligned</li>
+                <li>Do NOT allow head to move in any direction</li>
+                <li>Continue until patient is fully immobilized on stretcher</li>
+            </ol>
+
+            <h3>Logroll Technique</h3>
+
+            <p>When moving a suspected spine-injured patient from ground to stretcher, use a logroll to keep the spine straight:</p>
+
+            <div class="alert alert-info">
+                <strong>Logroll Requirements:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Requires MINIMUM 3 rescuers (one for head/neck, one for torso, one for legs)</li>
+                    <li>4+ rescuers is ideal</li>
+                    <li>One rescuer directs the movement (usually the one holding the head)</li>
+                    <li>Roll patient as one unit; do not allow spine to bend or rotate</li>
+                    <li>Place on stretcher in supine position</li>
+                </ul>
+            </div>
+
+            <h3>Cervical Collar Application</h3>
+
+            <p>A C-collar immobilizes the neck (but does NOT completely eliminate motion; it reduces motion by about 50%). Apply correctly:</p>
+            <ol style="margin-left: 20px;">
+                <li>Measure collar size (should fit snugly around neck)</li>
+                <li>Place back piece first, then snap front together</li>
+                <li>Ensure chin rests on chin support</li>
+                <li>Collar should not be so tight that it compromises breathing or circulation</li>
+                <li>Use rolled towels or foam to prevent side-to-side head motion</li>
+            </ol>
+
+            <div class="key-point">
+                <strong>Collar Limitations:</strong> A cervical collar alone is insufficient. Always combine with manual stabilization, towel rolls, and straps to prevent motion.
+            </div>
+        </div>
+
+        <!-- TRAUMATIC BRAIN INJURY -->
+        <div id="tbi" class="section">
+            <h2>Traumatic Brain Injury (TBI)</h2>
+
+            <h3>Concussion Definition</h3>
+
+            <p><strong>A concussion is a type of TBI caused by a blow to the head or violent head movement, resulting in disruption of normal brain function.</strong> May or may not involve loss of consciousness. Recovery involves gradual return of function.</p>
+
+            <h3>Concussion Signs & Symptoms</h3>
+
+            <ul style="margin-left: 20px;">
+                <li>Headache (most common)</li>
+                <li>Confusion or disorientation ("What's my name?" or "Where am I?")</li>
+                <li>Dizziness or vertigo</li>
+                <li>Nausea or vomiting</li>
+                <li>Difficulty concentrating or memory problems</li>
+                <li>Sensitivity to light or noise</li>
+                <li>Loss of consciousness (variable; not required for diagnosis)</li>
+                <li>Amnesia for events before or after the injury</li>
+            </ul>
+
+            <h3>Return-to-Play Protocol</h3>
+
+            <p>Post-concussion management focuses on cognitive and physical rest, with gradual return to activity:</p>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Stage</th>
+                            <th>Activity Level</th>
+                            <th>Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Complete physical and cognitive rest</td>
+                            <td>Until symptom-free</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Light aerobic activity (walking, stationary bike)</td>
+                            <td>As tolerated, 24+ hours at stage</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Sport-specific exercise</td>
+                            <td>As tolerated, 24+ hours at stage</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Non-contact training</td>
+                            <td>As tolerated, 24+ hours at stage</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Full-contact practice</td>
+                            <td>As tolerated, 24+ hours at stage</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>Return to competition</td>
+                            <td>Full return</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p><strong>Key Rule:</strong> Must be symptom-free at each stage before advancing. If symptoms recur, return to prior stage.</p>
+
+            <h3>Postconcussion Syndrome</h3>
+
+            <p>In some patients, symptoms persist for weeks to months after concussion. May include persistent headache, cognitive dysfunction, mood changes. Requires longer recovery period and may benefit from specialist evaluation.</p>
+
+            <h3>Cushing's Triad: Sign of Rising Intracranial Pressure</h3>
+
+            <div class="alert alert-danger">
+                <strong>Cushing's Triad (Late Sign of Increased ICP):</strong>
+                <ul style="margin-left: 20px;">
+                    <li><strong>Hypertension:</strong> Elevated blood pressure (>140/90 or higher than baseline)</li>
+                    <li><strong>Bradycardia:</strong> Slow heart rate (<60 bpm) despite shock from injury</li>
+                    <li><strong>Irregular Respirations:</strong> Abnormal breathing pattern (Cheyne-Stokes, gasping)</li>
+                </ul>
+                Presence of Cushing's triad indicates EMERGENT condition. Brain herniation may be imminent.
+            </div>
+
+            <h3>Basilar Skull Fracture Signs</h3>
+
+            <p>A fracture at the base of the skull can be subtle on exam but is serious. Look for:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sign</th>
+                        <th>Finding</th>
+                        <th>Significance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Battle's Sign</strong></td>
+                        <td>Bruising behind the ear (over mastoid bone)</td>
+                        <td>Suggests basilar skull fracture</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Raccoon Eyes</strong></td>
+                        <td>Bruising around both eyes (without direct eye trauma)</td>
+                        <td>Suggests anterior fossa basilar fracture</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CSF Rhinorrhea</strong></td>
+                        <td>Clear fluid draining from nose</td>
+                        <td>CSF leak through cribriform plate fracture</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CSF Otorrhea</strong></td>
+                        <td>Clear fluid draining from ear</td>
+                        <td>CSF leak through temporal bone fracture</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Hemotympanum</strong></td>
+                        <td>Blood behind the tympanum (ear drum)</td>
+                        <td>Suggests basilar fracture</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Glasgow Coma Scale (GCS)</h3>
+
+            <p>GCS measures level of consciousness by evaluating eye opening, verbal response, and motor response. Score ranges 3-15; lower scores indicate more severe injury.</p>
+
+            <div class="key-point">
+                <strong>GCS Interpretation:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>13-15: Mild TBI</li>
+                    <li>9-12: Moderate TBI</li>
+                    <li>3-8: Severe TBI (indicates inability to protect airway)</li>
+                </ul>
+            </div>
+
+            <h3>Signs of Deteriorating TBI Patient</h3>
+
+            <div class="alert alert-danger">
+                <strong>Immediate Evacuation Indicators:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Unequal pupils (anisocoria) — suggests brain herniation</li>
+                    <li>Worsening headache or mental status</li>
+                    <li>Vomiting (especially projectile)</li>
+                    <li>Loss of consciousness</li>
+                    <li>Seizures</li>
+                    <li>Cushing's triad (hypertension, bradycardia, irregular respirations)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- FIELD MANAGEMENT -->
+        <div id="management" class="section">
+            <h2>Field Management of Head & Spine Injuries</h2>
+
+            <h3>Positioning</h3>
+
+            <p><strong>Suspected Spine Injury:</strong> Keep supine with head neutral. If patient is vomiting, logroll to side while maintaining spine alignment.</p>
+
+            <p><strong>Conscious Head Injury without Spine Injury:</strong> Position upright or semi-upright to reduce intracranial pressure and prevent aspiration.</p>
+
+            <h3>Airway Management Priority</h3>
+
+            <p>Maintaining a patent airway is the absolute priority. If patient is unconscious or cannot protect airway:</p>
+            <ul style="margin-left: 20px;">
+                <li>Position in recovery position (lateral recumbent) with head tilted back to maintain airway patency, IF spine injury ruled out</li>
+                <li>If spine injury possible, maintain supine with head neutral and prepare for aggressive airway management</li>
+                <li>If vomiting occurs with suspected spine injury, logroll as unit to side to protect airway</li>
+            </ul>
+
+            <h3>Vomiting in Spinal Patient</h3>
+
+            <p>A major challenge in wilderness: vomiting patient with suspected spine injury risks aspiration. Solution:</p>
+            <ol style="margin-left: 20px;">
+                <li>Keep patient supine with head neutral as much as possible</li>
+                <li>If vomiting occurs, logroll patient as a unit to the left side (maintains spine alignment)</li>
+                <li>Suction airway if available</li>
+                <li>Return to supine once vomiting clears</li>
+            </ol>
+
+            <h3>When to Move a Spine-Injured Patient</h3>
+
+            <p><strong>Immediate Movement Required:</strong></p>
+            <ul style="margin-left: 20px;">
+                <li>Environmental danger (fire, rock fall, water)</li>
+                <li>Airway compromise requiring repositioning</li>
+                <li>Shock requiring intervention</li>
+            </ul>
+
+            <p><strong>Otherwise:</strong> Minimize movement. Keep patient still until fully immobilized on stretcher.</p>
+
+            <h3>Evacuation Urgency</h3>
+
+            <div class="alert alert-danger">
+                <strong>EMERGENT Evacuation:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Any unconscious patient</li>
+                    <li>Deteriorating level of consciousness</li>
+                    <li>Neurological deficit (weakness, paralysis, sensory loss)</li>
+                    <li>Signs of increasing ICP (Cushing's triad, unequal pupils, vomiting)</li>
+                    <li>Basilar skull fracture suspected</li>
+                    <li>High-risk mechanism with spine injury possible</li>
+                </ul>
+            </div>
+
+            <div class="alert alert-warning">
+                <strong>URGENT Evacuation:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Concussion with any symptoms</li>
+                    <li>Mild TBI (GCS 13-15) with reassuring exam</li>
+                    <li>Suspected spine injury with normal neuro exam</li>
+                </ul>
+            </div>
+
+            <h3>Documentation</h3>
+
+            <p>Careful documentation is critical for TBI patients:</p>
+            <ul style="margin-left: 20px;">
+                <li>Mechanism of injury</li>
+                <li>Level of consciousness at arrival and throughout evacuation</li>
+                <li>GCS score</li>
+                <li>Pupils (size, equal/unequal, reactive)</li>
+                <li>Any vomiting or seizures</li>
+                <li>Vital signs and trends</li>
+                <li>Any improvement or deterioration</li>
+            </ul>
+        </div>
+
+        <!-- SCENARIOS -->
+        <div id="scenarios" class="section">
+            <h2>Clinical Scenarios</h2>
+
+            <div class="scenario">
+                <div class="scenario-title">Scenario 1: Possible Cervical Spine Injury</div>
+                <div class="scenario-case">
+                    A 40-year-old rock climber rappels down a steep descent and loses control, landing forcefully on his upper back and neck area. He's conscious, alert, and asking questions. He reports mild neck pain but no numbness or weakness. Exam: No midline tenderness, normal strength/sensation in all extremities, mechanism was significant (fall from height).
+                </div>
+                <button class="toggle-button" onclick="toggleDiscussion('scenario1')">Show Discussion</button>
+                <div id="scenario1" class="discussion">
+                    <strong>Analysis:</strong> High-risk mechanism (significant fall). Despite lack of symptoms and normal neuro exam, this mechanism warrants spine precautions.
+                    <br><br>
+                    <strong>Management:</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Do NOT try to clear the spine with this mechanism</li>
+                        <li>Apply manual in-line stabilization immediately</li>
+                        <li>Apply appropriately-sized cervical collar</li>
+                        <li>Keep patient supine with head neutral; use padding/rolled towels to prevent motion</li>
+                        <li>Reassess neuro function frequently (any change in strength, sensation, or symptoms?)</li>
+                        <li>URGENT evacuation for imaging (X-ray or CT) to rule out fracture</li>
+                        <li>Do not allow patient to walk or self-rescue</li>
+                    </ul>
+                    <strong>Key Point:</strong> Mechanism trumps current symptoms. Conservative immobilization is appropriate.
+                </div>
+            </div>
+
+            <div class="scenario">
+                <div class="scenario-title">Scenario 2: Traumatic Brain Injury with Deterioration</div>
+                <div class="scenario-case">
+                    A 32-year-old hiker is struck on the head by a falling tree branch. Initial: he's dazed, confused, complains of headache, no vomiting. You evacuate him down the mountain over 90 minutes. Partway down, you notice his headache is worsening, he's become increasingly drowsy, and one pupil appears slightly larger than the other. HR 52, BP 158/95.
+                </div>
+                <button class="toggle-button" onclick="toggleDiscussion('scenario2')">Show Discussion</button>
+                <div id="scenario2" class="discussion">
+                    <strong>Analysis:</strong> This is a deteriorating TBI patient showing signs of increased intracranial pressure: worsening headache, drowsiness (decreasing consciousness), unequal pupils (anisocoria), Cushing's triad (hypertension, bradycardia). This is a MEDICAL EMERGENCY.
+                    <br><br>
+                    <strong>Immediate Actions:</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>STOP evacuation — this is EMERGENT</li>
+                        <li>Call for helicopter/emergency rescue immediately</li>
+                        <li>Elevate head of stretcher 30° to promote venous drainage and reduce ICP</li>
+                        <li>Keep patient calm and cool (minimize exertion)</li>
+                        <li>Monitor airway — this patient is at risk for loss of airway</li>
+                        <li>Monitor vitals and pupils constantly</li>
+                        <li>Be prepared to manage airway emergency</li>
+                        <li>Do NOT delay evacuation — brain herniation is imminent without hospital intervention</li>
+                    </ul>
+                    <strong>Critical Pearl:</strong> Unequal pupils in a head injury patient is a neurosurgical emergency. Brain herniation may occur rapidly.
+                </div>
+            </div>
+        </div>
+
+        <!-- QUIZ -->
+        <div id="quiz" class="section">
+            <h2>Knowledge Check: Quiz</h2>
+
+            <div class="alert alert-info">
+                <strong>Instructions:</strong> Answer all 10 questions. Your score will be calculated after you select an answer for each question.
+            </div>
+
+            <div id="quiz-container"></div>
+
+            <div id="score-container"></div>
+        </div>
+
+        <!-- SUMMARY & GLOSSARY -->
+        <div id="summary" class="section">
+            <h2>Summary & Key Takeaways</h2>
+
+            <div class="alert alert-success">
+                <strong>Key Concepts to Remember:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>High-risk mechanism = immobilize spine even without symptoms</li>
+                    <li>Wilderness Spine Assessment allows clearance only when ALL criteria are met</li>
+                    <li>Logroll requires minimum 3 rescuers; roll as a unit</li>
+                    <li>Cervical collar reduces motion ~50% but must be combined with other techniques</li>
+                    <li>Cushing's triad (hypertension, bradycardia, irregular respirations) indicates raised ICP emergency</li>
+                    <li>Unequal pupils in TBI = neurosurgical emergency</li>
+                    <li>Concussion = not about unconsciousness, but disruption of brain function</li>
+                    <li>Return-to-play requires symptom-free progression through stages</li>
+                </ul>
+            </div>
+
+            <h2 style="margin-top: 40px;">Glossary of Terms</h2>
+
+            <div class="glossary">
+                <div class="glossary-item">
+                    <div class="term">Anisocoria</div>
+                    <div class="definition">Unequal pupil size; in head injury indicates possible brain herniation or increased intracranial pressure.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Basilar Skull Fracture</div>
+                    <div class="definition">Fracture at the base of the skull; can be subtle but serious, indicated by Battle's sign, raccoon eyes, or CSF leakage.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Cauda Equina Syndrome</div>
+                    <div class="definition">Neurological emergency from compression of the bundle of nerve roots in the lumbar spine; causes lower limb paralysis and bowel/bladder dysfunction.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Cervical Spine</div>
+                    <div class="definition">The neck region of the spine (C1-C7); most mobile and least stable; injuries often catastrophic.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Concussion</div>
+                    <div class="definition">A type of traumatic brain injury from a blow to the head causing disruption of normal brain function; may or may not involve loss of consciousness.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Cushing's Triad</div>
+                    <div class="definition">Hypertension, bradycardia, and irregular respirations — a late sign indicating dangerously increased intracranial pressure.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">CSF (Cerebrospinal Fluid)</div>
+                    <div class="definition">Clear fluid surrounding the brain and spinal cord; if leaking from nose or ears, indicates basilar skull fracture.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Diaschisis</div>
+                    <div class="definition">Functional disruption of neural tissue surrounding the site of injury; explains why concussion causes symptoms without structural brain damage.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Glasgow Coma Scale (GCS)</div>
+                    <div class="definition">A scoring system (3-15) measuring level of consciousness by evaluating eye opening, verbal response, and motor response.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Herniation</div>
+                    <div class="definition">Shifting of brain tissue from increased intracranial pressure; can be rapidly fatal; indicated by unequal pupils.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Logroll</div>
+                    <div class="definition">A technique to move a suspected spinal injury patient as one unit, keeping spine straight; requires minimum 3 rescuers.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Postconcussion Syndrome</div>
+                    <div class="definition">Persistent symptoms (headache, cognitive dysfunction, mood changes) lasting weeks to months after concussion.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Spinal Cord</div>
+                    <div class="definition">Bundle of nerves running through the vertebral column; damage at any level causes loss of function below that level.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Traumatic Brain Injury (TBI)</div>
+                    <div class="definition">Injury to the brain from a blow or violent movement; ranges from mild (concussion) to severe (unconsciousness, permanent disability).</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Wilderness Spine Assessment (WSA)</div>
+                    <div class="definition">Evidence-based criteria allowing safe spine clearance in the field when specific conditions are met.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="nav-footer">
+            <a href="../index.html" class="nav-link">🏠 Home</a>
+            <a href="06_Musculoskeletal.html" class="nav-link">← Previous</a>
+            <a href="08_Heat.html" class="nav-link">Next →</a>
+        </div>
+    </div>
+
+    <script>
+        const quizQuestions = [
+            {
+                question: "Cushing's triad (sign of rising intracranial pressure) consists of:",
+                options: ["A) Tachycardia, hypotension, tachypnea", "B) Hypertension, bradycardia, irregular respirations", "C) Hypotension, bradycardia, hyperthermia", "D) Tachycardia, hypertension, hyperthermia"],
+                correct: 1,
+                explanation: "Cushing's triad is hypertension, bradycardia (slow heart rate), and irregular respirations — a critical sign of raised intracranial pressure."
+            },
+            {
+                question: "Wilderness Spine Assessment allows spine clearance when ALL of the following are present EXCEPT:",
+                options: ["A) Reliable patient", "B) Mechanism of injury involving high speed", "C) No midline spine tenderness", "D) No neurological deficits"],
+                correct: 1,
+                explanation: "High-risk mechanism is NOT one of the clearance criteria; any high-risk mechanism requires immobilization regardless of symptoms."
+            },
+            {
+                question: "Battle's sign (bruising behind the ear) suggests:",
+                options: ["A) Temporal muscle strain", "B) Basilar skull fracture", "C) Middle ear infection", "D) TMJ injury"],
+                correct: 1,
+                explanation: "Battle's sign is bruising over the mastoid bone behind the ear, indicating a basilar skull fracture at the temporal bone."
+            },
+            {
+                question: "Manual spinal stabilization involves:",
+                options: ["A) Applying a rigid collar only", "B) Holding the head in neutral in-line position with hands", "C) Moving the patient to a flat surface", "D) Applying traction to the spine"],
+                correct: 1,
+                explanation: "Manual in-line stabilization means using hands to hold the head neutral, preventing any flexion, extension, or rotation."
+            },
+            {
+                question: "A patient with a concussion should return to activity:",
+                options: ["A) As soon as headache resolves", "B) Following a stepwise return-to-play protocol, symptom-free at each stage", "C) Immediately — concussions are minor", "D) Only after 1 week regardless of symptoms"],
+                correct: 1,
+                explanation: "Return-to-play requires a stepwise progression with the patient remaining symptom-free at each stage before advancing."
+            },
+            {
+                question: "The logroll technique requires a minimum of:",
+                options: ["A) 1 rescuer", "B) 2 rescuers", "C) 3 rescuers", "D) 4 rescuers"],
+                correct: 2,
+                explanation: "Logroll requires a MINIMUM of 3 rescuers (one for head/neck, one for torso, one for legs) to keep the spine straight."
+            },
+            {
+                question: "CSF (clear fluid) draining from the ear or nose after head trauma suggests:",
+                options: ["A) Ear infection", "B) Basilar skull fracture", "C) Labyrinthitis", "D) Normal trauma response"],
+                correct: 1,
+                explanation: "CSF leakage from nose (rhinorrhea) or ear (otorrhea) indicates basilar skull fracture — a serious injury."
+            },
+            {
+                question: "A patient with suspected spinal injury who is vomiting should:",
+                options: ["A) Be left supine and allowed to aspirate", "B) Be logrolled as a unit to their side to protect the airway", "C) Have the spine ignored to treat vomiting", "D) Be left prone"],
+                correct: 1,
+                explanation: "Logroll as a unit to the side to protect the airway while maintaining spine alignment. This is the key to managing vomiting in spinal patients."
+            },
+            {
+                question: "Signs of a deteriorating TBI patient include:",
+                options: ["A) Improving level of consciousness", "B) Unequal pupils, worsening headache, increasing confusion, vomiting", "C) Normal vital signs", "D) Mild headache only"],
+                correct: 1,
+                explanation: "Deterioration in TBI is indicated by unequal pupils (anisocoria), worsening headache, confusion, and vomiting — signs of increased ICP."
+            },
+            {
+                question: "Which mechanism of injury has the HIGHEST risk of spinal cord injury?",
+                options: ["A) Low-speed fall", "B) Diving into shallow water", "C) Ankle sprain", "D) Direct blow to shoulder"],
+                correct: 1,
+                explanation: "Diving into shallow water combines high-speed axial loading with little protection, creating extreme risk for spinal cord injury."
+            }
+        ];
+
+        function switchTab(tabName) {
+            const sections = document.querySelectorAll('.section');
+            const buttons = document.querySelectorAll('.tab-button');
+
+            sections.forEach(section => section.classList.remove('active'));
+            buttons.forEach(button => button.classList.remove('active'));
+
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            if (tabName === 'quiz' && document.getElementById('quiz-container').innerHTML === '') {
+                renderQuiz();
+            }
+
+            const tabs = Array.from(document.querySelectorAll('.tab-button'));
+            const activeIdx = tabs.findIndex(b => b.getAttribute('onclick').includes(tabName));
+            updateStepIndicator(activeIdx);
+        }
+        function updateStepIndicator(activeIdx) {
+            const tabs = document.querySelectorAll('.tab-button');
+            document.getElementById('step-text').textContent = 'Step ' + (activeIdx + 1) + ' of ' + tabs.length;
+            const dots = document.getElementById('step-dots');
+            dots.innerHTML = '';
+            tabs.forEach((_, i) => {
+                const d = document.createElement('div');
+                d.style.cssText = 'width:8px;height:8px;border-radius:50%;background:' + (i === activeIdx ? '#2C7BE5' : i < activeIdx ? '#1A6B3A' : '#CBD5E0') + ';';
+                dots.appendChild(d);
+            });
+        }
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+
+            quizQuestions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-box';
+                questionDiv.innerHTML = `
+                    <div class="question-text">Question ${index + 1}: ${q.question}</div>
+                    ${q.options.map((option, optIndex) => `
+                        <button class="answer-option" onclick="selectAnswer(${index}, ${optIndex})" id="q${index}o${optIndex}">
+                            ${option}
+                        </button>
+                    `).join('')}
+                    <div class="explanation" id="exp${index}"></div>
+                `;
+                container.appendChild(questionDiv);
+            });
+        }
+
+        function selectAnswer(questionIndex, optionIndex) {
+            const question = quizQuestions[questionIndex];
+            const correct = question.correct === optionIndex;
+
+            for (let i = 0; i < question.options.length; i++) {
+                const btn = document.getElementById(`q${questionIndex}o${i}`);
+                if (correct && i === optionIndex) {
+                    btn.classList.add('correct');
+                    btn.disabled = true;
+                } else if (!correct && i === optionIndex) {
+                    btn.classList.add('incorrect');
+                    btn.disabled = true;
+                } else {
+                    btn.disabled = true;
+                }
+            }
+
+            const explanation = document.getElementById(`exp${questionIndex}`);
+            explanation.textContent = question.explanation;
+            explanation.classList.add('show');
+
+            calculateScore();
+        }
+
+        function calculateScore() {
+            let score = 0;
+            let answered = 0;
+            quizQuestions.forEach((q, index) => {
+                for (let i = 0; i < q.options.length; i++) {
+                    const btn = document.getElementById(`q${index}o${i}`);
+                    if (btn.classList.contains('correct')) { score++; answered++; break; }
+                    if (btn.classList.contains('incorrect')) { answered++; break; }
+                }
+            });
+            if (answered < quizQuestions.length) return;
+            const lessonId = '07';
+            const prevScore = localStorage.getItem('wfa_score_' + lessonId);
+            localStorage.setItem('wfa_completed_' + lessonId, 'true');
+            localStorage.setItem('wfa_score_' + lessonId, Math.max(score, parseInt(prevScore || '0')));
+            const scoreContainer = document.getElementById('score-container');
+            let msg = score >= Math.round(quizQuestions.length * 0.8) ? '🎉 Excellent work! You are ready for the next lesson.' : score >= Math.round(quizQuestions.length * 0.6) ? '👍 Good job! Review the sections you missed.' : '📚 Consider reviewing this lesson before moving on.';
+            if (prevScore && parseInt(prevScore) > 0) msg += ' (Previous best: ' + prevScore + '/' + quizQuestions.length + ')';
+            scoreContainer.innerHTML = '<div class="score-box">You scored ' + score + '/' + quizQuestions.length + ' (' + Math.round(score/quizQuestions.length*100) + '%)<br>' + msg + '</div>';
+            const retryBtn = document.createElement('button');
+            retryBtn.textContent = '↺ Retry Quiz';
+            retryBtn.style.cssText = 'margin-top:16px;padding:10px 24px;background:#2C7BE5;color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;display:block;';
+            retryBtn.onclick = function() {
+                scoreContainer.innerHTML = '';
+                document.getElementById('quiz-container').innerHTML = '';
+                renderQuiz();
+            };
+            scoreContainer.appendChild(retryBtn);
+        }
+
+        function toggleDiscussion(id) {
+            const discussion = document.getElementById(id);
+            discussion.classList.toggle('show');
+        }
+        updateStepIndicator(0);
+    </script>
+</body>
+</html>

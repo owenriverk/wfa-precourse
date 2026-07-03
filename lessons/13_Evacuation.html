@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 13: Evacuation & Patient Transport | Wilderness First Aid</title>
+<style>
+:root {
+  --primary: #1B4F8A; --accent: #2C7BE5; --light-bg: #E8F0FE;
+  --danger: #C0392B; --danger-bg: #FDECEA; --success: #1A6B3A; --success-bg: #E8F5E9;
+  --warning: #D35400; --warning-bg: #FFF3E0; --info: #1565C0; --info-bg: #E3F2FD;
+  --dark: #2D3748; --muted: #718096; --border: #CBD5E0; --white: #FFFFFF;
+  --card-bg: #F7FAFC;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F0F4F8; color: var(--dark); line-height: 1.7; }
+.header { background: linear-gradient(135deg, #1B4F8A 0%, #2C7BE5 100%); color: white; padding: 24px 32px; }
+.header-meta { display: flex; gap: 16px; font-size: 13px; opacity: 0.85; margin-bottom: 8px; flex-wrap: wrap; }
+.header-meta span { background: rgba(255,255,255,0.2); padding: 3px 10px; border-radius: 12px; }
+.header h1 { font-size: clamp(22px, 4vw, 32px); font-weight: 700; }
+.header p { opacity: 0.9; margin-top: 6px; font-size: 16px; }
+.tabs { display: flex; background: white; border-bottom: 2px solid var(--border); overflow-x: auto; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.tab { padding: 14px 20px; cursor: pointer; font-size: 14px; font-weight: 600; color: var(--muted); border-bottom: 3px solid transparent; margin-bottom: -2px; white-space: nowrap; transition: all 0.2s; }
+.tab:hover { color: var(--accent); background: var(--light-bg); }
+.tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+.section { display: none; max-width: 900px; margin: 0 auto; padding: 32px 24px; }
+.section.active { display: block; }
+h2 { font-size: 26px; color: var(--primary); margin: 28px 0 14px; border-left: 4px solid var(--accent); padding-left: 14px; }
+h3 { font-size: 20px; color: var(--dark); margin: 22px 0 10px; }
+h4 { font-size: 16px; color: var(--primary); margin: 16px 0 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+p { margin-bottom: 14px; }
+ul, ol { margin: 10px 0 16px 24px; }
+li { margin-bottom: 7px; }
+.alert { border-radius: 8px; padding: 16px 20px; margin: 20px 0; border-left: 5px solid; }
+.alert-title { font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.alert-danger { background: var(--danger-bg); border-color: var(--danger); color: #7B241C; }
+.alert-danger .alert-title { color: var(--danger); }
+.alert-warning { background: var(--warning-bg); border-color: var(--warning); color: #7E5109; }
+.alert-warning .alert-title { color: var(--warning); }
+.alert-info { background: var(--info-bg); border-color: var(--info); color: #1A237E; }
+.alert-info .alert-title { color: var(--info); }
+.alert-success { background: var(--success-bg); border-color: var(--success); color: #1B5E20; }
+.alert-success .alert-title { color: var(--success); }
+.card { background: white; border-radius: 10px; padding: 22px; margin: 18px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.07); border: 1px solid var(--border); }
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 18px 0; }
+.objective-list { list-style: none; margin: 0; padding: 0; }
+.objective-list li { padding: 10px 14px; border-radius: 6px; background: var(--light-bg); margin-bottom: 8px; padding-left: 40px; position: relative; }
+.objective-list li::before { content: "✓"; position: absolute; left: 12px; color: var(--accent); font-weight: 700; }
+table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 14px; }
+th { background: var(--primary); color: white; padding: 12px 14px; text-align: left; }
+td { padding: 11px 14px; border-bottom: 1px solid var(--border); }
+tr:nth-child(even) td { background: var(--card-bg); }
+.scenario-case { background: white; border-radius: 10px; border: 1px solid var(--border); margin: 20px 0; overflow: hidden; }
+.scenario-header { background: var(--primary); color: white; padding: 14px 20px; font-weight: 600; font-size: 16px; }
+.scenario-body { padding: 20px; }
+.toggle-btn { background: var(--accent); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; margin-top: 12px; transition: background 0.2s; }
+.toggle-btn:hover { background: var(--primary); }
+.discussion { display: none; margin-top: 16px; padding: 16px; background: var(--success-bg); border-radius: 8px; border-left: 4px solid var(--success); }
+.discussion.visible { display: block; }
+.quiz-question { background: white; border-radius: 10px; padding: 22px; margin: 20px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.07); border: 1px solid var(--border); }
+.quiz-question p { font-weight: 600; font-size: 16px; margin-bottom: 14px; }
+.quiz-options { list-style: none; padding: 0; margin: 0; }
+.quiz-options li { padding: 12px 16px; border: 2px solid var(--border); border-radius: 8px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s; font-size: 15px; }
+.quiz-options li:hover { border-color: var(--accent); background: var(--light-bg); }
+.quiz-options li.correct { background: var(--success-bg); border-color: var(--success); color: var(--success); font-weight: 600; }
+.quiz-options li.incorrect { background: var(--danger-bg); border-color: var(--danger); color: var(--danger); }
+.quiz-options li.disabled { pointer-events: none; }
+.explanation { display: none; margin-top: 12px; padding: 12px 16px; border-radius: 6px; font-size: 14px; }
+.explanation.show { display: block; }
+.explanation.correct-exp { background: var(--success-bg); color: var(--success); border-left: 4px solid var(--success); }
+.explanation.incorrect-exp { background: var(--danger-bg); color: var(--danger); border-left: 4px solid var(--danger); }
+.score-banner { text-align: center; padding: 30px; background: white; border-radius: 12px; margin: 24px 0; border: 2px solid var(--border); }
+.score-banner h3 { font-size: 32px; color: var(--primary); }
+.score-banner p { color: var(--muted); }
+.glossary dt { font-weight: 700; color: var(--primary); margin-top: 14px; }
+.glossary dd { margin-left: 20px; color: var(--dark); margin-bottom: 8px; }
+.key-points { background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; border-radius: 12px; padding: 24px; margin: 24px 0; }
+.key-points h3 { margin-bottom: 14px; font-size: 20px; color: white; margin-top: 0; }
+.key-points ul { margin-left: 20px; }
+.key-points li { margin-bottom: 8px; opacity: 0.95; }
+.mnemonic-box { background: var(--light-bg); border: 2px solid var(--accent); border-radius: 10px; padding: 20px; margin: 16px 0; }
+.mnemonic-box h4 { color: var(--accent); margin-bottom: 12px; }
+.mnemonic-row { display: flex; gap: 12px; margin-bottom: 8px; align-items: flex-start; }
+.mnemonic-letter { background: var(--primary); color: white; width: 36px; height: 36px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; flex-shrink: 0; }
+.mnemonic-text { padding-top: 4px; }
+.mnemonic-text strong { color: var(--primary); }
+.nav-footer { background: white; border-top: 1px solid var(--border); padding: 18px 32px; display: flex; justify-content: space-between; align-items: center; max-width: 900px; margin: 20px auto 0; border-radius: 8px; box-shadow: 0 -2px 8px rgba(0,0,0,0.05); }
+.nav-btn { background: var(--primary); color: white; border: none; padding: 10px 22px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; text-decoration: none; display: inline-block; transition: background 0.2s; }
+.nav-btn:hover { background: var(--accent); }
+.nav-btn.secondary { background: white; color: var(--primary); border: 2px solid var(--primary); }
+.nav-btn.secondary:hover { background: var(--light-bg); }
+.home-link { color: var(--muted); font-size: 13px; text-decoration: none; }
+.home-link:hover { color: var(--primary); }
+.celebration { text-align: center; font-size: 18px; padding: 20px; background: var(--success-bg); border-radius: 10px; margin: 20px 0; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-meta">
+    <span>Module 13 of 13</span>
+    <span>30 minutes</span>
+    <span>Wilderness First Aid</span>
+  </div>
+  <h1>Lesson 13: Evacuation & Patient Transport</h1>
+  <p>Making sound decisions and executing safe evacuation in the wilderness</p>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('overview')">Overview</div>
+  <div class="tab" onclick="showTab('evac_decisions')">Evacuation Decisions</div>
+  <div class="tab" onclick="showTab('packaging')">Patient Packaging</div>
+  <div class="tab" onclick="showTab('litters')">Improvised Litters</div>
+  <div class="tab" onclick="showTab('calling_help')">Calling for Help</div>
+  <div class="tab" onclick="showTab('scenarios_13')">Scenarios</div>
+  <div class="tab" onclick="showTab('quiz')">Quiz</div>
+  <div class="tab" onclick="showTab('summary_13')">Summary</div>
+</div>
+<div id="step-indicator" style="background:#F0F4F8;border-bottom:1px solid #CBD5E0;padding:8px 20px;font-size:13px;color:#718096;display:flex;gap:16px;align-items:center;">
+  <span id="step-text">Step 1 of 8</span>
+  <div id="step-dots" style="display:flex;gap:6px;"></div>
+</div>
+
+<!-- OVERVIEW TAB -->
+<div id="overview" class="section active">
+  <h2>Module Overview</h2>
+
+  <h3>Learning Objectives</h3>
+  <ul class="objective-list">
+    <li>Use a decision framework to determine whether evacuation is urgent, non-urgent, or unnecessary</li>
+    <li>Prepare and package patients for transport with proper hypothermia prevention and immobilization</li>
+    <li>Construct safe improvised litters and coordinate team carries</li>
+    <li>Activate emergency communication devices and provide rescuers with essential patient information</li>
+    <li>Prepare landing zones and helicopter evacuation safety</li>
+  </ul>
+
+  <h3>Evacuation as a Core Wilderness Medicine Skill</h3>
+  <p>Evacuation is where knowledge meets judgment and creativity. In the wilderness, you have limited transport options and must work with available resources. Your decisions about evacuation urgency, method, and timing will determine whether a patient reaches definitive care in time, whether complications develop, and ultimately, the outcome. Evacuation is not simply the last step of wilderness medicine—it is an integral part of the assessment and management process. Some patients need immediate helicopter extraction; others can walk out slowly with minimal support. Your judgment about which is which, combined with your ability to improvise and lead a team, are hallmarks of experienced wilderness providers.</p>
+</div>
+
+<!-- EVACUATION DECISIONS TAB -->
+<div id="evac_decisions" class="section">
+  <h2>Evacuation Decision Framework</h2>
+
+  <h3>Core Principle: Urgency × Feasibility</h3>
+  <p>Evacuation decisions balance two factors: how urgent is the patient's condition, and what are the practical constraints of extracting them from the wilderness? A patient with a life-threatening condition must be evacuated urgently regardless of terrain challenges. A stable patient with a minor injury might walk out or wait for weather to improve.</p>
+
+  <h3>Evacuation Urgency Classification</h3>
+  <table>
+    <tr>
+      <th>Category</th>
+      <th>Timeline</th>
+      <th>Examples</th>
+      <th>Notes</th>
+    </tr>
+    <tr>
+      <td><strong>URGENT</strong></td>
+      <td>Within hours</td>
+      <td>Life threats, deteriorating patient, hemodynamic instability, altered mental status (AMS), spine injury, severe hypothermia/heat stroke, suspected ACS/stroke, anaphylaxis, open fractures, compartment syndrome, complete amputation</td>
+      <td>Every minute matters. Activate rescue immediately.</td>
+    </tr>
+    <tr>
+      <td><strong>NON-URGENT</strong></td>
+      <td>Within 12-24 hours</td>
+      <td>Stable closed fractures, early infection signs, controlled bleeding, moderate environmental illness, wounds needing closure</td>
+      <td>Can transport by litter or assisted walk without immediate danger of deterioration.</td>
+    </tr>
+    <tr>
+      <td><strong>SELF-EVACUATE / NO EVACUATION</strong></td>
+      <td>Patient's discretion</td>
+      <td>Minor sprains (can weight bear), superficial wounds, mild GI illness, fatigue</td>
+      <td>Educate patient on red flags that would change this decision.</td>
+    </tr>
+  </table>
+
+  <h3>Decision Factors</h3>
+  <div class="card-grid">
+    <div class="card">
+      <h4>Patient Condition & Trend</h4>
+      <p>Is the patient stable, improving, or deteriorating? Current severity is less important than trajectory. A patient who is worsening must be evacuated urgently regardless of current presentation.</p>
+    </div>
+    <div class="card">
+      <h4>Terrain & Distance</h4>
+      <p>How far to definitive care? How long will transport take? Narrow passes, elevation changes, and water crossings affect evacuation time and difficulty.</p>
+    </div>
+    <div class="card">
+      <h4>Resources Available</h4>
+      <p>How many trained rescuers do you have? What equipment? Do you have communication devices? Limited resources may necessitate evacuation to a designated place rather than to the nearest hospital.</p>
+    </div>
+    <div class="card">
+      <h4>Environment & Weather</h4>
+      <p>Weather forecast? Daylight remaining? Cold, storm, or darkness approaching? Environmental constraints may demand faster evacuation even if distance is short.</p>
+    </div>
+  </div>
+
+  <h3>Continuous Reassessment</h3>
+  <p>Evacuation category can change. Reassess every 15 minutes in stable patients, every 5 minutes in unstable patients. A non-urgent patient who develops respiratory distress or altered mental status becomes urgent. Document serial assessments to track trends.</p>
+
+  <div class="alert alert-warning">
+    <div class="alert-title">When in Doubt, Evacuate</div>
+    <p>The wilderness is not a treatment facility. You cannot admit a patient for observation, order blood work, or escalate care. If you are uncertain whether evacuation is necessary, evacuate. It is easier to stand down a rescue that arrives at the trailhead than to request urgent rescue after dark in a storm.</p>
+  </div>
+</div>
+
+<!-- PATIENT PACKAGING TAB -->
+<div id="packaging" class="section">
+  <h2>Preparing a Patient for Transport</h2>
+
+  <h3>Documentation: SOAP Note for Handoff</h3>
+  <p>Complete a SOAP note (Subjective, Objective, Assessment, Plan) before EMS arrives at the trailhead or helicopter lands. Include chief complaint, mechanism of injury, vital signs, treatments given, response to treatment, and your assessment of stability. This documentation informs receiving providers and ensures nothing is missed in handoff.</p>
+
+  <h3>Hypothermia Prevention During Transport</h3>
+  <p>Immobility combined with shock, pain, and environmental exposure accelerates hypothermia. Aggressive insulation is essential, even in moderate weather.</p>
+
+  <h4>Ground Insulation</h4>
+  <p>Use 3-4 layers of insulation between patient and ground (sleeping pads, sleeping bags, packs, vegetation). Do NOT allow the patient to lie directly on cold ground or snow.</p>
+
+  <h4>Vapor Barrier</h4>
+  <p>Wrap the patient in plastic sheeting or garbage bags to trap warm air. This creates a "vapor barrier" that prevents evaporative heat loss and wind exposure.</p>
+
+  <h4>Head Coverage</h4>
+  <p>The head accounts for 30-40% of heat loss. Cover with a wool hat, balaclava, or improvised headwear. Even moderate head coverage significantly reduces heat loss.</p>
+
+  <h4>External Heat Sources</h4>
+  <p>Hot water bottles filled with warm (not boiling) water and placed against the groin, axillae (armpits), and neck can provide external warmth. Insulate the bottles so they don't burn skin.</p>
+
+  <h4>Insulating Shell</h4>
+  <p>Wrap the patient in sleeping bags and additional clothing/blankets to create an insulating shell.</p>
+
+  <h3>Litter Securing Procedure</h3>
+  <p>Once a patient is placed in a litter, secure them properly to prevent falls and shifting during transport.</p>
+
+  <h4>Padding & Positioning</h4>
+  <ul>
+    <li>Pad all bony prominences: occiput (back of head), sacrum, heels, elbows</li>
+    <li>Position per injury type (see table below)</li>
+  </ul>
+
+  <h4>Strapping Protocol</h4>
+  <ul>
+    <li><strong>Chest strap:</strong> Above the nipple line to allow breathing</li>
+    <li><strong>Waist/hip strap:</strong> Secures pelvis</li>
+    <li><strong>Thigh straps:</strong> Prevent sliding</li>
+    <li><strong>Arms:</strong> Padded and secured at sides or across chest</li>
+    <li><strong>Head:</strong> Padding on both sides (rolled sleeping pads) prevents lateral movement</li>
+  </ul>
+
+  <p><strong>Always reassess ABCs after packaging.</strong> Confirm airway is patent, breathing is adequate, and circulation is present before beginning transport.</p>
+
+  <h3>Transport Position Table</h3>
+  <table>
+    <tr>
+      <th>Condition</th>
+      <th>Recommended Position</th>
+    </tr>
+    <tr>
+      <td>Unconscious (spine cleared)</td>
+      <td>Recovery position (lateral with head tilted back to maintain airway)</td>
+    </tr>
+    <tr>
+      <td>Spinal precautions</td>
+      <td>Supine with neutral spine, secured on spine board in litter</td>
+    </tr>
+    <tr>
+      <td>Respiratory distress</td>
+      <td>Semi-recumbent (head elevated ~45°) to ease breathing</td>
+    </tr>
+    <tr>
+      <td>Shock (no spine concern)</td>
+      <td>Supine with legs elevated on rolled sleeping bag/pack</td>
+    </tr>
+    <tr>
+      <td>Nausea/vomiting risk</td>
+      <td>Recovery position or semi-lateral to prevent aspiration</td>
+    </tr>
+    <tr>
+      <td>General comfort (no specific concern)</td>
+      <td>Position of comfort per patient preference</td>
+    </tr>
+  </table>
+
+  <h3>Medication Monitoring</h3>
+  <p>Document all medications given: drug name, dose, time, route (IV, IM, PO, nebulized), and patient response. This documentation is critical for receiving providers and prevents dangerous medication duplication.</p>
+
+  <h3>Vital Sign Monitoring During Transport</h3>
+  <p>Reassess vital signs every 5 minutes in unstable patients, every 15 minutes in stable patients. Document serial vitals to show trend. Any change in mental status, breathing, heart rate, or perfusion warrants increased monitoring frequency and assessment of whether evacuation urgency needs upgrading.</p>
+</div>
+
+<!-- IMPROVISED LITTERS TAB -->
+<div id="litters" class="section">
+  <h2>Improvised Litter Construction</h2>
+
+  <h3>When Improvised Litters Are Needed</h3>
+  <p>Helicopter evacuation is unavailable, the distance to trailhead is long, or the patient is unable to walk despite assistance. Improvised litters are essential wilderness skills when commercial stretchers are not available.</p>
+
+  <div class="alert alert-info">
+    <div class="alert-title">Key Principle: Rigid Structure Is Essential</div>
+    <p>A floppy litter is uncomfortable for the patient and exhausting for rescuers. Aim for a structure that maintains patient support without sagging.</p>
+  </div>
+
+  <h3>Improvised Litter Methods</h3>
+  <table>
+    <tr>
+      <th>Method</th>
+      <th>Materials</th>
+      <th>Pros</th>
+      <th>Cons</th>
+    </tr>
+    <tr>
+      <td><strong>Jacket + Poles</strong></td>
+      <td>2-3 jackets, 2 sturdy poles (branches, ski poles, ice axes)</td>
+      <td>Easy, uses common materials, good for moderate distances</td>
+      <td>Less rigid, limited for larger patients</td>
+    </tr>
+    <tr>
+      <td><strong>Tarp/Poncho Litter</strong></td>
+      <td>Tarp or poncho, 2 rigid poles</td>
+      <td>Very strong, large surface area, good for rough terrain</td>
+      <td>Requires tarp; can be heavy</td>
+    </tr>
+    <tr>
+      <td><strong>Two Backpack Litter</strong></td>
+      <td>2 large packs, poles lashed through pack frames or straps</td>
+      <td>Sturdy, good padding from pack frames, commonly available materials</td>
+      <td>Heavier than other options</td>
+    </tr>
+    <tr>
+      <td><strong>Blanket/Sleeping Bag Roll</strong></td>
+      <td>Sleeping bag or blanket, poles inserted through sides</td>
+      <td>Excellent insulation, quick to construct, light</td>
+      <td>Less rigid, limited for long distances</td>
+    </tr>
+  </table>
+
+  <h3>Carrying Team Coordination</h3>
+
+  <h4>Optimal Team Size</h4>
+  <ul>
+    <li><strong>Ideal:</strong> 6 carriers (2 at head, 2 at middle/waist, 2 at feet) distribute weight and allow symmetrical lifting</li>
+    <li><strong>Minimum:</strong> 4 carriers (head and foot ends each have 2 carriers on opposite sides)</li>
+  </ul>
+
+  <h4>Command System</h4>
+  <p>One team leader positioned at the head gives clear verbal commands: "Prepare to lift," "Lift," "Step," "Halt." This synchronizes movement and prevents injury.</p>
+
+  <h4>Rotation</h4>
+  <p><strong>Rotate carriers every 10-15 minutes</strong> to prevent fatigue and maintain litter stability. Tired rescuers make mistakes and risk dropping the litter.</p>
+
+  <h4>Pace and Communication</h4>
+  <ul>
+    <li>Maintain steady, slow pace—speed is impossible on uneven terrain and increases risk of falls</li>
+    <li>Communicate obstacles in advance: "Rock on right," "Step down," "Creek crossing ahead"</li>
+    <li>Keep one person dedicated to monitoring patient comfort and stability during transport</li>
+  </ul>
+
+  <h4>Narrow Trail Technique</h4>
+  <p>On single-file trails, carriers can use staggered foot placement (one foot on each side of the trail, alternating) to allow the litter to pass through narrow sections. This is more challenging and requires practice.</p>
+
+  <h3>One-Rescuer Carries (Short Distances Only)</h3>
+  <p>For short evacuations (injured person near shelter or campsite), a single rescuer can carry an immobilized patient using appropriate technique:</p>
+  <ul>
+    <li><strong>Fireman's carry:</strong> For unconscious or larger patient—patient is draped over rescuer's shoulders</li>
+    <li><strong>Cradle carry:</strong> For small patient or short distance—patient held across rescuer's chest and arms</li>
+    <li><strong>Walking assist:</strong> For alert ambulatory patient—patient's arm around rescuer's neck, rescuer's arm around patient's waist</li>
+  </ul>
+
+  <h3>Helicopter Considerations</h3>
+  <p>When helicopter evacuation is anticipated, confirm litter orientation with the rescue team. Litters must be loaded into aircraft in the direction the aircraft is positioned—typically feet first. Ensure your litter design allows this loading orientation.</p>
+</div>
+
+<!-- CALLING FOR HELP TAB -->
+<div id="calling_help" class="section">
+  <h2>Emergency Communication in the Wilderness</h2>
+
+  <h3>Communication Device Comparison</h3>
+  <div class="card-grid">
+    <div class="card">
+      <h4>Cell Phone</h4>
+      <p><strong>Pros:</strong> Everyone has one. <strong>Cons:</strong> Coverage gaps, battery drain. <strong>Tips:</strong> Elevate phone, try 911 even with no bars (may reach any tower), text may succeed when calls fail.</p>
+    </div>
+    <div class="card">
+      <h4>Satellite Communicator (Garmin InReach, SPOT)</h4>
+      <p><strong>Pros:</strong> 2-way messaging anywhere, GPS tracking. <strong>Cons:</strong> Requires subscription, slower SOS response than voice.</p>
+    </div>
+    <div class="card">
+      <h4>PLB (Personal Locator Beacon)</h4>
+      <p><strong>Pros:</strong> Free monitoring via COSPAS-SARSAT, no subscription, globally monitored by rescue authorities. <strong>Cons:</strong> 1-way only (no communication back), cannot cancel easily once activated.</p>
+    </div>
+    <div class="card">
+      <h4>Satellite Phone</h4>
+      <p><strong>Pros:</strong> Voice communication anywhere. <strong>Cons:</strong> Expensive, less portable, slower connection.</p>
+    </div>
+  </div>
+
+  <h3>MIST Report: Essential Information for Rescuers</h3>
+  <p>When contacting emergency services, provide the MIST report format plus critical logistics:</p>
+
+  <ul>
+    <li><strong>M = Mechanism of Injury:</strong> How did the injury happen? Fall, avalanche, lightning, animal attack?</li>
+    <li><strong>I = Injuries Found:</strong> Chief complaint and identified injuries. "Open femur fracture, ankle swelling, intact neurovascular."</li>
+    <li><strong>S = Signs and Symptoms:</strong> Vital signs, mental status, pain level, relevant history (diabetic, allergies, medications).</li>
+    <li><strong>T = Treatment Given So Far:</strong> Fluids, medications, splinting, wound care. "Bandaged wound, splinted ankle, gave aspirin."</li>
+    <li><strong>PLUS: Exact GPS Coordinates</strong> (if you have GPS device)</li>
+    <li><strong>PLUS: Number of Patients and Number of Rescuers</strong> on scene</li>
+    <li><strong>PLUS: Resources Available</strong> (litter, communication device, medical equipment)</li>
+    <li><strong>PLUS: Weather Conditions and Forecast</strong></li>
+    <li><strong>PLUS: ETA to Trailhead</strong> if you are self-evacuating</li>
+  </ul>
+
+  <h3>Helicopter Landing Zone Preparation</h3>
+
+  <h4>Minimum Clear Area</h4>
+  <p><strong>100 × 100 feet (30 × 30 meters)</strong> of relatively flat terrain, clear of debris, branches, or loose material that could be sucked into rotors or blow into faces.</p>
+
+  <h4>LZ Marking</h4>
+  <ul>
+    <li>Mark with an X pattern visible from the air using bright colors (surveyor tape, sleeping bags, packs)</li>
+    <li>Remove hats and loose items that will blow in rotor downwash</li>
+    <li>Keep all bystanders back 200+ feet from LZ</li>
+  </ul>
+
+  <h4>Signaling</h4>
+  <ul>
+    <li><strong>Arms raised in Y shape:</strong> "Yes, land here"</li>
+    <li><strong>One arm down, one arm up (L shape):</strong> "No, do not land"</li>
+  </ul>
+
+  <h4>Safety Considerations</h4>
+  <ul>
+    <li>Face into the wind—turbulence from helicopter tail is most dangerous</li>
+    <li>No fires or smoke downwind of LZ</li>
+    <li>Do NOT approach helicopter until crew signals all-clear; rotors are invisible at speed</li>
+    <li>Patient loading: follow crew instructions exactly; they manage loading procedures</li>
+  </ul>
+
+  <h3>Device Testing & False Activations</h3>
+  <p>Test your communication device before every trip to confirm battery and function. Know the difference between SOS/emergency buttons and non-emergency messaging. False activations trigger expensive rescue operations with serious legal consequences. Never activate an emergency device as a test in the field.</p>
+
+  <div class="alert alert-warning">
+    <div class="alert-title">Alert Rescue Early, Not Late</div>
+    <p>It is easier to stand down a rescue that arrives at the trailhead than to launch one after dark in a storm. When in doubt about evacuation necessity, alert rescuers early. Provide your location and situation, and let them advise whether formal rescue is needed.</p>
+  </div>
+</div>
+
+<!-- SCENARIOS TAB -->
+<div id="scenarios_13" class="section">
+  <h2>Scenario-Based Learning</h2>
+
+  <div class="scenario-case">
+    <div class="scenario-header">Scenario 1: Open Femur Fracture in the Canyon</div>
+    <div class="scenario-body">
+      <p><strong>Setting:</strong> A climber falls 15 feet in a slot canyon and sustains an obvious open femur fracture. You are 8 miles from the trailhead, it is 3 PM, and you have 4 hours of daylight. You have a satellite communicator, a first aid kit, two sleeping pads, and 3 other group members.</p>
+
+      <p><strong>Questions to Consider:</strong></p>
+      <ul>
+        <li>What is the evacuation urgency?</li>
+        <li>What do you do in the next 10 minutes?</li>
+        <li>Do you self-evacuate or call for rescue?</li>
+      </ul>
+
+      <button class="toggle-btn" onclick="toggleDiscussion(this)">Show Discussion</button>
+      <div class="discussion">
+        <strong>Assessment & Evacuation Decision:</strong>
+        <ul>
+          <li><strong>Urgency: URGENT.</strong> Open fracture = contaminated bone, major hemorrhage risk, shock risk, high pain. Cannot wait.</li>
+          <li><strong>Next 10 minutes:</strong>
+            <ul>
+              <li>Control any bleeding (direct pressure, pressure dressing). If bleeding is arterial and uncontrolled, consider tourniquet above knee.</li>
+              <li>DO NOT reduce fracture. Support in position found.</li>
+              <li>Irrigate exposed bone and wound gently with clean water; cover with loose sterile dressing.</li>
+              <li>Splint femur using sleeping pads, clothing, or improvised splint. Immobilize from hip to ankle.</li>
+              <li>Assess neurovascular distal to fracture: pulses, capillary refill, sensation, color.</li>
+              <li>Obtain IV access if trained and supplies available (trauma patient may need fluid resuscitation).</li>
+              <li>NPO status.</li>
+            </ul>
+          </li>
+          <li><strong>Evacuation decision:</strong> DO NOT attempt litter carry over 8 miles with 3 rescuers. This is extremely difficult terrain, patient is severely injured, and risk of further injury during transport is high. Activate satellite communicator immediately: "Open femur fracture, 8 miles from trailhead, 4 adults, urgent evacuation needed. GPS: [coordinates]. Patient immobilized, bleeding controlled, needs helicopter or SAR with additional personnel."</li>
+          <li><strong>While waiting for rescue:</strong>
+            <ul>
+              <li>Monitor vital signs every 5 minutes—shock is a major risk</li>
+              <li>Hypothermia prevention critical: ground insulation, vapor barrier, head coverage</li>
+              <li>Pain management: NSAIDs, local wound care (not suturing)
+              <li>Maintain warmth and comfort as best as possible</li>
+              <li>Document SOAP note: mechanism, vital signs, treatments given, patient response</li>
+            </ul>
+          </li>
+          <li><strong>Helicopter arrival:</strong> Clear LZ, mark with X, follow crew instructions for loading.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="scenario-case">
+    <div class="scenario-header">Scenario 2: Remote River Medical Emergency</div>
+    <div class="scenario-body">
+      <p><strong>Setting:</strong> Day 5 of a 7-day river trip. A 58-year-old participant develops crushing chest pain radiating to the left arm with diaphoresis. No satellite communicator. You have a PLB. Nearest takeout is 2 days by river.</p>
+
+      <p><strong>Questions to Consider:</strong></p>
+      <ul>
+        <li>What is your field assessment and treatment?</li>
+        <li>How do you call for help?</li>
+        <li>What packaging decisions are important?</li>
+      </ul>
+
+      <button class="toggle-btn" onclick="toggleDiscussion(this)">Show Discussion</button>
+      <div class="discussion">
+        <strong>Assessment & Management:</strong>
+        <ul>
+          <li><strong>Field Assessment:</strong> OPQRST for chest pain: Onset 30 min ago, Provocation none, Quality crushing, Radiation left arm, Severity 8/10, Time ongoing. Associated: diaphoresis (sweating), anxiety, possible shortness of breath. SAMPLE: History hypertension, takes aspirin and lisinopril, last ate 2 hours ago. Vital signs: BP elevated, HR elevated, RR elevated.</li>
+          <li><strong>Strong cardiac presentation:</strong> Treat as acute coronary syndrome (ACS) pending hospital evaluation.</li>
+          <li><strong>Field treatment:</strong>
+            <ul>
+              <li>Give aspirin 325 mg chewable (if no contraindications—not allergic, no GI bleed history)</li>
+              <li>Position of comfort—most cardiac patients prefer sitting up slightly</li>
+              <li>Oxygen if available</li>
+              <li>Keep NPO (nothing by mouth)</li>
+              <li>Monitor vital signs and cardiac rhythm if trained</li>
+            </ul>
+          </li>
+          <li><strong>Calling for help:</strong> Activate PLB immediately. PLB triggers COSPAS-SARSAT satellite monitoring—rescue authorities worldwide will be notified within minutes. Your location is automatically transmitting. Rescue authorities will attempt to contact you via any communication device you have or may have provided. Do NOT wait to see if symptoms improve.</li>
+          <li><strong>Packaging for evacuation:</strong>
+            <ul>
+              <li>Semi-recumbent position (head elevated ~45°) for comfort</li>
+              <li>Warm insulation</li>
+              <li>Monitor ABCs and vitals every 5 minutes—cardiac event could deteriorate rapidly</li>
+              <li>Prepare for helicopter extraction if rescue arrives</li>
+            </ul>
+          </li>
+          <li><strong>Do NOT paddle out:</strong> Physical exertion increases cardiac demand and oxygen need. Wait for rescue.</li>
+          <li><strong>Serial assessment:</strong> Any change in mental status, respiratory distress, loss of consciousness, or cardiac arrest changes immediate priorities and requires escalation of supportive care.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ TAB -->
+<div id="quiz" class="section">
+  <h2>Knowledge Check: Evacuation & Patient Transport</h2>
+  <p>Answer the following 10 questions to test your understanding. Aim for 80% or higher.</p>
+
+  <div id="quiz-box"></div>
+
+  <div id="score-display" class="score-banner" style="display: none;">
+    <h3 id="score-text"></h3>
+    <p id="score-sub"></p>
+  </div>
+</div>
+
+<!-- SUMMARY TAB -->
+<div id="summary_13" class="section">
+  <h2>Congratulations on Completing the Course!</h2>
+
+  <div class="celebration">
+    <p>You have successfully completed all 13 modules of Wilderness First Aid. You have built a comprehensive knowledge base in emergency assessment, management, and evacuation in remote environments.</p>
+  </div>
+
+  <div class="key-points">
+    <h3>Key Takeaways: Evacuation & Transport</h3>
+    <ul>
+      <li>Evacuation urgency is determined by patient condition trend, terrain, resources, and environment.</li>
+      <li>Hypothermia prevention during transport includes ground insulation, vapor barrier, head coverage, and external heat sources.</li>
+      <li>Rigid improvised litters can be constructed from jackets, tarps, backpacks, or sleeping bags.</li>
+      <li>Carrying teams should have 4-6 rescuers and rotate every 10-15 minutes to prevent fatigue.</li>
+      <li>Satellite communicators and PLBs extend reach beyond cell coverage; test devices before every trip.</li>
+      <li>MIST reports provide rescuers with essential information; include GPS coordinates and logistics.</li>
+      <li>Helicopter landing zones must be 100×100 feet, clear, and marked; face into the wind and follow crew instructions.</li>
+      <li>Alert rescue early rather than late—it is easier to stand down than to launch in darkness or storm.</li>
+    </ul>
+  </div>
+
+  <h3>Glossary of Terms</h3>
+  <dl class="glossary">
+    <dt>Urgent Evacuation</dt>
+    <dd>Patient has a life-threatening condition or is deteriorating; must reach definitive care within hours.</dd>
+
+    <dt>Non-Urgent Evacuation</dt>
+    <dd>Patient is stable but needs medical evaluation within 12-24 hours; transport by litter or assisted walk is acceptable.</dd>
+
+    <dt>Patient Packaging</dt>
+    <dd>The process of preparing a patient for transport, including padding, strapping, insulation, and positioning.</dd>
+
+    <dt>MIST Report</dt>
+    <dd>Standardized communication format: Mechanism, Injuries, Signs/symptoms, Treatment—provides rescuers with essential information.</dd>
+
+    <dt>PLB (Personal Locator Beacon)</dt>
+    <dd>One-way emergency beacon monitored by COSPAS-SARSAT; no subscription, no communication back, globally monitored.</dd>
+
+    <dt>Satellite Communicator</dt>
+    <dd>Two-way messaging device that works anywhere; requires subscription; allows communication with rescue coordinators.</dd>
+
+    <dt>Landing Zone (LZ)</dt>
+    <dd>Designated clear area for helicopter evacuation; minimum 100×100 feet, marked with X pattern.</dd>
+
+    <dt>Search and Rescue (SAR)</dt>
+    <dd>Organized rescue operation involving multiple rescuers, equipment, and coordination with emergency authorities.</dd>
+
+    <dt>Improvised Litter</dt>
+    <dd>Emergency stretcher constructed from available materials (jackets, tarps, packs, branches) for patient transport.</dd>
+
+    <dt>SOAP Note</dt>
+    <dd>Documentation format: Subjective (history), Objective (vitals/findings), Assessment (diagnosis), Plan (treatment).</dd>
+
+    <dt>Hypothermia Prevention</dt>
+    <dd>Strategies to maintain body temperature during transport: ground insulation, vapor barrier, head coverage, external heat.</dd>
+
+    <dt>Litter</dt>
+    <dd>Stretcher or carrying device used to transport an immobilized or non-ambulatory patient.</dd>
+  </dl>
+
+  <div class="alert alert-info">
+    <div class="alert-title">References & Further Reading</div>
+    <p>Wilderness Medicine: Beyond First Aid (6th ed.) - Tilton & Tilton<br>
+    Emergency War Surgery (NATO Handbook) - transport and evacuation principles<br>
+    COSPAS-SARSAT: cospas-sarsat.int (PLB information)<br>
+    Wilderness Medical Society Guidelines: wilderness-medicine.org<br>
+    Leave No Trace Principles: lnt.org</p>
+  </div>
+
+  <h3>Course Completion</h3>
+  <p>You have completed all 13 modules of this Wilderness First Aid pre-course. This curriculum provides foundation knowledge for wilderness and remote medicine. However, formal wilderness first aid certification requires in-person instruction, hands-on skills practice, and demonstration of competency. Seek out a Wilderness First Responder or Wilderness First Aid course from accredited providers (Wilderness Medical Society, SOLO, NOLS, or other recognized organizations) to receive formal certification.</p>
+
+  <p>In the wilderness, your knowledge, judgment, and ability to remain calm under pressure are essential. Continue to study, practice skills, and reflect on your decisions. Each wilderness experience teaches lessons that no course can fully capture. Be safe out there.</p>
+</div>
+
+<div class="nav-footer">
+  <a href="../index.html" class="home-link">Back to Course Home</a>
+  <div>
+    <a href="12_Bites_Stings.html" class="nav-btn secondary">Previous Lesson</a>
+    <a href="../index.html" class="nav-btn">Course Home</a>
+  </div>
+</div>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+  const tabs = Array.from(document.querySelectorAll('.tab'));
+  const activeIdx = tabs.indexOf(event.target);
+  updateStepIndicator(activeIdx);
+}
+function updateStepIndicator(activeIdx) {
+  const tabs = document.querySelectorAll('.tab');
+  document.getElementById('step-text').textContent = 'Step ' + (activeIdx + 1) + ' of ' + tabs.length;
+  const dots = document.getElementById('step-dots');
+  dots.innerHTML = '';
+  tabs.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.style.cssText = 'width:8px;height:8px;border-radius:50%;background:' + (i === activeIdx ? '#2C7BE5' : i < activeIdx ? '#1A6B3A' : '#CBD5E0') + ';';
+    dots.appendChild(d);
+  });
+}
+
+function toggleDiscussion(btn) {
+  const disc = btn.nextElementSibling;
+  disc.classList.toggle('visible');
+  btn.textContent = disc.classList.contains('visible') ? 'Hide Discussion' : 'Show Discussion';
+}
+
+const questions = [
+  {q: "An \"urgent evacuation\" is indicated when:", options: ["Patient has a mild sprain", "Patient has a life-threatening condition or is deteriorating", "Patient is comfortable and stable", "Minor GI illness"], answer: 1, exp: "Urgent evacuation is for life-threatening or deteriorating patients. Mild injuries can often be managed without urgent evacuation."},
+  {q: "Minimum clear area for a helicopter landing zone:", options: ["20×20 feet", "100×100 feet", "50×50 feet", "10×10 feet"], answer: 1, exp: "A 100×100 foot (30×30 meter) area allows safe rotor clearance and maneuvering. Smaller areas create rotor strike risk."},
+  {q: "When packaging a patient for cold-weather evacuation, priority is:", options: ["Speed above all", "Ground insulation and hypothermia prevention", "Tight strapping", "No padding needed"], answer: 1, exp: "Hypothermia prevention is critical during transport. An immobile patient in cold rapidly becomes hypothermic. Ground insulation, vapor barrier, head coverage, and external heat are essential."},
+  {q: "The MIST report stands for:", options: ["Medical, Injury, Status, Treatment", "Mechanism, Injuries, Signs/symptoms, Treatment given", "Mechanism, Illness, Stability, Time", "Management, Intervention, Situation, Treatment"], answer: 1, exp: "MIST is the standard format for communicating patient information to rescuers: Mechanism, Injuries, Signs/symptoms, Treatment."},
+  {q: "A PLB differs from a satellite communicator in that:", options: ["It works in more countries", "It is a one-way emergency beacon with no 2-way communication capability", "It requires a subscription", "It only works in North America"], answer: 1, exp: "PLBs are one-way emergency beacons monitored by COSPAS-SARSAT globally; no subscription, but no communication back. Satellite communicators allow 2-way messaging."},
+  {q: "The recommended carrying team size for a litter evacuation is:", options: ["2 rescuers", "4-6 rescuers", "1 rescuer", "8-10 rescuers"], answer: 1, exp: "Ideal is 6 rescuers (2 head, 2 middle, 2 feet); minimum 4 rescuers. Fewer than 4 makes evacuation very difficult and unsafe."},
+  {q: "Litter carriers should rotate approximately every:", options: ["1-2 hours", "10-15 minutes to prevent fatigue", "After every obstacle", "Whenever someone feels tired"], answer: 1, exp: "Rotate every 10-15 minutes to prevent fatigue, which leads to mistakes and dropped litters. Tired rescuers risk injury to themselves and patient."},
+  {q: "A patient with spinal precautions should be transported in:", options: ["Recovery position", "Supine with spinal stabilization maintained", "Sitting upright", "Prone"], answer: 1, exp: "Spinal precautions require supine positioning with neck/spine immobilized on a spine board or rigid support."},
+  {q: "When should you activate a satellite SOS device for a hiking emergency:", options: ["Only as a last resort, very late", "Early when the situation is serious — easier to stand down than launch in darkness", "Only if death is imminent", "Only if you have no other means"], answer: 1, exp: "Alert early rather than late. It is easier for rescuers to stand down at the trailhead than to launch in darkness, storms, or dangerous conditions."},
+  {q: "Texting on a cell phone in poor coverage areas:", options: ["Never works", "May succeed when calls cannot, as texts use less bandwidth", "Drains battery too fast", "Should never be attempted"], answer: 1, exp: "Text messages require less bandwidth than voice calls and may succeed when cellular voice service is unavailable."}
+];
+
+let answered = 0;
+const total = questions.length;
+
+function buildQuiz() {
+  const box = document.getElementById('quiz-box');
+  questions.forEach((q, qi) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-question';
+    div.innerHTML = '<p>'+(qi+1)+'. '+q.q+'</p><ul class="quiz-options">'+q.options.map((o,oi)=>'<li onclick="selectAnswer(this,'+qi+','+oi+')">'+String.fromCharCode(65+oi)+'. '+o+'</li>').join('')+'</ul><div class="explanation" id="exp-'+qi+'"></div>';
+    box.appendChild(div);
+  });
+}
+
+function selectAnswer(el, qi, selected) {
+  const q = questions[qi];
+  const items = el.parentElement.querySelectorAll('li');
+  items.forEach(i => i.classList.add('disabled'));
+  const expEl = document.getElementById('exp-'+qi);
+  if(selected===q.answer){ el.classList.add('correct'); expEl.className='explanation show correct-exp'; expEl.innerHTML='✓ Correct! '+q.exp; }
+  else { el.classList.add('incorrect'); items[q.answer].classList.add('correct'); expEl.className='explanation show incorrect-exp'; expEl.innerHTML='✗ Not quite. '+q.exp; }
+  answered++;
+  if(answered===total) showScore();
+}
+
+function showScore() {
+  const sc = document.querySelectorAll('.explanation.correct-exp').length;
+  const lessonId = '13';
+  const prevScore = localStorage.getItem('wfa_score_' + lessonId);
+  localStorage.setItem('wfa_completed_' + lessonId, 'true');
+  localStorage.setItem('wfa_score_' + lessonId, Math.max(sc, parseInt(prevScore || '0')));
+  const el = document.getElementById('score-display');
+  el.style.display = 'block';
+  document.getElementById('score-text').textContent = 'You scored ' + sc + ' / ' + total;
+  let msg = sc >= 8 ? '🎉 Excellent work! You are ready for formal WFA certification.' : sc >= 6 ? '👍 Good foundation! Review any missed topics before certification.' : '📚 Review these concepts more carefully before certification.';
+  if (prevScore && parseInt(prevScore) > 0) msg += ' (Previous best: ' + prevScore + '/' + total + ')';
+  document.getElementById('score-sub').textContent = msg;
+  const retryBtn = document.createElement('button');
+  retryBtn.textContent = '↺ Retry Quiz';
+  retryBtn.style.cssText = 'margin-top:16px;padding:10px 24px;background:#2C7BE5;color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;';
+  retryBtn.onclick = function() {
+    answered = 0;
+    el.style.display = 'none';
+    document.getElementById('quiz-box').innerHTML = '';
+    buildQuiz();
+    retryBtn.remove();
+  };
+  el.appendChild(retryBtn);
+  el.scrollIntoView({behavior:'smooth'});
+}
+
+buildQuiz();
+updateStepIndicator(0);
+</script>
+
+</body>
+</html>

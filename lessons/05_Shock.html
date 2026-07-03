@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 05: Shock Recognition & Treatment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #E8F0FE;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1B4F8A 0%, #2C7BE5 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .header-meta {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            font-size: 0.95em;
+            margin-top: 15px;
+        }
+
+        .tabs-container {
+            display: flex;
+            flex-wrap: wrap;
+            background: white;
+            border-bottom: 2px solid #2C7BE5;
+            overflow-x: auto;
+            padding: 0 20px;
+        }
+
+        .tab-button {
+            padding: 15px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 500;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .tab-button:hover {
+            color: #2C7BE5;
+        }
+
+        .tab-button.active {
+            color: #1B4F8A;
+            border-bottom-color: #2C7BE5;
+        }
+
+        .content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section h2 {
+            color: #1B4F8A;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-left: 5px solid #2C7BE5;
+            padding-left: 15px;
+        }
+
+        .section h3 {
+            color: #2C7BE5;
+            font-size: 1.3em;
+            margin-top: 25px;
+            margin-bottom: 12px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-left: 5px solid;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+
+        .alert-danger {
+            border-left-color: #C0392B;
+            background-color: #fadbd8;
+            color: #7b241c;
+        }
+
+        .alert-warning {
+            border-left-color: #D35400;
+            background-color: #fdebd0;
+            color: #6e2c0a;
+        }
+
+        .alert-info {
+            border-left-color: #2C7BE5;
+            background-color: #d6eaf8;
+            color: #1B4F8A;
+        }
+
+        .alert-success {
+            border-left-color: #1A6B3A;
+            background-color: #d5f4e6;
+            color: #0b3618;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        thead {
+            background-color: #1B4F8A;
+            color: white;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tbody tr:hover {
+            background-color: #E8F0FE;
+        }
+
+        .scenario {
+            background: white;
+            border: 2px solid #2C7BE5;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .scenario-title {
+            font-weight: bold;
+            color: #1B4F8A;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .scenario-case {
+            font-style: italic;
+            background: #E8F0FE;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+
+        .toggle-button {
+            background-color: #2C7BE5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px 0;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .toggle-button:hover {
+            background-color: #1B4F8A;
+        }
+
+        .discussion {
+            display: none;
+            background: #d6eaf8;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border-left: 4px solid #2C7BE5;
+        }
+
+        .discussion.show {
+            display: block;
+        }
+
+        .quiz-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .question-box {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 6px;
+            border-left: 4px solid #2C7BE5;
+        }
+
+        .question-text {
+            font-weight: bold;
+            color: #1B4F8A;
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+
+        .answer-option {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 12px 15px;
+            margin: 8px 0;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.98em;
+        }
+
+        .answer-option:hover {
+            border-color: #2C7BE5;
+            background-color: #E8F0FE;
+        }
+
+        .answer-option.correct {
+            background-color: #d5f4e6;
+            border-color: #1A6B3A;
+            color: #0b3618;
+        }
+
+        .answer-option.incorrect {
+            background-color: #fadbd8;
+            border-color: #C0392B;
+            color: #7b241c;
+        }
+
+        .answer-option:disabled {
+            cursor: default;
+        }
+
+        .explanation {
+            display: none;
+            margin-top: 10px;
+            padding: 12px;
+            background: white;
+            border-radius: 4px;
+            font-size: 0.95em;
+            color: #333;
+        }
+
+        .explanation.show {
+            display: block;
+        }
+
+        .score-box {
+            background: linear-gradient(135deg, #1A6B3A 0%, #2d8a57 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .glossary {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .glossary-item {
+            margin: 15px 0;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .glossary-item:last-child {
+            border-bottom: none;
+        }
+
+        .term {
+            font-weight: bold;
+            color: #1B4F8A;
+            font-size: 1.05em;
+        }
+
+        .definition {
+            color: #555;
+            margin-top: 5px;
+            font-size: 0.95em;
+        }
+
+        .footer {
+            background: #1B4F8A;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .nav-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 900px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        .nav-link:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .objectives {
+            background: #E8F0FE;
+            border-left: 4px solid #2C7BE5;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .objectives h4 {
+            color: #1B4F8A;
+            margin-bottom: 10px;
+        }
+
+        .objectives ul {
+            margin-left: 20px;
+        }
+
+        .objectives li {
+            margin: 8px 0;
+            color: #333;
+        }
+
+        .key-point {
+            background: #fdebd0;
+            border-left: 4px solid #D35400;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+
+            .header-meta {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .tab-button {
+                padding: 12px 15px;
+                font-size: 0.85em;
+            }
+
+            .nav-footer {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Lesson 05: Shock Recognition & Treatment</h1>
+        <div class="header-meta">
+            <span>⏱️ Estimated Reading Time: 25 minutes</span>
+            <span>📚 Wilderness First Aid Course</span>
+        </div>
+    </div>
+
+    <div class="tabs-container">
+        <button class="tab-button active" onclick="switchTab('overview')">Overview</button>
+        <button class="tab-button" onclick="switchTab('definition')">What is Shock?</button>
+        <button class="tab-button" onclick="switchTab('types')">Types of Shock</button>
+        <button class="tab-button" onclick="switchTab('recognition')">Recognizing Shock</button>
+        <button class="tab-button" onclick="switchTab('treatment')">Field Treatment</button>
+        <button class="tab-button" onclick="switchTab('scenarios')">Scenarios</button>
+        <button class="tab-button" onclick="switchTab('quiz')">Quiz</button>
+        <button class="tab-button" onclick="switchTab('summary')">Summary</button>
+    </div>
+    <div id="step-indicator" style="background:#F0F4F8;border-bottom:1px solid #CBD5E0;padding:8px 20px;font-size:13px;color:#718096;display:flex;gap:16px;align-items:center;">
+      <span id="step-text">Step 1 of 8</span>
+      <div id="step-dots" style="display:flex;gap:6px;"></div>
+    </div>
+
+    <div class="content">
+        <!-- OVERVIEW -->
+        <div id="overview" class="section active">
+            <h2>Overview</h2>
+
+            <div class="objectives">
+                <h4>Learning Objectives</h4>
+                <ul>
+                    <li>Define shock and explain the pathophysiology of inadequate tissue perfusion</li>
+                    <li>Classify the major types of shock (hypovolemic, distributive, obstructive, cardiogenic)</li>
+                    <li>Recognize early and late signs of shock in a wilderness casualty</li>
+                    <li>Treat shock using field-appropriate interventions</li>
+                    <li>Determine evacuation urgency for shock patients</li>
+                </ul>
+            </div>
+
+            <p>Shock is one of the most critical life-threatening emergencies in wilderness medicine. It represents the body's failure to deliver adequate oxygen to vital organs and tissues. Despite being common in trauma, shock is frequently underrecognized, leading to delayed treatment and poor outcomes.</p>
+
+            <p>In this lesson, you will learn to recognize the subtle early signs of shock before they progress to irreversible decompensation, understand the different types of shock and their causes, and master the field-appropriate treatments that can save lives in remote settings.</p>
+
+            <div class="alert alert-danger">
+                <strong>Critical Point:</strong> Shock is progressive. Early recognition and treatment are essential. A patient in compensated shock may appear relatively well but can deteriorate rapidly to decompensated shock and death if untreated.
+            </div>
+        </div>
+
+        <!-- WHAT IS SHOCK? -->
+        <div id="definition" class="section">
+            <h2>What is Shock?</h2>
+
+            <h3>Definition and Pathophysiology</h3>
+            <p><strong>Shock is a state of inadequate tissue perfusion leading to cellular hypoxia and inability to meet metabolic demands.</strong></p>
+
+            <p>At the cellular level, the body uses the <strong>Fick Principle</strong> to understand oxygen delivery:</p>
+
+            <div class="alert alert-info">
+                <strong>Oxygen Delivery (DO₂) = Cardiac Output (CO) × Arterial Oxygen Content (CaO₂)</strong>
+                <br><br>
+                This equation shows that adequate oxygen delivery requires:
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>Sufficient cardiac output (heart rate × stroke volume)</li>
+                    <li>Adequate oxygen content in blood (hemoglobin, oxygen saturation)</li>
+                </ul>
+            </div>
+
+            <h3>Why Do Cells Need Oxygen?</h3>
+            <p>Cells use oxygen for aerobic metabolism to produce ATP, the energy currency of life. Without adequate oxygen, cells switch to anaerobic metabolism, which produces lactate and leads to:</p>
+            <ul style="margin-left: 20px;">
+                <li>Lactic acidosis</li>
+                <li>Decreased ATP production</li>
+                <li>Cellular dysfunction and death</li>
+                <li>Organ system failure</li>
+            </ul>
+
+            <h3>Compensatory Mechanisms</h3>
+            <p>When tissue perfusion first decreases, the body activates compensatory responses:</p>
+
+            <div class="key-point">
+                <strong>Increased Heart Rate (Tachycardia):</strong> The sympathetic nervous system increases HR to maintain cardiac output despite reduced stroke volume (e.g., from blood loss).
+                <br><br>
+                <strong>Vasoconstriction:</strong> Peripheral vessels constrict to maintain central perfusion pressure and redirect blood to vital organs (brain, heart).
+                <br><br>
+                <strong>Increased Respiratory Rate (Tachypnea):</strong> Breathing increases to maximize oxygen uptake.
+            </div>
+
+            <h3>Compensated vs. Decompensated Shock</h3>
+
+            <p><strong>Compensated Shock:</strong> The body's compensatory mechanisms are working. Blood pressure remains normal, but the patient shows signs of sympathetic activation (anxiety, tachycardia, tachypnea). If treated in this phase, the patient usually survives.</p>
+
+            <p><strong>Decompensated Shock:</strong> Compensatory mechanisms have failed. Blood pressure drops, mental status changes, organs begin to fail. This phase is life-threatening and must be managed as an emergency.</p>
+
+            <div class="alert alert-danger">
+                <strong>Critical Pearl:</strong> Hypotension is a LATE sign of shock. A normal blood pressure does NOT rule out shock. Look for tachycardia and other early signs!
+            </div>
+        </div>
+
+        <!-- TYPES OF SHOCK -->
+        <div id="types" class="section">
+            <h2>Types of Shock</h2>
+
+            <p>Shock is classified by the underlying cause. Understanding the type helps guide treatment.</p>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Cause</th>
+                            <th>Example Scenario</th>
+                            <th>Key Field Signs</th>
+                            <th>Field Treatment Priority</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Hypovolemic</strong></td>
+                            <td>Loss of blood or body fluids</td>
+                            <td>Hemorrhage, severe dehydration, burns</td>
+                            <td>Tachycardia, pale skin, weak pulse, low BP (late)</td>
+                            <td>Stop bleeding, position, keep warm, evacuate</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Distributive</strong></td>
+                            <td>Massive vasodilation; loss of vascular tone</td>
+                            <td>Sepsis, anaphylaxis, neurogenic (spinal injury)</td>
+                            <td>Tachycardia, flushed or blotchy skin, wide pulse pressure (early)</td>
+                            <td>Address cause (epinephrine for anaphylaxis, IV fluids, spinal immobilization)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Obstructive</strong></td>
+                            <td>Physical blockage to blood flow</td>
+                            <td>Tension pneumothorax, cardiac tamponade, massive PE</td>
+                            <td>Tachycardia, JVD, muffled heart sounds, difficulty breathing</td>
+                            <td>Needle decompression (tension pneumo), needle pericardiocentesis (tamponade)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cardiogenic</strong></td>
+                            <td>Heart failure as a pump</td>
+                            <td>Myocardial infarction, severe arrhythmia</td>
+                            <td>Tachycardia, pulmonary edema, pale, weak pulse</td>
+                            <td>Position upright if conscious, oxygen if available, urgent evacuation</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Hypovolemic Shock (Most Common in Wilderness)</h3>
+            <p>Results from loss of circulating blood volume (hemorrhage) or other body fluids (dehydration, severe burns). Treatment focuses on controlling bleeding, replacing fluids, and maintaining perfusion pressure through patient positioning.</p>
+
+            <h3>Distributive Shock</h3>
+            <p><strong>Septic Shock:</strong> Severe infection causes vasodilation and capillary leak. Usually develops over hours in wilderness (e.g., infected wound).</p>
+            <p><strong>Anaphylactic Shock:</strong> Allergic reaction causes rapid histamine release and profound vasodilation. True emergency requiring immediate epinephrine.</p>
+            <p><strong>Neurogenic Shock:</strong> Spinal cord injury disrupts sympathetic outflow, causing loss of vascular tone and bradycardia (unique finding). Transient in most cases.</p>
+
+            <h3>Obstructive Shock</h3>
+            <p>Physical obstruction prevents blood return to or ejection from the heart. Examples: tension pneumothorax (collapsed lung compressing heart), cardiac tamponade (fluid around heart), massive pulmonary embolism.</p>
+
+            <h3>Cardiogenic Shock</h3>
+            <p>The heart itself fails as a pump (MI, severe arrhythmia). Less common in wilderness but must be recognized. Treatment is supportive positioning and urgent evacuation.</p>
+        </div>
+
+        <!-- RECOGNIZING SHOCK -->
+        <div id="recognition" class="section">
+            <h2>Recognizing Shock</h2>
+
+            <h3>Early (Compensated) Shock Signs</h3>
+            <p>Look for these subtle but critical findings:</p>
+            <ul style="margin-left: 20px;">
+                <li><strong>Tachycardia:</strong> Heart rate >100 bpm at rest (earliest measurable sign)</li>
+                <li><strong>Tachypnea:</strong> Respiratory rate >20 breaths/min</li>
+                <li><strong>Anxiety and Restlessness:</strong> Patient feels ill, fearful</li>
+                <li><strong>Mild Hypotension:</strong> Systolic BP may be low-normal (90-100)</li>
+                <li><strong>Pale or Cool Skin:</strong> From vasoconstriction (check core body areas)</li>
+                <li><strong>Weak Pulse:</strong> Diminished amplitude</li>
+            </ul>
+
+            <h3>Late (Decompensated) Shock Signs</h3>
+            <p>These indicate irreversible shock is developing:</p>
+            <ul style="margin-left: 20px;">
+                <li><strong>Bradycardia:</strong> Heart rate drops as cardiac function fails (bad sign)</li>
+                <li><strong>Hypotension:</strong> Systolic <90 mmHg</li>
+                <li><strong>Altered Mental Status:</strong> Confusion, lethargy, loss of consciousness</li>
+                <li><strong>Mottled Skin:</strong> Blotchy, cyanotic appearance</li>
+                <li><strong>Cold Extremities:</strong> Severe peripheral vasoconstriction</li>
+                <li><strong>Weak or Absent Pulse:</strong> Central pulse barely palpable</li>
+            </ul>
+
+            <div class="alert alert-warning">
+                <strong>The SHOCK Mnemonic (Easy Recognition Tool):</strong>
+                <ul style="margin-left: 20px;">
+                    <li><strong>S</strong>kin pale, cool, mottled</li>
+                    <li><strong>H</strong>eart rate increased (tachycardia)</li>
+                    <li><strong>O</strong>utput decreased (weak pulse, low BP)</li>
+                    <li><strong>C</strong>MS changes (confusion, anxiety, lethargy)</li>
+                    <li><strong>K</strong>eep warm (indicates shock treatment priority)</li>
+                </ul>
+            </div>
+
+            <h3>Vital Sign Thresholds</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Finding</th>
+                        <th>Concerning Value</th>
+                        <th>Interpretation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Systolic BP</td>
+                        <td>&lt;90 mmHg</td>
+                        <td>Decompensated shock (immediate treatment)</td>
+                    </tr>
+                    <tr>
+                        <td>Heart Rate</td>
+                        <td>&gt;100 bpm at rest</td>
+                        <td>Early shock compensation</td>
+                    </tr>
+                    <tr>
+                        <td>Respiratory Rate</td>
+                        <td>&gt;20 breaths/min</td>
+                        <td>Compensation for metabolic acidosis</td>
+                    </tr>
+                    <tr>
+                        <td>Mental Status</td>
+                        <td>Altered, confused</td>
+                        <td>Cerebral hypoperfusion (urgent)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- FIELD TREATMENT -->
+        <div id="treatment" class="section">
+            <h2>Field Treatment of Shock</h2>
+
+            <h3>Position: Supine with Legs Elevated</h3>
+            <p>Place the patient flat on their back with legs elevated 30-45 cm (unless spinal injury or respiratory compromise). This position:</p>
+            <ul style="margin-left: 20px;">
+                <li>Promotes venous return from legs to the heart (increasing cardiac output)</li>
+                <li>Maintains cerebral perfusion pressure</li>
+                <li>Is the standard shock position in wilderness medicine</li>
+            </ul>
+
+            <div class="alert alert-info">
+                <strong>Exception:</strong> Do NOT elevate legs if patient has suspected spinal injury (maintain supine only) or difficulty breathing (elevate head slightly).
+            </div>
+
+            <h3>Keep Warm</h3>
+            <p>Prevent heat loss by:</p>
+            <ul style="margin-left: 20px;">
+                <li>Removing wet clothing</li>
+                <li>Covering with blankets or insulation</li>
+                <li>Avoiding excessive cooling (hypothermia worsens shock)</li>
+            </ul>
+
+            <div class="key-point">
+                <strong>Why Keep Warm?</strong> Hypothermia causes vasoconstriction and shunts blood away from skin, worsening shock. Additionally, the combination of shock + hypothermia dramatically increases mortality.
+            </div>
+
+            <h3>Address the Cause</h3>
+            <p>Treat the underlying condition:</p>
+            <ul style="margin-left: 20px;">
+                <li><strong>Hemorrhage:</strong> Control bleeding with direct pressure and tourniquet as needed</li>
+                <li><strong>Dehydration:</strong> Initiate oral or IV rehydration</li>
+                <li><strong>Anaphylaxis:</strong> Administer epinephrine immediately</li>
+                <li><strong>Spinal Injury:</strong> Immobilize spine (neurogenic shock)</li>
+            </ul>
+
+            <h3>Oral Fluids (When Appropriate)</h3>
+            <p>A conscious, alert patient with no signs of abdominal injury who can swallow safely may be given oral fluids:</p>
+            <ul style="margin-left: 20px;">
+                <li>Water or dilute electrolyte solution</li>
+                <li>Small frequent sips, not boluses</li>
+                <li><strong>DO NOT</strong> give fluids if patient is vomiting, has altered mental status, or suspected abdominal injury (fluid may worsen internal bleeding)</li>
+            </ul>
+
+            <h3>Monitoring</h3>
+            <p>Reassess vital signs and mental status frequently:</p>
+            <ul style="margin-left: 20px;">
+                <li>Heart rate and rhythm</li>
+                <li>Blood pressure (if possible)</li>
+                <li>Skin temperature and color</li>
+                <li>Level of consciousness</li>
+                <li>Note trends: improving or worsening?</li>
+            </ul>
+
+            <h3>Evacuation Urgency</h3>
+
+            <div class="alert alert-danger">
+                <strong>ANY patient with signs of shock is an urgent/emergent evacuation.</strong>
+                <br><br>
+                <ul style="margin-left: 20px;">
+                    <li>Decompensated shock (hypotension, altered mental status): EMERGENT — immediate evacuation with ALS (advanced life support) en route</li>
+                    <li>Compensated shock (tachycardia, anxiety, normal BP): URGENT — evacuate immediately but may tolerate slower movement if necessary</li>
+                    <li>Suspected shock from any mechanism: Do not delay evacuation for field interventions</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SCENARIOS -->
+        <div id="scenarios" class="section">
+            <h2>Clinical Scenarios</h2>
+
+            <div class="scenario">
+                <div class="scenario-title">Scenario 1: Hemorrhagic Shock</div>
+                <div class="scenario-case">
+                    A 35-year-old hiker was using an axe to cut firewood when the blade slipped, causing a deep laceration to the medial thigh. You arrive 10 minutes later to find the patient sitting upright, looking anxious. Vital signs: HR 112, RR 22, BP 118/82 (baseline unknown), pale skin, visible bleeding continuing from the wound.
+                </div>
+                <button class="toggle-button" onclick="toggleDiscussion('scenario1')">Show Discussion</button>
+                <div id="scenario1" class="discussion">
+                    <strong>Analysis:</strong> This is compensated hypovolemic shock (hemorrhagic shock). Early signs present: tachycardia, tachypnea, anxiety, pale skin. BP is still normal but this patient is decompensating.
+                    <br><br>
+                    <strong>Immediate Actions:</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Direct pressure to thigh wound with high-quality dressing</li>
+                        <li>If bleeding continues or wound is large, consider tourniquet above the wound</li>
+                        <li>Position supine with legs elevated (unless contraindicated)</li>
+                        <li>Keep warm with blankets</li>
+                        <li>Establish IV access if trained (in wilderness, may not be possible)</li>
+                        <li>Give nothing by mouth</li>
+                        <li>URGENT evacuation — call for helicopter or organize ground evacuation immediately</li>
+                        <li>Reassess vitals q5-10 min; monitor for deterioration to decompensated shock</li>
+                    </ul>
+                    <strong>Expected Outcome:</strong> With prompt bleeding control and evacuation, this patient has good survival chance. Delay increases risk of decompensation.
+                </div>
+            </div>
+
+            <div class="scenario">
+                <div class="scenario-title">Scenario 2: Anaphylactic Shock</div>
+                <div class="scenario-case">
+                    While camping, a 28-year-old woman unknowingly sits on a yellow jacket nest. She is stung multiple times and runs to the tent. Within 5 minutes, she reports difficulty breathing, tongue swelling, and widespread itching. Vital signs: HR 128, RR 28, BP 92/60, skin mottled and flushed, wheezing audible, facial edema present.
+                </div>
+                <button class="toggle-button" onclick="toggleDiscussion('scenario2')">Show Discussion</button>
+                <div id="scenario2" class="discussion">
+                    <strong>Analysis:</strong> This is anaphylactic shock (distributive shock), a medical emergency. The patient shows signs of severe allergic reaction with shock (hypotension, tachycardia, altered perfusion).
+                    <br><br>
+                    <strong>Immediate Actions:</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li><strong>IMMEDIATELY administer epinephrine IM (0.3-0.5 mg of 1:1000)</strong> — this is life-saving and should NOT be delayed</li>
+                        <li>Place in supine position with legs elevated</li>
+                        <li>Manage airway — patient has airway compromise (swelling); be prepared to maintain airway</li>
+                        <li>Administer supplemental oxygen if available</li>
+                        <li>Establish IV access if trained; normal saline bolus</li>
+                        <li>Keep warm</li>
+                        <li>Administer antihistamine and corticosteroid if available</li>
+                        <li>EMERGENT evacuation to hospital (anaphylaxis can recur in biphasic reactions)</li>
+                        <li>Monitor airway patency and vital signs continuously</li>
+                        <li>Be prepared to repeat epinephrine in 5-15 minutes if no response</li>
+                    </ul>
+                    <strong>Key Pearl:</strong> Epinephrine is the only definitive treatment for anaphylaxis. Do not delay for other medications.
+                </div>
+            </div>
+        </div>
+
+        <!-- QUIZ -->
+        <div id="quiz" class="section">
+            <h2>Knowledge Check: Quiz</h2>
+
+            <div class="alert alert-info">
+                <strong>Instructions:</strong> Answer all 10 questions. Your score will be calculated after you select an answer for each question.
+            </div>
+
+            <div id="quiz-container"></div>
+
+            <div id="score-container"></div>
+        </div>
+
+        <!-- SUMMARY & GLOSSARY -->
+        <div id="summary" class="section">
+            <h2>Summary & Key Takeaways</h2>
+
+            <div class="alert alert-success">
+                <strong>Key Concepts to Remember:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Shock = inadequate tissue perfusion leading to cellular hypoxia</li>
+                    <li>Tachycardia is often the EARLIEST sign; hypotension is a LATE sign</li>
+                    <li>Four types: hypovolemic (most common), distributive, obstructive, cardiogenic</li>
+                    <li>Compensated vs. decompensated: compensated may look well but can deteriorate rapidly</li>
+                    <li>Field treatment: position (supine, legs elevated), keep warm, address cause, monitor, evacuate urgently</li>
+                    <li>ALL suspected shock = urgent evacuation</li>
+                </ul>
+            </div>
+
+            <h3>Clinical Pearl Summary</h3>
+            <div class="key-point">
+                In wilderness settings, you will most commonly encounter hypovolemic shock (from trauma) and distributive shock (from anaphylaxis or infection). Remember: a patient can be in significant shock with a normal blood pressure. Look for the complete clinical picture—tachycardia, anxiety, pale skin, weak pulse—not just BP numbers.
+            </div>
+
+            <h2 style="margin-top: 40px;">Glossary of Terms</h2>
+
+            <div class="glossary">
+                <div class="glossary-item">
+                    <div class="term">Aerobic Metabolism</div>
+                    <div class="definition">Energy production in cells using oxygen; produces ATP efficiently and is the normal state. When oxygen supply falls, cells switch to anaerobic metabolism.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Anaerobic Metabolism</div>
+                    <div class="definition">Energy production without oxygen; produces lactate and less ATP. Occurs during shock and hypoxia; leads to lactic acidosis.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Cardiogenic Shock</div>
+                    <div class="definition">Shock caused by heart pump failure (e.g., MI, severe arrhythmia); less common in wilderness.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Compensated Shock</div>
+                    <div class="definition">Early shock where the body's compensatory mechanisms (tachycardia, vasoconstriction) maintain near-normal blood pressure. Patient appears anxious but may not look critically ill.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Decompensated Shock</div>
+                    <div class="definition">Late shock where compensatory mechanisms fail; blood pressure drops, mental status changes, organ failure begins. Life-threatening.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Distributive Shock</div>
+                    <div class="definition">Shock caused by vasodilation and loss of vascular tone (septic, anaphylactic, neurogenic); characterized by wide pulse pressure.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Fick Principle</div>
+                    <div class="definition">The concept that oxygen delivery = cardiac output × arterial oxygen content. Shows that perfusion requires both heart function and oxygen saturation.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Hypovolemic Shock</div>
+                    <div class="definition">Shock from loss of circulating volume (blood or other fluids); most common type in trauma and wilderness emergencies.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Lactic Acidosis</div>
+                    <div class="definition">Accumulation of lactate in blood due to anaerobic metabolism during shock; worsens cellular dysfunction and is a marker of tissue hypoxia.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Mottled Skin</div>
+                    <div class="definition">Blotchy, cyanotic appearance of skin in decompensated shock from severe peripheral vasoconstriction and poor perfusion.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Neurogenic Shock</div>
+                    <div class="definition">Shock from spinal cord injury causing loss of sympathetic tone and peripheral vasodilation; typically transient.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Obstructive Shock</div>
+                    <div class="definition">Shock caused by physical blockage to blood flow (tension pneumothorax, cardiac tamponade, PE); requires emergency intervention.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Perfusion</div>
+                    <div class="definition">The flow of blood (and oxygen) to tissues. Inadequate perfusion is the core problem in shock.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Shock</div>
+                    <div class="definition">A state of inadequate tissue perfusion and cellular hypoxia; if untreated, leads to organ failure and death.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Tachycardia</div>
+                    <div class="definition">Elevated heart rate (>100 bpm at rest); one of the earliest signs of shock as the heart attempts to maintain cardiac output.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Tachypnea</div>
+                    <div class="definition">Elevated respiratory rate (>20 breaths/min); occurs in shock due to sympathetic activation and metabolic acidosis.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Vasoconstriction</div>
+                    <div class="definition">Narrowing of blood vessels to increase peripheral resistance and redirect blood to vital organs; an important compensatory mechanism in shock.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="nav-footer">
+            <a href="../index.html" class="nav-link">🏠 Home</a>
+            <a href="04_Bleeding_Wounds.html" class="nav-link">← Previous</a>
+            <a href="06_Musculoskeletal.html" class="nav-link">Next →</a>
+        </div>
+    </div>
+
+    <script>
+        const quizQuestions = [
+            {
+                question: "The EARLIEST measurable sign of shock is:",
+                options: ["A) Hypotension", "B) Tachycardia", "C) Altered mental status", "D) Cyanosis"],
+                correct: 1,
+                explanation: "Tachycardia (elevated heart rate) is typically the first measurable sign as the body tries to maintain cardiac output. Hypotension is a late sign."
+            },
+            {
+                question: "Hypovolemic shock is caused by:",
+                options: ["A) Heart failure", "B) Loss of blood or body fluids", "C) Massive vasodilation", "D) Airway obstruction"],
+                correct: 1,
+                explanation: "Hypovolemic shock results from loss of circulating volume through hemorrhage, dehydration, or burns. It's the most common type in wilderness trauma."
+            },
+            {
+                question: "In neurogenic shock, blood pressure drops due to:",
+                options: ["A) Fluid loss", "B) Loss of vascular tone from spinal injury", "C) Cardiac pump failure", "D) Allergic reaction"],
+                correct: 1,
+                explanation: "Neurogenic shock results from spinal cord injury disrupting sympathetic outflow, causing peripheral vasodilation and loss of vascular tone."
+            },
+            {
+                question: "The preferred position for a shocked patient with no spinal injury is:",
+                options: ["A) Sitting upright", "B) Supine with legs elevated", "C) Left lateral recumbent", "D) Semi-prone"],
+                correct: 1,
+                explanation: "Supine with legs elevated 30-45 cm promotes venous return from the legs to the heart, improving cardiac output and cerebral perfusion."
+            },
+            {
+                question: "Skin that is pale, cool, and clammy indicates:",
+                options: ["A) Heat stroke", "B) Decompensated shock", "C) Anaphylaxis only", "D) Hyperthermia"],
+                correct: 1,
+                explanation: "Pale, cool, clammy skin results from vasoconstriction and poor peripheral perfusion, classic for decompensated shock."
+            },
+            {
+                question: "A conscious shock patient should be given oral fluids when:",
+                options: ["A) They have an abdominal injury", "B) They have no abdominal injury and can swallow safely", "C) They are vomiting", "D) Core temperature is low"],
+                correct: 1,
+                explanation: "Oral fluids are only appropriate if the patient is fully conscious, alert, can swallow safely, and has NO abdominal injury (where internal bleeding might be worsened)."
+            },
+            {
+                question: "Cardiogenic shock is caused by:",
+                options: ["A) Loss of blood volume", "B) Heart failing as a pump", "C) Severe infection", "D) Spinal cord injury"],
+                correct: 1,
+                explanation: "Cardiogenic shock results from the heart's failure to function as an effective pump, such as in MI or severe arrhythmia."
+            },
+            {
+                question: "Which assessment finding suggests LATE (decompensated) shock?",
+                options: ["A) Rapid heart rate", "B) Anxiety and restlessness", "C) Bradycardia and loss of consciousness", "D) Pale skin"],
+                correct: 2,
+                explanation: "Bradycardia in shock indicates the heart is failing to compensate and is a very late sign. Loss of consciousness indicates severe cerebral hypoperfusion."
+            },
+            {
+                question: "Septic shock is a type of:",
+                options: ["A) Hypovolemic shock", "B) Distributive shock", "C) Obstructive shock", "D) Cardiogenic shock"],
+                correct: 1,
+                explanation: "Septic shock is a distributive shock caused by severe infection leading to vasodilation and capillary leak."
+            },
+            {
+                question: "All patients with suspected shock should receive:",
+                options: ["A) Fluids via IV", "B) Urgent evacuation", "C) Oral glucose", "D) Aspirin"],
+                correct: 1,
+                explanation: "ANY suspected shock is an urgent evacuation. Definitive treatment (fluids, medications, surgical intervention) requires hospital care."
+            }
+        ];
+
+        function switchTab(tabName) {
+            const sections = document.querySelectorAll('.section');
+            const buttons = document.querySelectorAll('.tab-button');
+
+            sections.forEach(section => section.classList.remove('active'));
+            buttons.forEach(button => button.classList.remove('active'));
+
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            if (tabName === 'quiz' && document.getElementById('quiz-container').innerHTML === '') {
+                renderQuiz();
+            }
+
+            const tabs = Array.from(document.querySelectorAll('.tab-button'));
+            const activeIdx = tabs.findIndex(b => b.getAttribute('onclick').includes(tabName));
+            updateStepIndicator(activeIdx);
+        }
+        function updateStepIndicator(activeIdx) {
+            const tabs = document.querySelectorAll('.tab-button');
+            document.getElementById('step-text').textContent = 'Step ' + (activeIdx + 1) + ' of ' + tabs.length;
+            const dots = document.getElementById('step-dots');
+            dots.innerHTML = '';
+            tabs.forEach((_, i) => {
+                const d = document.createElement('div');
+                d.style.cssText = 'width:8px;height:8px;border-radius:50%;background:' + (i === activeIdx ? '#2C7BE5' : i < activeIdx ? '#1A6B3A' : '#CBD5E0') + ';';
+                dots.appendChild(d);
+            });
+        }
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+
+            quizQuestions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-box';
+                questionDiv.innerHTML = `
+                    <div class="question-text">Question ${index + 1}: ${q.question}</div>
+                    ${q.options.map((option, optIndex) => `
+                        <button class="answer-option" onclick="selectAnswer(${index}, ${optIndex})" id="q${index}o${optIndex}">
+                            ${option}
+                        </button>
+                    `).join('')}
+                    <div class="explanation" id="exp${index}"></div>
+                `;
+                container.appendChild(questionDiv);
+            });
+        }
+
+        function selectAnswer(questionIndex, optionIndex) {
+            const question = quizQuestions[questionIndex];
+            const correct = question.correct === optionIndex;
+
+            for (let i = 0; i < question.options.length; i++) {
+                const btn = document.getElementById(`q${questionIndex}o${i}`);
+                if (correct && i === optionIndex) {
+                    btn.classList.add('correct');
+                    btn.disabled = true;
+                } else if (!correct && i === optionIndex) {
+                    btn.classList.add('incorrect');
+                    btn.disabled = true;
+                } else {
+                    btn.disabled = true;
+                }
+            }
+
+            const explanation = document.getElementById(`exp${questionIndex}`);
+            explanation.textContent = question.explanation;
+            explanation.classList.add('show');
+
+            calculateScore();
+        }
+
+        function calculateScore() {
+            let score = 0;
+            let answered = 0;
+            quizQuestions.forEach((q, index) => {
+                for (let i = 0; i < q.options.length; i++) {
+                    const btn = document.getElementById(`q${index}o${i}`);
+                    if (btn.classList.contains('correct')) { score++; answered++; break; }
+                    if (btn.classList.contains('incorrect')) { answered++; break; }
+                }
+            });
+            if (answered < quizQuestions.length) return;
+            const lessonId = '05';
+            const prevScore = localStorage.getItem('wfa_score_' + lessonId);
+            localStorage.setItem('wfa_completed_' + lessonId, 'true');
+            localStorage.setItem('wfa_score_' + lessonId, Math.max(score, parseInt(prevScore || '0')));
+            const scoreContainer = document.getElementById('score-container');
+            let msg = score >= Math.round(quizQuestions.length * 0.8) ? '🎉 Excellent work! You are ready for the next lesson.' : score >= Math.round(quizQuestions.length * 0.6) ? '👍 Good job! Review the sections you missed.' : '📚 Consider reviewing this lesson before moving on.';
+            if (prevScore && parseInt(prevScore) > 0) msg += ' (Previous best: ' + prevScore + '/' + quizQuestions.length + ')';
+            scoreContainer.innerHTML = '<div class="score-box">You scored ' + score + '/' + quizQuestions.length + ' (' + Math.round(score/quizQuestions.length*100) + '%)<br>' + msg + '</div>';
+            const retryBtn = document.createElement('button');
+            retryBtn.textContent = '↺ Retry Quiz';
+            retryBtn.style.cssText = 'margin-top:16px;padding:10px 24px;background:#2C7BE5;color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;display:block;';
+            retryBtn.onclick = function() {
+                scoreContainer.innerHTML = '';
+                document.getElementById('quiz-container').innerHTML = '';
+                renderQuiz();
+            };
+            scoreContainer.appendChild(retryBtn);
+        }
+
+        function toggleDiscussion(id) {
+            const discussion = document.getElementById(id);
+            discussion.classList.toggle('show');
+        }
+        updateStepIndicator(0);
+    </script>
+</body>
+</html>
