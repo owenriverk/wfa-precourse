@@ -6,58 +6,58 @@
     <title>Lesson 10: Anaphylaxis & Allergic Reactions - WFA Course</title>
     <style>
         :root {
-            --primary: #8B0000; --accent: #DC143C; --light-bg: #FFE4E1;
-            --danger: #8B0000; --danger-bg: #FFE4E1; --success: #1A6B3A; --success-bg: #E8F5E9;
-            --warning: #FF6347; --warning-bg: #FFE4E1; --info: #8B0000; --info-bg: #FFE4E1;
+            --primary: #1B4F8A; --accent: #2C7BE5; --light-bg: #E8F0FE;
+            --danger: #C0392B; --danger-bg: #FDECEA; --success: #1A6B3A; --success-bg: #E8F5E9;
+            --warning: #D35400; --warning-bg: #FFF3E0; --info: #1565C0; --info-bg: #E3F2FD;
             --dark: #2D3748; --muted: #718096; --border: #CBD5E0; --white: #FFFFFF;
             --card-bg: #F7FAFC;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: var(--dark); line-height: 1.6; background: #ECEFF4; }
         .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
-        .header { background: linear-gradient(135deg, #DC143C, #8B0000); color: var(--white); padding: 30px; border-radius: 8px; margin-bottom: 30px; }
+        .header { background: linear-gradient(135deg, #2C7BE5, #1B4F8A); color: var(--white); padding: 30px; border-radius: 8px; margin-bottom: 30px; }
         .header h1 { margin: 0 0 10px 0; font-size: 2.2em; }
         .meta { font-size: 0.95em; opacity: 0.95; }
         .meta-item { margin-right: 20px; display: inline-block; }
         .tabs { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; border-bottom: 2px solid var(--border); }
         .tab-btn { padding: 12px 20px; background: var(--card-bg); border: 2px solid var(--border); border-bottom: none; cursor: pointer; font-size: 1em; border-radius: 8px 8px 0 0; transition: all 0.3s; }
         .tab-btn:hover { background: var(--light-bg); }
-        .tab-btn.active { background: #DC143C; color: var(--white); border-color: #DC143C; }
+        .tab-btn.active { background: #2C7BE5; color: var(--white); border-color: #2C7BE5; }
         .tab-content { display: none; background: var(--white); padding: 25px; border-radius: 0 0 8px 8px; border: 2px solid var(--border); margin-bottom: 30px; }
         .tab-content.active { display: block; }
-        .section-title { font-size: 1.8em; color: #8B0000; margin: 30px 0 20px 0; border-left: 5px solid #DC143C; padding-left: 15px; }
-        .subsection-title { font-size: 1.3em; color: #DC143C; margin: 20px 0 12px 0; font-weight: 600; }
-        .card { background: var(--card-bg); border-left: 5px solid #DC143C; padding: 20px; margin: 20px 0; border-radius: 6px; }
+        .section-title { font-size: 1.8em; color: #1B4F8A; margin: 30px 0 20px 0; border-left: 5px solid #2C7BE5; padding-left: 15px; }
+        .subsection-title { font-size: 1.3em; color: #2C7BE5; margin: 20px 0 12px 0; font-weight: 600; }
+        .card { background: var(--card-bg); border-left: 5px solid #2C7BE5; padding: 20px; margin: 20px 0; border-radius: 6px; }
         .alert { padding: 15px; margin: 20px 0; border-radius: 6px; border-left: 5px solid; }
         .alert-danger { background: var(--danger-bg); border-left-color: var(--danger); color: var(--danger); }
         .alert-warning { background: var(--warning-bg); border-left-color: var(--warning); color: var(--warning); }
         .alert-success { background: var(--success-bg); border-left-color: var(--success); color: var(--success); }
         .alert-info { background: var(--info-bg); border-left-color: var(--info); color: var(--info); }
-        .mnemonic-box { background: linear-gradient(135deg, #DC143C, #8B0000); color: var(--white); padding: 20px; margin: 20px 0; border-radius: 8px; font-weight: 600; font-size: 1.1em; }
+        .mnemonic-box { background: linear-gradient(135deg, #2C7BE5, #1B4F8A); color: var(--white); padding: 20px; margin: 20px 0; border-radius: 8px; font-weight: 600; font-size: 1.1em; }
         .mnemonic-item { margin: 10px 0; }
-        .mnemonic-letter { display: inline-block; background: var(--white); color: #DC143C; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: 700; margin-right: 10px; }
+        .mnemonic-letter { display: inline-block; background: var(--white); color: #2C7BE5; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: 700; margin-right: 10px; }
         ul, ol { margin-left: 20px; margin-bottom: 15px; }
         li { margin-bottom: 8px; }
-        .key-points { background: linear-gradient(135deg, #DC143C, #8B0000); color: var(--white); padding: 20px; margin: 25px 0; border-radius: 8px; }
+        .key-points { background: linear-gradient(135deg, #2C7BE5, #1B4F8A); color: var(--white); padding: 20px; margin: 25px 0; border-radius: 8px; }
         .key-points h3 { margin-top: 0; margin-bottom: 15px; font-size: 1.3em; }
         .key-point { margin: 8px 0; padding-left: 25px; position: relative; }
         .key-point:before { content: "★"; position: absolute; left: 0; font-size: 1.2em; }
         .scenario-case { background: var(--info-bg); border: 2px solid var(--info); border-radius: 8px; padding: 20px; margin: 20px 0; }
         .scenario-case h4 { color: var(--info); margin-bottom: 12px; font-size: 1.1em; }
         .scenario-btn { background: var(--info); color: var(--white); padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 0.95em; transition: background 0.3s; }
-        .scenario-btn:hover { background: #6b0000; }
+        .scenario-btn:hover { background: #164070; }
         .discussion { display: none; margin-top: 15px; background: var(--white); padding: 15px; border-radius: 6px; border-left: 4px solid var(--info); }
         .discussion.show { display: block; }
         .glossary { background: var(--card-bg); padding: 20px; margin: 20px 0; border-radius: 8px; }
         .glossary-term { margin-bottom: 15px; }
-        .glossary-term dt { color: #DC143C; font-weight: 700; font-size: 1.05em; }
+        .glossary-term dt { color: #2C7BE5; font-weight: 700; font-size: 1.05em; }
         .glossary-term dd { margin-left: 20px; margin-top: 5px; color: var(--dark); }
         .quiz-section { background: var(--white); padding: 25px; border-radius: 8px; border: 2px solid var(--border); margin: 20px 0; }
-        .quiz-question { background: var(--card-bg); padding: 20px; margin: 20px 0; border-radius: 6px; border-left: 4px solid #DC143C; }
+        .quiz-question { background: var(--card-bg); padding: 20px; margin: 20px 0; border-radius: 6px; border-left: 4px solid #2C7BE5; }
         .quiz-question h4 { color: var(--dark); margin-bottom: 15px; font-size: 1.1em; }
         .quiz-question ul { list-style: none; margin: 0; }
         .quiz-question li { padding: 10px 12px; margin: 8px 0; background: var(--white); border: 2px solid var(--border); border-radius: 4px; cursor: pointer; transition: all 0.3s; }
-        .quiz-question li:hover { border-color: #DC143C; background: var(--light-bg); }
+        .quiz-question li:hover { border-color: #2C7BE5; background: var(--light-bg); }
         .quiz-question li.disabled { opacity: 0.6; cursor: not-allowed; }
         .quiz-question li.correct { background: var(--success-bg); border-color: var(--success); color: var(--success); font-weight: 600; }
         .quiz-question li.incorrect { background: var(--danger-bg); border-color: var(--danger); color: var(--danger); font-weight: 600; }
@@ -65,15 +65,15 @@
         .explanation.show { display: block; }
         .correct-exp { background: var(--success-bg); color: var(--success); border-left: 4px solid var(--success); }
         .incorrect-exp { background: var(--danger-bg); color: var(--danger); border-left: 4px solid var(--danger); }
-        #score-display { display: none; background: linear-gradient(135deg, #DC143C, #8B0000); color: var(--white); padding: 30px; border-radius: 8px; text-align: center; margin: 30px 0; }
+        #score-display { display: none; background: linear-gradient(135deg, #2C7BE5, #1B4F8A); color: var(--white); padding: 30px; border-radius: 8px; text-align: center; margin: 30px 0; }
         #score-text { font-size: 2em; font-weight: 700; margin-bottom: 10px; }
         #score-sub { font-size: 1.1em; opacity: 0.95; }
         .nav-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 40px; padding-top: 20px; border-top: 2px solid var(--border); }
-        .nav-link { padding: 12px 24px; background: #DC143C; color: var(--white); text-decoration: none; border-radius: 6px; transition: background 0.3s; cursor: pointer; font-weight: 600; }
-        .nav-link:hover { background: #8B0000; }
+        .nav-link { padding: 12px 24px; background: #2C7BE5; color: var(--white); text-decoration: none; border-radius: 6px; transition: background 0.3s; cursor: pointer; font-weight: 600; }
+        .nav-link:hover { background: #1B4F8A; }
         .nav-link.disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
         .nav-center { text-align: center; }
-        .nav-center a { color: #DC143C; text-decoration: none; font-weight: 600; }
+        .nav-center a { color: #2C7BE5; text-decoration: none; font-weight: 600; }
     </style>
 </head>
 <body>
