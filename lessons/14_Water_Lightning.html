@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 14: Water & Lightning Emergencies - WFA Course</title>
+    <style>
+        :root {
+            --primary: #1B4F8A; --accent: #2C7BE5; --light-bg: #E8F0FE;
+            --danger: #C0392B; --danger-bg: #FDECEA; --success: #1A6B3A; --success-bg: #E8F5E9;
+            --warning: #D35400; --warning-bg: #FFF3E0; --info: #1565C0; --info-bg: #E3F2FD;
+            --dark: #2D3748; --muted: #718096; --border: #CBD5E0; --white: #FFFFFF;
+            --card-bg: #F7FAFC;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: var(--dark); line-height: 1.6; background: #ECEFF4; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, var(--primary), var(--accent)); color: var(--white); padding: 30px; border-radius: 8px; margin-bottom: 30px; }
+        .header h1 { margin: 0 0 10px 0; font-size: 2.2em; }
+        .meta { font-size: 0.95em; opacity: 0.95; }
+        .meta-item { margin-right: 20px; display: inline-block; }
+        .tabs { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; border-bottom: 2px solid var(--border); }
+        .tab-btn { padding: 12px 20px; background: var(--card-bg); border: 2px solid var(--border); border-bottom: none; cursor: pointer; font-size: 1em; border-radius: 8px 8px 0 0; transition: all 0.3s; }
+        .tab-btn:hover { background: var(--light-bg); }
+        .tab-btn.active { background: var(--accent); color: var(--white); border-color: var(--accent); }
+        .tab-content { display: none; background: var(--white); padding: 25px; border-radius: 0 0 8px 8px; border: 2px solid var(--border); margin-bottom: 30px; }
+        .tab-content.active { display: block; }
+        .section-title { font-size: 1.8em; color: var(--primary); margin: 30px 0 20px 0; border-left: 5px solid var(--accent); padding-left: 15px; }
+        .subsection-title { font-size: 1.3em; color: var(--accent); margin: 20px 0 12px 0; font-weight: 600; }
+        .card { background: var(--card-bg); border-left: 5px solid var(--accent); padding: 20px; margin: 20px 0; border-radius: 6px; }
+        .alert { padding: 15px; margin: 20px 0; border-radius: 6px; border-left: 5px solid; }
+        .alert-danger { background: var(--danger-bg); border-left-color: var(--danger); color: var(--danger); }
+        .alert-warning { background: var(--warning-bg); border-left-color: var(--warning); color: var(--warning); }
+        .alert-success { background: var(--success-bg); border-left-color: var(--success); color: var(--success); }
+        .alert-info { background: var(--info-bg); border-left-color: var(--info); color: var(--info); }
+        .mnemonic-box { background: linear-gradient(135deg, var(--primary), var(--accent)); color: var(--white); padding: 20px; margin: 20px 0; border-radius: 8px; font-weight: 600; font-size: 1.1em; }
+        .mnemonic-item { margin: 10px 0; }
+        .mnemonic-letter { display: inline-block; background: var(--white); color: var(--primary); width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: 700; margin-right: 10px; }
+        ul, ol { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+        .key-points { background: linear-gradient(135deg, var(--primary), var(--accent)); color: var(--white); padding: 20px; margin: 25px 0; border-radius: 8px; }
+        .key-points h3 { margin-top: 0; margin-bottom: 15px; font-size: 1.3em; }
+        .key-point { margin: 8px 0; padding-left: 25px; position: relative; }
+        .key-point:before { content: "★"; position: absolute; left: 0; font-size: 1.2em; }
+        .scenario-case { background: var(--info-bg); border: 2px solid var(--info); border-radius: 8px; padding: 20px; margin: 20px 0; }
+        .scenario-case h4 { color: var(--info); margin-bottom: 12px; font-size: 1.1em; }
+        .scenario-btn { background: var(--info); color: var(--white); padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 0.95em; transition: background 0.3s; }
+        .scenario-btn:hover { background: #0d47a1; }
+        .discussion { display: none; margin-top: 15px; background: var(--white); padding: 15px; border-radius: 6px; border-left: 4px solid var(--info); }
+        .discussion.show { display: block; }
+        .glossary { background: var(--card-bg); padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .glossary-term { margin-bottom: 15px; }
+        .glossary-term dt { color: var(--accent); font-weight: 700; font-size: 1.05em; }
+        .glossary-term dd { margin-left: 20px; margin-top: 5px; color: var(--dark); }
+        .quiz-section { background: var(--white); padding: 25px; border-radius: 8px; border: 2px solid var(--border); margin: 20px 0; }
+        .quiz-question { background: var(--card-bg); padding: 20px; margin: 20px 0; border-radius: 6px; border-left: 4px solid var(--accent); }
+        .quiz-question h4 { color: var(--dark); margin-bottom: 15px; font-size: 1.1em; }
+        .quiz-question ul { list-style: none; margin: 0; }
+        .quiz-question li { padding: 10px 12px; margin: 8px 0; background: var(--white); border: 2px solid var(--border); border-radius: 4px; cursor: pointer; transition: all 0.3s; }
+        .quiz-question li:hover { border-color: var(--accent); background: var(--light-bg); }
+        .quiz-question li.disabled { opacity: 0.6; cursor: not-allowed; }
+        .quiz-question li.correct { background: var(--success-bg); border-color: var(--success); color: var(--success); font-weight: 600; }
+        .quiz-question li.incorrect { background: var(--danger-bg); border-color: var(--danger); color: var(--danger); font-weight: 600; }
+        .explanation { display: none; margin-top: 12px; padding: 12px; border-radius: 4px; font-size: 0.95em; }
+        .explanation.show { display: block; }
+        .correct-exp { background: var(--success-bg); color: var(--success); border-left: 4px solid var(--success); }
+        .incorrect-exp { background: var(--danger-bg); color: var(--danger); border-left: 4px solid var(--danger); }
+        #score-display { display: none; background: linear-gradient(135deg, var(--primary), var(--accent)); color: var(--white); padding: 30px; border-radius: 8px; text-align: center; margin: 30px 0; }
+        #score-text { font-size: 2em; font-weight: 700; margin-bottom: 10px; }
+        #score-sub { font-size: 1.1em; opacity: 0.95; }
+        .nav-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 40px; padding-top: 20px; border-top: 2px solid var(--border); }
+        .nav-link { padding: 12px 24px; background: var(--accent); color: var(--white); text-decoration: none; border-radius: 6px; transition: background 0.3s; cursor: pointer; font-weight: 600; }
+        .nav-link:hover { background: var(--primary); }
+        .nav-link.disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+        .nav-center { text-align: center; }
+        .nav-center a { color: var(--accent); text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Lesson 14: Water & Lightning Emergencies</h1>
+            <div class="meta">
+                <span class="meta-item">Estimated Time: 35 minutes</span>
+                <span class="meta-item">Module 14 of 14</span>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('overview')">Overview</button>
+            <button class="tab-btn" onclick="showTab('drowning')">Drowning</button>
+            <button class="tab-btn" onclick="showTab('immersion')">Cold-Water Immersion</button>
+            <button class="tab-btn" onclick="showTab('lightning')">Lightning</button>
+            <button class="tab-btn" onclick="showTab('scenarios')">Scenarios</button>
+            <button class="tab-btn" onclick="showTab('quiz')">Quiz</button>
+            <button class="tab-btn" onclick="showTab('summary')">Summary</button>
+        </div>
+        <div id="step-indicator" style="background:#F0F4F8;border-bottom:1px solid #CBD5E0;padding:8px 20px;font-size:13px;color:#718096;display:flex;gap:16px;align-items:center;">
+          <span id="step-text">Step 1 of 7</span>
+          <div id="step-dots" style="display:flex;gap:6px;"></div>
+        </div>
+
+        <!-- OVERVIEW TAB -->
+        <div id="overview" class="tab-content active">
+            <div class="section-title">Overview: Water & Lightning Emergencies</div>
+            <p>Rivers, open water, and exposed terrain concentrate two of the fastest killers in the outdoors: drowning and lightning. On a whitewater trip or a ridgeline road, the difference between a close call and a fatality is usually decided in the first few minutes — by prevention, by rescue decisions, and by knowing which patients need care first.</p>
+
+            <div class="alert alert-danger">
+                <strong>Critical:</strong> Drowning is fast and SILENT — it does not look like the movies. And in a multiple-victim lightning strike, the normal rules of triage reverse: treat the apparently dead first.
+            </div>
+
+            <div class="subsection-title">Why This Matters on River & Road Trips</div>
+            <ul>
+                <li><strong>Moving water:</strong> Rapids, strainers, and foot entrapment turn a swim into an emergency in seconds. Rescue technique matters more than swimming strength.</li>
+                <li><strong>Cold water:</strong> Even strong swimmers drown in the first minutes of cold-water immersion — from cold shock and swim failure, not hypothermia.</li>
+                <li><strong>Exposure:</strong> Open water, ridges, and exposed roads offer no shelter from lightning. Risk management is about timing and terrain, not a magic safe spot.</li>
+                <li><strong>Delayed help:</strong> Post-submersion and post-strike patients can deteriorate over hours — your evacuation decisions carry the weight.</li>
+            </ul>
+
+            <div class="key-points">
+                <h3>Key Points</h3>
+                <div class="key-point">Real drowning is silent and vertical — no waving, no yelling. Watch your group.</div>
+                <div class="key-point">Rescue hierarchy: talk, reach, throw, row, GO last — never become the second patient</div>
+                <div class="key-point">Never stand up in moving water deeper than your knees — foot entrapment kills</div>
+                <div class="key-point">Cold-water immersion: 1-10-1 — float first and get breathing under control</div>
+                <div class="key-point">Drowning CPR is ventilation-first: 2 initial rescue breaths, then 30:2 (see Lesson 03)</div>
+                <div class="key-point">Lightning: spread the group out, and use REVERSE triage — treat the apparently dead first</div>
+            </div>
+        </div>
+
+        <!-- DROWNING TAB -->
+        <div id="drowning" class="tab-content">
+            <div class="section-title">Drowning</div>
+
+            <div class="card">
+                <div class="subsection-title">What Drowning Is</div>
+                <p><strong>Definition:</strong> Drowning is respiratory impairment from submersion or immersion in liquid. It is a process, not just an outcome — a person can drown and survive, with or without lasting injury.</p>
+                <ul style="margin-top: 15px;">
+                    <li><strong>The process:</strong> Water contacts the airway → reflex breath-holding → involuntary gasp → laryngospasm (the vocal cords clamp shut) and/or aspiration of water into the lungs → oxygen levels fall → loss of consciousness → cardiac arrest from lack of oxygen</li>
+                    <li><strong>It is fast:</strong> A struggling swimmer may go under in as little as 20-60 seconds</li>
+                    <li><strong>The core problem is oxygen:</strong> Everything in drowning care — rescue, positioning, CPR — is aimed at restoring oxygenation</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Recognition: Real Drowning is SILENT</div>
+                <p>Movie drowning — waving arms, splashing, yelling for help — is fiction. The instinctive drowning response looks like this:</p>
+                <ul style="margin-top: 15px;">
+                    <li><strong>No yelling:</strong> The respiratory system is built for breathing first, speech second. A drowning person cannot spare air to call out.</li>
+                    <li><strong>No waving:</strong> Arms press down instinctively on the water's surface — they cannot reach for a rope or wave for help</li>
+                    <li><strong>Vertical posture, head low:</strong> Body upright in the water, head tilted back, mouth at water level bobbing under and up</li>
+                    <li><strong>No progress:</strong> Not swimming anywhere, just struggling to keep the airway above water</li>
+                </ul>
+
+                <div class="alert alert-danger">
+                    <strong>Critical:</strong> If someone in your group goes quiet in the water, assume trouble. Count heads constantly after any raft flip or swim — the quiet swimmer is the one in danger.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Deprecated Myths: "Dry Drowning" & "Secondary Drowning"</div>
+                <ul>
+                    <li><strong>"Dry drowning" and "secondary drowning" are NOT medical terms.</strong> Modern drowning medicine does not use them, and they cause more fear than understanding.</li>
+                    <li><strong>What actually matters:</strong> Is the person <strong>symptomatic or asymptomatic</strong> after submersion?</li>
+                    <li><strong>Symptomatic</strong> (coughing, trouble breathing, abnormal behavior) = the lungs were injured, and symptoms can worsen over the following hours → needs evaluation</li>
+                    <li><strong>Asymptomatic</strong> (brief submersion, breathing and acting completely normally) = a person does not suddenly die days later from a normal swim. Observe closely; evacuate only if symptoms develop.</li>
+                </ul>
+
+                <div class="alert alert-info">
+                    <strong>Bottom line:</strong> Forget the scary labels. Watch the patient: symptoms after submersion = evaluation. No symptoms = close observation.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Rescue Safety FIRST: The Rescue Hierarchy</div>
+                <p>More would-be rescuers drown than you'd think. A drowning person will instinctively climb whatever — or whoever — is nearest to get their head above water. Work from lowest-risk to highest-risk:</p>
+
+                <div class="mnemonic-box">
+                    <div class="mnemonic-item"><span class="mnemonic-letter">T</span>Talk — coach them: "Swim to me! Grab the rope! Feet up!"</div>
+                    <div class="mnemonic-item"><span class="mnemonic-letter">R</span>Reach — extend a paddle, pole, or branch from a secure position</div>
+                    <div class="mnemonic-item"><span class="mnemonic-letter">T</span>Throw — rope bag, spare PFD, anything that floats</div>
+                    <div class="mnemonic-item"><span class="mnemonic-letter">R</span>Row — approach by raft or boat, pull them over the tube</div>
+                    <div class="mnemonic-item"><span class="mnemonic-letter">G</span>Go — swimming contact rescue: LAST resort, trained rescuers only</div>
+                </div>
+
+                <div class="alert alert-danger">
+                    <strong>Never become the second patient.</strong> An untrained swimming rescue frequently produces two victims. If you must enter the water, take flotation with you and approach from behind — a panicked swimmer will climb their rescuer.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">River-Specific Hazards</div>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Foot Entrapment</div>
+                <ul>
+                    <li><strong>The rule:</strong> NEVER stand up in moving water deeper than your knees</li>
+                    <li><strong>Why:</strong> A foot wedges between rocks on the bottom, the current pushes your body over and under — even strong adults cannot fight a river pushing on their torso, and rescuers often cannot reach them in time</li>
+                    <li><strong>Instead:</strong> If you're swimming a rapid, stay in the <strong>defensive swim position</strong> — on your back, feet UP at the surface and pointed DOWNSTREAM (feet fend off rocks), until you can swim aggressively for shore</li>
+                    <li><strong>Aggressive swim:</strong> When you see your exit (an eddy, the shore), roll over and swim hard for it — don't drift passively past your chance to get out</li>
+                </ul>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Strainers</div>
+                <ul>
+                    <li><strong>What:</strong> Downed trees, log jams, fences — anything water flows THROUGH but a body cannot. The current pins you against it and pushes you under.</li>
+                    <li><strong>The rule:</strong> If being swept into a strainer is unavoidable, swim aggressively AT it and go up and OVER the top — never let the current take you under it</li>
+                </ul>
+
+                <div class="alert alert-warning">
+                    <strong>Always:</strong> Wear a properly fitted PFD on and around moving water — for everyone, every time, no exceptions. Most river drowning victims were not wearing one.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Post-Rescue Care</div>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Pulseless / Not Breathing</div>
+                <ul>
+                    <li>Drowning is an asphyxial (oxygen-deprivation) arrest: open the airway and give <strong>2 initial rescue breaths FIRST</strong>, then continue CPR at 30:2</li>
+                    <li><strong>Hands-only CPR is NOT appropriate for drowning</strong> — the problem is lack of oxygen, so rescue breaths are essential (full CPR technique: see Lesson 03, Airway & Breathing)</li>
+                    <li>Do not waste time trying to "drain water from the lungs" — abdominal thrusts and drainage maneuvers delay ventilation and cause vomiting</li>
+                </ul>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Breathing Patient</div>
+                <ul>
+                    <li><strong>Recovery position</strong> — vomiting after submersion is common; protect the airway</li>
+                    <li><strong>Watch breathing closely:</strong> Oxygenation is the problem in drowning. Reassess rate, effort, and sounds frequently — worsening breathing is your evacuation trigger.</li>
+                    <li><strong>Strip wet clothes and insulate:</strong> Anyone pulled from the water is losing heat fast — dry them, insulate, and treat per hypothermia staging (see Lesson 09, Cold-Related Emergencies)</li>
+                    <li><strong>Everyone pulled from the water gets assessed</strong> — including the swimmer who insists they're fine</li>
+                </ul>
+
+                <div class="alert alert-info">
+                    <strong>Spine note:</strong> Spinal injury in drowning is rare unless there is a diving or impact mechanism (headfirst entry, thrown against rocks). Do not let spine worry delay airway and breathing care — A and B come first.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Who Evacuates After Submersion</div>
+                <ul>
+                    <li><strong>ANY symptoms = evacuate for evaluation.</strong> Symptoms can progress over hours as lung injury evolves:
+                        <ul style="margin-top: 8px;">
+                            <li>Coughing that persists</li>
+                            <li>Foamy or frothy sputum</li>
+                            <li>Breathlessness or increased work of breathing</li>
+                            <li>Abnormal breath sounds (wheezes, crackles, gurgling)</li>
+                            <li>Vomiting</li>
+                            <li>Altered mental status, unusual lethargy or confusion</li>
+                        </ul>
+                    </li>
+                    <li><strong>Brief submersion, immediately asymptomatic</strong> — breathing normally, behaving normally: observe closely for <strong>4-8 hours</strong>; evacuate if anything develops</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- COLD-WATER IMMERSION TAB -->
+        <div id="immersion" class="tab-content">
+            <div class="section-title">Cold-Water Immersion</div>
+
+            <div class="card">
+                <div class="subsection-title">Immersion is Not (Yet) Hypothermia</div>
+                <p>Cold-water immersion and hypothermia are different problems on different clocks. Hypothermia (core temperature below 35°C) takes tens of minutes to develop — see Lesson 09 for staging and treatment. What kills in cold water is much faster:</p>
+                <ul style="margin-top: 15px;">
+                    <li><strong>Most cold-water deaths are drownings in the first minutes</strong> — caused by cold shock and swim failure, long before the core cools</li>
+                    <li>The immediate battle is keeping the airway above water, not staying warm</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">The 1-10-1 Principle</div>
+                <p>Sudden immersion in cold water gives you three windows. Knowing them keeps panic from making your decisions for you:</p>
+
+                <div class="mnemonic-box">
+                    <div class="mnemonic-item"><span class="mnemonic-letter">1</span>1 MINUTE of cold shock — gasping and hyperventilation. Get your breathing under control. Do NOT try to swim through it. Float first.</div>
+                    <div class="mnemonic-item"><span class="mnemonic-letter">10</span>10 MINUTES of meaningful movement — before cooling muscles fail (swim failure). Self-rescue in this window, or get stable on flotation.</div>
+                    <div class="mnemonic-item"><span class="mnemonic-letter">1</span>1 HOUR before hypothermia incapacitates — in a PFD, you have time. Conserve heat and wait for rescue.</div>
+                </div>
+
+                <div class="alert alert-danger">
+                    <strong>Cold shock kills swimmers:</strong> The involuntary gasp on entry can inhale water; hyperventilation plus frantic swimming ends in swim failure. The single most important skill is to FLOAT FIRST and breathe until the shock passes (about a minute).
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Float First — Then Decide</div>
+                <ul>
+                    <li><strong>Float first:</strong> Lean back, keep the airway high, and ride out the first minute of gasping before doing anything else</li>
+                    <li><strong>In a PFD, minimize heat loss:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li><strong>HELP position</strong> (Heat Escape Lessening Posture): knees drawn to chest, arms hugged tight against the sides, protecting the high-heat-loss areas (groin, armpits, chest)</li>
+                            <li><strong>Huddle:</strong> Multiple people in PFDs press chest-to-chest in a tight circle — conserves heat and is easier for rescuers to spot</li>
+                        </ul>
+                    </li>
+                    <li><strong>Swim only with a clear, achievable target:</strong> Shore or boat you are confident you can reach within your ~10 minutes of useful movement. Otherwise, stay with flotation and conserve.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">After Extraction</div>
+                <ul>
+                    <li><strong>Handle gently, keep horizontal if possible:</strong> A cold patient hauled out vertically or handled roughly can suffer cardiovascular collapse (rescue collapse)</li>
+                    <li><strong>Treat per hypothermia staging:</strong> Dry, insulate, wrap, heat to the trunk — full staging and rewarming detail in Lesson 09</li>
+                    <li><strong>Remember the drowning side:</strong> If they were struggling or submerged, they also get the post-submersion assessment and evacuation rules from the Drowning section</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- LIGHTNING TAB -->
+        <div id="lightning" class="tab-content">
+            <div class="section-title">Lightning</div>
+
+            <div class="card">
+                <div class="subsection-title">Exposure Management: There is No Safe Place Outside</div>
+                <p>"When thunder roars, go indoors" has no wilderness equivalent — there is no lightning-safe position outdoors. Your job is to REDUCE risk, early:</p>
+                <ul style="margin-top: 15px;">
+                    <li><strong>Move at the FIRST thunder:</strong> Get off ridges, peaks, and open water immediately — don't wait for the storm to arrive</li>
+                    <li><strong>Avoid the tallest objects:</strong> Lone trees, poles, and summit blocks attract strikes; a uniform stand of smaller trees is lower risk</li>
+                    <li><strong>Spread the group 20+ feet apart:</strong> One strike should not be able to take everyone down — spread out so uninjured members can give care</li>
+                    <li><strong>Avoid cave mouths and overhangs:</strong> Ground current arcs across these gaps; a shallow rock overhang is worse than open low ground</li>
+                    <li><strong>The lightning crouch is no longer emphasized:</strong> It offers little real protection. Repositioning EARLY beats crouching late — spend your effort getting off exposed terrain.</li>
+                    <li><strong>The 30-minute rule:</strong> Wait 30 minutes after the LAST thunder before resuming exposed travel</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Rivers & Bikes: Plan Around the Afternoon</div>
+                <ul>
+                    <li><strong>Open water is high-exposure:</strong> A raft mid-river is the tallest object around. At the first thunder, get boats to shore and the group off the water and away from the bank's lone trees.</li>
+                    <li><strong>Exposed roads and ridgelines are high-exposure:</strong> Riders strung out along a ridge road are a line of isolated high points. Descend to lower terrain and shelter in a vehicle or building if one exists.</li>
+                    <li><strong>Plan around afternoon storm patterns:</strong> In mountain terrain, thunderstorms build predictably in the afternoon. Schedule big water and exposed crossings for the morning; be off high ground by early afternoon.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Lightning Injuries</div>
+                <ul>
+                    <li><strong>How lightning kills:</strong> Cardiac arrest and/or respiratory arrest — the strike stuns the heart and the brain's breathing center. The heart may restart on its own while breathing does not; without rescue breathing, the victim arrests again from hypoxia.</li>
+                    <li><strong>Keraunoparalysis:</strong> Temporary paralysis (often of the legs) with pale, pulseless-appearing, mottled limbs — frightening, but it usually resolves within hours</li>
+                    <li><strong>Burns:</strong> Superficial "ferning" or feathering patterns (Lichtenberg figures) on the skin — usually minor. Lightning burns are typically NOT deep; the current flashes over the body surface.</li>
+                    <li><strong>Ruptured eardrums:</strong> Very common — expect hearing loss and disorientation</li>
+                    <li><strong>Confusion and amnesia:</strong> Victims may not remember the strike and may behave strangely</li>
+                    <li><strong>Blunt trauma:</strong> Victims can be thrown — assess for fractures and head/spine injury as with any fall</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">REVERSE TRIAGE: Treat the Apparently Dead First</div>
+                <p>This is the signature lightning teaching point — the one rule that reverses everything else you've learned about triage:</p>
+                <ul style="margin-top: 15px;">
+                    <li><strong>Normal triage:</strong> Multiple victims → treat the living who can be saved; the pulseless are usually beyond field help</li>
+                    <li><strong>Lightning triage is REVERSED:</strong> Go FIRST to victims who appear dead (not breathing, no pulse)</li>
+                    <li><strong>Why:</strong> Lightning arrest is typically a stunned heart or a stopped breathing center in an otherwise healthy person — resuscitation odds are unusually GOOD. Victims who are moaning, moving, or walking are already breathing and will very likely survive without immediate help.</li>
+                    <li><strong>What to do:</strong> Rescue breathing for the apneic with a pulse; full CPR (see Lesson 03) for the pulseless</li>
+                </ul>
+
+                <div class="alert alert-success">
+                    <strong>No residual charge:</strong> A lightning-strike victim carries NO electrical charge. They are safe to touch immediately — start care without delay. (Assess the ongoing storm risk to rescuers, but the victim's body is not a hazard.)
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Evacuation After a Strike</div>
+                <ul>
+                    <li><strong>ALL lightning-strike patients get evacuated</strong> for medical evaluation — including those who seem completely fine</li>
+                    <li><strong>Why:</strong> The heart's electrical system may be injured; delayed rhythm problems require cardiac monitoring that only a hospital can provide</li>
+                    <li>Document what you saw: strike, loss of consciousness, paralysis, memory gaps — it guides the receiving clinicians</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SCENARIOS TAB -->
+        <div id="scenarios" class="tab-content">
+            <div class="section-title">Case Scenarios</div>
+
+            <div class="scenario-case">
+                <h4>Scenario 1: Raft Flip in a Rapid</h4>
+                <p><strong>Setting:</strong> Your raft flips in a Class III rapid. One swimmer rolls onto her back, feet downstream, then swims hard into an eddy and self-rescues. A second swimmer is briefly pinned against a rock mid-current before washing free; a throw rope brings him to shore. Twenty minutes later he is still coughing and says his chest feels "tight." Everyone is cold and wet. You are a half-day float from the take-out.</p>
+
+                <button class="scenario-btn" onclick="toggleDiscussion('scenario1')">Show Management</button>
+                <div id="scenario1" class="discussion">
+                    <p><strong>What Went Right:</strong></p>
+                    <ul>
+                        <li>Swimmer 1 used the defensive swim position (on her back, feet up and downstream) through the rapid, then switched to an aggressive swim to reach the eddy — textbook self-rescue</li>
+                        <li>Nobody stood up in the moving water — the pinned swimmer stayed off his feet and was rescued by ROPE (throw) rather than by a swimming rescuer (go), following the rescue hierarchy</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Post-Submersion Assessment:</strong></p>
+                    <ul>
+                        <li>EVERYONE who swam gets assessed — count heads first, then check each swimmer's breathing, mental status, and injuries</li>
+                        <li>Strip wet clothes, insulate, and watch for hypothermia in all swimmers (see Lesson 09)</li>
+                        <li>Swimmer 1: asymptomatic after a brief swim — observe closely for 4-8 hours; evacuate if anything develops</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>The Evacuation Decision:</strong> Swimmer 2 is SYMPTOMATIC after submersion — persistent cough and chest tightness. Lung injury from aspirated water can progress over hours. He evacuates for medical evaluation: keep him at rest, watch his breathing rate, effort, and sounds continuously, and move toward definitive care now — do not "wait and see" overnight at camp. If his breathing deteriorates, this becomes an EMERGENT evacuation.</p>
+                </div>
+            </div>
+
+            <div class="scenario-case">
+                <h4>Scenario 2: Lightning Strike on an Exposed Ridge</h4>
+                <p><strong>Setting:</strong> An afternoon storm builds fast while your dual-sport group is strung out on an exposed ridge road. Thunder cracks; before the group can descend, lightning strikes nearby. One rider is down and not breathing. Another is conscious but confused, says he can't feel or move his legs, and has a feathery red pattern across his shoulder. A third rider is shaken but uninjured.</p>
+
+                <button class="scenario-btn" onclick="toggleDiscussion('scenario2')">Show Management</button>
+                <div id="scenario2" class="discussion">
+                    <p><strong>Scene First:</strong></p>
+                    <ul>
+                        <li>The storm is still overhead — move everyone (patients included, if feasible) off the exposed ridge to lower terrain, and SPREAD uninjured group members 20+ feet apart so a second strike can't take down the rescuers</li>
+                        <li>Victims carry NO residual charge — touch and treat them immediately</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>REVERSE Triage:</strong></p>
+                    <ul>
+                        <li>Go FIRST to the rider who appears dead. The confused rider is talking — he is breathing and can wait.</li>
+                        <li>Apneic rider: open the airway and check breathing and pulse. If he has a pulse but isn't breathing — rescue breathing (1 breath every 6 seconds). If pulseless — CPR starting with 2 rescue breaths, then 30:2, and an AED if by some chance one is available (see Lesson 03).</li>
+                        <li>Lightning arrest in a healthy rider has unusually GOOD resuscitation odds — this effort is worth everything you have</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>The Confused, Paralyzed Rider:</strong></p>
+                    <ul>
+                        <li>Leg paralysis after a strike is most likely keraunoparalysis — temporary, and it usually resolves within hours. Reassure him, keep him still and warm, and reassess.</li>
+                        <li>He was also THROWN or fell — assess for blunt trauma and treat the feathery burn pattern (ferning) as the minor superficial finding it usually is</li>
+                        <li>Expect ruptured eardrums, confusion, and memory gaps — speak clearly, face-to-face</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Evacuation:</strong> ALL struck riders evacuate for cardiac monitoring — including anyone who "feels fine." Wait 30 minutes after the last thunder before the group resumes exposed travel.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- QUIZ TAB -->
+        <div id="quiz" class="tab-content">
+            <div class="section-title">Knowledge Check Quiz</div>
+            <div class="quiz-section" id="quizContainer"></div>
+            <div id="score-display">
+                <div id="score-text"></div>
+                <div id="score-sub"></div>
+            </div>
+        </div>
+
+        <!-- SUMMARY TAB -->
+        <div id="summary" class="tab-content">
+            <div class="section-title">Lesson Summary</div>
+
+            <div class="key-points">
+                <h3>Key Concepts</h3>
+                <div class="key-point">Drowning is fast and silent: vertical posture, head low, no waving, no yelling — count heads after every swim</div>
+                <div class="key-point">"Dry drowning" and "secondary drowning" are not medical terms — what matters is symptomatic vs asymptomatic after submersion</div>
+                <div class="key-point">Rescue hierarchy: talk, reach, throw, row, go — swimming rescue is the last resort; never become the second patient</div>
+                <div class="key-point">Never stand up in moving water deeper than your knees (foot entrapment); swim OVER strainers, never under; PFDs always</div>
+                <div class="key-point">Drowning CPR is ventilation-first: 2 initial rescue breaths, then 30:2 — hands-only CPR is NOT appropriate (Lesson 03)</div>
+                <div class="key-point">Any symptoms after submersion = evacuate; asymptomatic = observe closely for 4-8 hours</div>
+                <div class="key-point">Cold-water immersion: 1-10-1 — float first through cold shock; HELP/huddle in a PFD; most deaths are early drownings, not hypothermia</div>
+                <div class="key-point">Lightning: move off ridges and water at the first thunder, spread the group 20+ feet, wait 30 minutes after the last thunder</div>
+                <div class="key-point">Lightning multiple-victim triage is REVERSED: treat the apparently dead first — victims carry no charge and resuscitate well</div>
+                <div class="key-point">Every lightning-strike patient evacuates for cardiac evaluation, even if they seem fine</div>
+            </div>
+
+            <div class="glossary">
+                <div class="subsection-title">Glossary</div>
+                <div class="glossary-term">
+                    <dt>Cold Shock Response</dt>
+                    <dd>Involuntary gasping and hyperventilation in the first ~1 minute of sudden cold-water immersion; the reason to float first and control breathing before attempting anything else</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Swim Failure</dt>
+                    <dd>Loss of useful swimming ability as cold water rapidly cools arm and leg muscles — typically within ~10 minutes of immersion</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>1-10-1 Principle</dt>
+                    <dd>Cold-water immersion timeline: ~1 minute of cold shock, ~10 minutes of meaningful movement, ~1 hour before hypothermia incapacitates</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>HELP Position</dt>
+                    <dd>Heat Escape Lessening Posture — knees to chest, arms tight to sides while floating in a PFD, protecting high-heat-loss areas to extend survival time</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Defensive Swimming Position</dt>
+                    <dd>On the back in moving water, feet up at the surface and pointed downstream to fend off rocks, until an aggressive swim to shore is possible</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Strainer</dt>
+                    <dd>River obstacle (downed tree, log jam, fence) that water flows through but a body cannot; swim up and over it, never under</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Foot Entrapment</dt>
+                    <dd>A foot wedged in the river bottom while current pushes the body under; prevented by never standing in moving water deeper than the knees</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Keraunoparalysis</dt>
+                    <dd>Temporary paralysis (often of the legs) after a lightning strike, with pale, mottled limbs; usually resolves within hours</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Reverse Triage</dt>
+                    <dd>Lightning multiple-victim rule: treat the apparently dead FIRST, because lightning arrest in otherwise healthy people has unusually good resuscitation odds</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Ferning</dt>
+                    <dd>Superficial feathering skin pattern (Lichtenberg figures) after a lightning strike; usually a minor finding — lightning burns are typically not deep</dd>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Footer -->
+        <div class="nav-footer">
+            <a href="13_Evacuation.html" class="nav-link">← Previous</a>
+            <div class="nav-center">
+                <a href="../index.html">Home</a>
+            </div>
+            <span class="nav-link disabled">Next →</span>
+        </div>
+        <p style="text-align:center; color: var(--muted); font-size: 0.85em; margin-top: 20px;">For educational use only. This content supports Wilderness First Aid training and does not replace hands-on instruction or professional medical care.</p>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            const tabArr = Array.from(buttons);
+            const activeIdx = tabArr.indexOf(event.target);
+            updateStepIndicator(activeIdx);
+        }
+        function updateStepIndicator(activeIdx) {
+            const tabs = document.querySelectorAll('.tab-btn');
+            document.getElementById('step-text').textContent = 'Step ' + (activeIdx + 1) + ' of ' + tabs.length;
+            const dots = document.getElementById('step-dots');
+            dots.innerHTML = '';
+            tabs.forEach((_, i) => {
+                const d = document.createElement('div');
+                d.style.cssText = 'width:8px;height:8px;border-radius:50%;background:' + (i === activeIdx ? '#2C7BE5' : i < activeIdx ? '#1A6B3A' : '#CBD5E0') + ';';
+                dots.appendChild(d);
+            });
+        }
+
+        function toggleDiscussion(id) {
+            const disc = document.getElementById(id);
+            disc.classList.toggle('show');
+        }
+
+        const questions = [
+            { q: "A person actually drowning in a river most often looks like:", options: ["Waving one arm overhead and yelling for help", "Splashing loudly while swimming toward shore", "Silent and vertical in the water, head low, making no progress", "Floating calmly face-up and calling out"], answer: 2, exp: "Real drowning is fast and SILENT. The instinctive drowning response leaves no air for yelling and no arm control for waving — the victim is vertical, head low, mouth at water level. It does not look like the movies." },
+            { q: "The correct order of the water rescue hierarchy is:", options: ["Go, row, throw, reach, talk", "Talk, reach, throw, row, go", "Throw, reach, go, row, talk", "Reach, go, throw, row, talk"], answer: 1, exp: "Talk them in, reach with a paddle/pole, throw a rope bag or PFD, row/approach by boat — a swimming contact rescue (go) is LAST and for trained rescuers only. Drowning people climb their rescuers." },
+            { q: "In moving water, you should never stand up when the water is deeper than:", options: ["Your knees", "Your waist", "Your chest", "Your ankles"], answer: 0, exp: "Never stand in moving water deeper than the knees — a foot can wedge in the rocks (foot entrapment) and the current will push you under. Swim aggressively to shore instead, feet up and downstream until you go for your exit." },
+            { q: "A rafter pulled from the river is still coughing persistently an hour later. You should:", options: ["Reassure them — coughing after a swim is always harmless", "Have them sleep it off and recheck in the morning", "Wait to act unless they stop breathing", "Evacuate for medical evaluation — post-submersion symptoms can progress over hours"], answer: 3, exp: "ANY symptoms after submersion (persistent cough, foamy sputum, breathlessness, abnormal breath sounds, vomiting, lethargy, altered mental status) = evacuate. Lung injury from aspirated water can worsen over hours." },
+            { q: "'Dry drowning' and 'secondary drowning' are:", options: ["Two distinct diagnoses requiring different treatments", "The most common types of drowning on rivers", "Not medical terms — what matters is symptomatic vs asymptomatic after submersion", "Terms that only apply to cold-water drowning"], answer: 2, exp: "These are not medical terms and modern drowning medicine doesn't use them. The real question: symptoms after submersion = evaluate; brief submersion with normal breathing and behavior = observe closely for 4-8 hours." },
+            { q: "In the 1-10-1 principle of cold-water immersion, the '10' means about 10:", options: ["Seconds before you go under", "Minutes of meaningful movement before swim failure", "Hours before hypothermia sets in", "Meters you can swim in cold water"], answer: 1, exp: "1-10-1: ~1 minute of cold shock, ~10 minutes of meaningful movement before swim failure, ~1 hour before hypothermia incapacitates. Self-rescue or get stable within the 10-minute window." },
+            { q: "In the first minute after sudden cold-water immersion, you should:", options: ["Float and get your breathing under control before doing anything else", "Immediately swim as hard as possible for shore", "Remove your PFD so you can swim more freely", "Dive down to check the depth and hazards"], answer: 0, exp: "Float first. The first ~1 minute is cold shock — involuntary gasping and hyperventilation. Don't try to swim through it; get breathing under control, then decide. Most cold-water deaths are drownings in the first minutes." },
+            { q: "The HELP position is used to:", options: ["Signal rescue aircraft from shore", "Tow an unconscious swimmer to the bank", "Open a drowning victim's airway", "Reduce heat loss while floating in cold water in a PFD"], answer: 3, exp: "HELP = Heat Escape Lessening Posture: knees to chest, arms tight to the sides while floating in a PFD, protecting the high-heat-loss areas. Groups in PFDs should huddle chest-to-chest." },
+            { q: "When a thunderstorm catches your group on exposed terrain, group members should:", options: ["Huddle close together for safety in numbers", "Gather under the tallest tree for shelter", "Spread out 20+ feet apart so one strike can't injure everyone", "Lie flat on the ground in a single line"], answer: 2, exp: "Spread the group 20+ feet apart — one strike shouldn't take everyone down, and uninjured members can give care. Get off ridges, peaks, and open water at the first thunder, and avoid tall objects and lone trees." },
+            { q: "After a lightning strike with multiple victims, treat FIRST the victims who:", options: ["Appear dead (not breathing / pulseless) — reverse triage", "Are screaming loudest in pain", "Are walking around confused", "Have visible burn patterns on their skin"], answer: 0, exp: "REVERSE triage: lightning arrest is often a stunned heart or stopped breathing in an otherwise healthy person, so the 'apparently dead' have good resuscitation odds. Victims who are moving or talking are breathing and can wait." },
+            { q: "Touching a lightning-strike victim immediately after the strike is:", options: ["Dangerous — wait several minutes for the charge to dissipate", "Safe — victims carry no residual electrical charge", "Safe only if you wear rubber gloves", "Dangerous unless the victim is on dry ground"], answer: 1, exp: "Lightning-strike victims carry NO residual charge — they are safe to touch immediately. Start rescue breathing or CPR without delay; the ongoing storm, not the victim's body, is the hazard to manage." },
+            { q: "CPR for a pulseless drowning victim should begin with:", options: ["Hands-only chest compressions", "Abdominal thrusts to drain water from the lungs", "An AED shock before any other care", "2 initial rescue breaths, then compressions and breaths at 30:2"], answer: 3, exp: "Drowning is an asphyxial (oxygen-deprivation) arrest: give 2 initial rescue breaths first, then continue at 30:2. Hands-only CPR is NOT appropriate for drowning — the problem is lack of oxygen. See Lesson 03 for full CPR technique." }
+        ];
+
+        let answered = 0;
+        const total = questions.length;
+
+        function buildQuiz() {
+            const container = document.getElementById('quizContainer');
+            questions.forEach((q, idx) => {
+                const qDiv = document.createElement('div');
+                qDiv.className = 'quiz-question';
+                qDiv.innerHTML = `
+                    <h4>Q${idx + 1}: ${q.q}</h4>
+                    <ul>
+                        ${q.options.map((opt, oi) => `
+                            <li onclick="selectAnswer(this, ${idx}, ${oi})">${opt}</li>
+                        `).join('')}
+                    </ul>
+                    <div class="explanation" id="exp-${idx}"></div>
+                `;
+                container.appendChild(qDiv);
+            });
+        }
+
+        function selectAnswer(el, qi, selected) {
+            const q = questions[qi];
+            const items = el.parentElement.querySelectorAll('li');
+            items.forEach(i => i.classList.add('disabled'));
+            const expEl = document.getElementById('exp-' + qi);
+
+            if (selected === q.answer) {
+                el.classList.add('correct');
+                expEl.className = 'explanation show correct-exp';
+                expEl.innerHTML = '✓ Correct! ' + q.exp;
+            } else {
+                el.classList.add('incorrect');
+                items[q.answer].classList.add('correct');
+                expEl.className = 'explanation show incorrect-exp';
+                expEl.innerHTML = '✗ Not quite. ' + q.exp;
+            }
+            answered++;
+            if (answered === total) showScore();
+        }
+
+        function showScore() {
+            const sc = document.querySelectorAll('.explanation.correct-exp').length;
+            const lessonId = '14';
+            const prevScore = localStorage.getItem('wfa_score_' + lessonId);
+            localStorage.setItem('wfa_completed_' + lessonId, 'true');
+            localStorage.setItem('wfa_score_' + lessonId, Math.max(sc, parseInt(prevScore || '0')));
+            const el = document.getElementById('score-display');
+            el.style.display = 'block';
+            document.getElementById('score-text').textContent = 'You scored ' + sc + ' / ' + total;
+            let msg = sc >= 10 ? '🎉 Excellent work! You are ready for the next lesson.' : sc >= 7 ? '👍 Good job! Review the sections you missed.' : '📚 Consider reviewing this lesson before moving on.';
+            if (prevScore && parseInt(prevScore) > 0) msg += ' (Previous best: ' + prevScore + '/' + total + ')';
+            document.getElementById('score-sub').textContent = msg;
+            const retryBtn = document.createElement('button');
+            retryBtn.textContent = '↺ Retry Quiz';
+            retryBtn.style.cssText = 'margin-top:16px;padding:10px 24px;background:#2C7BE5;color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;';
+            retryBtn.onclick = function() {
+                answered = 0;
+                el.style.display = 'none';
+                document.getElementById('quizContainer').innerHTML = '';
+                buildQuiz();
+                retryBtn.remove();
+            };
+            el.appendChild(retryBtn);
+            el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        buildQuiz();
+        updateStepIndicator(0);
+    </script>
+</body>
+</html>

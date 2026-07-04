@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson 04: Bleeding & Wound Management - WFA Course</title>
+    <title>Lesson 04: Bleeding, Wounds & Burns - WFA Course</title>
     <style>
         :root {
             --primary: #1B4F8A; --accent: #2C7BE5; --light-bg: #E8F0FE;
@@ -79,9 +79,9 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Lesson 04: Bleeding & Wound Management</h1>
+            <h1>Lesson 04: Bleeding, Wounds & Burns</h1>
             <div class="meta">
-                <span class="meta-item">Estimated Time: 35 minutes</span>
+                <span class="meta-item">Estimated Time: 45 minutes</span>
                 <span class="meta-item">Module 04 of 13</span>
             </div>
         </div>
@@ -91,19 +91,20 @@
             <button class="tab-btn" onclick="showTab('hemorrhage')">Hemorrhage Control</button>
             <button class="tab-btn" onclick="showTab('wounds')">Wound Care</button>
             <button class="tab-btn" onclick="showTab('internal')">Internal Bleeding</button>
+            <button class="tab-btn" onclick="showTab('burns')">Burns</button>
             <button class="tab-btn" onclick="showTab('scenarios')">Scenarios</button>
             <button class="tab-btn" onclick="showTab('quiz')">Quiz</button>
             <button class="tab-btn" onclick="showTab('summary')">Summary</button>
         </div>
         <div id="step-indicator" style="background:#F0F4F8;border-bottom:1px solid #CBD5E0;padding:8px 20px;font-size:13px;color:#718096;display:flex;gap:16px;align-items:center;">
-          <span id="step-text">Step 1 of 7</span>
+          <span id="step-text">Step 1 of 8</span>
           <div id="step-dots" style="display:flex;gap:6px;"></div>
         </div>
 
         <!-- OVERVIEW TAB -->
         <div id="overview" class="tab-content active">
-            <div class="section-title">Overview: Hemorrhage & Wound Management</div>
-            <p>Bleeding is the most preventable cause of death in trauma. This lesson covers hemorrhage control—the most critical wilderness first aid skill—and wound management to prevent infection and promote healing.</p>
+            <div class="section-title">Overview: Bleeding, Wounds & Burns</div>
+            <p>Bleeding is the most preventable cause of death in trauma. This lesson covers hemorrhage control—the most critical wilderness first aid skill—and wound management to prevent infection and promote healing. It also covers burns: on our trips, exhaust-pipe contact, campfire and stove mishaps, and sun exposure make burns one of the most common soft-tissue injuries you will actually treat.</p>
 
             <div class="alert alert-danger">
                 <strong>Critical:</strong> Exsanguinating hemorrhage (X in XABCDE) is treated BEFORE airway. Control massive bleeding immediately.
@@ -123,6 +124,8 @@
                 <div class="key-point">Hemostatic agents (QuikClot, Combat Gauze) enhance clotting in wounds</div>
                 <div class="key-point">Wound irrigation is the most important step in wound care</div>
                 <div class="key-point">Don't close bite wounds or punctures — infection risk too high</div>
+                <div class="key-point">Cool burns with cool (not ice-cold) running water for 10-20 minutes — never ice</div>
+                <div class="key-point">Any airway/inhalation involvement with a burn (singed nasal hair, hoarseness, sooty sputum) = EMERGENT evacuation</div>
             </div>
         </div>
 
@@ -418,6 +421,98 @@
             </div>
         </div>
 
+        <!-- BURNS TAB -->
+        <div id="burns" class="tab-content">
+            <div class="section-title">Burns</div>
+            <p>Burns are a fact of life on motorcycle and river trips: a bare calf against an exhaust header, a flaring camp stove, a spilled pot of boiling water, or a full day of sun on the water. Most are manageable in the field — the skill is cooling them properly, dressing them simply, and recognizing the ones that must be evacuated.</p>
+
+            <div class="card">
+                <div class="subsection-title">Stop the Burning</div>
+                <ul>
+                    <li><strong>Remove from the source:</strong> Extinguish flames (stop-drop-roll if clothing is on fire), pull the patient away from the exhaust pipe, stove, or fire. Get sunburned patients into shade.</li>
+                    <li><strong>Remove jewelry and loose clothing EARLY:</strong> Rings, watches, and bracelets come off before swelling starts — a ring on a burned finger becomes a tourniquet. Remove boots/socks and non-adherent clothing around the burn.</li>
+                    <li><strong>NEVER peel off melted or stuck fabric:</strong> Synthetic riding gear and fleece melt into the burn. Cool over it and cut around it — leave adhered material in place for the clinician.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Cool the Burn</div>
+                <ul>
+                    <li><strong>Cool running water, 10-20 minutes:</strong> Cool (not ice-cold) water as soon as possible. This is the single most effective burn treatment — it limits how deep the burn goes.</li>
+                    <li><strong>Still worth doing up to ~3 hours after injury:</strong> If it takes time to reach water, cool the burn anyway when you can.</li>
+                    <li><strong>NO ice or ice water:</strong> Ice constricts blood flow and deepens the injury.</li>
+                    <li><strong>Solution:</strong> Clean drinking water is ideal, but on the river, cool clear water for cooling beats no cooling.</li>
+                </ul>
+
+                <div class="alert alert-warning">
+                    <strong>Backcountry caution:</strong> Cooling a large burn area can chill the whole patient. Cool the burn, but keep the rest of the patient warm and dry — watch for hypothermia.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Assessing the Burn: Depth & Extent</div>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Superficial</div>
+                <ul>
+                    <li>Red, dry, painful — no blisters. Classic sunburn.</li>
+                    <li>Heals on its own; comfort care only</li>
+                </ul>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Partial-Thickness</div>
+                <ul>
+                    <li>Blisters, moist/weeping surface, VERY painful</li>
+                    <li>Typical scald, stove flare, or brief flame contact</li>
+                </ul>
+
+                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Full-Thickness</div>
+                <ul>
+                    <li>Leathery, waxy, or charred; may be painless in the center (nerve endings destroyed) even when the edges hurt</li>
+                    <li>Always an evacuation, regardless of size</li>
+                </ul>
+
+                <div class="alert alert-info">
+                    <strong>Depth declares itself over 24-48 hours:</strong> A burn often looks shallower on day one than it really is. Reassess — and when in doubt, assume deeper. <strong>Extent:</strong> the patient's palm plus fingers ≈ 1% of their body surface area (the palm method).
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Dressing the Burn</div>
+                <ul>
+                    <li><strong>After cooling, cover loosely:</strong> Clean, non-stick dressing over the burn. Clean plastic wrap laid on (NOT wrapped circumferentially) works well and lets clinicians inspect without pulling the dressing off.</li>
+                    <li><strong>Leave blisters intact:</strong> The blister is a sterile biological dressing. Don't pop it.</li>
+                    <li><strong>NO home remedies:</strong> No butter, toothpaste, oils, or ointments on the burn — they trap heat and cause infection.</li>
+                    <li><strong>Sunburn exception:</strong> Plain aloe or moisturizer is fine for superficial sunburn only</li>
+                    <li><strong>Pain control:</strong> OTC pain medication (ibuprofen) — burns hurt, treat the pain</li>
+                    <li><strong>Tetanus:</strong> Burns are tetanus-prone wounds. Check vaccination status just like a dirty wound (see Tetanus & Animal Bites in the Wound Care tab).</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Burn Evacuation Criteria</div>
+                <ul>
+                    <li><strong>Any full-thickness burn</strong> — even a small one</li>
+                    <li><strong>Partial-thickness larger than a few palm-areas (~5% body surface)</strong></li>
+                    <li><strong>Burns to face, hands, feet, genitals, or across joints</strong> — high-function areas that scar badly</li>
+                    <li><strong>Circumferential burns</strong> (all the way around a limb or the chest) — burned skin tightens as it swells and can cut off circulation or restrict breathing. This is a tightening emergency.</li>
+                    <li><strong>Electrical burns</strong> — internal injury is far worse than the skin suggests</li>
+                    <li><strong>Very young or very old patients</strong></li>
+                </ul>
+
+                <div class="alert alert-danger">
+                    <strong>Airway/inhalation involvement = EMERGENT evacuation.</strong> Burned face, singed nasal hair or eyebrows, soot in the mouth or sputum, hoarseness, or a persistent cough after fire or smoke exposure means the airway may be burned — and a burned airway can swell shut over hours. Do not wait for breathing trouble to start.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="subsection-title">Exhaust Pipes & Road Rash: The Crossovers</div>
+                <ul>
+                    <li><strong>Exhaust-pipe contact burns are deceptively deep:</strong> A second of contact with metal at several hundred degrees makes a small but often deep partial- or full-thickness burn. Small size does NOT mean minor — assess depth honestly and reassess at 24-48 hours.</li>
+                    <li><strong>Road rash is an abrasion:</strong> Manage it with aggressive cleaning and irrigation as covered under Abrasion in the Wound Care tab</li>
+                    <li><strong>Large-area road rash thinks like a burn:</strong> When road rash covers a large area, use burn thinking for fluid loss, infection risk, and evacuation decisions</li>
+                </ul>
+            </div>
+        </div>
+
         <!-- SCENARIOS TAB -->
         <div id="scenarios" class="tab-content">
             <div class="section-title">Case Scenarios</div>
@@ -459,6 +554,24 @@
                     <p style="margin-top: 15px;"><strong>Evacuation:</strong> URGENT — this is a surgical emergency. No field treatment will help. Immediate helicopter evacuation if available, otherwise fastest evacuation possible (may need litter carry).</p>
                 </div>
             </div>
+
+            <div class="scenario-case">
+                <h4>Scenario 3: Exhaust-Pipe Burn at the Lunch Stop</h4>
+                <p><strong>Setting:</strong> On a dual-sport ride, a rider dismounts awkwardly on a rocky pull-out and presses her calf against the exhaust header. The burn is small — about half a palm-area — with a pale, waxy center, a red blistering rim, and a patch of melted riding-pant fabric stuck to one edge. She says it "barely hurts" and wants to keep riding.</p>
+
+                <button class="scenario-btn" onclick="toggleDiscussion('scenario3')">Show Management</button>
+                <div id="scenario3" class="discussion">
+                    <p><strong>Immediate Actions:</strong></p>
+                    <ul>
+                        <li>Cool the burn with cool (not ice-cold) water for 10-20 minutes — still effective up to ~3 hours after injury. NO ice.</li>
+                        <li>Do NOT peel the melted fabric — cool over it, cut around it, and leave the adhered material in place</li>
+                        <li>Remove the boot and sock on that leg before swelling starts</li>
+                        <li>After cooling: loose, clean, non-stick dressing; leave blisters intact; ibuprofen for pain</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>The Red Flag:</strong> A pale, waxy center that "barely hurts" suggests FULL-THICKNESS burn — the nerve endings are destroyed. Exhaust-pipe contact burns are deceptively deep, and depth often declares itself over 24-48 hours. Small size does not make this minor.</p>
+                    <p style="margin-top: 15px;"><strong>Evacuation:</strong> Any suspected full-thickness burn is an evacuation, even a small one. She rides pillion or the group re-routes to get her to care — she does not "keep riding and see how it feels tomorrow." Burns are also tetanus-prone: check her vaccination status.</p>
+                </div>
+            </div>
         </div>
 
         <!-- QUIZ TAB -->
@@ -484,6 +597,9 @@
                 <div class="key-point">Don't close bite wounds, punctures, or heavily contaminated wounds</div>
                 <div class="key-point">Internal bleeding without external signs requires urgent evacuation</div>
                 <div class="key-point">Red streaks from wound (lymphangitis) indicate urgent evacuation needed</div>
+                <div class="key-point">Cool burns with cool (not ice-cold) running water for 10-20 minutes — no ice, no butter or home remedies, leave blisters intact</div>
+                <div class="key-point">Evacuate: any full-thickness burn; partial-thickness over ~5% (a few palm-areas); burns to face/hands/feet/genitals/joints; circumferential burns; electrical burns; ANY inhalation signs (EMERGENT)</div>
+                <div class="key-point">Small contact burns (exhaust pipes) are deceptively deep — and burns are tetanus-prone wounds</div>
             </div>
 
             <div class="glossary">
@@ -535,6 +651,18 @@
                 <div class="glossary-term">
                     <dt>Pressure Dressing</dt>
                     <dd>Elastic bandage applied over gauze to maintain constant pressure after bleeding controlled</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Partial-Thickness Burn</dt>
+                    <dd>Burn through the epidermis into the dermis; blistered, moist, and very painful</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Full-Thickness Burn</dt>
+                    <dd>Burn destroying all skin layers; leathery, waxy, or charred, and may be painless in the center where nerve endings are destroyed</dd>
+                </div>
+                <div class="glossary-term">
+                    <dt>Palm Method</dt>
+                    <dd>Estimating burn extent using the patient's palm plus fingers as roughly 1% of their body surface area</dd>
                 </div>
             </div>
         </div>
@@ -589,7 +717,9 @@
             { q: "Internal bleeding should be suspected when:", options: ["Patient has minor laceration", "Patient shows shock with NO external bleeding source", "Patient has minor bruising", "Patient has mild pain only"], answer: 1, exp: "Internal bleeding: Think of shock without visible bleeding. Rigid abdomen, bruising, signs of shock without external wound." },
             { q: "Direct pressure for hemorrhage should be maintained minimum:", options: ["1-2 minutes", "10 minutes", "30 seconds", "Only until bleeding slows"], answer: 1, exp: "Direct pressure must be continuous for 10 minutes without lifting to check. Lifting disrupts clot formation." },
             { q: "Wound packing is indicated for:", options: ["Superficial abrasions", "Junctional wounds (groin/inguinal crease, axilla)", "Chest and abdominal wounds", "Neck wounds"], answer: 1, exp: "Wound packing controls hemorrhage where tourniquets can't be applied (groin/inguinal crease, axilla). NEVER pack chest or abdominal wounds, and neck wounds get sustained direct pressure only." },
-            { q: "Patient with bite wound should:", options: ["Have wound closed immediately", "Have wound irrigated aggressively and NOT closed", "Apply tourniquet", "Ignore if animal looked healthy"], answer: 1, exp: "Always irrigate aggressively and leave open. Do NOT close. High infection risk even from \"innocent\" looking bites." }
+            { q: "Patient with bite wound should:", options: ["Have wound closed immediately", "Have wound irrigated aggressively and NOT closed", "Apply tourniquet", "Ignore if animal looked healthy"], answer: 1, exp: "Always irrigate aggressively and leave open. Do NOT close. High infection risk even from \"innocent\" looking bites." },
+            { q: "A rafter scalds her forearm with boiling water from the camp stove. Immediate first aid is:", options: ["Apply ice directly to the burn", "Cool with cool (not ice-cold) running water for 10-20 minutes", "Apply butter or toothpaste to seal the burn", "Pop the blisters and bandage tightly"], answer: 1, exp: "Cool running water for 10-20 minutes is the single most effective burn treatment, and still helps up to ~3 hours after injury. Ice deepens the injury, home remedies trap heat and cause infection, and blisters should be left intact." },
+            { q: "After a campfire flare-up, which finding requires EMERGENT evacuation?", options: ["A palm-sized area of redness on the forearm", "Singed nasal hair, hoarse voice, and sooty sputum", "A small intact blister on one finger", "Sunburn on the neck and shoulders"], answer: 1, exp: "Singed nasal hair, hoarseness, and sooty sputum are signs of airway/inhalation involvement — a burned airway can swell shut over hours. Evacuate EMERGENTLY, before breathing trouble starts." }
         ];
 
         let answered = 0;
@@ -642,7 +772,7 @@
             const el = document.getElementById('score-display');
             el.style.display = 'block';
             document.getElementById('score-text').textContent = 'You scored ' + sc + ' / ' + total;
-            let msg = sc >= 8 ? '🎉 Excellent work! You are ready for the next lesson.' : sc >= 6 ? '👍 Good job! Review the sections you missed.' : '📚 Consider reviewing this lesson before moving on.';
+            let msg = sc >= Math.round(total * 0.8) ? '🎉 Excellent work! You are ready for the next lesson.' : sc >= Math.round(total * 0.6) ? '👍 Good job! Review the sections you missed.' : '📚 Consider reviewing this lesson before moving on.';
             if (prevScore && parseInt(prevScore) > 0) msg += ' (Previous best: ' + prevScore + '/' + total + ')';
             document.getElementById('score-sub').textContent = msg;
             const retryBtn = document.createElement('button');

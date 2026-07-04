@@ -75,12 +75,12 @@
   <div class="hero-content">
     <div class="hero-badge">🏔 WFA Pre-Course Learning</div>
     <h1>Wilderness First Aid<br>Online Pre-Course Modules</h1>
-    <p>Complete these 13 interactive lessons before your in-person Wilderness First Aid course. Building your foundational knowledge now maximizes hands-on practice time in class.</p>
+    <p>Complete these 14 interactive lessons before your in-person Wilderness First Aid course. Building your foundational knowledge now maximizes hands-on practice time in class.</p>
     <div class="hero-stats">
-      <div class="stat"><span class="stat-num">13</span><span class="stat-label">Interactive Lessons</span></div>
-      <div class="stat"><span class="stat-num">~6 hrs</span><span class="stat-label">Total Study Time</span></div>
-      <div class="stat"><span class="stat-num">130+</span><span class="stat-label">Quiz Questions</span></div>
-      <div class="stat"><span class="stat-num">26+</span><span class="stat-label">Clinical Scenarios</span></div>
+      <div class="stat"><span class="stat-num">14</span><span class="stat-label">Interactive Lessons</span></div>
+      <div class="stat"><span class="stat-num">~7 hrs</span><span class="stat-label">Total Study Time</span></div>
+      <div class="stat"><span class="stat-num">145+</span><span class="stat-label">Quiz Questions</span></div>
+      <div class="stat"><span class="stat-num">28+</span><span class="stat-label">Clinical Scenarios</span></div>
     </div>
   </div>
 </div>
@@ -90,11 +90,11 @@
   <!-- Progress Tracker -->
   <div class="progress-section">
     <h2>Your Progress</h2>
-    <p>Track your pre-course preparation. Complete all 13 modules, then take the final exam.</p>
+    <p>Track your pre-course preparation. Complete all 14 modules, then take the final exam.</p>
     <div class="progress-bar-container">
       <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
     </div>
-    <div class="progress-label" id="progress-label">0 of 13 modules completed</div>
+    <div class="progress-label" id="progress-label">0 of 14 modules completed</div>
   </div>
 
   <!-- Course Info Cards -->
@@ -127,7 +127,7 @@
   <div class="day-divider">
     <div>
       <h2>Pre-Course Modules</h2>
-      <span>Modules 01–13 • Work through them in order, then take the final exam</span>
+      <span>Modules 01–14 • Work through them in order, then take the final exam</span>
     </div>
   </div>
 
@@ -177,7 +177,7 @@
         <div class="card-num">03</div>
         <div class="card-meta">
           <h3>Airway & Breathing Emergencies</h3>
-          <p>Airway management, rescue breathing, CPR, wilderness modifications</p>
+          <p>Airway management, choking, rescue breathing, CPR, wilderness modifications</p>
         </div>
       </div>
       <div class="card-tags">
@@ -196,18 +196,18 @@
       <div class="card-top">
         <div class="card-num">04</div>
         <div class="card-meta">
-          <h3>Bleeding & Wound Management</h3>
-          <p>Hemorrhage control, tourniquets, wound irrigation, infection prevention</p>
+          <h3>Bleeding, Wounds & Burns</h3>
+          <p>Hemorrhage control, tourniquets, wound care, burns, infection prevention</p>
         </div>
       </div>
       <div class="card-tags">
         <span class="tag tag-red">Life Threat</span>
         <span class="tag tag-red">Hemorrhage</span>
         <span class="tag tag-blue">Tourniquet</span>
-        <span class="tag tag-blue">Wound Care</span>
+        <span class="tag tag-orange">Burns</span>
       </div>
       <div class="card-footer">
-        <span class="card-time">⏱ 35 minutes</span>
+        <span class="card-time">⏱ 45 minutes</span>
         <span class="card-arrow">→</span>
       </div>
     </a>
@@ -255,14 +255,14 @@
         <div class="card-num">07</div>
         <div class="card-meta">
           <h3>Head, Neck & Spine Injuries</h3>
-          <p>Wilderness spine assessment, TBI, spine clearing, logroll</p>
+          <p>Spine assessment, TBI, concussion, helmet removal, logroll</p>
         </div>
       </div>
       <div class="card-tags">
         <span class="tag tag-red">TBI</span>
         <span class="tag tag-blue">Spine Assessment</span>
         <span class="tag tag-blue">Concussion</span>
-        <span class="tag tag-orange">Immobilization</span>
+        <span class="tag tag-orange">Helmet Removal</span>
       </div>
       <div class="card-footer">
         <span class="card-time">⏱ 35 minutes</span>
@@ -388,6 +388,26 @@
         <span class="card-arrow">→</span>
       </div>
     </a>
+
+    <a href="lessons/14_Water_Lightning.html" class="lesson-card" id="card-14">
+      <div class="card-top">
+        <div class="card-num">14</div>
+        <div class="card-meta">
+          <h3>Water & Lightning Emergencies</h3>
+          <p>Drowning, cold-water immersion, rescue safety, lightning strikes</p>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-red">Life Threat</span>
+        <span class="tag tag-red">Drowning</span>
+        <span class="tag tag-blue">Cold Shock</span>
+        <span class="tag tag-orange">Lightning</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-time">⏱ 35 minutes</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
   </div>
 
   <!-- Final Exam -->
@@ -480,7 +500,7 @@
 </footer>
 
 <script>
-const lessonIds = ['01','02','03','04','05','06','07','08','09','10','11','12','13'];
+const lessonIds = ['01','02','03','04','05','06','07','08','09','10','11','12','13','14'];
 
 function updateProgress() {
   let completedCount = 0;
@@ -497,7 +517,7 @@ function updateProgress() {
         if (footer && !footer.querySelector('.card-score')) {
           const badge = document.createElement('span');
           badge.className = 'card-score';
-          badge.innerHTML = score ? `✓ ${score}/10` : '✓ Done';
+          badge.innerHTML = score ? `✓ ${score}/${localStorage.getItem('wfa_total_' + id) || '10'}` : '✓ Done';
           footer.insertBefore(badge, footer.querySelector('.card-arrow'));
         }
       }
