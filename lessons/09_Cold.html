@@ -6,16 +6,16 @@
     <title>Lesson 09: Cold-Related Emergencies - WFA Course</title>
     <style>
         :root {
-            --primary: #0D47A1; --accent: #1565C0; --light-bg: #E3F2FD;
+            --primary: #1B4F8A; --accent: #1565C0; --light-bg: #E3F2FD;
             --danger: #1565C0; --danger-bg: #E3F2FD; --success: #1A6B3A; --success-bg: #E8F5E9;
-            --warning: #D35400; --warning-bg: #FFF3E0; --info: #0D47A1; --info-bg: #E3F2FD;
+            --warning: #D35400; --warning-bg: #FFF3E0; --info: #1B4F8A; --info-bg: #E3F2FD;
             --dark: #2D3748; --muted: #718096; --border: #CBD5E0; --white: #FFFFFF;
             --card-bg: #F7FAFC;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: var(--dark); line-height: 1.6; background: #ECEFF4; }
         .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
-        .header { background: linear-gradient(135deg, #1565C0, #0D47A1); color: var(--white); padding: 30px; border-radius: 8px; margin-bottom: 30px; }
+        .header { background: linear-gradient(135deg, #1565C0, #1B4F8A); color: var(--white); padding: 30px; border-radius: 8px; margin-bottom: 30px; }
         .header h1 { margin: 0 0 10px 0; font-size: 2.2em; }
         .meta { font-size: 0.95em; opacity: 0.95; }
         .meta-item { margin-right: 20px; display: inline-block; }
@@ -25,7 +25,7 @@
         .tab-btn.active { background: #1565C0; color: var(--white); border-color: #1565C0; }
         .tab-content { display: none; background: var(--white); padding: 25px; border-radius: 0 0 8px 8px; border: 2px solid var(--border); margin-bottom: 30px; }
         .tab-content.active { display: block; }
-        .section-title { font-size: 1.8em; color: #0D47A1; margin: 30px 0 20px 0; border-left: 5px solid #1565C0; padding-left: 15px; }
+        .section-title { font-size: 1.8em; color: #1B4F8A; margin: 30px 0 20px 0; border-left: 5px solid #1565C0; padding-left: 15px; }
         .subsection-title { font-size: 1.3em; color: #1565C0; margin: 20px 0 12px 0; font-weight: 600; }
         .card { background: var(--card-bg); border-left: 5px solid #1565C0; padding: 20px; margin: 20px 0; border-radius: 6px; }
         .alert { padding: 15px; margin: 20px 0; border-radius: 6px; border-left: 5px solid; }
@@ -33,12 +33,12 @@
         .alert-warning { background: var(--warning-bg); border-left-color: var(--warning); color: var(--warning); }
         .alert-success { background: var(--success-bg); border-left-color: var(--success); color: var(--success); }
         .alert-info { background: var(--info-bg); border-left-color: var(--info); color: var(--info); }
-        .mnemonic-box { background: linear-gradient(135deg, #1565C0, #0D47A1); color: var(--white); padding: 20px; margin: 20px 0; border-radius: 8px; font-weight: 600; font-size: 1.1em; }
+        .mnemonic-box { background: linear-gradient(135deg, #1565C0, #1B4F8A); color: var(--white); padding: 20px; margin: 20px 0; border-radius: 8px; font-weight: 600; font-size: 1.1em; }
         .mnemonic-item { margin: 10px 0; }
         .mnemonic-letter { display: inline-block; background: var(--white); color: #1565C0; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: 700; margin-right: 10px; }
         ul, ol { margin-left: 20px; margin-bottom: 15px; }
         li { margin-bottom: 8px; }
-        .key-points { background: linear-gradient(135deg, #1565C0, #0D47A1); color: var(--white); padding: 20px; margin: 25px 0; border-radius: 8px; }
+        .key-points { background: linear-gradient(135deg, #1565C0, #1B4F8A); color: var(--white); padding: 20px; margin: 25px 0; border-radius: 8px; }
         .key-points h3 { margin-top: 0; margin-bottom: 15px; font-size: 1.3em; }
         .key-point { margin: 8px 0; padding-left: 25px; position: relative; }
         .key-point:before { content: "★"; position: absolute; left: 0; font-size: 1.2em; }
@@ -65,12 +65,12 @@
         .explanation.show { display: block; }
         .correct-exp { background: var(--success-bg); color: var(--success); border-left: 4px solid var(--success); }
         .incorrect-exp { background: #FDECEA; color: #C0392B; border-left: 4px solid #C0392B; }
-        #score-display { display: none; background: linear-gradient(135deg, #1565C0, #0D47A1); color: var(--white); padding: 30px; border-radius: 8px; text-align: center; margin: 30px 0; }
+        #score-display { display: none; background: linear-gradient(135deg, #1565C0, #1B4F8A); color: var(--white); padding: 30px; border-radius: 8px; text-align: center; margin: 30px 0; }
         #score-text { font-size: 2em; font-weight: 700; margin-bottom: 10px; }
         #score-sub { font-size: 1.1em; opacity: 0.95; }
         .nav-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 40px; padding-top: 20px; border-top: 2px solid var(--border); }
         .nav-link { padding: 12px 24px; background: #1565C0; color: var(--white); text-decoration: none; border-radius: 6px; transition: background 0.3s; cursor: pointer; font-weight: 600; }
-        .nav-link:hover { background: #0D47A1; }
+        .nav-link:hover { background: #1B4F8A; }
         .nav-link.disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
         .nav-center { text-align: center; }
         .nav-center a { color: #1565C0; text-decoration: none; font-weight: 600; }
