@@ -26,7 +26,8 @@
   .section-title { font-size: 28px; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
   .section-sub { color: var(--muted); margin-bottom: 32px; font-size: 16px; }
   .lesson-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; margin-bottom: 48px; }
-  .lesson-card { background: white; border-radius: 12px; border: 1px solid var(--border); overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; text-decoration: none; color: inherit; display: block; }
+  .lesson-card { background: white; border-radius: 12px; border: 1px solid var(--border); overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; text-decoration: none; color: inherit; display: flex; flex-direction: column; }
+  .lesson-card .card-footer { margin-top: auto; }
   .lesson-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(27,79,138,0.15); }
   .card-top { padding: 20px 20px 16px; display: flex; align-items: flex-start; gap: 14px; }
   .card-num { background: var(--primary); color: white; width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; flex-shrink: 0; }
