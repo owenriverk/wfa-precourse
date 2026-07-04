@@ -98,7 +98,7 @@ tr:nth-child(even) td { background: var(--card-bg); }
 
 <div class="header">
   <div class="header-meta">
-    <span>Module 13 of 13</span>
+    <span>Module 13 of 14</span>
     <span>30 minutes</span>
     <span>Wilderness First Aid</span>
   </div>
@@ -657,16 +657,16 @@ function toggleDiscussion(btn) {
 }
 
 const questions = [
-  {q: "An \"urgent evacuation\" is indicated when:", options: ["Patient has a mild sprain", "Patient has a life-threatening condition or is deteriorating", "Patient is comfortable and stable", "Minor GI illness"], answer: 1, exp: "Urgent evacuation is for life-threatening or deteriorating patients. Mild injuries can often be managed without urgent evacuation."},
+  {q: "An \"urgent evacuation\" is indicated when:", options: ["Patient has a mild sprain", "Minor GI illness", "Patient is comfortable and stable", "Patient has a life-threatening condition or is deteriorating"], answer: 3, exp: "Urgent evacuation is for life-threatening or deteriorating patients. Mild injuries can often be managed without urgent evacuation."},
   {q: "Minimum clear area for a helicopter landing zone:", options: ["20×20 feet", "100×100 feet", "50×50 feet", "10×10 feet"], answer: 1, exp: "A 100×100 foot (30×30 meter) area allows safe rotor clearance and maneuvering. Smaller areas create rotor strike risk."},
-  {q: "When packaging a patient for cold-weather evacuation, priority is:", options: ["Speed above all", "Ground insulation and hypothermia prevention", "Tight strapping", "No padding needed"], answer: 1, exp: "Hypothermia prevention is critical during transport. An immobile patient in cold rapidly becomes hypothermic. Ground insulation, vapor barrier, head coverage, and external heat are essential."},
-  {q: "The MIST report stands for:", options: ["Medical, Injury, Status, Treatment", "Mechanism, Injuries, Signs/symptoms, Treatment given", "Mechanism, Illness, Stability, Time", "Management, Intervention, Situation, Treatment"], answer: 1, exp: "MIST is the standard format for communicating patient information to rescuers: Mechanism, Injuries, Signs/symptoms, Treatment."},
-  {q: "A PLB differs from a satellite communicator in that:", options: ["It works in more countries", "It is a one-way emergency beacon with no 2-way communication capability", "It requires a subscription", "It only works in North America"], answer: 1, exp: "PLBs are one-way emergency beacons monitored by COSPAS-SARSAT globally; no subscription, but no communication back. Satellite communicators allow 2-way messaging."},
-  {q: "The recommended carrying team size for a litter evacuation is:", options: ["2 rescuers", "4-6 rescuers", "1 rescuer", "8-10 rescuers"], answer: 1, exp: "Ideal is 6 rescuers (2 head, 2 middle, 2 feet); minimum 4 rescuers. Fewer than 4 makes evacuation very difficult and unsafe."},
+  {q: "When packaging a patient for cold-weather evacuation, priority is:", options: ["Speed above all", "Tight strapping", "Ground insulation and hypothermia prevention", "No padding needed"], answer: 2, exp: "Hypothermia prevention is critical during transport. An immobile patient in cold rapidly becomes hypothermic. Ground insulation, vapor barrier, head coverage, and external heat are essential."},
+  {q: "The MIST report stands for:", options: ["Mechanism, Injuries, Signs/symptoms, Treatment given", "Medical, Injury, Status, Treatment", "Mechanism, Illness, Stability, Time", "Management, Intervention, Situation, Treatment"], answer: 0, exp: "MIST is the standard format for communicating patient information to rescuers: Mechanism, Injuries, Signs/symptoms, Treatment."},
+  {q: "A PLB differs from a satellite communicator in that:", options: ["It works in more countries", "It only works in North America", "It requires a subscription", "It is a one-way emergency beacon with no 2-way communication capability"], answer: 3, exp: "PLBs are one-way emergency beacons monitored by COSPAS-SARSAT globally; no subscription, but no communication back. Satellite communicators allow 2-way messaging."},
+  {q: "The recommended carrying team size for a litter evacuation is:", options: ["4-6 rescuers", "2 rescuers", "1 rescuer", "8-10 rescuers"], answer: 0, exp: "Ideal is 6 rescuers (2 head, 2 middle, 2 feet); minimum 4 rescuers. Fewer than 4 makes evacuation very difficult and unsafe."},
   {q: "Litter carriers should rotate approximately every:", options: ["1-2 hours", "10-15 minutes to prevent fatigue", "After every obstacle", "Whenever someone feels tired"], answer: 1, exp: "Rotate every 10-15 minutes to prevent fatigue, which leads to mistakes and dropped litters. Tired rescuers risk injury to themselves and patient."},
-  {q: "A patient with spinal precautions should be transported in:", options: ["Recovery position", "Supine with spinal stabilization maintained", "Sitting upright", "Prone"], answer: 1, exp: "Spinal precautions require supine positioning with neck/spine immobilized on a spine board or rigid support."},
+  {q: "A patient with spinal precautions should be transported in:", options: ["Recovery position", "Sitting upright", "Supine with spinal stabilization maintained", "Prone"], answer: 2, exp: "Spinal precautions require supine positioning with neck/spine immobilized on a spine board or rigid support."},
   {q: "When should you activate a satellite SOS device for a hiking emergency:", options: ["Only as a last resort, very late", "Early when the situation is serious — easier to stand down than launch in darkness", "Only if death is imminent", "Only if you have no other means"], answer: 1, exp: "Alert early rather than late. It is easier for rescuers to stand down at the trailhead than to launch in darkness, storms, or dangerous conditions."},
-  {q: "Texting on a cell phone in poor coverage areas:", options: ["Never works", "May succeed when calls cannot, as texts use less bandwidth", "Drains battery too fast", "Should never be attempted"], answer: 1, exp: "Text messages require less bandwidth than voice calls and may succeed when cellular voice service is unavailable."}
+  {q: "Texting on a cell phone in poor coverage areas:", options: ["May succeed when calls cannot, as texts use less bandwidth", "Never works", "Drains battery too fast", "Should never be attempted"], answer: 0, exp: "Text messages require less bandwidth than voice calls and may succeed when cellular voice service is unavailable."}
 ];
 
 let answered = 0;

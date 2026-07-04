@@ -82,7 +82,7 @@
             <h1>Lesson 08: Heat-Related Emergencies</h1>
             <div class="meta">
                 <span class="meta-item">Estimated Time: 25 minutes</span>
-                <span class="meta-item">Module 08 of 13</span>
+                <span class="meta-item">Module 08 of 14</span>
             </div>
         </div>
 
@@ -632,16 +632,16 @@
         }
 
         const questions = [
-            { q: "Heat stroke is defined by:", options: ["Heavy sweating and cramps", "Core temp >40°C (104°F) with altered mental status", "Core temp >38°C with fatigue", "Fainting in hot weather"], answer: 1, exp: "Heat stroke requires BOTH high core temperature (>40°C) AND altered mental status (confusion, aggression, unconsciousness)." },
-            { q: "The FIRST priority in treating heat stroke is:", options: ["Call 911 and wait", "Aggressive cooling immediately", "Give oral fluids", "Monitor vital signs"], answer: 1, exp: "Cool FIRST, transport second. Every minute of high core temperature damages organs. Immediate cooling is lifesaving." },
+            { q: "Heat stroke is defined by:", options: ["Core temp >40°C (104°F) with altered mental status", "Heavy sweating and cramps", "Core temp >38°C with fatigue", "Fainting in hot weather"], answer: 0, exp: "Heat stroke requires BOTH high core temperature (>40°C) AND altered mental status (confusion, aggression, unconsciousness)." },
+            { q: "The FIRST priority in treating heat stroke is:", options: ["Call 911 and wait", "Monitor vital signs", "Give oral fluids", "Aggressive cooling immediately"], answer: 3, exp: "Cool FIRST, transport second. Every minute of high core temperature damages organs. Immediate cooling is lifesaving." },
             { q: "Hyponatremia in endurance athletes is caused by:", options: ["Excessive sweating only", "Drinking too much plain water diluting sodium", "Dehydration", "Heat exhaustion progression"], answer: 1, exp: "Water intoxication happens when athlete drinks large amounts of plain water without sodium replacement, diluting blood sodium." },
-            { q: "The most effective field cooling method for heat stroke is:", options: ["Shade alone", "Cold water immersion", "Oral fluids only", "Fan without water"], answer: 1, exp: "Cold water immersion can cool at 0.1-0.2°C per minute. This is fastest field method available." },
+            { q: "The most effective field cooling method for heat stroke is:", options: ["Cold water immersion", "Shade alone", "Oral fluids only", "Fan without water"], answer: 0, exp: "Cold water immersion can cool at 0.1-0.2°C per minute. This is fastest field method available." },
             { q: "Exertional heat stroke differs from classic in that:", options: ["Only occurs in elderly", "Occurs in healthy people during exercise and may present with sweating", "Core temperature is lower", "Mental status is always normal"], answer: 1, exp: "Exertional heat stroke occurs in young athletes during intense exercise. Confusing point: patient may still be SWEATING despite high core temp." },
             { q: "Ice packs for heat stroke should be applied to:", options: ["Only the forehead", "Neck, axillae (armpits), groin", "Extremities only", "The abdomen"], answer: 1, exp: "These areas have major blood vessels near skin, allowing efficient cooling through these high-flow regions." },
-            { q: "Heat acclimatization requires:", options: ["1-2 days", "10-14 days", "1 month", "1 week"], answer: 1, exp: "Takes 10-14 days of progressively increasing activity in heat for body to adapt and improve heat tolerance." },
-            { q: "Patient with hyponatremia should receive:", options: ["Large amounts of plain water", "Restricted water and sodium supplementation", "IV normal saline immediately", "No treatment needed"], answer: 1, exp: "Hyponatremia: restrict water intake, encourage salty foods. More plain water makes it worse." },
-            { q: "Heat cramps are caused by:", options: ["High altitude exposure", "Salt and fluid loss during exertion", "Cardiac arrhythmia", "Dehydration alone"], answer: 1, exp: "Heat cramps = sodium and fluid loss plus muscle fatigue. Treatment: rest, electrolyte solution (salt + fluid), stretching." },
-            { q: "Cooling for heat stroke should STOP when core temp reaches:", options: ["37°C (98.6°F)", "39°C (102.2°F)", "Normal mental status returns", "40°C (104°F)"], answer: 1, exp: "Stop cooling at 39°C to avoid overshoot (dropping too low) and hypothermia. Continue only if mental status improving." }
+            { q: "Heat acclimatization requires:", options: ["1-2 days", "1 week", "1 month", "10-14 days"], answer: 3, exp: "Takes 10-14 days of progressively increasing activity in heat for body to adapt and improve heat tolerance." },
+            { q: "Patient with hyponatremia should receive:", options: ["Large amounts of plain water", "IV normal saline immediately", "Restricted water and sodium supplementation", "No treatment needed"], answer: 2, exp: "Hyponatremia: restrict water intake, encourage salty foods. More plain water makes it worse." },
+            { q: "Heat cramps are caused by:", options: ["Salt and fluid loss during exertion", "High altitude exposure", "Cardiac arrhythmia", "Dehydration alone"], answer: 0, exp: "Heat cramps = sodium and fluid loss plus muscle fatigue. Treatment: rest, electrolyte solution (salt + fluid), stretching." },
+            { q: "Cooling for heat stroke should STOP when core temp reaches:", options: ["37°C (98.6°F)", "Normal mental status returns", "39°C (102.2°F)", "40°C (104°F)"], answer: 2, exp: "Stop cooling at 39°C to avoid overshoot (dropping too low) and hypothermia. Continue only if mental status improving." }
         ];
 
         let answered = 0;

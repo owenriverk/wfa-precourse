@@ -82,7 +82,7 @@
             <h1>Lesson 02: Patient Assessment System</h1>
             <div class="meta">
                 <span class="meta-item">Estimated Time: 40 minutes</span>
-                <span class="meta-item">Module 02 of 13</span>
+                <span class="meta-item">Module 02 of 14</span>
             </div>
         </div>
 
@@ -662,15 +662,15 @@
 
         // Quiz data
         const questions = [
-            { q: "XABCDE: The X stands for:", options: ["X-ray examination", "Exsanguinating hemorrhage", "Exposure", "External burns"], answer: 1, exp: "X = Exsanguinating hemorrhage (massive life-threatening bleeding). This is checked and treated BEFORE airway." },
-            { q: "Head-tilt chin-lift should be avoided when:", options: ["Patient is unconscious", "Spinal injury is suspected", "Patient is breathing", "Patient is a child"], answer: 1, exp: "Head-tilt chin-lift tilts the cervical spine, potentially worsening a spine injury. Use jaw thrust instead when spine injury is suspected." },
+            { q: "XABCDE: The X stands for:", options: ["X-ray examination", "Exposure", "Exsanguinating hemorrhage", "External burns"], answer: 2, exp: "X = Exsanguinating hemorrhage (massive life-threatening bleeding). This is checked and treated BEFORE airway." },
+            { q: "Head-tilt chin-lift should be avoided when:", options: ["Spinal injury is suspected", "Patient is unconscious", "Patient is breathing", "Patient is a child"], answer: 0, exp: "Head-tilt chin-lift tilts the cervical spine, potentially worsening a spine injury. Use jaw thrust instead when spine injury is suspected." },
             { q: "AVPU stands for:", options: ["Airway, Vision, Pulse, Unconscious", "Alert, Verbal, Pain, Unresponsive", "Airway, Vital signs, Pupils, Unresponsive", "Alert, Vital signs, Pain, Unconscious"], answer: 1, exp: "AVPU is the consciousness scale: Alert (awake and oriented), Verbal (responds to voice), Pain (responds to pain), Unresponsive (no response)." },
-            { q: "Normal adult respiratory rate is:", options: ["6-10 breaths/min", "12-20 breaths/min", "25-30 breaths/min", "30-40 breaths/min"], answer: 1, exp: "Normal adult respiratory rate is 12-20 breaths per minute. Rates below 10 or above 30 are concerning." },
+            { q: "Normal adult respiratory rate is:", options: ["12-20 breaths/min", "6-10 breaths/min", "25-30 breaths/min", "30-40 breaths/min"], answer: 0, exp: "Normal adult respiratory rate is 12-20 breaths per minute. Rates below 10 or above 30 are concerning." },
             { q: "OPQRST is used to:", options: ["Assess pupils", "Characterize pain systematically", "Check circulation", "Document the scene"], answer: 1, exp: "OPQRST (Onset, Provocation, Quality, Radiation, Severity, Time) is the systematic way to ask a patient about their pain." },
-            { q: "Skin that is pale, cool, and moist (diaphoretic) suggests:", options: ["Heat stroke", "Shock or poor perfusion", "Fever", "Normal response"], answer: 1, exp: "Pale, cool, diaphoretic skin is the classic triad of shock (poor tissue perfusion). This patient needs urgent treatment and evacuation." },
-            { q: "A stable patient should have vital signs reassessed every:", options: ["5 minutes", "15 minutes", "30 minutes", "60 minutes"], answer: 1, exp: "Stable patients are reassessed every 15 minutes. Unstable patients (shock, altered consciousness, etc.) are reassessed every 5 minutes." },
-            { q: "Which of the following is a sign of respiratory distress?", options: ["Speaking comfortably in full sentences", "Use of accessory muscles and tripod positioning", "Respiratory rate of 14 breaths/min", "Warm, pink, dry skin"], answer: 1, exp: "Accessory muscle use, tripod positioning, nasal flaring, and retractions are signs of respiratory distress. Recognize severe breathing difficulty and evacuate urgently." },
-            { q: "The SAMPLE history 'L' stands for:", options: ["Level of consciousness", "Last oral intake", "Location of pain", "LOC assessment"], answer: 1, exp: "'L' in SAMPLE = Last oral intake (food and water consumed). This is important for vomiting risk and aspiration concerns." },
+            { q: "Skin that is pale, cool, and moist (diaphoretic) suggests:", options: ["Shock or poor perfusion", "Heat stroke", "Fever", "Normal response"], answer: 0, exp: "Pale, cool, diaphoretic skin is the classic triad of shock (poor tissue perfusion). This patient needs urgent treatment and evacuation." },
+            { q: "A stable patient should have vital signs reassessed every:", options: ["5 minutes", "60 minutes", "30 minutes", "15 minutes"], answer: 3, exp: "Stable patients are reassessed every 15 minutes. Unstable patients (shock, altered consciousness, etc.) are reassessed every 5 minutes." },
+            { q: "Which of the following is a sign of respiratory distress?", options: ["Speaking comfortably in full sentences", "Respiratory rate of 14 breaths/min", "Use of accessory muscles and tripod positioning", "Warm, pink, dry skin"], answer: 2, exp: "Accessory muscle use, tripod positioning, nasal flaring, and retractions are signs of respiratory distress. Recognize severe breathing difficulty and evacuate urgently." },
+            { q: "The SAMPLE history 'L' stands for:", options: ["Level of consciousness", "LOC assessment", "Location of pain", "Last oral intake"], answer: 3, exp: "'L' in SAMPLE = Last oral intake (food and water consumed). This is important for vomiting risk and aspiration concerns." },
             { q: "The primary survey purpose is to:", options: ["Document everything", "Find and treat life threats immediately", "Take vital signs", "Obtain medical history"], answer: 1, exp: "The primary survey (XABCDE) is designed to quickly identify and treat immediately life-threatening conditions in order of lethality." }
         ];
 

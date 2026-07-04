@@ -82,7 +82,7 @@
             <h1>Lesson 09: Cold-Related Emergencies</h1>
             <div class="meta">
                 <span class="meta-item">Estimated Time: 30 minutes</span>
-                <span class="meta-item">Module 09 of 13</span>
+                <span class="meta-item">Module 09 of 14</span>
             </div>
         </div>
 
@@ -690,16 +690,16 @@
         }
 
         const questions = [
-            { q: "Hypothermia is defined as core temperature below:", options: ["37°C (98.6°F)", "35°C (95°F)", "32°C (89.6°F)", "38°C (100.4°F)"], answer: 1, exp: "Hypothermia = core temp <35°C (95°F). Normal is 37°C. Even 2-3°C drop is dangerous." },
-            { q: "Shivering in hypothermic patient indicates:", options: ["Severe hypothermia", "Body is still trying to generate heat — relatively good sign", "Cardiac arrest imminent", "Patient is too cold to treat"], answer: 1, exp: "Shivering = body still generating heat. Shivering STOPPING is the bad sign (body gave up)." },
+            { q: "Hypothermia is defined as core temperature below:", options: ["35°C (95°F)", "37°C (98.6°F)", "32°C (89.6°F)", "38°C (100.4°F)"], answer: 0, exp: "Hypothermia = core temp <35°C (95°F). Normal is 37°C. Even 2-3°C drop is dangerous." },
+            { q: "Shivering in hypothermic patient indicates:", options: ["Severe hypothermia", "Cardiac arrest imminent", "Body is still trying to generate heat — relatively good sign", "Patient is too cold to treat"], answer: 2, exp: "Shivering = body still generating heat. Shivering STOPPING is the bad sign (body gave up)." },
             { q: "'Afterdrop' refers to:", options: ["Blood pressure dropping", "Core temperature continuing to fall after warming begins", "Shivering stopping", "Heart rate dropping"], answer: 1, exp: "Afterdrop = the core keeps cooling as heat conducts into surrounding cold tissue and cold peripheral blood mixes back toward the core, especially with movement." },
-            { q: "Frostbite should be rewarmed in field:", options: ["Always, ASAP", "Only if no risk of refreezing", "Never — leave for hospital", "Using dry heat (fire)"], answer: 1, exp: "CRITICAL: Only rewarm if NO risk of refreezing. Freezing then refreezing causes massive additional damage." },
+            { q: "Frostbite should be rewarmed in field:", options: ["Only if no risk of refreezing", "Always, ASAP", "Never — leave for hospital", "Using dry heat (fire)"], answer: 0, exp: "CRITICAL: Only rewarm if NO risk of refreezing. Freezing then refreezing causes massive additional damage." },
             { q: "Correct water temperature for rewarming frostbite:", options: ["As hot as possible", "37-39°C (body temp warm, not hot)", "Ice water", "Room temperature"], answer: 1, exp: "Warm water 37-39°C — warm not hot. Too much heat causes additional tissue damage." },
-            { q: "Paradoxical undressing in hypothermia occurs because:", options: ["Delirious from fever", "Peripheral vasodilation causes sensation of warmth", "Want to cool down", "Normal behavior"], answer: 1, exp: "Paradoxical undressing = dangerous sign. Peripheral vasodilation gives false sensation of warmth; patient undresses, worsening heat loss." },
-            { q: "Severely hypothermic patient in cardiac arrest should:", options: ["Not receive CPR", "Receive CPR and be evacuated (not dead until warm and dead)", "Be given alcohol to warm", "Be left in place"], answer: 1, exp: "Continue CPR during evacuation. Severe hypothermia patients have recovered after prolonged cardiac arrest with rewarming." },
-            { q: "Immersion foot is caused by:", options: ["Freezing temperatures only", "Prolonged cold wet exposure without freezing", "Walking barefoot", "Dehydration alone"], answer: 1, exp: "Trench foot/immersion foot = wet cold (not freezing) for hours/days. Prevention: keep feet dry in cold expeditions." },
+            { q: "Paradoxical undressing in hypothermia occurs because:", options: ["Delirious from fever", "Normal behavior", "Want to cool down", "Peripheral vasodilation causes sensation of warmth"], answer: 3, exp: "Paradoxical undressing = dangerous sign. Peripheral vasodilation gives false sensation of warmth; patient undresses, worsening heat loss." },
+            { q: "Severely hypothermic patient in cardiac arrest should:", options: ["Receive CPR and be evacuated (not dead until warm and dead)", "Not receive CPR", "Be given alcohol to warm", "Be left in place"], answer: 0, exp: "Continue CPR during evacuation. Severe hypothermia patients have recovered after prolonged cardiac arrest with rewarming." },
+            { q: "Immersion foot is caused by:", options: ["Freezing temperatures only", "Dehydration alone", "Walking barefoot", "Prolonged cold wet exposure without freezing"], answer: 3, exp: "Trench foot/immersion foot = wet cold (not freezing) for hours/days. Prevention: keep feet dry in cold expeditions." },
             { q: "External heat sources for hypothermia should be applied to:", options: ["Extremities only", "High blood flow areas: neck, armpits, groin", "Only the forehead", "The entire body surface equally"], answer: 1, exp: "Apply heat to core (areas with major blood vessels near skin) not extremities, to minimize afterdrop." },
-            { q: "Patient with deep frostbite who must walk out should:", options: ["Have feet thawed immediately", "Keep feet frozen and walk — do NOT rewarm if refreezing risk", "Apply hot water", "Massage affected tissue"], answer: 1, exp: "Walking on frozen feet is better than thawing and refreezing. Refreezing causes far more damage." }
+            { q: "Patient with deep frostbite who must walk out should:", options: ["Have feet thawed immediately", "Apply hot water", "Keep feet frozen and walk — do NOT rewarm if refreezing risk", "Massage affected tissue"], answer: 2, exp: "Walking on frozen feet is better than thawing and refreezing. Refreezing causes far more damage." }
         ];
 
         let answered = 0;
