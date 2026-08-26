@@ -1,0 +1,65 @@
+/* Shared styles for practice scenarios (sims/). Extracted from sim.html. */
+.sim-main { max-width: 880px; }
+.stage-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-top: 20px; }
+.stage-panel svg { display: block; width: 100%; height: auto; }
+.status-strip { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 10px 14px; border-top: 1px solid var(--border); }
+.chip { background: var(--surface-2); border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px; font-size: 0.82em; color: var(--text-muted); white-space: nowrap; }
+.chip b { color: var(--text); font-variant-numeric: tabular-nums; }
+.chip.clock b { color: var(--primary); }
+.chip.unknown b { color: var(--text-faint); font-weight: 400; }
+.chip.alert { background: var(--warning-bg); border-color: var(--warning-border); }
+.chip.alert b { color: var(--warning); }
+.narration { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--primary); border-radius: var(--radius); padding: 14px 18px; margin-top: 16px; font-size: 0.97em; }
+.narration .you-did { color: var(--primary); font-weight: 700; font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 4px; }
+.narration .event-line { display: block; margin-top: 10px; color: var(--warning); font-weight: 600; }
+.choices { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; margin-top: 16px; }
+.choices h2 { font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.06em; color: var(--primary); margin: 0 0 10px; border: 0; padding: 0; }
+.choice-btn { display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; text-align: left; background: var(--surface); border: 1.5px solid var(--border-strong); border-radius: 10px; padding: 11px 14px; margin: 6px 0; font-size: 0.93em; font-weight: 550; color: var(--text); cursor: pointer; transition: border-color var(--ease), background var(--ease); }
+.choice-btn:hover { border-color: var(--accent); background: var(--info-bg); }
+.choice-btn .mins { color: var(--text-faint); font-weight: 400; font-size: 0.88em; white-space: nowrap; }
+.choice-btn.decide { border-color: var(--danger-border); }
+.choice-btn.decide:hover { border-color: var(--danger); background: var(--danger-bg); }
+details.more { margin-top: 12px; }
+details.more summary { cursor: pointer; color: var(--link); font-size: 0.9em; font-weight: 600; padding: 4px 0; }
+details.more h3 { font-size: 0.78em; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-faint); margin: 12px 0 2px; }
+.transcript-panel { margin-top: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 18px; }
+.transcript-panel summary { cursor: pointer; font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.06em; color: var(--primary); font-weight: 700; }
+.sim-log { max-height: 360px; overflow-y: auto; display: flex; flex-direction: column-reverse; margin-top: 8px; }
+.sim-log .entry { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.93em; }
+.sim-log .entry:first-child { border-bottom: 0; }
+.sim-log .stamp { color: var(--text-faint); font-size: 0.85em; font-variant-numeric: tabular-nums; margin-right: 8px; white-space: nowrap; }
+.sim-log .event { color: var(--warning); font-weight: 600; }
+.sim-log .you { color: var(--primary); font-weight: 600; }
+.sim-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; }
+.sim-panel h2 { font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.06em; color: var(--primary); margin: 0 0 10px; border: 0; padding: 0; }
+.debrief-list { list-style: none; margin: 0; padding: 0; }
+.debrief-list li { padding: 7px 0 7px 30px; position: relative; border-bottom: 1px solid var(--border); font-size: 0.95em; }
+.debrief-list li:last-child { border-bottom: 0; }
+.debrief-list li::before { position: absolute; left: 2px; font-weight: 800; }
+.debrief-list li.hit::before { content: "\2713"; color: var(--success); }
+.debrief-list li.miss::before { content: "\2717"; color: var(--danger); }
+.debrief-list li .why { display: block; color: var(--text-muted); font-size: 0.9em; }
+.flag-item { background: var(--warning-bg); border: 1px solid var(--warning-border); border-radius: var(--radius-sm); padding: 10px 14px; margin: 8px 0; font-size: 0.93em; }
+.beta-tag { display: inline-block; background: var(--warning-bg); color: var(--warning); border: 1px solid var(--warning-border); font-size: 0.7em; font-weight: 750; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 10px; border-radius: 999px; vertical-align: middle; margin-left: 8px; }
+/* scene art (field-sketch style) */
+#scene .o { stroke: #3A424D; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; fill: #FBF7EE; }
+#scene .ln { stroke: #3A424D; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+#scene .thin { stroke-width: 1.2; }
+#scene .faint { opacity: 0.5; }
+#scene .dot { fill: #3A424D; }
+#scene .w { fill: #DFD8C4; }
+#scene .w2 { fill: #C4BCA6; }
+#scene .a { fill: #DDA483; }
+#scene .a2 { fill: #CE8B67; }
+#scene .bru { fill: #BC7B72; }
+#scene .skin { fill: #EFD9B8; }
+#scene.pale .skin { fill: #EBE2CE; }
+#scene.cold .skin { fill: #E4E0D6; }
+@keyframes shiverA { 0% { transform: translate(0,0); } 25% { transform: translate(-0.7px,0.3px); } 50% { transform: translate(0.6px,-0.3px); } 75% { transform: translate(-0.4px,-0.2px); } 100% { transform: translate(0,0); } }
+#scene.shiver1 .shakeable { animation: shiverA 0.34s infinite; }
+#scene.shiver2 .shakeable { animation: shiverA 0.16s infinite; }
+@media (prefers-reduced-motion: reduce) { #scene .shakeable { animation: none !important; } }
+.free-row { display: flex; gap: 8px; margin-top: 10px; }
+.free-row input { flex: 1; min-width: 0; border: 1.5px solid var(--border-strong); border-radius: 10px; padding: 10px 14px; font: inherit; font-size: 0.93em; color: var(--text); background: var(--surface); }
+.free-row input:focus { outline: none; border-color: var(--accent); }
+.free-row .btn { padding: 8px 18px; }

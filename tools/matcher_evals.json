@@ -1,0 +1,66 @@
+{
+  "hero-complex": [
+    ["read the slope", "slope"], ["put on gloves", "gloves"], ["sprint to maya", "rush"],
+    ["get jess out of there", "jess"], ["check for bleeding", "bleed"], ["take vitals", "vitals"],
+    ["call 911", "end-call"], ["ask about her neck", "spine"], ["hold pressure on the cut", "pressure"],
+    ["feel for a pulse", "vitals"]
+  ],
+  "guy-whos-fine": [
+    ["take his vitals again", "vitals"], ["check his belly", "belly"], ["ask what happened", "what"],
+    ["call 911", "call"], ["check responsiveness", "resp"], ["walk him out", "end-walk"]
+  ],
+  "snoring-isnt-sleeping": [
+    ["what's that snoring sound", "snore"], ["roll him as a unit", "roll"], ["recovery position", "reco"],
+    ["start cpr", "cpr"], ["send priya to call", "send"], ["check if he's responsive", "resp"]
+  ],
+  "dont-sit-him-up": [
+    ["hold his head still", "stab"], ["sit him up", "situp"], ["ask about his neck", "spineq"],
+    ["move him under the trees", "move"], ["call 911", "call"], ["check csm", "csm"]
+  ],
+  "stop-peeking": [
+    ["hold direct pressure", "press"], ["keep holding", "hold"], ["look under the bandage", "peek"],
+    ["add more gauze", "layer"], ["put on a tourniquet", "tq"], ["check her fingers", "csm"],
+    ["gloves first", "gloves"]
+  ],
+  "wiggle-feel-warm": [
+    ["look at her wrist", "look"], ["take her rings off", "rings"], ["splint the wrist", "splint"],
+    ["check her fingers", "csm"], ["sling the arm", "sling"], ["give her ibuprofen", "ibu"]
+  ],
+  "cool-first": [
+    ["get him in the shade", "shade"], ["give him water to drink", "drink"], ["pour water on him", "soak"],
+    ["fan him", "fan"], ["call 911", "call"], ["ask him his name", "mental"]
+  ],
+  "the-burrito": [
+    ["get his wet clothes off", "strip"], ["wrap him in the tarp", "wrap"], ["cover his head", "head"],
+    ["give him something to eat", "sugar"], ["rub his arms", "rub"], ["take vitals", "vitals"]
+  ],
+  "leave-it-frozen": [
+    ["look at his toes", "look"], ["dry socks on", "socks"], ["rub his toes", "rub"],
+    ["give him a hot drink", "drink"], ["call for the snowmobile", "end-sled"], ["thaw his feet in warm water", "thaw"]
+  ],
+  "find-the-epi": [
+    ["give her the epipen", "epi"], ["search the packs for her kit", "search"], ["give her benadryl", "benadryl"],
+    ["call 911", "call"], ["give a second dose", "second"], ["sit her up", "sit"]
+  ],
+  "not-indigestion": [
+    ["give him aspirin", "aspirin"], ["ask about his medications", "meds"], ["start cpr", "cpr"],
+    ["sit him down", "sit"], ["walk him to the car", "walk"], ["check for a pulse", "pulse"]
+  ],
+  "sugar-first": [
+    ["give her sugar", "sugar"], ["give her the gel", "sugar"], ["recheck her in 15 minutes", "recheck"],
+    ["take vitals", "vitals"], ["put her in recovery position", "recover"], ["maybe it's the altitude", "debate"]
+  ],
+  "sharpie-on-the-leg": [
+    ["mark the swelling with a sharpie", "mark"], ["suck out the venom", "cut"], ["put ice on it", "ice"],
+    ["tourniquet above the bite", "tq"], ["catch the snake", "catch"], ["call 911", "call"],
+    ["take off his rings", "ring"]
+  ],
+  "treat-the-dead-first": [
+    ["check the quiet one", "alex"], ["go to the screamer", "sam"], ["get everyone off the ridge", "off"],
+    ["start rescue breaths", "breaths"], ["call 911", "call"], ["spread people out", "spread"]
+  ],
+  "two-go-one-stays": [
+    ["write a note", "note"], ["send two people together", "pair"], ["text 911", "text"],
+    ["splint her ankle", "splint"], ["send tyler alone", "tyler"], ["put the phone in airplane mode", "saver"]
+  ]
+}

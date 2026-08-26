@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sugar First | Practice Scenario | Wilderness First Aid</title>
+<meta name="description" content="Your Type 1 partner is sweaty, confused, and swears she's fine. If they can swallow, sugar now — practice before the window closes.">
+<meta name="theme-color" content="#1B4F8A">
+<link rel="canonical" href="https://owenriverk.github.io/wfa-precourse/sims/sugar-first.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sugar First — Wilderness First Aid Practice Scenario">
+<meta property="og:description" content="Your Type 1 partner is sweaty, confused, and swears she's fine. If they can swallow, sugar now — practice before the window closes.">
+<meta property="og:url" content="https://owenriverk.github.io/wfa-precourse/sims/sugar-first.html">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/sim.css">
+</head>
+<body>
+<a class="skip-link" href="#content">Skip to content</a>
+
+<header class="site-nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="2" y="2" width="28" height="28" rx="7" fill="currentColor" opacity="0.12"/><path d="M6 23 L12 12 L16 18 L19 14 L26 23 Z" fill="currentColor" opacity="0.85"/><path d="M16 6 v6 M13 9 h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg><span>Wilderness First Aid</span><span class="brand-sub">Free online course</span></a>
+    <nav class="nav-links" aria-label="Course navigation">
+      <a href="../index.html#lessons">All lessons</a>
+      <a href="../sim.html" aria-current="page">Practice</a>
+    </nav>
+  </div>
+</header>
+
+<header class="lesson-head">
+  <div class="wrap">
+    <div class="eyebrow"><span>Practice scenario</span><span class="dot">Diabetes</span></div>
+    <h1>Sugar First <span class="beta-tag">Beta</span></h1>
+    <p class="lead">One decision at a time, no script. The sim offers plausible moves — right ones and tempting mistakes alike — and only tells you what you actually assess. End it with a decision, then debrief. Nothing you do here is recorded anywhere.</p>
+  </div>
+</header>
+
+<main id="content" class="wrap sim-main">
+  <div class="sim-panel" id="briefing" style="margin-top:20px;">
+    <h2>Dispatch</h2>
+    <div id="brief-body"></div>
+    <p style="margin-bottom:0;"><button class="btn" id="start-btn">Approach the scene →</button></p>
+  </div>
+
+  <div id="sim-ui" hidden>
+    <div class="stage-panel">
+      <div id="stage-slot"></div>
+      <div class="status-strip">
+        <span class="chip clock">Clock <b id="clock">T+0 min</b></span>
+        <span class="chip" id="env-chip"></span>
+        <span class="chip unknown" id="chip-hr">Pulse <b>—</b></span>
+        <span class="chip unknown" id="chip-rr">Breathing <b>—</b></span>
+        <span class="chip unknown" id="chip-avpu">AVPU <b>—</b></span>
+        <span class="chip unknown" id="chip-skin">Skin <b>—</b></span>
+        <span class="chip unknown" id="chip-last">Last vitals <b>not taken</b></span>
+        <span id="extra-chips" style="display:contents;"></span>
+      </div>
+    </div>
+
+    <div class="narration" id="narration" aria-live="polite"></div>
+
+    <div class="choices" id="choices">
+      <h2>What do you do?</h2>
+      <div id="choice-list"></div>
+      <details class="more" id="more-actions"><summary>All actions…</summary><div id="more-list"></div></details>
+      <details class="more" id="decide-actions"><summary>Decide — ends the scenario…</summary><div id="decide-list"></div></details>
+    </div>
+
+    <details class="transcript-panel" id="transcript"><summary>Full transcript</summary><div class="sim-log" id="log"></div></details>
+  </div>
+
+  <div id="debrief" hidden>
+    <div class="sim-panel" style="margin-top:20px;">
+      <h2>Debrief</h2>
+      <p id="debrief-summary" style="font-size:1.05em;"></p>
+      <div id="debrief-flags"></div>
+      <h3 style="margin-top:20px;">Critical actions</h3>
+      <ul class="debrief-list" id="debrief-crit"></ul>
+      <p style="margin-top:20px;" id="debrief-links"></p>
+      <p style="margin-bottom:0;"><button class="btn" onclick="location.reload()">↺ Run it again</button> <a class="btn secondary" href="../sim.html">More scenarios</a></p>
+    </div>
+  </div>
+
+  <p style="margin-top:24px; font-size:0.9em; color:var(--text-muted);">This is a deterministic practice sandbox — the patient follows the physiology taught in the course, not a script or an AI. It teaches decision-making, not hands-on skill: nothing here replaces practicing on a real, padded, complaining friend.</p>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-links">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#lessons">All lessons</a>
+      <a href="../sim.html">Practice</a>
+      <a href="https://github.com/owenriverk/wfa-precourse">Source on GitHub</a>
+    </div>
+    <p class="foot-disclaimer">Educational use only. This scenario supports wilderness first aid training and does not replace hands-on instruction or professional medical care.</p>
+  </div>
+</footer>
+
+<script src="../assets/js/sim-scenes.js"></script>
+<script src="../assets/js/sim-nlp.js"></script>
+<script src="js/sugar-first.js"></script>
+<script src="../assets/js/sim-engine.js"></script>
+</body>
+</html>
