@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Field Reference Card | Wilderness First Aid — Free Online Course</title>
+<meta name="description" content="Printable wilderness first aid field reference: scene size-up, XABCDE primary survey, SAMPLE, OPQRST, vital signs, evacuation criteria, and a fillable SOAP note form.">
+<meta name="theme-color" content="#1B4F8A">
+<link rel="canonical" href="https://owenriverk.github.io/wfa-precourse/reference.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Wilderness First Aid — Field Reference Card">
+<meta property="og:description" content="Print it, fold it, keep it in your first aid kit: assessment steps, mnemonics, vitals, evacuation criteria, and a fillable patient form.">
+<meta property="og:url" content="https://owenriverk.github.io/wfa-precourse/reference.html">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+  /* ---- Reference card layout (screen + print) ---- */
+  .ref-main { max-width: 900px; }
+  .sheet { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px; margin: 24px 0; box-shadow: var(--shadow-sm); }
+  .sheet-title { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; border-bottom: 3px solid var(--primary); padding-bottom: 8px; margin-bottom: 16px; }
+  .sheet-title h2 { font-size: 1.25em; margin: 0; border: 0; padding: 0; }
+  .sheet-title span { font-size: 0.8em; color: var(--text-muted); white-space: nowrap; }
+  .ref-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .ref-box { border: 1.5px solid var(--border-strong); border-radius: var(--radius-sm); padding: 12px 14px; break-inside: avoid; min-width: 0; overflow-x: auto; }
+  .ref-box.span2 { grid-column: 1 / -1; }
+  .ref-box h3 { font-size: 0.82em; text-transform: uppercase; letter-spacing: 0.06em; color: var(--primary); margin: 0 0 8px; }
+  .ref-box h3 .sub { text-transform: none; letter-spacing: 0; font-weight: 500; color: var(--text-muted); }
+  .ref-box ul, .ref-box ol { margin: 0 0 0 1.15em; font-size: 0.88em; }
+  .ref-box li { margin-bottom: 3px; }
+  .ref-box p { font-size: 0.88em; margin: 0 0 6px; }
+  .ref-danger { border-color: var(--danger); }
+  .ref-danger h3 { color: var(--danger); }
+  .mn-rows { display: grid; gap: 2px; font-size: 0.88em; }
+  .mn-rows .r { display: grid; grid-template-columns: 22px 1fr; gap: 8px; }
+  .mn-rows .l { font-weight: 800; color: var(--primary); }
+  .tri { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; font-size: 0.85em; text-align: center; }
+  .tri > div { border: 1.5px solid var(--border-strong); border-radius: var(--radius-sm); padding: 8px 6px; }
+  .tri strong { display: block; color: var(--primary); margin-bottom: 2px; }
+  .vitals-mini { width: 100%; border-collapse: collapse; font-size: 0.85em; margin: 0; border: 0; }
+  .vitals-mini th, .vitals-mini td { border: 1px solid var(--border-strong); padding: 4px 8px; background: none; }
+  .vitals-mini th { background: var(--surface-2); border-bottom-width: 1px; }
+  /* fillable form */
+  .write-line { border-bottom: 1px solid var(--border-strong); height: 22px; }
+  .write-lines .write-line { margin-top: 10px; }
+  .form-row { display: grid; gap: 10px; font-size: 0.85em; margin-bottom: 10px; }
+  .form-row label { font-weight: 650; }
+  .form-grid { width: 100%; border-collapse: collapse; font-size: 0.85em; }
+  .form-grid th, .form-grid td { border: 1px solid var(--border-strong); padding: 5px 6px; background: none; height: 26px; }
+  .form-grid th { background: var(--surface-2); font-weight: 650; }
+  .checks { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 0.85em; }
+  .checks span::before { content: "☐ "; font-size: 1.1em; }
+  .ref-foot { font-size: 0.72em; color: var(--text-muted); margin-top: 14px; border-top: 1px solid var(--border); padding-top: 8px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  @media (max-width: 680px) { .ref-grid { grid-template-columns: 1fr; } }
+
+  @media print {
+    @page { margin: 10mm; }
+    body { font-size: 8.9pt; background: #fff; line-height: 1.45; }
+    .site-nav, .site-footer, .no-print, .lesson-head { display: none !important; }
+    .ref-main { max-width: 100%; padding: 0; }
+    .sheet { border: 0; border-radius: 0; box-shadow: none; padding: 0; margin: 0; }
+    .sheet + .sheet { break-before: page; }
+    .sheet-title { padding-bottom: 3px; margin-bottom: 8px; }
+    .sheet-title h2 { font-size: 1.15em; }
+    .ref-grid { gap: 6px; }
+    .ref-box { padding: 6px 8px; border-width: 1px; }
+    .ref-box h3 { margin-bottom: 4px; }
+    .ref-box li { margin-bottom: 1px; }
+    .ref-box p { margin-bottom: 3px; }
+    .mn-rows { gap: 1px; }
+    .tri > div { padding: 4px 4px; }
+    .checks { gap: 3px 12px; }
+    .write-line { height: 18px; }
+    .form-grid th, .form-grid td { height: 22px; }
+    .ref-box, .tri > div, .vitals-mini th, .form-grid th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#content">Skip to content</a>
+
+<header class="site-nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="2" y="2" width="28" height="28" rx="7" fill="currentColor" opacity="0.12"/><path d="M6 23 L12 12 L16 18 L19 14 L26 23 Z" fill="currentColor" opacity="0.85"/><path d="M16 6 v6 M13 9 h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg><span>Wilderness First Aid</span><span class="brand-sub">Free online course</span></a>
+    <nav class="nav-links" aria-label="Course navigation">
+      <a href="index.html#lessons">All lessons</a>
+      <a href="reference.html" aria-current="page">Field card</a>
+      <a href="kit.html">Your kit</a>
+    </nav>
+  </div>
+</header>
+
+<header class="lesson-head">
+  <div class="wrap">
+    <div class="eyebrow"><span>Field reference</span><span class="dot">2 printable pages</span></div>
+    <h1>Field Reference Card</h1>
+    <p class="lead">Print it, fold it, and keep it with your first aid kit: the assessment sequence and mnemonics on page 1, a fillable patient SOAP form on page 2. Best printed double-sided.</p>
+    <p style="margin-top:16px;"><button class="btn no-print" type="button" onclick="window.print()">🖨 Print the card</button></p>
+  </div>
+</header>
+
+<main id="content" class="wrap ref-main">
+
+  <!-- ============ PAGE 1: QUICK REFERENCE ============ -->
+  <section class="sheet" aria-labelledby="p1-h">
+    <div class="sheet-title">
+      <h2 id="p1-h">Wilderness First Aid — Field Assessment Reference</h2>
+      <span>Page 1 of 2</span>
+    </div>
+
+    <div class="ref-grid">
+
+      <div class="ref-box ref-danger span2">
+        <h3>1 · Scene size-up — before you approach <span class="sub">(you are priority #1)</span></h3>
+        <ul>
+          <li><strong>Hazards:</strong> what hurt them can hurt you — rockfall, water, traffic, weather, animals. Don't become patient #2.</li>
+          <li><strong>Gloves on</strong> (Standard Precautions): treat all blood and body fluids as infectious.</li>
+          <li><strong>How many patients?</strong> Loudest is rarely sickest — quiet patients first.</li>
+          <li><strong>Mechanism of injury:</strong> high energy (fall &gt;3× height, vehicle, diving) = suspect hidden injury.</li>
+          <li><strong>Consent:</strong> ask a responsive adult; unresponsive = implied consent.</li>
+        </ul>
+      </div>
+
+      <div class="ref-box">
+        <h3>2 · First look <span class="sub">— 10-second general impression</span></h3>
+        <div class="tri">
+          <div><strong>Appearance</strong>Alert? Interacting? Posture normal?</div>
+          <div><strong>Breathing</strong>Effort? Noise? Position to breathe?</div>
+          <div><strong>Skin</strong>Pink? Pale, mottled, blue?</div>
+        </div>
+        <p style="margin-top:8px;">Any side abnormal → treat as <strong>sick</strong>: move fast to the primary survey.</p>
+      </div>
+
+      <div class="ref-box">
+        <h3>AVPU <span class="sub">— level of responsiveness</span></h3>
+        <div class="mn-rows">
+          <div class="r"><span class="l">A</span><span>Alert — awake, oriented</span></div>
+          <div class="r"><span class="l">V</span><span>Responds to <strong>Voice</strong></span></div>
+          <div class="r"><span class="l">P</span><span>Responds to <strong>Pain</strong> only</span></div>
+          <div class="r"><span class="l">U</span><span>Unresponsive</span></div>
+        </div>
+        <p style="margin-top:6px;">V, P, or U — or any decline — is a red flag. Recheck often; the <em>trend</em> matters most.</p>
+      </div>
+
+      <div class="ref-box ref-danger span2">
+        <h3>3 · XABCDE primary survey <span class="sub">— find and fix life threats, in order</span></h3>
+        <div class="mn-rows">
+          <div class="r"><span class="l">X</span><span><strong>Exsanguinating hemorrhage</strong> — severe bleeding first: direct pressure; tourniquet for limb bleeding that pressure can't control.</span></div>
+          <div class="r"><span class="l">A</span><span><strong>Airway</strong> — open and clear it (jaw thrust if spine concern). Talking = open airway.</span></div>
+          <div class="r"><span class="l">B</span><span><strong>Breathing</strong> — look, listen, feel. Not breathing normally → begin CPR/rescue breathing per your training.</span></div>
+          <div class="r"><span class="l">C</span><span><strong>Circulation</strong> — pulse rate and quality, skin color/temp/moisture, treat for shock (keep flat, keep warm).</span></div>
+          <div class="r"><span class="l">D</span><span><strong>Disability</strong> — AVPU, pupils, protect the spine if the mechanism suggests injury.</span></div>
+          <div class="r"><span class="l">E</span><span><strong>Expose / Environment</strong> — expose to examine injuries, then protect from heat/cold. Hypothermia worsens everything.</span></div>
+        </div>
+      </div>
+
+      <div class="ref-box">
+        <h3>SAMPLE <span class="sub">— history</span></h3>
+        <div class="mn-rows">
+          <div class="r"><span class="l">S</span><span>Signs &amp; symptoms</span></div>
+          <div class="r"><span class="l">A</span><span>Allergies</span></div>
+          <div class="r"><span class="l">M</span><span>Medications</span></div>
+          <div class="r"><span class="l">P</span><span>Past history</span></div>
+          <div class="r"><span class="l">L</span><span>Last oral intake</span></div>
+          <div class="r"><span class="l">E</span><span>Events leading up</span></div>
+        </div>
+      </div>
+
+      <div class="ref-box">
+        <h3>OPQRST <span class="sub">— pain / complaint</span></h3>
+        <div class="mn-rows">
+          <div class="r"><span class="l">O</span><span>Onset — sudden or gradual?</span></div>
+          <div class="r"><span class="l">P</span><span>Provocation — better/worse?</span></div>
+          <div class="r"><span class="l">Q</span><span>Quality — sharp, dull, crampy?</span></div>
+          <div class="r"><span class="l">R</span><span>Radiation — does it travel?</span></div>
+          <div class="r"><span class="l">S</span><span>Severity — 0–10 now vs. before</span></div>
+          <div class="r"><span class="l">T</span><span>Time — when did it start?</span></div>
+        </div>
+      </div>
+
+      <div class="ref-box">
+        <h3>Head-to-toe exam <span class="sub">— DCAP-BTLS, feel for:</span></h3>
+        <p><strong>D</strong>eformity · <strong>C</strong>ontusions · <strong>A</strong>brasions · <strong>P</strong>unctures · <strong>B</strong>urns · <strong>T</strong>enderness · <strong>L</strong>acerations · <strong>S</strong>welling</p>
+        <p>Compare side to side. Check CSM (circulation, sensation, movement) beyond every injured limb — before and after splinting.</p>
+      </div>
+
+      <div class="ref-box">
+        <h3>Normal adult vitals</h3>
+        <table class="vitals-mini">
+          <tr><th>Pulse</th><td>60–100/min <span style="color:var(--text-muted)">(count 15 s × 4)</span></td></tr>
+          <tr><th>Breathing</th><td>12–20/min <span style="color:var(--text-muted)">(count 60 s)</span></td></tr>
+          <tr><th>Skin</th><td>Pink, warm, dry · cap refill &lt; 2 s</td></tr>
+          <tr><th>Recheck</th><td>Stable q15 min · unstable q5 min</td></tr>
+        </table>
+      </div>
+
+      <div class="ref-box ref-danger span2">
+        <h3>Evacuation urgency <span class="sub">— judge the trend, not just the snapshot</span></h3>
+        <ul>
+          <li><strong>URGENT (within hours):</strong> life threats · deteriorating patient · altered mental status · shock signs · spine injury · severe hypothermia or heat stroke · suspected heart attack/stroke · anaphylaxis · open fractures. <strong>Activate rescue immediately.</strong></li>
+          <li><strong>NON-URGENT (12–24 h):</strong> stable closed fractures · early infection · controlled bleeding · wounds needing closure. Litter or assisted walk.</li>
+          <li><strong>SELF-EVACUATE / STAY:</strong> minor sprains (can bear weight) · superficial wounds · fatigue. Know the red flags that change the plan.</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="ref-foot">
+      <span>Wilderness First Aid — free online course · owenriverk.github.io/wfa-precourse</span>
+      <span>Educational use only — not a substitute for hands-on training or professional care.</span>
+    </div>
+  </section>
+
+  <!-- ============ PAGE 2: PATIENT FORM ============ -->
+  <section class="sheet" aria-labelledby="p2-h">
+    <div class="sheet-title">
+      <h2 id="p2-h">Patient SOAP Note — Field Form</h2>
+      <span>Page 2 of 2</span>
+    </div>
+
+    <div class="form-row" style="grid-template-columns: 2fr 1fr 1fr;">
+      <div><label>Patient name</label><div class="write-line"></div></div>
+      <div><label>Age / Sex</label><div class="write-line"></div></div>
+      <div><label>Date / Time found</label><div class="write-line"></div></div>
+    </div>
+    <div class="form-row" style="grid-template-columns: 1fr;">
+      <div><label>Location (coordinates / trail / landmark)</label><div class="write-line"></div></div>
+    </div>
+
+    <div class="ref-grid">
+      <div class="ref-box span2">
+        <h3>S · Subjective <span class="sub">— chief complaint, SAMPLE, OPQRST</span></h3>
+        <div class="checks" style="margin-bottom:6px;"><span>Allergies asked</span><span>Meds asked</span><span>Past history</span><span>Last intake</span><span>Events</span></div>
+        <div class="write-lines"><div class="write-line"></div><div class="write-line"></div><div class="write-line"></div></div>
+      </div>
+
+      <div class="ref-box span2">
+        <h3>O · Objective — serial vital signs <span class="sub">(stable q15 min · unstable q5 min)</span></h3>
+        <table class="form-grid">
+          <thead><tr><th style="width:14%">Time</th><th style="width:12%">AVPU</th><th style="width:14%">Pulse</th><th style="width:14%">Breaths</th><th style="width:24%">Skin (color/temp/moist)</th><th>Pain 0–10 / notes</th></tr></thead>
+          <tbody>
+            <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:8px; margin-bottom:2px;"><strong>Exam findings</strong> (head-to-toe, DCAP-BTLS, CSM):</p>
+        <div class="write-lines"><div class="write-line"></div><div class="write-line"></div></div>
+      </div>
+
+      <div class="ref-box">
+        <h3>A · Assessment <span class="sub">— what do you think is going on?</span></h3>
+        <div class="write-lines"><div class="write-line"></div><div class="write-line"></div></div>
+      </div>
+
+      <div class="ref-box">
+        <h3>P · Plan <span class="sub">— treatment + evacuation</span></h3>
+        <div class="checks" style="margin-bottom:6px;"><span>Urgent</span><span>Non-urgent</span><span>Self-evac / stay</span></div>
+        <div class="write-lines"><div class="write-line"></div><div class="write-line"></div></div>
+      </div>
+
+      <div class="ref-box span2">
+        <h3>Calling for help — MIST report</h3>
+        <div class="form-row" style="grid-template-columns: 1fr 1fr; margin-bottom:0;">
+          <div><label>M — Mechanism (what happened)</label><div class="write-line"></div></div>
+          <div><label>I — Injuries found</label><div class="write-line"></div></div>
+          <div><label>S — Signs / vitals now</label><div class="write-line"></div></div>
+          <div><label>T — Treatment given</label><div class="write-line"></div></div>
+        </div>
+        <p style="margin-top:8px; margin-bottom:0;">Also give: your location · party size · terrain/weather · resources on scene. Helicopter needs ~100 × 100 ft clear, level area.</p>
+      </div>
+    </div>
+
+    <div class="ref-foot">
+      <span>Hand this form to rescuers or medical providers when you transfer care.</span>
+      <span>Wilderness First Aid — free online course</span>
+    </div>
+  </section>
+
+  <p class="no-print" style="margin: 8px 0 0;"><a href="index.html">&larr; Back to the course</a> · Full detail lives in <a href="lessons/02_Patient_Assessment.html">Lesson 2: Patient Assessment</a> and <a href="lessons/13_Evacuation.html">Lesson 13: Evacuation</a>.</p>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#lessons">All lessons</a>
+      <a href="kit.html">Kit checklist</a>
+      <a href="final_exam.html">Final exam</a>
+      <a href="https://github.com/owenriverk/wfa-precourse">Source on GitHub</a>
+    </div>
+    <p class="foot-disclaimer">Educational use only. This course teaches lay-rescuer wilderness first aid and does not replace hands-on training or professional medical care. In an emergency, call your local emergency number.</p>
+  </div>
+</footer>
+
+</body>
+</html>

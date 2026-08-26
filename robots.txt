@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /final_exam.html
+
+Sitemap: https://owenriverk.github.io/wfa-precourse/sitemap.xml
