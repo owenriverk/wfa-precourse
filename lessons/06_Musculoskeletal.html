@@ -1,1160 +1,712 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson 06: Musculoskeletal Injuries</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #E8F0FE;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #1B4F8A 0%, #2C7BE5 100%);
-            color: white;
-            padding: 30px 20px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 2.2em;
-            margin-bottom: 10px;
-        }
-
-        .header-meta {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            font-size: 0.95em;
-            margin-top: 15px;
-        }
-
-        .tabs-container {
-            display: flex;
-            flex-wrap: wrap;
-            background: white;
-            border-bottom: 2px solid #2C7BE5;
-            overflow-x: auto;
-            padding: 0 20px;
-        }
-
-        .tab-button {
-            padding: 15px 20px;
-            border: none;
-            background: none;
-            cursor: pointer;
-            font-size: 0.95em;
-            font-weight: 500;
-            color: #666;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
-
-        .tab-button:hover {
-            color: #2C7BE5;
-        }
-
-        .tab-button.active {
-            color: #1B4F8A;
-            border-bottom-color: #2C7BE5;
-        }
-
-        .content {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        .section {
-            display: none;
-            animation: fadeIn 0.3s ease-in;
-        }
-
-        .section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .section h2 {
-            color: #1B4F8A;
-            font-size: 1.8em;
-            margin-bottom: 20px;
-            border-left: 5px solid #2C7BE5;
-            padding-left: 15px;
-        }
-
-        .section h3 {
-            color: #2C7BE5;
-            font-size: 1.3em;
-            margin-top: 25px;
-            margin-bottom: 12px;
-        }
-
-        p {
-            margin-bottom: 15px;
-            line-height: 1.8;
-        }
-
-        .alert {
-            padding: 15px 20px;
-            margin: 20px 0;
-            border-left: 5px solid;
-            border-radius: 4px;
-            background-color: #f9f9f9;
-        }
-
-        .alert-danger {
-            border-left-color: #C0392B;
-            background-color: #fadbd8;
-            color: #7b241c;
-        }
-
-        .alert-warning {
-            border-left-color: #D35400;
-            background-color: #fdebd0;
-            color: #6e2c0a;
-        }
-
-        .alert-info {
-            border-left-color: #2C7BE5;
-            background-color: #d6eaf8;
-            color: #1B4F8A;
-        }
-
-        .alert-success {
-            border-left-color: #1A6B3A;
-            background-color: #d5f4e6;
-            color: #0b3618;
-        }
-
-        .table-wrapper {
-            overflow-x: auto;
-            margin: 20px 0;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        thead {
-            background-color: #1B4F8A;
-            color: white;
-        }
-
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        tbody tr:hover {
-            background-color: #E8F0FE;
-        }
-
-        .scenario {
-            background: white;
-            border: 2px solid #2C7BE5;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 20px 0;
-        }
-
-        .scenario-title {
-            font-weight: bold;
-            color: #1B4F8A;
-            font-size: 1.1em;
-            margin-bottom: 10px;
-        }
-
-        .scenario-case {
-            font-style: italic;
-            background: #E8F0FE;
-            padding: 15px;
-            border-radius: 4px;
-            margin: 10px 0;
-        }
-
-        .toggle-button {
-            background-color: #2C7BE5;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            margin: 10px 0;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background-color 0.3s;
-        }
-
-        .toggle-button:hover {
-            background-color: #1B4F8A;
-        }
-
-        .discussion {
-            display: none;
-            background: #d6eaf8;
-            padding: 15px;
-            margin-top: 10px;
-            border-radius: 4px;
-            border-left: 4px solid #2C7BE5;
-        }
-
-        .discussion.show {
-            display: block;
-        }
-
-        .quiz-section {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-        }
-
-        .question-box {
-            margin: 25px 0;
-            padding: 20px;
-            background: #f5f5f5;
-            border-radius: 6px;
-            border-left: 4px solid #2C7BE5;
-        }
-
-        .question-text {
-            font-weight: bold;
-            color: #1B4F8A;
-            margin-bottom: 15px;
-            font-size: 1.05em;
-        }
-
-        .answer-option {
-            display: block;
-            width: 100%;
-            text-align: left;
-            padding: 12px 15px;
-            margin: 8px 0;
-            border: 2px solid #ddd;
-            border-radius: 4px;
-            background: white;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.98em;
-        }
-
-        .answer-option:hover {
-            border-color: #2C7BE5;
-            background-color: #E8F0FE;
-        }
-
-        .answer-option.correct {
-            background-color: #d5f4e6;
-            border-color: #1A6B3A;
-            color: #0b3618;
-        }
-
-        .answer-option.incorrect {
-            background-color: #fadbd8;
-            border-color: #C0392B;
-            color: #7b241c;
-        }
-
-        .answer-option:disabled {
-            cursor: default;
-        }
-
-        .explanation {
-            display: none;
-            margin-top: 10px;
-            padding: 12px;
-            background: white;
-            border-radius: 4px;
-            font-size: 0.95em;
-            color: #333;
-        }
-
-        .explanation.show {
-            display: block;
-        }
-
-        .score-box {
-            background: linear-gradient(135deg, #1A6B3A 0%, #2d8a57 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            font-size: 1.3em;
-            font-weight: bold;
-            margin: 20px 0;
-        }
-
-        .glossary {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-        }
-
-        .glossary-item {
-            margin: 15px 0;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .glossary-item:last-child {
-            border-bottom: none;
-        }
-
-        .term {
-            font-weight: bold;
-            color: #1B4F8A;
-            font-size: 1.05em;
-        }
-
-        .definition {
-            color: #555;
-            margin-top: 5px;
-            font-size: 0.95em;
-        }
-
-        .footer {
-            background: #1B4F8A;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            margin-top: 40px;
-        }
-
-        .nav-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 900px;
-            margin: 0 auto;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .nav-link {
-            color: white;
-            text-decoration: none;
-            padding: 8px 15px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 4px;
-            transition: background 0.3s;
-        }
-
-        .nav-link:hover {
-            background: rgba(255,255,255,0.3);
-        }
-
-        .objectives {
-            background: #E8F0FE;
-            border-left: 4px solid #2C7BE5;
-            padding: 15px 20px;
-            margin: 20px 0;
-            border-radius: 4px;
-        }
-
-        .objectives h4 {
-            color: #1B4F8A;
-            margin-bottom: 10px;
-        }
-
-        .objectives ul {
-            margin-left: 20px;
-        }
-
-        .objectives li {
-            margin: 8px 0;
-            color: #333;
-        }
-
-        .key-point {
-            background: #fdebd0;
-            border-left: 4px solid #D35400;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 4px;
-        }
-
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.5em;
-            }
-
-            .header-meta {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .tab-button {
-                padding: 12px 15px;
-                font-size: 0.85em;
-            }
-
-            .nav-footer {
-                justify-content: center;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Musculoskeletal Injuries — Lesson 6 | Wilderness First Aid</title>
+<meta name="description" content="Fractures, dislocations, splinting, neurovascular assessment. Free online wilderness first aid lesson with scenarios and a self-check quiz.">
+<meta name="theme-color" content="#1B4F8A">
+<link rel="canonical" href="https://owenriverk.github.io/wfa-precourse/lessons/06_Musculoskeletal.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Musculoskeletal Injuries — Lesson 6 of 15">
+<meta property="og:description" content="Fractures, dislocations, splinting, neurovascular assessment.">
+<meta property="og:url" content="https://owenriverk.github.io/wfa-precourse/lessons/06_Musculoskeletal.html">
+<meta property="og:site_name" content="Wilderness First Aid — free online course">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/site.css">
 </head>
-<body>
-    <div class="header">
-        <h1>Lesson 06: Musculoskeletal Injuries</h1>
-        <div class="header-meta">
-            <span>⏱️ Estimated Reading Time: 35 minutes</span>
-            <span>📚 Wilderness First Aid Course</span>
-        </div>
-    </div>
+<body class="lesson" data-lesson-id="06" data-next-href="07_Spine.html" data-next-title="Head, Neck &amp; Spine Injuries">
+<a class="skip-link" href="#content">Skip to lesson content</a>
 
-    <div class="tabs-container">
-        <button class="tab-button active" onclick="switchTab('overview')">Overview</button>
-        <button class="tab-button" onclick="switchTab('anatomy')">Anatomy & Types</button>
-        <button class="tab-button" onclick="switchTab('assessment')">Assessment</button>
-        <button class="tab-button" onclick="switchTab('splinting')">Splinting</button>
-        <button class="tab-button" onclick="switchTab('dislocations')">Dislocations</button>
-        <button class="tab-button" onclick="switchTab('special')">Special Cases</button>
-        <button class="tab-button" onclick="switchTab('scenarios')">Scenarios</button>
-        <button class="tab-button" onclick="switchTab('quiz')">Quiz</button>
-        <button class="tab-button" onclick="switchTab('summary')">Summary</button>
-    </div>
-    <div id="step-indicator" style="background:#F0F4F8;border-bottom:1px solid #CBD5E0;padding:8px 20px;font-size:13px;color:#718096;display:flex;gap:16px;align-items:center;">
-      <span id="step-text">Step 1 of 9</span>
-      <div id="step-dots" style="display:flex;gap:6px;"></div>
-    </div>
+<header class="site-nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="2" y="2" width="28" height="28" rx="7" fill="currentColor" opacity="0.12"/><path d="M6 23 L12 12 L16 18 L19 14 L26 23 Z" fill="currentColor" opacity="0.85"/><path d="M16 6 v6 M13 9 h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg><span>Wilderness First Aid</span><span class="brand-sub">Free online course</span></a>
+    <span class="lesson-pos">Lesson 6 of 15</span>
+    <nav class="nav-links" aria-label="Course navigation">
+      <a class="hide-sm" href="../index.html#lessons">All lessons</a>
+      <a class="icon-btn" href="05_Shock.html" aria-label="Previous lesson: Shock Recognition &amp; Treatment"><span aria-hidden="true">←</span></a>
+      <a class="icon-btn" href="07_Spine.html" aria-label="Next lesson: Head, Neck &amp; Spine Injuries"><span aria-hidden="true">→</span></a>
+    </nav>
+  </div>
+</header>
 
-    <div class="content">
-        <!-- OVERVIEW -->
-        <div id="overview" class="section active">
-            <h2>Overview</h2>
+<header class="lesson-head">
+  <div class="wrap">
+    <div class="eyebrow"><span>Lesson 06</span><span class="dot">35 minutes</span><span class="dot">9 sections</span></div>
+    <h1>Musculoskeletal Injuries</h1>
+    <p class="lead">Fractures, dislocations, splinting, neurovascular assessment.</p>
+    <div class="tags"><span class="badge tag-blue">Fractures</span><span class="badge tag-blue">Splinting</span><span class="badge tag-blue">CSM Check</span><span class="badge tag-orange">Dislocations</span></div>
+  </div>
+</header>
 
-            <div class="objectives">
-                <h4>Learning Objectives</h4>
-                <ul>
-                    <li>Understand skeletal anatomy and classify fracture and dislocation types</li>
-                    <li>Perform proper neurovascular assessment (the 6 Ps and CSM)</li>
-                    <li>Apply splinting principles and identify specific splinting techniques</li>
-                    <li>Manage dislocations by splinting in the position of comfort, monitoring CSM, and evacuating</li>
-                    <li>Manage open fractures, dislocations, and special scenarios (amputations, compartment syndrome)</li>
-                    <li>Understand Ottawa Rules for ankle and knee injuries</li>
-                </ul>
-            </div>
+<main id="content" class="wrap">
+  <div class="lesson-body">
+    <nav class="lesson-toc" aria-label="Lesson sections">
+      <p class="toc-label">In this lesson</p>
+      <div class="tablist" role="tablist">
+        <button class="tab" role="tab" id="tab-overview" aria-controls="overview" aria-selected="false" tabindex="-1"><span class="tab-n" aria-hidden="true">1</span><span class="tab-label">Overview</span></button>
+        <button class="tab" role="tab" id="tab-anatomy" aria-controls="anatomy" aria-selected="false" tabindex="-1"><span class="tab-n" aria-hidden="true">2</span><span class="tab-label">Anatomy & Types</span></button>
+        <button class="tab" role="tab" id="tab-assessment" aria-controls="assessment" aria-selected="false" tabindex="-1"><span class="tab-n" aria-hidden="true">3</span><span class="tab-label">Assessment</span></button>
+        <button class="tab" role="tab" id="tab-splinting" aria-controls="splinting" aria-selected="false" tabindex="-1"><span class="tab-n" aria-hidden="true">4</span><span class="tab-label">Splinting</span></button>
+        <button class="tab" role="tab" id="tab-dislocations" aria-controls="dislocations" aria-selected="false" tabindex="-1"><span class="tab-n" aria-hidden="true">5</span><span class="tab-label">Dislocations</span></button>
+        <button class="tab" role="tab" id="tab-special" aria-controls="special" aria-selected="false" tabindex="-1"><span class="tab-n" aria-hidden="true">6</span><span class="tab-label">Special Cases</span></button>
+        <button class="tab" role="tab" id="tab-scenarios" aria-controls="scenarios" aria-selected="false" tabindex="-1"><span class="tab-n" aria-hidden="true">7</span><span class="tab-label">Scenarios</span></button>
+        <button class="tab" role="tab" id="tab-quiz" aria-controls="quiz" aria-selected="false" tabindex="-1"><span class="tab-n" aria-hidden="true">8</span><span class="tab-label">Quiz</span></button>
+        <button class="tab" role="tab" id="tab-summary" aria-controls="summary" aria-selected="false" tabindex="-1"><span class="tab-n" aria-hidden="true">9</span><span class="tab-label">Summary</span></button>
+      </div>
+      <div class="toc-progress"><span class="label">0 of 9 sections viewed</span><div class="bar" aria-hidden="true"><span></span></div></div>
+    </nav>
 
-            <p>Musculoskeletal injuries are among the most common injuries encountered in wilderness settings. A twisted ankle on a hiking trail, a fall onto an outstretched hand, or a climbing accident can all result in fractures or dislocations. In remote settings, proper field management is critical because evacuation may take hours or days.</p>
+    <div class="lesson-content">
+      <section class="section" id="overview" role="tabpanel" aria-labelledby="tab-overview" tabindex="0" hidden>
+        <h2>Overview</h2>
 
-            <p>This lesson covers the assessment and management of fractures and dislocations using wilderness-appropriate techniques. Your priorities are: assess neurovascular status, prevent further injury, immobilize/splint, reassess, and evacuate appropriately.</p>
-
-            <div class="alert alert-danger">
-                <strong>Critical Principle:</strong> Neurovascular compromise (absent pulse, loss of sensation, or paralysis distal to the injury) is an emergency requiring rapid evacuation. Pain by itself is not neurovascular compromise — but pain with passive stretch suggests compartment syndrome, covered later in this lesson. Do not delay if blood flow is compromised.
-            </div>
-        </div>
-
-        <!-- ANATOMY & INJURY TYPES -->
-        <div id="anatomy" class="section">
-            <h2>Anatomy & Injury Types</h2>
-
-            <h3>Skeletal Anatomy Basics</h3>
-            <p>The skeletal system consists of:</p>
-            <ul style="margin-left: 20px;">
-                <li><strong>Long Bones:</strong> Femur, tibia, humerus, radius, ulna. Composed of a shaft (diaphysis) and ends (epiphysis) with a growth plate in children.</li>
-                <li><strong>Joints:</strong> Where two or more bones meet. Held together by ligaments. Cartilage covers bone ends to reduce friction.</li>
-                <li><strong>Tendons:</strong> Connect muscles to bone.</li>
-                <li><strong>Ligaments:</strong> Connect bone to bone, stabilizing joints.</li>
-            </ul>
-
-            <h3>Fracture Classification: Open vs. Closed</h3>
-
-            <p><strong>Closed Fracture:</strong> Bone is broken but skin is intact. No direct communication between fracture and environment.</p>
-
-            <p><strong>Open (Compound) Fracture:</strong> Bone is broken AND skin is broken, allowing direct contamination. Risk of infection and greater blood loss. More serious than closed fractures.</p>
-
-            <h3>Fracture Types by Pattern</h3>
-
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Type</th>
-                            <th>Description</th>
-                            <th>Typical Mechanism</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Transverse</strong></td>
-                            <td>Fracture line perpendicular to bone shaft</td>
-                            <td>Direct blow or bending force</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Oblique</strong></td>
-                            <td>Fracture line at an angle (45°) to bone shaft</td>
-                            <td>Twisting or combined bending/axial load</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Spiral</strong></td>
-                            <td>Fracture line wraps around bone shaft</td>
-                            <td>Twisting force (common in skiing injuries)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Comminuted</strong></td>
-                            <td>Bone broken into 3+ pieces</td>
-                            <td>High-energy trauma (e.g., car crash, fall from height)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Greenstick</strong></td>
-                            <td>Incomplete break; bone bends but doesn't completely fracture (common in children)</td>
-                            <td>Bending force in flexible pediatric bone</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <h3>Dislocation</h3>
-            <p>A dislocation (luxation) is displacement of a bone from its normal position at a joint. Often accompanied by tearing of ligaments and supporting structures. Common sites: shoulder, patella (kneecap), elbow, fingers. Note: a true knee (tibiofemoral) dislocation is a rare, limb-threatening emergency — do not confuse it with a kneecap (patella) dislocation.</p>
-
-            <h3>Sprain vs. Strain</h3>
-            <ul style="margin-left: 20px;">
-                <li><strong>Sprain:</strong> Tear of ligament (bone-to-bone) from excessive joint motion. Usually swelling, bruising, pain with movement.</li>
-                <li><strong>Strain:</strong> Tear of muscle or tendon. May be acute or chronic. Pain and weakness.</li>
-            </ul>
-
-            <h3>Mechanism of Injury Patterns</h3>
-            <p>Understanding the mechanism helps predict which structures are injured:</p>
-            <ul style="margin-left: 20px;">
-                <li><strong>Fall on outstretched hand (FOOSH):</strong> Often causes wrist fractures (Colles' fracture) or shoulder dislocation</li>
-                <li><strong>Axial load (impact from above):</strong> Vertebral compression fractures or femur fractures</li>
-                <li><strong>Twisting:</strong> Ankle sprains, spiral fractures of tibia</li>
-                <li><strong>Hyperextension:</strong> Knee ligament injuries, elbow dislocations</li>
+        <div class="objectives">
+            <h4>Learning Objectives</h4>
+            <ul>
+                <li>Understand skeletal anatomy and classify fracture and dislocation types</li>
+                <li>Perform proper neurovascular assessment (the 6 Ps and CSM)</li>
+                <li>Apply splinting principles and identify specific splinting techniques</li>
+                <li>Manage dislocations by splinting in the position of comfort, monitoring CSM, and evacuating</li>
+                <li>Manage open fractures, dislocations, and special scenarios (amputations, compartment syndrome)</li>
+                <li>Understand Ottawa Rules for ankle and knee injuries</li>
             </ul>
         </div>
 
-        <!-- ASSESSMENT -->
-        <div id="assessment" class="section">
-            <h2>Assessment of Musculoskeletal Injuries</h2>
+        <p>Musculoskeletal injuries are among the most common injuries encountered in wilderness settings. A twisted ankle on a hiking trail, a fall onto an outstretched hand, or a climbing accident can all result in fractures or dislocations. In remote settings, proper field management is critical because evacuation may take hours or days.</p>
 
-            <h3>Secondary Survey Tool: DCAP-BTLS</h3>
-            <p>During the secondary survey (after life threats are addressed), assess the injury site for:</p>
-            <ul style="margin-left: 20px;">
-                <li><strong>D</strong>eformity: Is the limb angulated or shortened compared to the opposite side?</li>
-                <li><strong>C</strong>ontusions: Bruising indicating trauma</li>
-                <li><strong>A</strong>brasions: Scraping suggesting mechanism</li>
-                <li><strong>P</strong>unctures/Penetrations: Holes in the skin; if over a fracture site = open fracture</li>
-                <li><strong>B</strong>urns: Check for thermal injury</li>
-                <li><strong>T</strong>enderness: Palpate gently; point tenderness over bone suggests fracture</li>
-                <li><strong>L</strong>acerations: Cuts in the skin; if over a fracture site = open fracture</li>
-                <li><strong>S</strong>welling: Edema from bleeding into tissues</li>
-            </ul>
+        <p>This lesson covers the assessment and management of fractures and dislocations using wilderness-appropriate techniques. Your priorities are: assess neurovascular status, prevent further injury, immobilize/splint, reassess, and evacuate appropriately.</p>
 
-            <h3>Neurovascular Assessment: The 6 Ps</h3>
+        <div class="alert alert-danger">
+            <strong>Critical Principle:</strong> Neurovascular compromise (absent pulse, loss of sensation, or paralysis distal to the injury) is an emergency requiring rapid evacuation. Pain by itself is not neurovascular compromise — but pain with passive stretch suggests compartment syndrome, covered later in this lesson. Do not delay if blood flow is compromised.
+        </div>
+      </section>
+      <section class="section" id="anatomy" role="tabpanel" aria-labelledby="tab-anatomy" tabindex="0" hidden>
+        <h2>Anatomy & Injury Types</h2>
 
-            <div class="alert alert-danger">
-                <strong>Critical:</strong> Perform neurovascular checks BEFORE and AFTER splinting. If neurovascular status worsens after splinting, loosen the splint immediately.
-            </div>
+        <h3>Skeletal Anatomy Basics</h3>
+        <p>The skeletal system consists of:</p>
+        <ul style="margin-left: 20px;">
+            <li><strong>Long Bones:</strong> Femur, tibia, humerus, radius, ulna. Composed of a shaft (diaphysis) and ends (epiphysis) with a growth plate in children.</li>
+            <li><strong>Joints:</strong> Where two or more bones meet. Held together by ligaments. Cartilage covers bone ends to reduce friction.</li>
+            <li><strong>Tendons:</strong> Connect muscles to bone.</li>
+            <li><strong>Ligaments:</strong> Connect bone to bone, stabilizing joints.</li>
+        </ul>
 
-            <p><strong>The 6 Ps of Neurovascular Assessment:</strong></p>
+        <h3>Fracture Classification: Open vs. Closed</h3>
 
+        <p><strong>Closed Fracture:</strong> Bone is broken but skin is intact. No direct communication between fracture and environment.</p>
+
+        <p><strong>Open (Compound) Fracture:</strong> Bone is broken AND skin is broken, allowing direct contamination. Risk of infection and greater blood loss. More serious than closed fractures.</p>
+
+        <h3>Fracture Types by Pattern</h3>
+
+        <div class="table-wrapper">
             <table>
                 <thead>
                     <tr>
-                        <th>P</th>
-                        <th>Assessment</th>
-                        <th>Concerning Finding</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Typical Mechanism</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong>Pain</strong></td>
-                        <td>Ask about pain severity and character. Severe pain disproportionate to injury suggests compartment syndrome.</td>
-                        <td>Severe pain with passive stretch; pain out of proportion</td>
+                        <td><strong>Transverse</strong></td>
+                        <td>Fracture line perpendicular to bone shaft</td>
+                        <td>Direct blow or bending force</td>
                     </tr>
                     <tr>
-                        <td><strong>Pallor</strong></td>
-                        <td>Check skin color distal to injury. Compare to opposite limb.</td>
-                        <td>Pale, white, or cyanotic (blue) skin distal to injury</td>
+                        <td><strong>Oblique</strong></td>
+                        <td>Fracture line at an angle (45°) to bone shaft</td>
+                        <td>Twisting or combined bending/axial load</td>
                     </tr>
                     <tr>
-                        <td><strong>Pulse</strong></td>
-                        <td>Palpate distal pulse (e.g., dorsalis pedis for ankle, radial for wrist).</td>
-                        <td>Absent or very weak pulse distally</td>
+                        <td><strong>Spiral</strong></td>
+                        <td>Fracture line wraps around bone shaft</td>
+                        <td>Twisting force (common in skiing injuries)</td>
                     </tr>
                     <tr>
-                        <td><strong>Paresthesia</strong></td>
-                        <td>Ask about tingling or "pins and needles" sensation.</td>
-                        <td>Numbness, tingling, or burning distal to injury</td>
+                        <td><strong>Comminuted</strong></td>
+                        <td>Bone broken into 3+ pieces</td>
+                        <td>High-energy trauma (e.g., car crash, fall from height)</td>
                     </tr>
                     <tr>
-                        <td><strong>Paralysis</strong></td>
-                        <td>Test motor function distal to injury (move fingers/toes on command).</td>
-                        <td>Weakness or inability to move distal structures</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Pressure</strong></td>
-                        <td>Palpate the limb. Look for tense, swollen compartments.</td>
-                        <td>Tight, swollen compartments; tenseness with passive stretch pain</td>
+                        <td><strong>Greenstick</strong></td>
+                        <td>Incomplete break; bone bends but doesn't completely fracture (common in children)</td>
+                        <td>Bending force in flexible pediatric bone</td>
                     </tr>
                 </tbody>
             </table>
+        </div>
 
-            <h3>CSM Assessment</h3>
-            <p><strong>CSM = Circulation, Sensation, Motion</strong> — a simpler version of the 6 Ps:</p>
-            <ul style="margin-left: 20px;">
-                <li><strong>C - Circulation:</strong> Distal pulse, skin color/temperature, capillary refill</li>
-                <li><strong>S - Sensation:</strong> Can patient feel touch/pain distal to injury?</li>
-                <li><strong>M - Motion:</strong> Can patient move fingers/toes on command?</li>
+        <h3>Dislocation</h3>
+        <p>A dislocation (luxation) is displacement of a bone from its normal position at a joint. Often accompanied by tearing of ligaments and supporting structures. Common sites: shoulder, patella (kneecap), elbow, fingers. Note: a true knee (tibiofemoral) dislocation is a rare, limb-threatening emergency — do not confuse it with a kneecap (patella) dislocation.</p>
+
+        <h3>Sprain vs. Strain</h3>
+        <ul style="margin-left: 20px;">
+            <li><strong>Sprain:</strong> Tear of ligament (bone-to-bone) from excessive joint motion. Usually swelling, bruising, pain with movement.</li>
+            <li><strong>Strain:</strong> Tear of muscle or tendon. May be acute or chronic. Pain and weakness.</li>
+        </ul>
+
+        <h3>Mechanism of Injury Patterns</h3>
+        <p>Understanding the mechanism helps predict which structures are injured:</p>
+        <ul style="margin-left: 20px;">
+            <li><strong>Fall on outstretched hand (FOOSH):</strong> Often causes wrist fractures (Colles' fracture) or shoulder dislocation</li>
+            <li><strong>Axial load (impact from above):</strong> Vertebral compression fractures or femur fractures</li>
+            <li><strong>Twisting:</strong> Ankle sprains, spiral fractures of tibia</li>
+            <li><strong>Hyperextension:</strong> Knee ligament injuries, elbow dislocations</li>
+        </ul>
+      </section>
+      <section class="section" id="assessment" role="tabpanel" aria-labelledby="tab-assessment" tabindex="0" hidden>
+        <h2>Assessment of Musculoskeletal Injuries</h2>
+
+        <h3>Secondary Survey Tool: DCAP-BTLS</h3>
+        <p>During the secondary survey (after life threats are addressed), assess the injury site for:</p>
+        <ul style="margin-left: 20px;">
+            <li><strong>D</strong>eformity: Is the limb angulated or shortened compared to the opposite side?</li>
+            <li><strong>C</strong>ontusions: Bruising indicating trauma</li>
+            <li><strong>A</strong>brasions: Scraping suggesting mechanism</li>
+            <li><strong>P</strong>unctures/Penetrations: Holes in the skin; if over a fracture site = open fracture</li>
+            <li><strong>B</strong>urns: Check for thermal injury</li>
+            <li><strong>T</strong>enderness: Palpate gently; point tenderness over bone suggests fracture</li>
+            <li><strong>L</strong>acerations: Cuts in the skin; if over a fracture site = open fracture</li>
+            <li><strong>S</strong>welling: Edema from bleeding into tissues</li>
+        </ul>
+
+        <h3>Neurovascular Assessment: The 6 Ps</h3>
+
+        <div class="alert alert-danger">
+            <strong>Critical:</strong> Perform neurovascular checks BEFORE and AFTER splinting. If neurovascular status worsens after splinting, loosen the splint immediately.
+        </div>
+
+        <p><strong>The 6 Ps of Neurovascular Assessment:</strong></p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>P</th>
+                    <th>Assessment</th>
+                    <th>Concerning Finding</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Pain</strong></td>
+                    <td>Ask about pain severity and character. Severe pain disproportionate to injury suggests compartment syndrome.</td>
+                    <td>Severe pain with passive stretch; pain out of proportion</td>
+                </tr>
+                <tr>
+                    <td><strong>Pallor</strong></td>
+                    <td>Check skin color distal to injury. Compare to opposite limb.</td>
+                    <td>Pale, white, or cyanotic (blue) skin distal to injury</td>
+                </tr>
+                <tr>
+                    <td><strong>Pulse</strong></td>
+                    <td>Palpate distal pulse (e.g., dorsalis pedis for ankle, radial for wrist).</td>
+                    <td>Absent or very weak pulse distally</td>
+                </tr>
+                <tr>
+                    <td><strong>Paresthesia</strong></td>
+                    <td>Ask about tingling or "pins and needles" sensation.</td>
+                    <td>Numbness, tingling, or burning distal to injury</td>
+                </tr>
+                <tr>
+                    <td><strong>Paralysis</strong></td>
+                    <td>Test motor function distal to injury (move fingers/toes on command).</td>
+                    <td>Weakness or inability to move distal structures</td>
+                </tr>
+                <tr>
+                    <td><strong>Pressure</strong></td>
+                    <td>Palpate the limb. Look for tense, swollen compartments.</td>
+                    <td>Tight, swollen compartments; tenseness with passive stretch pain</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>CSM Assessment</h3>
+        <p><strong>CSM = Circulation, Sensation, Motion</strong> — a simpler version of the 6 Ps:</p>
+        <ul style="margin-left: 20px;">
+            <li><strong>C - Circulation:</strong> Distal pulse, skin color/temperature, capillary refill</li>
+            <li><strong>S - Sensation:</strong> Can patient feel touch/pain distal to injury?</li>
+            <li><strong>M - Motion:</strong> Can patient move fingers/toes on command?</li>
+        </ul>
+
+        <h3>Ottawa Ankle and Knee Rules</h3>
+
+        <div class="key-point">
+            <strong>Ottawa Ankle Rules:</strong> Imaging (X-ray) is recommended if there is bony tenderness over ANY of the following:
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>Posterior edge or tip of the lateral malleolus (outer ankle bone) — the distal 6 cm</li>
+                <li>Posterior edge or tip of the medial malleolus (inner ankle bone) — the distal 6 cm</li>
+                <li>Navicular bone (midfoot)</li>
+                <li>Base of the 5th metatarsal (bony bump on the outer edge of the midfoot)</li>
             </ul>
+            OR inability to bear weight (take 4 steps) both immediately after injury and at the time of assessment. These are OR criteria — any ONE positive finding suggests the need for imaging/evacuation.
+        </div>
 
-            <h3>Ottawa Ankle and Knee Rules</h3>
+        <div class="key-point">
+            <strong>Ottawa Knee Rules:</strong> Imaging is recommended if ANY of the following is present:
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>Age 55 or older</li>
+                <li>Isolated tenderness of the patella (no other bony tenderness)</li>
+                <li>Tenderness at the head of the fibula</li>
+                <li>Inability to flex the knee to 90°</li>
+                <li>Inability to bear weight (take 4 steps) both immediately after injury and at the time of assessment</li>
+            </ul>
+            In wilderness settings, use these rules to guide evacuation priority.
+        </div>
+      </section>
+      <section class="section" id="splinting" role="tabpanel" aria-labelledby="tab-splinting" tabindex="0" hidden>
+        <h2>Splinting Principles & Techniques</h2>
 
-            <div class="key-point">
-                <strong>Ottawa Ankle Rules:</strong> Imaging (X-ray) is recommended if there is bony tenderness over ANY of the following:
+        <h3>General Splinting Principles</h3>
+
+        <div class="alert alert-info">
+            <strong>Golden Rules of Splinting:</strong>
+            <ul style="margin-left: 20px;">
+                <li>Immobilize joints ABOVE and BELOW the fracture site</li>
+                <li>Pad bony prominences to prevent pressure ulcers</li>
+                <li>Reassess neurovascular status (6 Ps or CSM) after splinting</li>
+                <li>Splint in position of comfort; if circulation below the injury is absent, the evacuation becomes EMERGENT</li>
+                <li>Apply ice/cold if available to reduce swelling</li>
+                <li>Elevate if possible to reduce swelling</li>
+            </ul>
+        </div>
+
+        <h3>Common Splinting Techniques</h3>
+
+        <p><strong>SAM Splint (Soft Aluminum Malleable):</strong> Versatile, compact, reusable. Molds to any shape. Excellent for forearm, wrist, ankle, knee. Pad with extra material and secure with elastic bandages.</p>
+
+        <p><strong>Improvised Splints:</strong> In wilderness, use materials at hand:</p>
+        <ul style="margin-left: 20px;">
+            <li>Sticks/branches padded with clothing</li>
+            <li>Rolled-up sleeping bag or pad alongside the limb</li>
+            <li>Buddy taping (taping injured finger to adjacent healthy finger)</li>
+            <li>Sling and swathe for upper extremity</li>
+        </ul>
+
+        <p><strong>Suspected Femur (Thighbone) Fracture:</strong> Apply a well-padded rigid splint or an anatomic splint (padding between the legs, then securing the injured leg to the uninjured leg). A femur fracture can bleed 1-1.5 liters internally — treat for shock (supine flat, prevent heat loss) and evacuate urgently. <em>For reference: EMS providers may apply a commercial traction splint (e.g., Kendrick, Thomas) for mid-shaft femur fractures — this is an EMS device, not a WFA skill.</em></p>
+
+        <h3>Angulated Limbs & Reduction</h3>
+
+        <div class="alert alert-danger">
+            <strong>Reduction is NOT a WFA skill.</strong> Reduction (realigning a fractured or dislocated bone) is performed by medical professionals. At this level of training:
+            <ul style="margin-left: 20px;">
+                <li>Splint fractures in the position found; splint or sling dislocations in the position of comfort</li>
+                <li>Check CSM before and after splinting, and recheck regularly</li>
+                <li>If there is no pulse or sensation below the injury, the evacuation becomes EMERGENT</li>
+            </ul>
+        </div>
+      </section>
+      <section class="section" id="dislocations" role="tabpanel" aria-labelledby="tab-dislocations" tabindex="0" hidden>
+        <h2>Dislocations</h2>
+
+        <h3>Anterior Shoulder Dislocation (Most Common)</h3>
+        <p>The humeral head dislocates anteriorly out of the glenoid cavity. Classic presentation:</p>
+        <ul style="margin-left: 20px;">
+            <li>Arm held in slight abduction and external rotation ("arm held away from body")</li>
+            <li>Arm cannot be internally rotated</li>
+            <li>Severe pain</li>
+            <li>Palpable bulge anteriorly</li>
+            <li>Loss of normal rounded shoulder contour</li>
+        </ul>
+
+        <p><strong>Field Management:</strong> Immobilize in position of comfort with sling and swathe. Check pulse, sensation, and motor function (CSM) before and after applying the sling, and recheck regularly during evacuation. Do not attempt reduction — that is performed by medical professionals. Evacuate.</p>
+
+        <h3>Patella (Kneecap) Dislocation</h3>
+        <p>Usually dislocates laterally (outward). Presents with:</p>
+        <ul style="margin-left: 20px;">
+            <li>Severe pain and quadriceps muscle spasm</li>
+            <li>Visible lateral displacement of patella</li>
+            <li>Inability to straighten knee</li>
+        </ul>
+
+        <p><strong>Field Management:</strong> Splint the knee in the position of comfort with generous padding (a rolled sleeping bag or pad works well). Check CSM before and after splinting. Do not attempt to straighten the leg or push the kneecap back into place. Some patella dislocations reduce spontaneously as the patient moves — if this happens, still splint and evacuate for medical evaluation.</p>
+
+        <h3>Finger/Toe Dislocations</h3>
+        <p>Usually obvious deformity. Splint in the position found — buddy tape the injured digit to its healthy neighbor, or use a padded splint, in the position of comfort. Check CSM before and after. Do not attempt reduction; evacuate for evaluation and reduction by medical professionals.</p>
+
+        <h3>Hip Dislocation</h3>
+        <p>Rare but serious. Most commonly posterior dislocations. Presents with:</p>
+        <ul style="margin-left: 20px;">
+            <li>Severe pain in hip/groin</li>
+            <li>Leg internally rotated and adducted ("fetal position")</li>
+            <li>Unable to move leg</li>
+            <li>Potential sciatic nerve injury (foot drop, sensory loss)</li>
+        </ul>
+
+        <p><strong>Field Management:</strong> Immobilize in the position found, padding generously with clothing or sleeping bags. This is a neurovascular emergency — the femoral head is at risk of avascular necrosis if hospital reduction is delayed. EMERGENT evacuation required.</p>
+
+        <h3>Dislocation Management at the WFA Level</h3>
+
+        <div class="alert alert-warning">
+            <strong>For ALL dislocations:</strong>
+            <ul style="margin-left: 20px;">
+                <li>Splint or sling in the position of comfort</li>
+                <li>Check CSM before and after splinting, and recheck regularly during evacuation</li>
+                <li>Evacuate — reduction is performed by medical professionals</li>
+                <li>Absent pulse or sensation below the joint = EMERGENT evacuation</li>
+            </ul>
+            <br>
+            <em>For reference: in remote settings, rescuers with higher-level medical training sometimes reduce certain dislocations when evacuation is prolonged. That skill is beyond the scope of this course.</em>
+        </div>
+      </section>
+      <section class="section" id="special" role="tabpanel" aria-labelledby="tab-special" tabindex="0" hidden>
+        <h2>Open Fractures & Special Considerations</h2>
+
+        <h3>Open Fractures: Immediate Management</h3>
+
+        <p>Open fractures are surgical emergencies due to high infection and complication risk.</p>
+
+        <div class="alert alert-danger">
+            <strong>Immediate Steps:</strong>
+            <ol style="margin-left: 20px;">
+                <li><strong>Splint in the position found.</strong> Realigning a fracture is higher-level care, not a WFA skill. If the limb has no pulse or sensation below the injury, the evacuation becomes EMERGENT.</li>
+                <li>Gently irrigate the wound with clean water or saline to remove dirt. Gentle irrigation is protective against infection.</li>
+                <li>Cover with clean (preferably sterile) dressing. May need to dress around exposed bone.</li>
+                <li>Splint and elevate to reduce swelling</li>
+                <li>If bone was exposed at any point — even if it has slipped back beneath the skin — document it and report it at hospital handoff.</li>
+                <li>EMERGENT evacuation to hospital for surgical management (cleaning, internal fixation)</li>
+            </ol>
+        </div>
+
+        <h3>Amputated Parts</h3>
+
+        <p>If a limb or digit is amputated:</p>
+        <ul style="margin-left: 20px;">
+            <li>Control bleeding on the amputated stump with direct pressure</li>
+            <li>Retrieve the amputated part if possible</li>
+            <li>Wrap it in clean cloth or gauze moistened with saline or clean water ONLY — never use antiseptics or bleach, which damage tissue and can make the part non-replantable</li>
+            <li>Seal the wrapped part in a plastic bag, then place the bag on ice or in cold water — NEVER place the part directly on ice</li>
+            <li>Label with time of amputation</li>
+            <li>Transport with patient to hospital — digits may remain viable up to about 12 hours warm or 24 hours cooled; larger parts tolerate much less. Cool the part and evacuate emergently.</li>
+            <li>EMERGENT evacuation</li>
+        </ul>
+
+        <h3>Compartment Syndrome</h3>
+
+        <p><strong>Definition:</strong> Increased pressure within a closed muscle compartment (group of muscles enclosed by fascia), compromising blood flow and causing tissue death if not relieved.</p>
+
+        <p><strong>Classic Presentation:</strong></p>
+        <ul style="margin-left: 20px;">
+            <li>Pain DISPROPORTIONATE to injury (hallmark finding)</li>
+            <li>Pain with passive stretch of muscles in the compartment (e.g., passive extension of fingers if forearm compartment involved)</li>
+            <li>Tight, swollen compartment on palpation</li>
+            <li>Paresthesia and weakness (late)</li>
+        </ul>
+
+        <p><strong>Common Sites:</strong> Anterior compartment of leg (tibia/fibula fracture), forearm, thigh.</p>
+
+        <p><strong>Field Management:</strong></p>
+        <ul style="margin-left: 20px;">
+            <li>Recognize the clinical suspicion based on disproportionate pain</li>
+            <li>Remove any tight dressings or splints (may worsen compartment pressure)</li>
+            <li>Elevate limb only to heart level (elevation beyond this reduces compartment perfusion)</li>
+            <li>EMERGENT evacuation to hospital for fasciotomy (surgical incision to relieve pressure)</li>
+        </ul>
+
+        <div class="key-point">
+            <strong>Remember:</strong> Compartment syndrome is not obvious on X-ray or clinical exam initially. Suspicion is based on clinical findings (pain out of proportion, pain with passive stretch). Do not miss it — it requires emergency surgical decompression.
+        </div>
+      </section>
+      <section class="section" id="scenarios" role="tabpanel" aria-labelledby="tab-scenarios" tabindex="0" hidden>
+        <h2>Clinical Scenarios</h2>
+
+        <div class="scenario">
+            <div class="scenario-title">Scenario 1: Ankle Fracture with Intact Distal Pulses</div>
+            <div class="scenario-case">
+                A 26-year-old backpacker twisted her ankle stepping off a rock. She reports immediate severe pain and swelling. Exam shows obvious swelling and deformity (foot in inverted position). You assess: Dorsalis pedis pulse present and strong, foot is pink and warm, she can move her toes and feels touch. By Ottawa Ankle Rules, she has tenderness over the lateral malleolus.
+            </div>
+            <button type="button" class="btn-toggle" aria-controls="scenario1" aria-expanded="false">Show Discussion</button>
+            <div id="scenario1" class="discussion">
+                <strong>Analysis:</strong> This is likely an ankle fracture with intact neurovascular status. Ottawa Ankle Rules indicate imaging (X-ray) is appropriate, but this is wilderness medicine — you may not have X-ray capability.
+                <br><br>
+                <strong>Field Management:</strong>
                 <ul style="margin-left: 20px; margin-top: 10px;">
-                    <li>Posterior edge or tip of the lateral malleolus (outer ankle bone) — the distal 6 cm</li>
-                    <li>Posterior edge or tip of the medial malleolus (inner ankle bone) — the distal 6 cm</li>
-                    <li>Navicular bone (midfoot)</li>
-                    <li>Base of the 5th metatarsal (bony bump on the outer edge of the midfoot)</li>
+                    <li>Treat as a fracture (assume positive until proven otherwise)</li>
+                    <li>SAM splint the ankle, immobilizing the ankle joint. Pad bony prominences.</li>
+                    <li>Recheck distal pulses, sensation, and motor function after splinting</li>
+                    <li>Elevate and apply cold (snow/cold water) to reduce swelling</li>
+                    <li>Pain control: acetaminophen or ibuprofen if available</li>
+                    <li>Evacuation: URGENT (same day if possible) for imaging and evaluation</li>
+                    <li>If neurovascular compromise develops (pulse disappears, foot becomes pale or cold), adjust splint immediately and prepare for emergency descent</li>
                 </ul>
-                OR inability to bear weight (take 4 steps) both immediately after injury and at the time of assessment. These are OR criteria — any ONE positive finding suggests the need for imaging/evacuation.
+                <strong>Expected Outcome:</strong> With proper splinting and evacuation, good prognosis for recovery.
             </div>
+        </div>
 
-            <div class="key-point">
-                <strong>Ottawa Knee Rules:</strong> Imaging is recommended if ANY of the following is present:
+        <div class="scenario">
+            <div class="scenario-title">Scenario 2: Femur Fracture with Neurovascular Compromise</div>
+            <div class="scenario-case">
+                A rock climber falls 15 feet and lands on his leg. He has severe pain in the thigh, obvious deformity (shortened, angulated leg), and significant swelling. Distal exam shows: foot is pale and cool, dorsalis pedis pulse is absent, he cannot move toes (paralysis), severe pain. He's in shock (HR 124, RR 24, BP 96/62).
+            </div>
+            <button type="button" class="btn-toggle" aria-controls="scenario2" aria-expanded="false">Show Discussion</button>
+            <div id="scenario2" class="discussion">
+                <strong>Analysis:</strong> This is a femur fracture with neurovascular compromise (absent pulse, paralysis, pale cool foot). This is an EMERGENCY. A femur fracture can bleed 1-1.5 liters internally — treat this patient as a serious shock risk in addition to the limb threat.
+                <br><br>
+                <strong>Immediate Actions:</strong>
                 <ul style="margin-left: 20px; margin-top: 10px;">
-                    <li>Age 55 or older</li>
-                    <li>Isolated tenderness of the patella (no other bony tenderness)</li>
-                    <li>Tenderness at the head of the fibula</li>
-                    <li>Inability to flex the knee to 90°</li>
-                    <li>Inability to bear weight (take 4 steps) both immediately after injury and at the time of assessment</li>
+                    <li>Splint the leg in the position found with a well-padded rigid or anatomic splint (pad between the legs and secure the injured leg to the uninjured leg). Do not attempt realignment or traction — that is higher-level care.</li>
+                    <li>Treat for shock: position supine and flat, insulate from the ground, and prevent heat loss.</li>
+                    <li>Document CSM (circulation, sensation, motion) serially — recheck and record every 15 minutes, noting times.</li>
+                    <li>EMERGENT evacuation by helicopter if available. This patient requires hospital surgery urgently.</li>
+                    <li>Monitor vitals and neurovascular status continuously.</li>
                 </ul>
-                In wilderness settings, use these rules to guide evacuation priority.
+                <strong>Key Point:</strong> An absent distal pulse means the limb is at risk. At the WFA level, the response is splint in position, shock care (supine flat, prevent heat loss), serial CSM documentation, and the fastest possible evacuation — not field realignment.
             </div>
         </div>
+      </section>
+      <section class="section" id="quiz" role="tabpanel" aria-labelledby="tab-quiz" tabindex="0" hidden>
+        <h2>Knowledge Check</h2>
+        <p class="quiz-intro">10 questions. Pick an answer to get immediate feedback. Answer order is shuffled each attempt, and your best score is saved on this device.</p>
+        <div id="quiz-box" class="quiz-container"></div>
+        <div id="score-display" class="score-banner" hidden aria-live="polite"></div>
+      </section>
+      <section class="section" id="summary" role="tabpanel" aria-labelledby="tab-summary" tabindex="0" hidden>
+        <h2>Summary & Key Takeaways</h2>
 
-        <!-- SPLINTING PRINCIPLES -->
-        <div id="splinting" class="section">
-            <h2>Splinting Principles & Techniques</h2>
-
-            <h3>General Splinting Principles</h3>
-
-            <div class="alert alert-info">
-                <strong>Golden Rules of Splinting:</strong>
-                <ul style="margin-left: 20px;">
-                    <li>Immobilize joints ABOVE and BELOW the fracture site</li>
-                    <li>Pad bony prominences to prevent pressure ulcers</li>
-                    <li>Reassess neurovascular status (6 Ps or CSM) after splinting</li>
-                    <li>Splint in position of comfort; if circulation below the injury is absent, the evacuation becomes EMERGENT</li>
-                    <li>Apply ice/cold if available to reduce swelling</li>
-                    <li>Elevate if possible to reduce swelling</li>
-                </ul>
-            </div>
-
-            <h3>Common Splinting Techniques</h3>
-
-            <p><strong>SAM Splint (Soft Aluminum Malleable):</strong> Versatile, compact, reusable. Molds to any shape. Excellent for forearm, wrist, ankle, knee. Pad with extra material and secure with elastic bandages.</p>
-
-            <p><strong>Improvised Splints:</strong> In wilderness, use materials at hand:</p>
+        <div class="alert alert-success">
+            <strong>Key Concepts to Remember:</strong>
             <ul style="margin-left: 20px;">
-                <li>Sticks/branches padded with clothing</li>
-                <li>Rolled-up sleeping bag or pad alongside the limb</li>
-                <li>Buddy taping (taping injured finger to adjacent healthy finger)</li>
-                <li>Sling and swathe for upper extremity</li>
+                <li>Always assess neurovascular status BEFORE and AFTER splinting</li>
+                <li>Splint immobilizing joints above and below the fracture</li>
+                <li>Open fractures: irrigate gently, cover, splint in position, EMERGENT evacuation</li>
+                <li>Compartment syndrome: suspect if pain is out of proportion — requires emergency fasciotomy</li>
+                <li>Neurovascular compromise (absent pulse, sensation, or motor function below the injury) = EMERGENT evacuation; splint in position — realignment and reduction are performed by medical professionals</li>
+                <li>Ottawa Rules guide imaging decisions (ankle, knee) — any ONE positive criterion counts</li>
+                <li>Suspected femur fracture: well-padded rigid or anatomic splint, shock care, urgent evacuation (traction splints are an EMS device)</li>
             </ul>
-
-            <p><strong>Suspected Femur (Thighbone) Fracture:</strong> Apply a well-padded rigid splint or an anatomic splint (padding between the legs, then securing the injured leg to the uninjured leg). A femur fracture can bleed 1-1.5 liters internally — treat for shock (supine flat, prevent heat loss) and evacuate urgently. <em>For reference: EMS providers may apply a commercial traction splint (e.g., Kendrick, Thomas) for mid-shaft femur fractures — this is an EMS device, not a WFA skill.</em></p>
-
-            <h3>Angulated Limbs & Reduction</h3>
-
-            <div class="alert alert-danger">
-                <strong>Reduction is NOT a WFA skill.</strong> Reduction (realigning a fractured or dislocated bone) is performed by medical professionals. At this level of training:
-                <ul style="margin-left: 20px;">
-                    <li>Splint fractures in the position found; splint or sling dislocations in the position of comfort</li>
-                    <li>Check CSM before and after splinting, and recheck regularly</li>
-                    <li>If there is no pulse or sensation below the injury, the evacuation becomes EMERGENT</li>
-                </ul>
-            </div>
         </div>
 
-        <!-- DISLOCATIONS -->
-        <div id="dislocations" class="section">
-            <h2>Dislocations</h2>
+        <h2 style="margin-top: 40px;">Glossary of Terms</h2>
 
-            <h3>Anterior Shoulder Dislocation (Most Common)</h3>
-            <p>The humeral head dislocates anteriorly out of the glenoid cavity. Classic presentation:</p>
-            <ul style="margin-left: 20px;">
-                <li>Arm held in slight abduction and external rotation ("arm held away from body")</li>
-                <li>Arm cannot be internally rotated</li>
-                <li>Severe pain</li>
-                <li>Palpable bulge anteriorly</li>
-                <li>Loss of normal rounded shoulder contour</li>
-            </ul>
+        <div class="glossary">
+            <div class="glossary-item">
+                <div class="term">Angulation</div>
+                <div class="definition">Abnormal bending or deviation of a bone from its normal axis; indicates fracture or dislocation.</div>
+            </div>
 
-            <p><strong>Field Management:</strong> Immobilize in position of comfort with sling and swathe. Check pulse, sensation, and motor function (CSM) before and after applying the sling, and recheck regularly during evacuation. Do not attempt reduction — that is performed by medical professionals. Evacuate.</p>
+            <div class="glossary-item">
+                <div class="term">Avascular Necrosis</div>
+                <div class="definition">Death of bone tissue due to loss of blood supply; can occur with hip dislocations if not reduced promptly.</div>
+            </div>
 
-            <h3>Patella (Kneecap) Dislocation</h3>
-            <p>Usually dislocates laterally (outward). Presents with:</p>
-            <ul style="margin-left: 20px;">
-                <li>Severe pain and quadriceps muscle spasm</li>
-                <li>Visible lateral displacement of patella</li>
-                <li>Inability to straighten knee</li>
-            </ul>
+            <div class="glossary-item">
+                <div class="term">Closed Fracture</div>
+                <div class="definition">A fracture where the bone is broken but the skin is intact; no communication with external environment.</div>
+            </div>
 
-            <p><strong>Field Management:</strong> Splint the knee in the position of comfort with generous padding (a rolled sleeping bag or pad works well). Check CSM before and after splinting. Do not attempt to straighten the leg or push the kneecap back into place. Some patella dislocations reduce spontaneously as the patient moves — if this happens, still splint and evacuate for medical evaluation.</p>
+            <div class="glossary-item">
+                <div class="term">Compartment Syndrome</div>
+                <div class="definition">Increased pressure within a closed muscle compartment leading to tissue hypoperfusion and necrosis; requires emergency surgical decompression.</div>
+            </div>
 
-            <h3>Finger/Toe Dislocations</h3>
-            <p>Usually obvious deformity. Splint in the position found — buddy tape the injured digit to its healthy neighbor, or use a padded splint, in the position of comfort. Check CSM before and after. Do not attempt reduction; evacuate for evaluation and reduction by medical professionals.</p>
+            <div class="glossary-item">
+                <div class="term">CSM</div>
+                <div class="definition">Circulation, Sensation, Motion — simplified neurovascular assessment to evaluate distal limb status.</div>
+            </div>
 
-            <h3>Hip Dislocation</h3>
-            <p>Rare but serious. Most commonly posterior dislocations. Presents with:</p>
-            <ul style="margin-left: 20px;">
-                <li>Severe pain in hip/groin</li>
-                <li>Leg internally rotated and adducted ("fetal position")</li>
-                <li>Unable to move leg</li>
-                <li>Potential sciatic nerve injury (foot drop, sensory loss)</li>
-            </ul>
+            <div class="glossary-item">
+                <div class="term">Dislocation (Luxation)</div>
+                <div class="definition">Complete displacement of a bone from its normal position at a joint.</div>
+            </div>
 
-            <p><strong>Field Management:</strong> Immobilize in the position found, padding generously with clothing or sleeping bags. This is a neurovascular emergency — the femoral head is at risk of avascular necrosis if hospital reduction is delayed. EMERGENT evacuation required.</p>
+            <div class="glossary-item">
+                <div class="term">FOOSH</div>
+                <div class="definition">Fall On Outstretched Hand — common mechanism causing wrist and shoulder injuries.</div>
+            </div>
 
-            <h3>Dislocation Management at the WFA Level</h3>
+            <div class="glossary-item">
+                <div class="term">Fracture</div>
+                <div class="definition">A break in the continuity of bone due to trauma or pathology.</div>
+            </div>
 
-            <div class="alert alert-warning">
-                <strong>For ALL dislocations:</strong>
-                <ul style="margin-left: 20px;">
-                    <li>Splint or sling in the position of comfort</li>
-                    <li>Check CSM before and after splinting, and recheck regularly during evacuation</li>
-                    <li>Evacuate — reduction is performed by medical professionals</li>
-                    <li>Absent pulse or sensation below the joint = EMERGENT evacuation</li>
-                </ul>
-                <br>
-                <em>For reference: in remote settings, rescuers with higher-level medical training sometimes reduce certain dislocations when evacuation is prolonged. That skill is beyond the scope of this course.</em>
+            <div class="glossary-item">
+                <div class="term">Open Fracture</div>
+                <div class="definition">A fracture where the bone is broken AND there is a break in the overlying skin; high risk for infection and blood loss.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="term">Ottawa Ankle/Knee Rules</div>
+                <div class="definition">Evidence-based clinical decision tools to determine which patients require X-ray imaging for ankle and knee injuries.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="term">Pulse</div>
+                <div class="definition">The regular beating of the arteries; assessed distal to injury to ensure adequate blood flow. Absent distal pulse = neurovascular emergency.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="term">Reduction</div>
+                <div class="definition">Restoration of a dislocated bone or joint to its normal position; performed by medical professionals — not a WFA skill.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="term">Splint</div>
+                <div class="definition">A device or technique used to immobilize a fracture or dislocation, preventing motion and further injury.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="term">Sprain</div>
+                <div class="definition">Tear of a ligament (bone-to-bone connection) from excessive joint motion.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="term">Strain</div>
+                <div class="definition">Tear of a muscle or tendon from overuse or trauma; less serious than sprain typically.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="term">Traction Splint</div>
+                <div class="definition">An EMS device that applies gentle longitudinal traction to stabilize mid-shaft femur fractures, reducing pain and internal bleeding; not applied at the WFA level.</div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="term">The 6 Ps</div>
+                <div class="definition">Pain, Pallor, Pulse, Paresthesia, Paralysis, Pressure — a systematic approach to assessing neurovascular status distal to injury.</div>
             </div>
         </div>
-
-        <!-- SPECIAL CONSIDERATIONS -->
-        <div id="special" class="section">
-            <h2>Open Fractures & Special Considerations</h2>
-
-            <h3>Open Fractures: Immediate Management</h3>
-
-            <p>Open fractures are surgical emergencies due to high infection and complication risk.</p>
-
-            <div class="alert alert-danger">
-                <strong>Immediate Steps:</strong>
-                <ol style="margin-left: 20px;">
-                    <li><strong>Splint in the position found.</strong> Realigning a fracture is higher-level care, not a WFA skill. If the limb has no pulse or sensation below the injury, the evacuation becomes EMERGENT.</li>
-                    <li>Gently irrigate the wound with clean water or saline to remove dirt. Gentle irrigation is protective against infection.</li>
-                    <li>Cover with clean (preferably sterile) dressing. May need to dress around exposed bone.</li>
-                    <li>Splint and elevate to reduce swelling</li>
-                    <li>If bone was exposed at any point — even if it has slipped back beneath the skin — document it and report it at hospital handoff.</li>
-                    <li>EMERGENT evacuation to hospital for surgical management (cleaning, internal fixation)</li>
-                </ol>
-            </div>
-
-            <h3>Amputated Parts</h3>
-
-            <p>If a limb or digit is amputated:</p>
-            <ul style="margin-left: 20px;">
-                <li>Control bleeding on the amputated stump with direct pressure</li>
-                <li>Retrieve the amputated part if possible</li>
-                <li>Wrap it in clean cloth or gauze moistened with saline or clean water ONLY — never use antiseptics or bleach, which damage tissue and can make the part non-replantable</li>
-                <li>Seal the wrapped part in a plastic bag, then place the bag on ice or in cold water — NEVER place the part directly on ice</li>
-                <li>Label with time of amputation</li>
-                <li>Transport with patient to hospital — digits may remain viable up to about 12 hours warm or 24 hours cooled; larger parts tolerate much less. Cool the part and evacuate emergently.</li>
-                <li>EMERGENT evacuation</li>
-            </ul>
-
-            <h3>Compartment Syndrome</h3>
-
-            <p><strong>Definition:</strong> Increased pressure within a closed muscle compartment (group of muscles enclosed by fascia), compromising blood flow and causing tissue death if not relieved.</p>
-
-            <p><strong>Classic Presentation:</strong></p>
-            <ul style="margin-left: 20px;">
-                <li>Pain DISPROPORTIONATE to injury (hallmark finding)</li>
-                <li>Pain with passive stretch of muscles in the compartment (e.g., passive extension of fingers if forearm compartment involved)</li>
-                <li>Tight, swollen compartment on palpation</li>
-                <li>Paresthesia and weakness (late)</li>
-            </ul>
-
-            <p><strong>Common Sites:</strong> Anterior compartment of leg (tibia/fibula fracture), forearm, thigh.</p>
-
-            <p><strong>Field Management:</strong></p>
-            <ul style="margin-left: 20px;">
-                <li>Recognize the clinical suspicion based on disproportionate pain</li>
-                <li>Remove any tight dressings or splints (may worsen compartment pressure)</li>
-                <li>Elevate limb only to heart level (elevation beyond this reduces compartment perfusion)</li>
-                <li>EMERGENT evacuation to hospital for fasciotomy (surgical incision to relieve pressure)</li>
-            </ul>
-
-            <div class="key-point">
-                <strong>Remember:</strong> Compartment syndrome is not obvious on X-ray or clinical exam initially. Suspicion is based on clinical findings (pain out of proportion, pain with passive stretch). Do not miss it — it requires emergency surgical decompression.
-            </div>
-        </div>
-
-        <!-- SCENARIOS -->
-        <div id="scenarios" class="section">
-            <h2>Clinical Scenarios</h2>
-
-            <div class="scenario">
-                <div class="scenario-title">Scenario 1: Ankle Fracture with Intact Distal Pulses</div>
-                <div class="scenario-case">
-                    A 26-year-old backpacker twisted her ankle stepping off a rock. She reports immediate severe pain and swelling. Exam shows obvious swelling and deformity (foot in inverted position). You assess: Dorsalis pedis pulse present and strong, foot is pink and warm, she can move her toes and feels touch. By Ottawa Ankle Rules, she has tenderness over the lateral malleolus.
-                </div>
-                <button class="toggle-button" onclick="toggleDiscussion('scenario1')">Show Discussion</button>
-                <div id="scenario1" class="discussion">
-                    <strong>Analysis:</strong> This is likely an ankle fracture with intact neurovascular status. Ottawa Ankle Rules indicate imaging (X-ray) is appropriate, but this is wilderness medicine — you may not have X-ray capability.
-                    <br><br>
-                    <strong>Field Management:</strong>
-                    <ul style="margin-left: 20px; margin-top: 10px;">
-                        <li>Treat as a fracture (assume positive until proven otherwise)</li>
-                        <li>SAM splint the ankle, immobilizing the ankle joint. Pad bony prominences.</li>
-                        <li>Recheck distal pulses, sensation, and motor function after splinting</li>
-                        <li>Elevate and apply cold (snow/cold water) to reduce swelling</li>
-                        <li>Pain control: acetaminophen or ibuprofen if available</li>
-                        <li>Evacuation: URGENT (same day if possible) for imaging and evaluation</li>
-                        <li>If neurovascular compromise develops (pulse disappears, foot becomes pale or cold), adjust splint immediately and prepare for emergency descent</li>
-                    </ul>
-                    <strong>Expected Outcome:</strong> With proper splinting and evacuation, good prognosis for recovery.
-                </div>
-            </div>
-
-            <div class="scenario">
-                <div class="scenario-title">Scenario 2: Femur Fracture with Neurovascular Compromise</div>
-                <div class="scenario-case">
-                    A rock climber falls 15 feet and lands on his leg. He has severe pain in the thigh, obvious deformity (shortened, angulated leg), and significant swelling. Distal exam shows: foot is pale and cool, dorsalis pedis pulse is absent, he cannot move toes (paralysis), severe pain. He's in shock (HR 124, RR 24, BP 96/62).
-                </div>
-                <button class="toggle-button" onclick="toggleDiscussion('scenario2')">Show Discussion</button>
-                <div id="scenario2" class="discussion">
-                    <strong>Analysis:</strong> This is a femur fracture with neurovascular compromise (absent pulse, paralysis, pale cool foot). This is an EMERGENCY. A femur fracture can bleed 1-1.5 liters internally — treat this patient as a serious shock risk in addition to the limb threat.
-                    <br><br>
-                    <strong>Immediate Actions:</strong>
-                    <ul style="margin-left: 20px; margin-top: 10px;">
-                        <li>Splint the leg in the position found with a well-padded rigid or anatomic splint (pad between the legs and secure the injured leg to the uninjured leg). Do not attempt realignment or traction — that is higher-level care.</li>
-                        <li>Treat for shock: position supine and flat, insulate from the ground, and prevent heat loss.</li>
-                        <li>Document CSM (circulation, sensation, motion) serially — recheck and record every 15 minutes, noting times.</li>
-                        <li>EMERGENT evacuation by helicopter if available. This patient requires hospital surgery urgently.</li>
-                        <li>Monitor vitals and neurovascular status continuously.</li>
-                    </ul>
-                    <strong>Key Point:</strong> An absent distal pulse means the limb is at risk. At the WFA level, the response is splint in position, shock care (supine flat, prevent heat loss), serial CSM documentation, and the fastest possible evacuation — not field realignment.
-                </div>
-            </div>
-        </div>
-
-        <!-- QUIZ -->
-        <div id="quiz" class="section">
-            <h2>Knowledge Check: Quiz</h2>
-
-            <div class="alert alert-info">
-                <strong>Instructions:</strong> Answer all 10 questions. Your score will be calculated after you select an answer for each question.
-            </div>
-
-            <div id="quiz-container"></div>
-
-            <div id="score-container"></div>
-        </div>
-
-        <!-- SUMMARY & GLOSSARY -->
-        <div id="summary" class="section">
-            <h2>Summary & Key Takeaways</h2>
-
-            <div class="alert alert-success">
-                <strong>Key Concepts to Remember:</strong>
-                <ul style="margin-left: 20px;">
-                    <li>Always assess neurovascular status BEFORE and AFTER splinting</li>
-                    <li>Splint immobilizing joints above and below the fracture</li>
-                    <li>Open fractures: irrigate gently, cover, splint in position, EMERGENT evacuation</li>
-                    <li>Compartment syndrome: suspect if pain is out of proportion — requires emergency fasciotomy</li>
-                    <li>Neurovascular compromise (absent pulse, sensation, or motor function below the injury) = EMERGENT evacuation; splint in position — realignment and reduction are performed by medical professionals</li>
-                    <li>Ottawa Rules guide imaging decisions (ankle, knee) — any ONE positive criterion counts</li>
-                    <li>Suspected femur fracture: well-padded rigid or anatomic splint, shock care, urgent evacuation (traction splints are an EMS device)</li>
-                </ul>
-            </div>
-
-            <h2 style="margin-top: 40px;">Glossary of Terms</h2>
-
-            <div class="glossary">
-                <div class="glossary-item">
-                    <div class="term">Angulation</div>
-                    <div class="definition">Abnormal bending or deviation of a bone from its normal axis; indicates fracture or dislocation.</div>
-                </div>
-
-                <div class="glossary-item">
-                    <div class="term">Avascular Necrosis</div>
-                    <div class="definition">Death of bone tissue due to loss of blood supply; can occur with hip dislocations if not reduced promptly.</div>
-                </div>
-
-                <div class="glossary-item">
-                    <div class="term">Closed Fracture</div>
-                    <div class="definition">A fracture where the bone is broken but the skin is intact; no communication with external environment.</div>
-                </div>
-
-                <div class="glossary-item">
-                    <div class="term">Compartment Syndrome</div>
-                    <div class="definition">Increased pressure within a closed muscle compartment leading to tissue hypoperfusion and necrosis; requires emergency surgical decompression.</div>
-                </div>
-
-                <div class="glossary-item">
-                    <div class="term">CSM</div>
-                    <div class="definition">Circulation, Sensation, Motion — simplified neurovascular assessment to evaluate distal limb status.</div>
-                </div>
-
-                <div class="glossary-item">
-                    <div class="term">Dislocation (Luxation)</div>
-                    <div class="definition">Complete displacement of a bone from its normal position at a joint.</div>
-                </div>
-
-                <div class="glossary-item">
-                    <div class="term">FOOSH</div>
-                    <div class="definition">Fall On Outstretched Hand — common mechanism causing wrist and shoulder injuries.</div>
-                </div>
-
-                <div class="glossary-item">
-                    <div class="term">Fracture</div>
-                    <div class="definition">A break in the continuity of bone due to trauma or pathology.</div>
-                </div>
-
-                <div class="glossary-item">
-                    <div class="term">Open Fracture</div>
-                    <div class="definition">A fracture where the bone is broken AND there is a break in the overlying skin; high risk for infection and blood loss.</div>
-                </div>
-
-                <div class="glossary-item">
-                    <div class="term">Ottawa Ankle/Knee Rules</div>
-                    <div class="definition">Evidence-based clinical decision tools to determine which patients require X-ray imaging for ankle and knee injuries.</div>
-                </div>
-
-                <div class="glossary-item">
-                    <div class="term">Pulse</div>
-                    <div class="definition">The regular beating of the arteries; assessed distal to injury to ensure adequate blood flow. Absent distal pulse = neurovascular emergency.</div>
-                </div>
-
-                <div class="glossary-item">
-                    <div class="term">Reduction</div>
-                    <div class="definition">Restoration of a dislocated bone or joint to its normal position; performed by medical professionals — not a WFA skill.</div>
-                </div>
-
-                <div class="glossary-item">
-                    <div class="term">Splint</div>
-                    <div class="definition">A device or technique used to immobilize a fracture or dislocation, preventing motion and further injury.</div>
-                </div>
-
-                <div class="glossary-item">
-                    <div class="term">Sprain</div>
-                    <div class="definition">Tear of a ligament (bone-to-bone connection) from excessive joint motion.</div>
-                </div>
-
-                <div class="glossary-item">
-                    <div class="term">Strain</div>
-                    <div class="definition">Tear of a muscle or tendon from overuse or trauma; less serious than sprain typically.</div>
-                </div>
-
-                <div class="glossary-item">
-                    <div class="term">Traction Splint</div>
-                    <div class="definition">An EMS device that applies gentle longitudinal traction to stabilize mid-shaft femur fractures, reducing pain and internal bleeding; not applied at the WFA level.</div>
-                </div>
-
-                <div class="glossary-item">
-                    <div class="term">The 6 Ps</div>
-                    <div class="definition">Pain, Pallor, Pulse, Paresthesia, Paralysis, Pressure — a systematic approach to assessing neurovascular status distal to injury.</div>
-                </div>
-            </div>
-        </div>
+      </section>
     </div>
+  </div>
 
-    <div class="footer">
-        <div class="nav-footer">
-            <a href="../index.html" class="nav-link">🏠 Home</a>
-            <a href="05_Shock.html" class="nav-link">← Previous</a>
-            <a href="07_Spine.html" class="nav-link">Next →</a>
-        </div>
+  <nav class="lesson-footer-nav" aria-label="Lesson pagination">
+    <a class="btn secondary prev" href="05_Shock.html"><span aria-hidden="true">←</span> Lesson 5: Shock Recognition &amp; Treatment</a>
+    <a class="home" href="../index.html#lessons">All lessons</a>
+    <a class="btn next" href="07_Spine.html">Lesson 7: Head, Neck &amp; Spine Injuries <span aria-hidden="true">→</span></a>
+  </nav>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-links">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#lessons">All lessons</a>
+      <a href="../final_exam.html">Final exam</a>
+      <a href="https://github.com/owenriverk/wfa-precourse">Source on GitHub</a>
     </div>
+    <p class="foot-disclaimer">Educational use only. This course teaches lay-rescuer wilderness first aid and does not replace hands-on training or professional medical care. In an emergency, call your local emergency number.</p>
+  </div>
+</footer>
 
-    <script>
-        const quizQuestions = [
-            {
-                question: "CSM stands for:",
-                options: ["A) Cardiovascular Status Monitoring", "B) Compression, Stability, Movement", "C) Closed Soft-tissue Management", "D) Circulation, Sensation, Motion"],
-                correct: 3,
-                explanation: "CSM is a simplified neurovascular assessment tool: Circulation (pulse, color, temperature), Sensation (can feel touch), and Motion (can move distal structures)."
-            },
-            {
-                question: "A splint should immobilize:",
-                options: ["A) Only the fracture site", "B) The joint above and below the fracture", "C) The entire limb", "D) Just below the fracture"],
-                correct: 1,
-                explanation: "Proper splinting immobilizes the joints ABOVE and BELOW the fracture to prevent motion at the injury site and reduce pain."
-            },
-            {
-                question: "Signs of an open fracture include:",
-                options: ["A) Pain only", "B) Loss of sensation", "C) Severe bruising only", "D) Bone visible through the skin or a wound near fracture"],
-                correct: 3,
-                explanation: "An open fracture has a break in the skin, allowing direct contamination. May see bone, blood at wound, or obvious communication with fracture site."
-            },
-            {
-                question: "The best field management for a suspected mid-shaft femur fracture at the WFA level is:",
-                options: ["A) Apply manual traction and hold it during evacuation", "B) Well-padded rigid or anatomic splint, treat for shock, urgent evacuation", "C) Have the patient walk out with assistance", "D) Ice and 24 hours of observation in camp"],
-                correct: 1,
-                explanation: "A femur fracture can bleed 1-1.5 liters internally. Apply a well-padded rigid or anatomic splint (securing the injured leg to the uninjured leg), treat for shock (supine flat, prevent heat loss), and evacuate urgently. Traction splints are an EMS device — reference knowledge only at this level."
-            },
-            {
-                question: "The Ottawa Ankle Rules state that imaging is recommended if:",
-                options: ["A) There is any swelling", "B) There is bruising", "C) There is bony tenderness at the malleoli (distal 6 cm), navicular, or base of the 5th metatarsal, OR inability to bear weight for 4 steps", "D) Any ankle pain is present"],
-                correct: 2,
-                explanation: "The Ottawa Ankle Rules are OR criteria: bony tenderness at the posterior edge of the distal 6 cm of either malleolus, the navicular, or the base of the 5th metatarsal, OR inability to bear weight (4 steps) both immediately and when assessed. Any ONE positive finding suggests the need for imaging/evacuation."
-            },
-            {
-                question: "An anterior shoulder dislocation typically presents with:",
-                options: ["A) The arm held in slight abduction and external rotation", "B) The arm internally rotated and adducted", "C) The arm behind the back", "D) Elbow flexed at 90 degrees"],
-                correct: 0,
-                explanation: "Anterior shoulder dislocations present with the arm held away from the body (abduction) and external rotation, with loss of normal shoulder contour."
-            },
-            {
-                question: "Neurovascular status distal to a fracture should be checked:",
-                options: ["A) Once after splinting", "B) Before and after splinting, and serially thereafter", "C) Only if the patient complains", "D) Never — it's too painful"],
-                correct: 1,
-                explanation: "Serial neurovascular checks are essential: baseline before splinting, immediately after splinting, and periodically during evacuation to detect complications."
-            },
-            {
-                question: "An open fracture should be:",
-                options: ["A) Reduced and closed", "B) Splinted and monitored without irrigation", "C) Irrigated, covered, and evacuated without reduction", "D) Wrapped tightly with elastic bandage"],
-                correct: 2,
-                explanation: "Do not attempt to realign an open fracture — that is higher-level care. Gently irrigate, cover with a clean dressing, splint in the position found, note any exposed bone for hospital handoff, and evacuate EMERGENTLY."
-            },
-            {
-                question: "Compartment syndrome is characterized by:",
-                options: ["A) Extreme pain disproportionate to injury, tight swollen compartment, pain with passive stretch", "B) Mild swelling", "C) Redness only", "D) Normal pulse with no pain"],
-                correct: 0,
-                explanation: "Compartment syndrome presents with pain OUT OF PROPORTION to injury (key finding), pain with passive stretch, and tense compartments — surgical emergency."
-            },
-            {
-                question: "When a distal pulse is absent after fracture, the priority is:",
-                options: ["A) Treat as an emergency — splint in position, monitor CSM, EMERGENT evacuation", "B) Apply more padding", "C) Observe for 24 hours", "D) Apply ice"],
-                correct: 0,
-                explanation: "An absent distal pulse means neurovascular compromise — the limb is at risk. At the WFA level: splint in the position found, treat for shock, document CSM serially, and evacuate EMERGENTLY. Realignment and reduction are performed by medical professionals."
-            }
-        ];
-
-        function switchTab(tabName) {
-            const sections = document.querySelectorAll('.section');
-            const buttons = document.querySelectorAll('.tab-button');
-
-            sections.forEach(section => section.classList.remove('active'));
-            buttons.forEach(button => button.classList.remove('active'));
-
-            document.getElementById(tabName).classList.add('active');
-            event.target.classList.add('active');
-
-            if (tabName === 'quiz' && document.getElementById('quiz-container').innerHTML === '') {
-                renderQuiz();
-            }
-
-            const tabs = Array.from(document.querySelectorAll('.tab-button'));
-            const activeIdx = tabs.findIndex(b => b.getAttribute('onclick').includes(tabName));
-            updateStepIndicator(activeIdx);
-        }
-        function updateStepIndicator(activeIdx) {
-            const tabs = document.querySelectorAll('.tab-button');
-            document.getElementById('step-text').textContent = 'Step ' + (activeIdx + 1) + ' of ' + tabs.length;
-            const dots = document.getElementById('step-dots');
-            dots.innerHTML = '';
-            tabs.forEach((_, i) => {
-                const d = document.createElement('div');
-                d.style.cssText = 'width:8px;height:8px;border-radius:50%;background:' + (i === activeIdx ? '#2C7BE5' : i < activeIdx ? '#1A6B3A' : '#CBD5E0') + ';';
-                dots.appendChild(d);
-            });
-        }
-
-        function renderQuiz() {
-            const container = document.getElementById('quiz-container');
-            container.innerHTML = '';
-
-            quizQuestions.forEach((q, index) => {
-                const questionDiv = document.createElement('div');
-                questionDiv.className = 'question-box';
-                questionDiv.innerHTML = `
-                    <div class="question-text">Question ${index + 1}: ${q.question}</div>
-                    ${q.options.map((option, optIndex) => `
-                        <button class="answer-option" onclick="selectAnswer(${index}, ${optIndex})" id="q${index}o${optIndex}">
-                            ${option}
-                        </button>
-                    `).join('')}
-                    <div class="explanation" id="exp${index}"></div>
-                `;
-                container.appendChild(questionDiv);
-            });
-        }
-
-        function selectAnswer(questionIndex, optionIndex) {
-            const question = quizQuestions[questionIndex];
-            const correct = question.correct === optionIndex;
-
-            for (let i = 0; i < question.options.length; i++) {
-                const btn = document.getElementById(`q${questionIndex}o${i}`);
-                if (correct && i === optionIndex) {
-                    btn.classList.add('correct');
-                    btn.disabled = true;
-                } else if (!correct && i === optionIndex) {
-                    btn.classList.add('incorrect');
-                    btn.disabled = true;
-                } else {
-                    btn.disabled = true;
-                }
-            }
-
-            const explanation = document.getElementById(`exp${questionIndex}`);
-            explanation.textContent = question.explanation;
-            explanation.classList.add('show');
-
-            calculateScore();
-        }
-
-        function calculateScore() {
-            let score = 0;
-            let answered = 0;
-            quizQuestions.forEach((q, index) => {
-                for (let i = 0; i < q.options.length; i++) {
-                    const btn = document.getElementById(`q${index}o${i}`);
-                    if (btn.classList.contains('correct')) { score++; answered++; break; }
-                    if (btn.classList.contains('incorrect')) { answered++; break; }
-                }
-            });
-            if (answered < quizQuestions.length) return;
-            const lessonId = '06';
-            const prevScore = localStorage.getItem('wfa_score_' + lessonId);
-            localStorage.setItem('wfa_completed_' + lessonId, 'true');
-            localStorage.setItem('wfa_score_' + lessonId, Math.max(score, parseInt(prevScore || '0')));
-            const scoreContainer = document.getElementById('score-container');
-            let msg = score >= Math.round(quizQuestions.length * 0.8) ? '🎉 Excellent work! You are ready for the next lesson.' : score >= Math.round(quizQuestions.length * 0.6) ? '👍 Good job! Review the sections you missed.' : '📚 Consider reviewing this lesson before moving on.';
-            if (prevScore && parseInt(prevScore) > 0) msg += ' (Previous best: ' + prevScore + '/' + quizQuestions.length + ')';
-            scoreContainer.innerHTML = '<div class="score-box">You scored ' + score + '/' + quizQuestions.length + ' (' + Math.round(score/quizQuestions.length*100) + '%)<br>' + msg + '</div>';
-            const retryBtn = document.createElement('button');
-            retryBtn.textContent = '↺ Retry Quiz';
-            retryBtn.style.cssText = 'margin-top:16px;padding:10px 24px;background:#2C7BE5;color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;display:block;';
-            retryBtn.onclick = function() {
-                scoreContainer.innerHTML = '';
-                document.getElementById('quiz-container').innerHTML = '';
-                renderQuiz();
-            };
-            scoreContainer.appendChild(retryBtn);
-        }
-
-        function toggleDiscussion(id) {
-            const discussion = document.getElementById(id);
-            discussion.classList.toggle('show');
-        }
-        updateStepIndicator(0);
-    </script>
+<script>
+window.WFA_LESSON = {
+ "id": "06",
+ "questions": [
+  {
+   "q": "CSM stands for:",
+   "options": [
+    "Cardiovascular Status Monitoring",
+    "Compression, Stability, Movement",
+    "Closed Soft-tissue Management",
+    "Circulation, Sensation, Motion"
+   ],
+   "answer": 3,
+   "exp": "CSM is a simplified neurovascular assessment tool: Circulation (pulse, color, temperature), Sensation (can feel touch), and Motion (can move distal structures)."
+  },
+  {
+   "q": "A splint should immobilize:",
+   "options": [
+    "Only the fracture site",
+    "The joint above and below the fracture",
+    "The entire limb",
+    "Just below the fracture"
+   ],
+   "answer": 1,
+   "exp": "Proper splinting immobilizes the joints ABOVE and BELOW the fracture to prevent motion at the injury site and reduce pain."
+  },
+  {
+   "q": "Signs of an open fracture include:",
+   "options": [
+    "Pain only",
+    "Loss of sensation",
+    "Severe bruising only",
+    "Bone visible through the skin or a wound near fracture"
+   ],
+   "answer": 3,
+   "exp": "An open fracture has a break in the skin, allowing direct contamination. May see bone, blood at wound, or obvious communication with fracture site."
+  },
+  {
+   "q": "The best field management for a suspected mid-shaft femur fracture at the WFA level is:",
+   "options": [
+    "Apply manual traction and hold it during evacuation",
+    "Well-padded rigid or anatomic splint, treat for shock, urgent evacuation",
+    "Have the patient walk out with assistance",
+    "Ice and 24 hours of observation in camp"
+   ],
+   "answer": 1,
+   "exp": "A femur fracture can bleed 1-1.5 liters internally. Apply a well-padded rigid or anatomic splint (securing the injured leg to the uninjured leg), treat for shock (supine flat, prevent heat loss), and evacuate urgently. Traction splints are an EMS device — reference knowledge only at this level."
+  },
+  {
+   "q": "The Ottawa Ankle Rules state that imaging is recommended if:",
+   "options": [
+    "There is any swelling",
+    "There is bruising",
+    "There is bony tenderness at the malleoli (distal 6 cm), navicular, or base of the 5th metatarsal, OR inability to bear weight for 4 steps",
+    "Any ankle pain is present"
+   ],
+   "answer": 2,
+   "exp": "The Ottawa Ankle Rules are OR criteria: bony tenderness at the posterior edge of the distal 6 cm of either malleolus, the navicular, or the base of the 5th metatarsal, OR inability to bear weight (4 steps) both immediately and when assessed. Any ONE positive finding suggests the need for imaging/evacuation."
+  },
+  {
+   "q": "An anterior shoulder dislocation typically presents with:",
+   "options": [
+    "The arm held in slight abduction and external rotation",
+    "The arm internally rotated and adducted",
+    "The arm behind the back",
+    "Elbow flexed at 90 degrees"
+   ],
+   "answer": 0,
+   "exp": "Anterior shoulder dislocations present with the arm held away from the body (abduction) and external rotation, with loss of normal shoulder contour."
+  },
+  {
+   "q": "Neurovascular status distal to a fracture should be checked:",
+   "options": [
+    "Once after splinting",
+    "Before and after splinting, and serially thereafter",
+    "Only if the patient complains",
+    "Never — it's too painful"
+   ],
+   "answer": 1,
+   "exp": "Serial neurovascular checks are essential: baseline before splinting, immediately after splinting, and periodically during evacuation to detect complications."
+  },
+  {
+   "q": "An open fracture should be:",
+   "options": [
+    "Reduced and closed",
+    "Splinted and monitored without irrigation",
+    "Irrigated, covered, and evacuated without reduction",
+    "Wrapped tightly with elastic bandage"
+   ],
+   "answer": 2,
+   "exp": "Do not attempt to realign an open fracture — that is higher-level care. Gently irrigate, cover with a clean dressing, splint in the position found, note any exposed bone for hospital handoff, and evacuate EMERGENTLY."
+  },
+  {
+   "q": "Compartment syndrome is characterized by:",
+   "options": [
+    "Extreme pain disproportionate to injury, tight swollen compartment, pain with passive stretch",
+    "Mild swelling",
+    "Redness only",
+    "Normal pulse with no pain"
+   ],
+   "answer": 0,
+   "exp": "Compartment syndrome presents with pain OUT OF PROPORTION to injury (key finding), pain with passive stretch, and tense compartments — surgical emergency."
+  },
+  {
+   "q": "When a distal pulse is absent after fracture, the priority is:",
+   "options": [
+    "Treat as an emergency — splint in position, monitor CSM, EMERGENT evacuation",
+    "Apply more padding",
+    "Observe for 24 hours",
+    "Apply ice"
+   ],
+   "answer": 0,
+   "exp": "An absent distal pulse means neurovascular compromise — the limb is at risk. At the WFA level: splint in the position found, treat for shock, document CSM serially, and evacuate EMERGENTLY. Realignment and reduction are performed by medical professionals."
+  }
+ ]
+};
+</script>
+<script src="../assets/js/lesson.js"></script>
 </body>
 </html>

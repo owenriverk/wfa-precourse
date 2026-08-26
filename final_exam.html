@@ -2,110 +2,46 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Final Exam | WFA Pre-Course</title>
-<style>
-  :root {
-    --primary: #1B4F8A; --accent: #2C7BE5; --light-bg: #E8F0FE;
-    --danger: #C0392B; --danger-bg: #FDECEA; --success: #1A6B3A; --success-bg: #E8F5E9;
-    --warning: #D35400; --warning-bg: #FFF3E0; --info: #1565C0; --info-bg: #E3F2FD;
-    --dark: #2D3748; --muted: #718096; --border: #CBD5E0; --card-bg: #F7FAFC;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F0F4F8; color: var(--dark); line-height: 1.7; }
-  .header { background: linear-gradient(135deg, #1B4F8A 0%, #2C7BE5 100%); color: white; padding: 24px 32px; }
-  .header-meta { display: flex; gap: 16px; font-size: 13px; opacity: 0.85; margin-bottom: 8px; flex-wrap: wrap; }
-  .header-meta span { background: rgba(255,255,255,0.2); padding: 3px 10px; border-radius: 12px; }
-  .header h1 { font-size: clamp(22px, 4vw, 32px); font-weight: 700; }
-  .header p { opacity: 0.9; margin-top: 6px; font-size: 16px; }
-  .header a.back { color: white; opacity: 0.85; font-size: 13px; text-decoration: none; display: inline-block; margin-bottom: 10px; }
-  .header a.back:hover { opacity: 1; text-decoration: underline; }
-  .container { max-width: 900px; margin: 0 auto; padding: 32px 24px; }
-  .card { background: white; border-radius: 10px; padding: 22px; margin: 18px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.07); border: 1px solid var(--border); }
-  .alert { border-radius: 8px; padding: 16px 20px; margin: 20px 0; border-left: 5px solid; }
-  .alert-title { font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
-  .alert-info { background: var(--info-bg); border-color: var(--info); color: #1A237E; }
-  .alert-info .alert-title { color: var(--info); }
-  .alert-warning { background: var(--warning-bg); border-color: var(--warning); color: #7E5109; }
-  .alert-warning .alert-title { color: var(--warning); }
-  .alert-success { background: var(--success-bg); border-color: var(--success); color: #1B5E20; }
-  .alert-success .alert-title { color: var(--success); }
-  .alert-danger { background: var(--danger-bg); border-color: var(--danger); color: #7B241C; }
-  .alert-danger .alert-title { color: var(--danger); }
-  .prev-banner { display: none; background: var(--light-bg); border: 1px solid var(--accent); border-radius: 10px; padding: 14px 18px; margin: 18px 0; font-size: 14px; }
-  .prev-banner .actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
-  .name-row label { font-weight: 700; color: var(--primary); display: block; margin-bottom: 6px; }
-  .name-row input[type="text"] { width: 100%; max-width: 420px; padding: 12px 14px; font-size: 16px; border: 2px solid var(--border); border-radius: 8px; font-family: inherit; }
-  .name-row input[type="text"]:focus { outline: none; border-color: var(--accent); }
-  .name-error { display: none; color: var(--danger); font-size: 14px; font-weight: 600; margin-top: 6px; }
-  .section-divider { background: var(--primary); color: white; padding: 10px 18px; border-radius: 10px; margin: 30px 0 6px; font-weight: 700; font-size: 15px; letter-spacing: 0.3px; }
-  .exam-q { background: white; border-radius: 10px; padding: 22px; margin: 16px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.07); border: 1px solid var(--border); }
-  .exam-q .stem { font-weight: 600; font-size: 16px; margin-bottom: 14px; }
-  .exam-q .stem .qnum { color: var(--primary); }
-  .opt { display: flex; gap: 10px; align-items: flex-start; padding: 12px 16px; border: 2px solid var(--border); border-radius: 8px; margin-bottom: 10px; cursor: pointer; font-size: 15px; background: white; transition: border-color 0.15s, background 0.15s; }
-  .opt:hover { border-color: var(--accent); background: var(--light-bg); }
-  .opt:has(input:checked) { border-color: var(--accent); background: var(--light-bg); }
-  .opt input { margin-top: 5px; accent-color: var(--accent); flex-shrink: 0; }
-  .btn { background: var(--primary); color: white; border: none; padding: 13px 26px; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 700; font-family: inherit; transition: background 0.2s; text-decoration: none; display: inline-block; min-height: 44px; }
-  .btn:hover { background: var(--accent); }
-  .btn.secondary { background: white; color: var(--primary); border: 2px solid var(--primary); }
-  .btn.secondary:hover { background: var(--light-bg); }
-  .btn.small { padding: 8px 16px; font-size: 13px; }
-  .submit-bar { text-align: center; margin: 30px 0; }
-  .score-banner { text-align: center; padding: 30px; background: white; border-radius: 12px; margin: 24px 0; border: 2px solid var(--border); }
-  .score-banner h3 { font-size: 34px; color: var(--primary); }
-  .score-banner .status { font-size: 18px; font-weight: 700; margin-top: 6px; }
-  .score-banner .status.pass { color: var(--success); }
-  .score-banner .status.fail { color: var(--warning); }
-  .missed-list { list-style: none; margin: 0; padding: 0; }
-  .missed-list li { padding: 12px 14px; border-radius: 8px; background: var(--card-bg); border: 1px solid var(--border); margin-bottom: 10px; font-size: 14px; }
-  .missed-list li strong { color: var(--primary); }
-  .missed-list .why { color: var(--muted); display: block; margin-top: 3px; }
-  .record { background: white; border: 3px double var(--primary); border-radius: 12px; padding: 34px 28px; margin: 24px 0; text-align: center; }
-  .record .record-badge { display: inline-block; background: var(--light-bg); color: var(--primary); padding: 5px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; }
-  .record h2 { color: var(--primary); font-size: 24px; margin-bottom: 4px; }
-  .record .record-sub { color: var(--muted); font-size: 14px; margin-bottom: 22px; }
-  .record .record-name { font-size: 28px; font-weight: 700; color: var(--dark); border-bottom: 2px solid var(--border); display: inline-block; padding: 0 24px 6px; margin-bottom: 20px; }
-  .record .record-facts { display: flex; gap: 28px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
-  .record .fact .fact-label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); font-weight: 700; }
-  .record .fact .fact-value { font-size: 20px; font-weight: 700; color: var(--primary); }
-  .record .record-note { font-size: 12px; color: var(--muted); max-width: 520px; margin: 0 auto; line-height: 1.5; }
-  footer { background: var(--primary); color: white; padding: 32px; text-align: center; margin-top: 40px; }
-  footer p { opacity: 0.8; font-size: 14px; margin-bottom: 6px; }
-  footer a { color: white; }
-  @media (max-width: 600px) { .container { padding: 20px 14px; } .header { padding: 18px 16px; } .record { padding: 24px 14px; } }
-  @media print {
-    body * { visibility: hidden; }
-    #record-block, #record-block * { visibility: visible; }
-    #record-block { position: absolute; left: 0; top: 0; width: 100%; margin: 0; border-radius: 0; box-shadow: none; }
-    .no-print { display: none !important; }
-  }
-</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Final Exam | Wilderness First Aid — Free Online Course</title>
+<meta name="description" content="The 40-question final exam for the free online wilderness first aid course. Pass with 30/40 and print a record of completion.">
+<meta name="theme-color" content="#1B4F8A">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://owenriverk.github.io/wfa-precourse/final_exam.html">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/site.css">
 </head>
-<body>
+<body class="exam">
+<a class="skip-link" href="#content">Skip to exam</a>
 
-<div class="header">
-  <a class="back" href="index.html">&larr; Back to modules</a>
-  <div class="header-meta">
-    <span>&#128221; 40 Questions</span>
-    <span>&#9989; Passing: 30/40 (75%)</span>
-    <span>&#127956; Covers the pre-course modules</span>
+<header class="site-nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="2" y="2" width="28" height="28" rx="7" fill="currentColor" opacity="0.12"/><path d="M6 23 L12 12 L16 18 L19 14 L26 23 Z" fill="currentColor" opacity="0.85"/><path d="M16 6 v6 M13 9 h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg><span>Wilderness First Aid</span><span class="brand-sub">Free online course</span></a>
+    <nav class="nav-links" aria-label="Course navigation">
+      <a href="index.html#lessons">All lessons</a>
+      <a href="final_exam.html" aria-current="page">Final exam</a>
+    </nav>
   </div>
-  <h1>Final Exam &mdash; Wilderness First Aid Pre-Course</h1>
-  <p>The capstone knowledge check for the online pre-course modules.</p>
-</div>
+</header>
 
-<div class="container">
+<header class="lesson-head">
+  <div class="wrap">
+    <div class="eyebrow"><span>Final exam</span><span class="dot">40 questions</span><span class="dot">Passing: 30/40 (75%)</span></div>
+    <h1>Final Exam</h1>
+    <p class="lead">The knowledge check for lessons 1–14. Take it when you've finished them.</p>
+  </div>
+</header>
+
+<main id="content" class="wrap exam-main">
 
   <div class="alert alert-info">
-    <div class="alert-title">&#128203; About This Exam</div>
-    This final exam contains <strong>40 multiple-choice questions</strong> covering the pre-course modules. A score of <strong>30/40 (75%)</strong> or higher is passing. When you submit, your result is saved as a <strong>record of completion</strong> with your name, score, and date &mdash; a personal study record, <em>not</em> a certification. You may retake the exam at any time; retaking overwrites your previous record.
+    <div class="alert-title">About this exam</div>
+    <strong>40 multiple-choice questions</strong> covering lessons 1–14. A score of <strong>30/40 (75%)</strong> or higher is passing. When you submit, your result is saved in this browser as a <strong>record of completion</strong> with your name, score, and date &mdash; a personal study record, <em>not</em> a certification. You may retake the exam at any time; retaking overwrites your previous record.
   </div>
 
   <div class="alert alert-warning">
-    <div class="alert-title">&#9888;&#65039; Educational Use Only</div>
-    This content supports WFA training. It does not replace hands-on instruction or professional medical care.
+    <div class="alert-title">Educational use only</div>
+    This course supports wilderness first aid training. It does not replace hands-on instruction or professional medical care.
   </div>
 
   <div class="prev-banner" id="prev-banner">
@@ -119,13 +55,13 @@
   <div class="card name-row">
     <label for="student-name">Your full name (required)</label>
     <input type="text" id="student-name" autocomplete="name" placeholder="e.g., Jordan Rivera">
-    <div class="name-error" id="name-error">Please enter your name before submitting the exam.</div>
+    <div class="name-error" id="name-error" role="alert">Please enter your name before submitting the exam.</div>
   </div>
 
   <form id="exam-form" onsubmit="return false;">
     <div id="questions"></div>
     <div class="submit-bar">
-      <button class="btn" type="button" onclick="submitExam()">Submit Exam</button>
+      <button class="btn lg" type="button" onclick="submitExam()">Submit exam</button>
     </div>
   </form>
 
@@ -133,41 +69,45 @@
     <div class="score-banner">
       <h3 id="score-text"></h3>
       <div class="status" id="status-text"></div>
-      <p id="score-sub" style="color:var(--muted); margin-top:8px;"></p>
+      <p id="score-sub"></p>
     </div>
 
     <div id="missed-wrap" class="card" style="display:none;">
-      <h3 style="color:var(--primary); margin-bottom:12px;">Questions to Review</h3>
+      <h3>Questions to review</h3>
       <ul class="missed-list" id="missed-list"></ul>
     </div>
 
     <div id="record-block" class="record">
       <div class="record-badge">Record of Completion</div>
       <h2>Record of Completion</h2>
-      <div class="record-sub">Wilderness First Aid Pre-Course Final Exam</div>
+      <div class="record-sub">Wilderness First Aid &mdash; free online course &middot; Final Exam</div>
       <div class="record-name" id="record-name"></div>
       <div class="record-facts">
         <div class="fact"><div class="fact-label">Score</div><div class="fact-value" id="record-score"></div></div>
         <div class="fact"><div class="fact-label">Result</div><div class="fact-value" id="record-result"></div></div>
         <div class="fact"><div class="fact-label">Date</div><div class="fact-value" id="record-date"></div></div>
       </div>
-      <div class="record-note">This record documents completion of the online pre-course final exam (passing standard: 30/40, 75%). It is a study record only &mdash; not a certification &mdash; and does not replace hands-on instruction or professional medical care.</div>
+      <div class="record-note">This record documents completion of the online course final exam (passing standard: 30/40, 75%). It is a study record only &mdash; not a certification &mdash; and does not replace hands-on instruction or professional medical care.</div>
     </div>
 
     <div class="submit-bar no-print">
-      <button class="btn" type="button" onclick="window.print()">&#128424; Print / Save Record</button>
-      <button class="btn secondary" type="button" onclick="startRetake()">&#8634; Retake Exam</button>
+      <button class="btn" type="button" onclick="window.print()">Print / save record</button>
+      <button class="btn secondary" type="button" onclick="startRetake()">Retake exam</button>
     </div>
   </div>
 
-  <p style="margin-top:30px;"><a href="index.html" style="color:var(--primary); font-weight:600;">&larr; Back to modules</a></p>
+  <p class="no-print" style="margin-top:30px;"><a href="index.html#lessons">&larr; Back to all lessons</a></p>
+</main>
 
-</div>
-
-<footer>
-  <p><strong>Wilderness First Aid Pre-Course Online Learning</strong></p>
-  <p>For educational use only. This content supports WFA training and does not replace hands-on instruction or professional medical care.</p>
-  <p style="margin-top:8px; opacity:0.6; font-size:12px;">Based on current wilderness medicine best practices and evidence-based guidelines.</p>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#lessons">All lessons</a>
+      <a href="https://github.com/owenriverk/wfa-precourse">Source on GitHub</a>
+    </div>
+    <p class="foot-disclaimer">Educational use only. This course teaches lay-rescuer wilderness first aid and does not replace hands-on training or professional medical care. In an emergency, call your local emergency number.</p>
+  </div>
 </footer>
 
 <script>
@@ -211,7 +151,7 @@ var QUESTIONS = [
         "One breath every 10-12 seconds",
         "One breath every 6 seconds (about 10 breaths per minute)",
         "Two quick breaths every 30 seconds"] },
-  { s: "Bleeding & Wounds", q: "A patient has an arterial bleed to the thigh. Direct pressure has been applied for 10 minutes but has not controlled the bleeding. What is the next appropriate step?",
+  { s: "Bleeding & Wounds", q: "A patient has an arterial bleed to the thigh. Direct pressure has not controlled the bleeding. What's the next step?",
     o: ["Pack the wound with gauze and apply more pressure",
         "Apply a tourniquet 2-3 inches proximal to the wound",
         "Elevate the extremity above heart level",
@@ -473,11 +413,11 @@ function submitExam() {
   // Score banner
   document.getElementById("score-text").textContent = "You scored " + score + " / " + TOTAL + " (" + pct + "%)";
   var statusEl = document.getElementById("status-text");
-  statusEl.textContent = passed ? "Complete — Passing" : "Complete — Below passing (review the modules and retake)";
+  statusEl.textContent = passed ? "Complete — Passing" : "Complete — Below passing (review the lessons and retake)";
   statusEl.className = "status " + (passed ? "pass" : "fail");
   document.getElementById("score-sub").textContent = passed
-    ? "Great work. Your record of completion is below — print or save it for your instructor."
-    : "You need " + PASS_MARK + "/" + TOTAL + " (75%) to pass. Review the missed topics below, revisit those modules, and retake the exam.";
+    ? "Great work. Your record of completion is below — print or save it for your records."
+    : "You need " + PASS_MARK + "/" + TOTAL + " (75%) to pass. Review the missed topics below, revisit those lessons, and retake the exam.";
 
   // Missed questions
   var missedWrap = document.getElementById("missed-wrap");
@@ -544,7 +484,7 @@ function showStoredRecord() {
   fillRecord(r.name, r.score, r.pct, r.passed, longDateFromISO(r.date));
   document.getElementById("score-text").textContent = "Previous result: " + r.score + " / " + r.total + " (" + r.pct + "%)";
   var statusEl = document.getElementById("status-text");
-  statusEl.textContent = r.passed ? "Complete — Passing" : "Complete — Below passing (review the modules and retake)";
+  statusEl.textContent = r.passed ? "Complete — Passing" : "Complete — Below passing (review the lessons and retake)";
   statusEl.className = "status " + (r.passed ? "pass" : "fail");
   document.getElementById("score-sub").textContent = "Recorded " + longDateFromISO(r.date) + ". Retaking the exam overwrites this record.";
   document.getElementById("missed-wrap").style.display = "none";

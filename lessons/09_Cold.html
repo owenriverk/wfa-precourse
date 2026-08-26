@@ -1,776 +1,730 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson 09: Cold-Related Emergencies - WFA Course</title>
-    <style>
-        :root {
-            --primary: #1B4F8A; --accent: #1565C0; --light-bg: #E3F2FD;
-            --danger: #1565C0; --danger-bg: #E3F2FD; --success: #1A6B3A; --success-bg: #E8F5E9;
-            --warning: #D35400; --warning-bg: #FFF3E0; --info: #1B4F8A; --info-bg: #E3F2FD;
-            --dark: #2D3748; --muted: #718096; --border: #CBD5E0; --white: #FFFFFF;
-            --card-bg: #F7FAFC;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: var(--dark); line-height: 1.6; background: #ECEFF4; }
-        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
-        .header { background: linear-gradient(135deg, #1565C0, #1B4F8A); color: var(--white); padding: 30px; border-radius: 8px; margin-bottom: 30px; }
-        .header h1 { margin: 0 0 10px 0; font-size: 2.2em; }
-        .meta { font-size: 0.95em; opacity: 0.95; }
-        .meta-item { margin-right: 20px; display: inline-block; }
-        .tabs { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; border-bottom: 2px solid var(--border); }
-        .tab-btn { padding: 12px 20px; background: var(--card-bg); border: 2px solid var(--border); border-bottom: none; cursor: pointer; font-size: 1em; border-radius: 8px 8px 0 0; transition: all 0.3s; }
-        .tab-btn:hover { background: var(--light-bg); }
-        .tab-btn.active { background: #1565C0; color: var(--white); border-color: #1565C0; }
-        .tab-content { display: none; background: var(--white); padding: 25px; border-radius: 0 0 8px 8px; border: 2px solid var(--border); margin-bottom: 30px; }
-        .tab-content.active { display: block; }
-        .section-title { font-size: 1.8em; color: #1B4F8A; margin: 30px 0 20px 0; border-left: 5px solid #1565C0; padding-left: 15px; }
-        .subsection-title { font-size: 1.3em; color: #1565C0; margin: 20px 0 12px 0; font-weight: 600; }
-        .card { background: var(--card-bg); border-left: 5px solid #1565C0; padding: 20px; margin: 20px 0; border-radius: 6px; }
-        .alert { padding: 15px; margin: 20px 0; border-radius: 6px; border-left: 5px solid; }
-        .alert-danger { background: var(--danger-bg); border-left-color: #C0392B; color: #C0392B; }
-        .alert-warning { background: var(--warning-bg); border-left-color: var(--warning); color: var(--warning); }
-        .alert-success { background: var(--success-bg); border-left-color: var(--success); color: var(--success); }
-        .alert-info { background: var(--info-bg); border-left-color: var(--info); color: var(--info); }
-        .mnemonic-box { background: linear-gradient(135deg, #1565C0, #1B4F8A); color: var(--white); padding: 20px; margin: 20px 0; border-radius: 8px; font-weight: 600; font-size: 1.1em; }
-        .mnemonic-item { margin: 10px 0; }
-        .mnemonic-letter { display: inline-block; background: var(--white); color: #1565C0; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: 700; margin-right: 10px; }
-        ul, ol { margin-left: 20px; margin-bottom: 15px; }
-        li { margin-bottom: 8px; }
-        .key-points { background: linear-gradient(135deg, #1565C0, #1B4F8A); color: var(--white); padding: 20px; margin: 25px 0; border-radius: 8px; }
-        .key-points h3 { margin-top: 0; margin-bottom: 15px; font-size: 1.3em; }
-        .key-point { margin: 8px 0; padding-left: 25px; position: relative; }
-        .key-point:before { content: "★"; position: absolute; left: 0; font-size: 1.2em; }
-        .scenario-case { background: var(--info-bg); border: 2px solid var(--info); border-radius: 8px; padding: 20px; margin: 20px 0; }
-        .scenario-case h4 { color: var(--info); margin-bottom: 12px; font-size: 1.1em; }
-        .scenario-btn { background: var(--info); color: var(--white); padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 0.95em; transition: background 0.3s; }
-        .scenario-btn:hover { background: #0d3a8a; }
-        .discussion { display: none; margin-top: 15px; background: var(--white); padding: 15px; border-radius: 6px; border-left: 4px solid var(--info); }
-        .discussion.show { display: block; }
-        .glossary { background: var(--card-bg); padding: 20px; margin: 20px 0; border-radius: 8px; }
-        .glossary-term { margin-bottom: 15px; }
-        .glossary-term dt { color: #1565C0; font-weight: 700; font-size: 1.05em; }
-        .glossary-term dd { margin-left: 20px; margin-top: 5px; color: var(--dark); }
-        .quiz-section { background: var(--white); padding: 25px; border-radius: 8px; border: 2px solid var(--border); margin: 20px 0; }
-        .quiz-question { background: var(--card-bg); padding: 20px; margin: 20px 0; border-radius: 6px; border-left: 4px solid #1565C0; }
-        .quiz-question h4 { color: var(--dark); margin-bottom: 15px; font-size: 1.1em; }
-        .quiz-question ul { list-style: none; margin: 0; }
-        .quiz-question li { padding: 10px 12px; margin: 8px 0; background: var(--white); border: 2px solid var(--border); border-radius: 4px; cursor: pointer; transition: all 0.3s; }
-        .quiz-question li:hover { border-color: #1565C0; background: var(--light-bg); }
-        .quiz-question li.disabled { opacity: 0.6; cursor: not-allowed; }
-        .quiz-question li.correct { background: var(--success-bg); border-color: var(--success); color: var(--success); font-weight: 600; }
-        .quiz-question li.incorrect { background: #FDECEA; border-color: #C0392B; color: #C0392B; font-weight: 600; }
-        .explanation { display: none; margin-top: 12px; padding: 12px; border-radius: 4px; font-size: 0.95em; }
-        .explanation.show { display: block; }
-        .correct-exp { background: var(--success-bg); color: var(--success); border-left: 4px solid var(--success); }
-        .incorrect-exp { background: #FDECEA; color: #C0392B; border-left: 4px solid #C0392B; }
-        #score-display { display: none; background: linear-gradient(135deg, #1565C0, #1B4F8A); color: var(--white); padding: 30px; border-radius: 8px; text-align: center; margin: 30px 0; }
-        #score-text { font-size: 2em; font-weight: 700; margin-bottom: 10px; }
-        #score-sub { font-size: 1.1em; opacity: 0.95; }
-        .nav-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 40px; padding-top: 20px; border-top: 2px solid var(--border); }
-        .nav-link { padding: 12px 24px; background: #1565C0; color: var(--white); text-decoration: none; border-radius: 6px; transition: background 0.3s; cursor: pointer; font-weight: 600; }
-        .nav-link:hover { background: #1B4F8A; }
-        .nav-link.disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
-        .nav-center { text-align: center; }
-        .nav-center a { color: #1565C0; text-decoration: none; font-weight: 600; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cold-Related Emergencies — Lesson 9 | Wilderness First Aid</title>
+<meta name="description" content="Hypothermia staging, frostbite, rewarming, cold injury prevention. Free online wilderness first aid lesson with scenarios and a self-check quiz.">
+<meta name="theme-color" content="#1B4F8A">
+<link rel="canonical" href="https://owenriverk.github.io/wfa-precourse/lessons/09_Cold.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cold-Related Emergencies — Lesson 9 of 15">
+<meta property="og:description" content="Hypothermia staging, frostbite, rewarming, cold injury prevention.">
+<meta property="og:url" content="https://owenriverk.github.io/wfa-precourse/lessons/09_Cold.html">
+<meta property="og:site_name" content="Wilderness First Aid — free online course">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/site.css">
 </head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>Lesson 09: Cold-Related Emergencies</h1>
-            <div class="meta">
-                <span class="meta-item">Estimated Time: 30 minutes</span>
-                <span class="meta-item">Module 09 of 14</span>
+<body class="lesson" data-lesson-id="09" data-next-href="10_Anaphylaxis.html" data-next-title="Anaphylaxis &amp; Allergic Reactions">
+<a class="skip-link" href="#content">Skip to lesson content</a>
+
+<header class="site-nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="2" y="2" width="28" height="28" rx="7" fill="currentColor" opacity="0.12"/><path d="M6 23 L12 12 L16 18 L19 14 L26 23 Z" fill="currentColor" opacity="0.85"/><path d="M16 6 v6 M13 9 h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg><span>Wilderness First Aid</span><span class="brand-sub">Free online course</span></a>
+    <span class="lesson-pos">Lesson 9 of 15</span>
+    <nav class="nav-links" aria-label="Course navigation">
+      <a class="hide-sm" href="../index.html#lessons">All lessons</a>
+      <a class="icon-btn" href="08_Heat.html" aria-label="Previous lesson: Heat-Related Emergencies"><span aria-hidden="true">←</span></a>
+      <a class="icon-btn" href="10_Anaphylaxis.html" aria-label="Next lesson: Anaphylaxis &amp; Allergic Reactions"><span aria-hidden="true">→</span></a>
+    </nav>
+  </div>
+</header>
+
+<header class="lesson-head">
+  <div class="wrap">
+    <div class="eyebrow"><span>Lesson 09</span><span class="dot">30 minutes</span><span class="dot">8 sections</span></div>
+    <h1>Cold-Related Emergencies</h1>
+    <p class="lead">Hypothermia staging, frostbite, rewarming, cold injury prevention.</p>
+    <div class="tags"><span class="badge tag-red">Hypothermia</span><span class="badge tag-blue">Frostbite</span><span class="badge tag-orange">Rewarming</span><span class="badge tag-green">Prevention</span></div>
+  </div>
+</header>
+
+<main id="content" class="wrap">
+  <div class="lesson-body">
+    <nav class="lesson-toc" aria-label="Lesson sections">
+      <p class="toc-label">In this lesson</p>
+      <div class="tablist" role="tablist">
+        <button class="tab" role="tab" id="tab-overview" aria-controls="overview" aria-selected="false" tabindex="-1"><span class="tab-n" aria-hidden="true">1</span><span class="tab-label">Overview</span></button>
+        <button class="tab" role="tab" id="tab-hypo" aria-controls="hypo" aria-selected="false" tabindex="-1"><span class="tab-n" aria-hidden="true">2</span><span class="tab-label">Hypothermia</span></button>
+        <button class="tab" role="tab" id="tab-frostbite" aria-controls="frostbite" aria-selected="false" tabindex="-1"><span class="tab-n" aria-hidden="true">3</span><span class="tab-label">Frostbite & Cold Injuries</span></button>
+        <button class="tab" role="tab" id="tab-rewarming" aria-controls="rewarming" aria-selected="false" tabindex="-1"><span class="tab-n" aria-hidden="true">4</span><span class="tab-label">Field Rewarming</span></button>
+        <button class="tab" role="tab" id="tab-prevent" aria-controls="prevent" aria-selected="false" tabindex="-1"><span class="tab-n" aria-hidden="true">5</span><span class="tab-label">Prevention</span></button>
+        <button class="tab" role="tab" id="tab-scenarios" aria-controls="scenarios" aria-selected="false" tabindex="-1"><span class="tab-n" aria-hidden="true">6</span><span class="tab-label">Scenarios</span></button>
+        <button class="tab" role="tab" id="tab-quiz" aria-controls="quiz" aria-selected="false" tabindex="-1"><span class="tab-n" aria-hidden="true">7</span><span class="tab-label">Quiz</span></button>
+        <button class="tab" role="tab" id="tab-summary" aria-controls="summary" aria-selected="false" tabindex="-1"><span class="tab-n" aria-hidden="true">8</span><span class="tab-label">Summary</span></button>
+      </div>
+      <div class="toc-progress"><span class="label">0 of 8 sections viewed</span><div class="bar" aria-hidden="true"><span></span></div></div>
+    </nav>
+
+    <div class="lesson-content">
+      <section class="section" id="overview" role="tabpanel" aria-labelledby="tab-overview" tabindex="0" hidden>
+        <h2>Overview: Cold Emergencies</h2>
+        <p>Cold injuries range from frostbite (tissue freezing) to hypothermia (dangerous drop in core body temperature). In wilderness settings, cold exposure can cause life-threatening emergencies, especially in wet, windy conditions at high altitude or in mountain environments.</p>
+
+        <div class="alert alert-danger">
+            <strong>Critical principle:</strong> "No one is dead until warm and dead." Even severely hypothermic patients without detectable pulse may be resuscitable with rewarming.
+        </div>
+
+        <div class="key-points">
+            <h3>Key Points</h3>
+            <div class="key-point">Hypothermia: core temperature <35°C (95°F); a medical emergency requiring evacuation</div>
+            <div class="key-point">Frostbite: freezing of tissue; don't rewarm in field if risk of refreezing</div>
+            <div class="key-point">Afterdrop: core temperature continues to fall after removing cold source due to cold blood returning to core</div>
+            <div class="key-point">Wilderness CPR for hypothermia: continue even after prolonged period without pulse</div>
+            <div class="key-point">Prevention: clothing layers, avoid wet, monitor for early signs in partners</div>
+        </div>
+      </section>
+      <section class="section" id="hypo" role="tabpanel" aria-labelledby="tab-hypo" tabindex="0" hidden>
+        <h2>Hypothermia: Dangerous Cold</h2>
+
+        <div class="card">
+            <h3>Definition & Physiology</h3>
+            <ul>
+                <li><strong>Hypothermia:</strong> Core body temperature <35°C (95°F)</li>
+                <li><strong>Normal core temp:</strong> 37°C (98.6°F)</li>
+                <li><strong>Why it's dangerous:</strong> Low core temperature slows all metabolic processes. Heart becomes irritable, may develop ventricular fibrillation (deadly arrhythmia). Brain function impaired.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>Heat Loss Mechanisms in Cold</h3>
+            <ul>
+                <li><strong>Conduction:</strong> Direct contact with cold surface (ground, water, cold object). Water conducts heat away 25x faster than air.</li>
+                <li><strong>Convection:</strong> Wind strips away insulating layer of warm air. "Wind chill" dramatically increases heat loss.</li>
+                <li><strong>Radiation:</strong> Body radiates heat to cold environment</li>
+                <li><strong>Evaporation:</strong> Wet clothing allows rapid evaporative heat loss</li>
+                <li><strong>Respiration:</strong> Breathing in cold air and exhaling warm air loses heat</li>
+            </ul>
+
+            <div class="alert alert-warning">
+                <strong>Most significant:</strong> Immersion in cold water (conduction) and wind combined with wet clothing create rapid heat loss.
             </div>
         </div>
 
-        <div class="tabs">
-            <button class="tab-btn active" onclick="showTab('overview')">Overview</button>
-            <button class="tab-btn" onclick="showTab('hypo')">Hypothermia</button>
-            <button class="tab-btn" onclick="showTab('frostbite')">Frostbite & Cold Injuries</button>
-            <button class="tab-btn" onclick="showTab('rewarming')">Field Rewarming</button>
-            <button class="tab-btn" onclick="showTab('prevent')">Prevention</button>
-            <button class="tab-btn" onclick="showTab('scenarios')">Scenarios</button>
-            <button class="tab-btn" onclick="showTab('quiz')">Quiz</button>
-            <button class="tab-btn" onclick="showTab('summary')">Summary</button>
-        </div>
-        <div id="step-indicator" style="background:#F0F4F8;border-bottom:1px solid #CBD5E0;padding:8px 20px;font-size:13px;color:#718096;display:flex;gap:16px;align-items:center;">
-          <span id="step-text">Step 1 of 8</span>
-          <div id="step-dots" style="display:flex;gap:6px;"></div>
+        <div class="card">
+            <h3>Hypothermia Staging</h3>
+
+            <div class="alert alert-info">
+                <strong>Field staging (no thermometer):</strong> WFA rescuers can't measure core temperature, so stage hypothermia by what you can observe. The numeric ranges further down are for reference only.
+            </div>
+
+            <h3>Functional Field Staging</h3>
+            <ul>
+                <li><strong>Cold-stressed (not hypothermic):</strong> Alert, shivering, able to care for self → food, dry layers, exercise to rewarm.</li>
+                <li><strong>Mild:</strong> Alert but impaired, vigorous shivering → shelter, dry insulation, sugar/calories; keep moving only if fully alert.</li>
+                <li><strong>Moderate:</strong> Decreased consciousness, shivering weak or stopped → handle gently, no walking, insulate/wrap, external heat to the trunk, evacuate.</li>
+                <li><strong>Severe:</strong> Unconscious → treat as fragile, full hypothermia wrap, urgent evacuation, be prepared for CPR.</li>
+            </ul>
+
+            <h3>Numeric Reference Ranges</h3>
+
+            <h3>Mild Hypothermia (32-35°C / 90-95°F)</h3>
+            <ul>
+                <li><strong>Signs:</strong>
+                    <ul style="margin-top: 8px;">
+                        <li>Shivering (GOOD sign — body still trying to warm itself)</li>
+                        <li>Poor coordination (ataxia, clumsiness)</li>
+                        <li>Slurred speech, confusion</li>
+                        <li>Pale or cyanotic skin</li>
+                        <li>Normal to slightly elevated blood pressure</li>
+                    </ul>
+                </li>
+                <li><strong>Patient awareness:</strong> Usually aware of condition, may seek shelter</li>
+            </ul>
+
+            <h3>Moderate Hypothermia (28-32°C / 82-90°F)</h3>
+            <ul>
+                <li><strong>Signs:</strong>
+                    <ul style="margin-top: 8px;">
+                        <li>Shivering STOPS (BAD sign — body has given up attempting to generate heat)</li>
+                        <li>Increased confusion, poor judgment, may refuse to move or seek help</li>
+                        <li>Ataxia (difficulty walking), loss of fine motor control</li>
+                        <li>Bradycardia (slow heart rate), hypotension (low blood pressure)</li>
+                        <li>Paradoxical undressing: patient feels warm and removes clothing (dangerous!)</li>
+                    </ul>
+                </li>
+                <li><strong>Mechanism of paradoxical undressing:</strong> Peripheral vasodilation from hypothermia confusion creates sudden sensation of warmth, but core is dropping. Patient undresses, accelerating heat loss.</li>
+            </ul>
+
+            <h3>Severe Hypothermia (<28°C / <82°F)</h3>
+            <ul>
+                <li><strong>Signs:</strong>
+                    <ul style="margin-top: 8px;">
+                        <li>Unconscious or barely conscious</li>
+                        <li>No shivering (muscle activity ceased)</li>
+                        <li>Dilated pupils (appear dead)</li>
+                        <li>Extreme bradycardia (pulse may be barely detectable, <30 bpm)</li>
+                        <li>Extreme hypotension (may be unmeasurable)</li>
+                        <li>May appear dead (but isn't!)</li>
+                    </ul>
+                </li>
+                <li><strong>Ventricular fibrillation risk:</strong> Heart may be in VF but is unresponsive to defibrillation until core temp is raised</li>
+            </ul>
         </div>
 
-        <!-- OVERVIEW TAB -->
-        <div id="overview" class="tab-content active">
-            <div class="section-title">Overview: Cold Emergencies</div>
-            <p>Cold injuries range from frostbite (tissue freezing) to hypothermia (dangerous drop in core body temperature). In wilderness settings, cold exposure can cause life-threatening emergencies, especially in wet, windy conditions at high altitude or in mountain environments.</p>
+        <div class="card">
+            <h3>Afterdrop: The Complication</h3>
+            <p><strong>What is afterdrop:</strong> Core temperature continues to fall even after the patient is removed from the cold source and rewarming begins</p>
 
+            <ul style="margin-top: 15px;">
+                <li><strong>Mechanism:</strong> Continued cooling of the core as heat conducts away into surrounding cold tissue, plus circulatory effects when the patient moves (cold peripheral blood mixing back toward the core)</li>
+                <li><strong>Rescue collapse (a distinct problem):</strong> Cardiovascular collapse around the time of rescue, triggered by rough handling or position changes (e.g., standing the patient up) — this is why gentle, horizontal handling matters</li>
+                <li><strong>How to minimize:</strong>
+                    <ul style="margin-top: 8px;">
+                        <li>GENTLE, horizontal handling — avoid vigorous exercise, rough movement, or sitting/standing the patient up</li>
+                        <li>Don't rub extremities vigorously</li>
+                        <li>Avoid rewarming peripheral areas (arms/legs) before the core</li>
+                        <li>Apply external heat to the trunk (chest, armpits, groin) not the extremities</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="alert alert-warning">
+                <strong>Key phrase:</strong> "Handle with care" — treat severely hypothermic patients as if they have unstable VF. Rough handling can trigger arrhythmia.
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Field Treatment by Stage</h3>
+
+            <h3>All Hypothermia Stages</h3>
+            <ul>
+                <li>Remove wet clothing (if necessary to prevent continued evaporative loss)</li>
+                <li>Insulate from the ground (sleeping pad, branches, packs) — this ground layer is insulation, not a vapor barrier</li>
+                <li>Add insulation on top (sleeping bag, blankets, clothing)</li>
+                <li>Add external heat sources:
+                    <ul style="margin-top: 8px;">
+                        <li>Hot water bottles or heat packs (not too hot — wrap so they don't touch skin directly) against the trunk: groin, axillae, chest</li>
+                        <li>Wrap in blankets or insulating materials</li>
+                        <li>Skin-to-skin contact from another person mainly prevents further heat loss — it transfers little heat, so combine it with insulation and wrapped heat sources</li>
+                    </ul>
+                </li>
+                <li>Offer warm sweet drinks if conscious and swallowing normally</li>
+            </ul>
+
+            <h3>Moderate Hypothermia (28-32°C)</h3>
+            <ul>
+                <li>All steps above</li>
+                <li>Handle GENTLY — avoid rough handling which can trigger VF</li>
+                <li>Position supine (flat)</li>
+                <li>NO alcohol</li>
+                <li>Monitor airway carefully</li>
+            </ul>
+
+            <h3>Severe Hypothermia (<28°C)</h3>
+            <ul>
+                <li>All steps above but EVEN MORE GENTLY</li>
+                <li>Handle as if patient has unstable VF</li>
+                <li>Protect airway; don't force oral intake</li>
+                <li>CPR if pulseless (see below)</li>
+                <li><strong>Build a hypothermia wrap</strong>, layered from the patient outward:
+                    <ul style="margin-top: 8px;">
+                        <li>Dry the patient (remove/replace wet clothing)</li>
+                        <li>Vapor barrier (plastic sheet or tarp) against the clothing</li>
+                        <li>Thick insulation all around, including underneath the patient</li>
+                        <li>Windproof/waterproof outer shell</li>
+                        <li>Head covered, face left exposed</li>
+                        <li>Wrapped heat sources placed at the trunk</li>
+                    </ul>
+                </li>
+                <li>Urgent evacuation (may need active core rewarming in hospital)</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>Hypothermic Cardiac Arrest: "No One is Dead Until Warm and Dead"</h3>
+            <ul>
+                <li><strong>Principle:</strong> Severely hypothermic patients may have no detectable pulse for extended periods but still be alive and resuscitable</li>
+                <li><strong>CPR guidelines:</strong>
+                    <ul style="margin-top: 8px;">
+                        <li>Check carotid pulse for UP TO 60 SECONDS (hypothermia slows pulse)</li>
+                        <li>If ANY pulse or sign of life is present after the 60-second check — even a very slow one — do NOT start chest compressions</li>
+                        <li>If no pulse or sign of life: START CPR</li>
+                        <li>Continue CPR throughout evacuation</li>
+                        <li>Do NOT withhold CPR due to prolonged cardiac arrest if hypothermia suspected</li>
+                        <li><strong>Accepted exceptions</strong> — do not start or continue CPR if there is an obvious lethal injury, the chest is frozen solid/incompressible, the airway is packed with snow or ice, or there is a valid DNR order</li>
+                    </ul>
+                </li>
+                <li><strong>Defibrillation:</strong> Heart may be in VF but won't respond to defibrillation until core temp raised. Attempt defibrillation once if available, but don't repeat until core temp >30°C.</li>
+                <li><strong>Active core rewarming:</strong> Hospital provides warmed IV fluids, heated humidified oxygen, ECMO (extracorporeal membrane oxygenation) in severe cases. Some patients have recovered after hours without pulse if hypothermia was cause.</li>
+            </ul>
+
+            <div class="alert alert-success">
+                <strong>Remember:</strong> A hypothermic patient who appears dead may still be alive. Continue CPR. Recovery stories exist of patients revived after >3 hours of cardiac arrest if hypothermia was cause.
+            </div>
+        </div>
+      </section>
+      <section class="section" id="frostbite" role="tabpanel" aria-labelledby="tab-frostbite" tabindex="0" hidden>
+        <h2>Frostbite & Cold Injuries</h2>
+
+        <div class="card">
+            <h3>Frostbite: Freezing of Tissue</h3>
+            <p><strong>What:</strong> Ice crystal formation in tissue cells due to freezing temperatures</p>
+
+            <ul style="margin-top: 15px;">
+                <li><strong>Mechanism:</strong> Freezing occurs when tissue temperature drops below freezing and ice crystals form. Cold-induced vasoconstriction accelerates cooling but is not itself the cause of freezing. The ice crystals then damage cells mechanically and osmotically.</li>
+                <li><strong>Most common sites:</strong> Fingers, toes, nose, ears, cheeks</li>
+                <li><strong>Risk factors:</strong>
+                    <ul style="margin-top: 8px;">
+                        <li>Wet skin/wet clothing</li>
+                        <li>Wind chill</li>
+                        <li>Immobility (can't move to generate heat)</li>
+                        <li>Dehydration, malnutrition</li>
+                        <li>Prior frostbite (skin loses cold tolerance)</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>Frostbite Stages</h3>
+
+            <h3>Frostnip (Superficial Cold Injury)</h3>
+            <ul>
+                <li><strong>What:</strong> Superficial tissue damage, NO actual freezing of deeper tissue</li>
+                <li><strong>Signs:</strong> Skin white or pale, numb, no blistering</li>
+                <li><strong>Recovery:</strong> Rapid and complete with rewarming (30 min). Full function returns.</li>
+                <li><strong>Treatment:</strong> Rewarm gently with body heat or warm water</li>
+            </ul>
+
+            <h3>Superficial Frostbite</h3>
+            <ul>
+                <li><strong>What:</strong> Skin is frozen, deeper tissue is soft</li>
+                <li><strong>Signs:</strong> White or waxy appearance during freezing. Clear blisters form after rewarming (serous fluid, less serious).</li>
+                <li><strong>Healing:</strong> Slower; may take weeks. Usually full recovery but possible permanent loss of cold tolerance.</li>
+                <li><strong>Treatment:</strong> Rewarm (see below)</li>
+            </ul>
+
+            <h3>Deep Frostbite (Full Thickness)</h3>
+            <ul>
+                <li><strong>What:</strong> Skin AND deep tissue frozen (muscle, bone). Most serious.</li>
+                <li><strong>Signs:</strong> Hard, wooden texture. Mottled blue/purple appearance. Blood-filled blisters after rewarming (indicates tissue death).</li>
+                <li><strong>Prognosis:</strong> Tissue death likely; permanent damage, may require amputation</li>
+                <li><strong>Treatment:</strong> Rewarm, then urgent evacuation for surgery</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>Rewarming Decision: CRITICAL</h3>
             <div class="alert alert-danger">
-                <strong>Critical principle:</strong> "No one is dead until warm and dead." Even severely hypothermic patients without detectable pulse may be resuscitable with rewarming.
+                <strong>ONLY REWARM IF NO RISK OF REFREEZING.</strong> Freezing, then refreezing causes FAR MORE DAMAGE than delayed rewarming.
             </div>
 
-            <div class="key-points">
-                <h3>Key Points</h3>
-                <div class="key-point">Hypothermia: core temperature <35°C (95°F); a medical emergency requiring evacuation</div>
-                <div class="key-point">Frostbite: freezing of tissue; don't rewarm in field if risk of refreezing</div>
-                <div class="key-point">Afterdrop: core temperature continues to fall after removing cold source due to cold blood returning to core</div>
-                <div class="key-point">Wilderness CPR for hypothermia: continue even after prolonged period without pulse</div>
-                <div class="key-point">Prevention: clothing layers, avoid wet, monitor for early signs in partners</div>
-            </div>
+            <ul style="margin-top: 15px;">
+                <li><strong>Decision:</strong> If there's risk patient will refreeze, leave frostbitten area frozen</li>
+                <li><strong>Why:</strong> Refreezing causes massive additional tissue damage from ice crystal formation</li>
+                <li><strong>Example:</strong> Hiker with frozen toes deep in wilderness 8 hours from help. Better to walk out on frozen feet than thaw and refreeze during transport.</li>
+            </ul>
         </div>
 
-        <!-- HYPOTHERMIA TAB -->
-        <div id="hypo" class="tab-content">
-            <div class="section-title">Hypothermia: Dangerous Cold</div>
-
-            <div class="card">
-                <div class="subsection-title">Definition & Physiology</div>
-                <ul>
-                    <li><strong>Hypothermia:</strong> Core body temperature <35°C (95°F)</li>
-                    <li><strong>Normal core temp:</strong> 37°C (98.6°F)</li>
-                    <li><strong>Why it's dangerous:</strong> Low core temperature slows all metabolic processes. Heart becomes irritable, may develop ventricular fibrillation (deadly arrhythmia). Brain function impaired.</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <div class="subsection-title">Heat Loss Mechanisms in Cold</div>
-                <ul>
-                    <li><strong>Conduction:</strong> Direct contact with cold surface (ground, water, cold object). Water conducts heat away 25x faster than air.</li>
-                    <li><strong>Convection:</strong> Wind strips away insulating layer of warm air. "Wind chill" dramatically increases heat loss.</li>
-                    <li><strong>Radiation:</strong> Body radiates heat to cold environment</li>
-                    <li><strong>Evaporation:</strong> Wet clothing allows rapid evaporative heat loss</li>
-                    <li><strong>Respiration:</strong> Breathing in cold air and exhaling warm air loses heat</li>
-                </ul>
-
-                <div class="alert alert-warning">
-                    <strong>Most significant:</strong> Immersion in cold water (conduction) and wind combined with wet clothing create rapid heat loss.
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="subsection-title">Hypothermia Staging</div>
-
-                <div class="alert alert-info">
-                    <strong>Field staging (no thermometer):</strong> WFA rescuers can't measure core temperature, so stage hypothermia by what you can observe. The numeric ranges further down are for reference only.
-                </div>
-
-                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Functional Field Staging</div>
-                <ul>
-                    <li><strong>Cold-stressed (not hypothermic):</strong> Alert, shivering, able to care for self → food, dry layers, exercise to rewarm.</li>
-                    <li><strong>Mild:</strong> Alert but impaired, vigorous shivering → shelter, dry insulation, sugar/calories; keep moving only if fully alert.</li>
-                    <li><strong>Moderate:</strong> Decreased consciousness, shivering weak or stopped → handle gently, no walking, insulate/wrap, external heat to the trunk, evacuate.</li>
-                    <li><strong>Severe:</strong> Unconscious → treat as fragile, full hypothermia wrap, urgent evacuation, be prepared for CPR.</li>
-                </ul>
-
-                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Numeric Reference Ranges</div>
-
-                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Mild Hypothermia (32-35°C / 90-95°F)</div>
-                <ul>
-                    <li><strong>Signs:</strong>
-                        <ul style="margin-top: 8px;">
-                            <li>Shivering (GOOD sign — body still trying to warm itself)</li>
-                            <li>Poor coordination (ataxia, clumsiness)</li>
-                            <li>Slurred speech, confusion</li>
-                            <li>Pale or cyanotic skin</li>
-                            <li>Normal to slightly elevated blood pressure</li>
-                        </ul>
-                    </li>
-                    <li><strong>Patient awareness:</strong> Usually aware of condition, may seek shelter</li>
-                </ul>
-
-                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Moderate Hypothermia (28-32°C / 82-90°F)</div>
-                <ul>
-                    <li><strong>Signs:</strong>
-                        <ul style="margin-top: 8px;">
-                            <li>Shivering STOPS (BAD sign — body has given up attempting to generate heat)</li>
-                            <li>Increased confusion, poor judgment, may refuse to move or seek help</li>
-                            <li>Ataxia (difficulty walking), loss of fine motor control</li>
-                            <li>Bradycardia (slow heart rate), hypotension (low blood pressure)</li>
-                            <li>Paradoxical undressing: patient feels warm and removes clothing (dangerous!)</li>
-                        </ul>
-                    </li>
-                    <li><strong>Mechanism of paradoxical undressing:</strong> Peripheral vasodilation from hypothermia confusion creates sudden sensation of warmth, but core is dropping. Patient undresses, accelerating heat loss.</li>
-                </ul>
-
-                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Severe Hypothermia (<28°C / <82°F)</div>
-                <ul>
-                    <li><strong>Signs:</strong>
-                        <ul style="margin-top: 8px;">
-                            <li>Unconscious or barely conscious</li>
-                            <li>No shivering (muscle activity ceased)</li>
-                            <li>Dilated pupils (appear dead)</li>
-                            <li>Extreme bradycardia (pulse may be barely detectable, <30 bpm)</li>
-                            <li>Extreme hypotension (may be unmeasurable)</li>
-                            <li>May appear dead (but isn't!)</li>
-                        </ul>
-                    </li>
-                    <li><strong>Ventricular fibrillation risk:</strong> Heart may be in VF but is unresponsive to defibrillation until core temp is raised</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <div class="subsection-title">Afterdrop: The Complication</div>
-                <p><strong>What is afterdrop:</strong> Core temperature continues to fall even after the patient is removed from the cold source and rewarming begins</p>
-
-                <ul style="margin-top: 15px;">
-                    <li><strong>Mechanism:</strong> Continued cooling of the core as heat conducts away into surrounding cold tissue, plus circulatory effects when the patient moves (cold peripheral blood mixing back toward the core)</li>
-                    <li><strong>Rescue collapse (a distinct problem):</strong> Cardiovascular collapse around the time of rescue, triggered by rough handling or position changes (e.g., standing the patient up) — this is why gentle, horizontal handling matters</li>
-                    <li><strong>How to minimize:</strong>
-                        <ul style="margin-top: 8px;">
-                            <li>GENTLE, horizontal handling — avoid vigorous exercise, rough movement, or sitting/standing the patient up</li>
-                            <li>Don't rub extremities vigorously</li>
-                            <li>Avoid rewarming peripheral areas (arms/legs) before the core</li>
-                            <li>Apply external heat to the trunk (chest, armpits, groin) not the extremities</li>
-                        </ul>
-                    </li>
-                </ul>
-
-                <div class="alert alert-warning">
-                    <strong>Key phrase:</strong> "Handle with care" — treat severely hypothermic patients as if they have unstable VF. Rough handling can trigger arrhythmia.
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="subsection-title">Field Treatment by Stage</div>
-
-                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">All Hypothermia Stages</div>
-                <ul>
-                    <li>Remove wet clothing (if necessary to prevent continued evaporative loss)</li>
-                    <li>Insulate from the ground (sleeping pad, branches, packs) — this ground layer is insulation, not a vapor barrier</li>
-                    <li>Add insulation on top (sleeping bag, blankets, clothing)</li>
-                    <li>Add external heat sources:
-                        <ul style="margin-top: 8px;">
-                            <li>Hot water bottles or heat packs (not too hot — wrap so they don't touch skin directly) against the trunk: groin, axillae, chest</li>
-                            <li>Wrap in blankets or insulating materials</li>
-                            <li>Skin-to-skin contact from another person mainly prevents further heat loss — it transfers little heat, so combine it with insulation and wrapped heat sources</li>
-                        </ul>
-                    </li>
-                    <li>Offer warm sweet drinks if conscious and swallowing normally</li>
-                </ul>
-
-                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Moderate Hypothermia (28-32°C)</div>
-                <ul>
-                    <li>All steps above</li>
-                    <li>Handle GENTLY — avoid rough handling which can trigger VF</li>
-                    <li>Position supine (flat)</li>
-                    <li>NO alcohol</li>
-                    <li>Monitor airway carefully</li>
-                </ul>
-
-                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Severe Hypothermia (<28°C)</div>
-                <ul>
-                    <li>All steps above but EVEN MORE GENTLY</li>
-                    <li>Handle as if patient has unstable VF</li>
-                    <li>Protect airway; don't force oral intake</li>
-                    <li>CPR if pulseless (see below)</li>
-                    <li><strong>Build a hypothermia wrap</strong>, layered from the patient outward:
-                        <ul style="margin-top: 8px;">
-                            <li>Dry the patient (remove/replace wet clothing)</li>
-                            <li>Vapor barrier (plastic sheet or tarp) against the clothing</li>
-                            <li>Thick insulation all around, including underneath the patient</li>
-                            <li>Windproof/waterproof outer shell</li>
-                            <li>Head covered, face left exposed</li>
-                            <li>Wrapped heat sources placed at the trunk</li>
-                        </ul>
-                    </li>
-                    <li>Urgent evacuation (may need active core rewarming in hospital)</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <div class="subsection-title">Hypothermic Cardiac Arrest: "No One is Dead Until Warm and Dead"</div>
-                <ul>
-                    <li><strong>Principle:</strong> Severely hypothermic patients may have no detectable pulse for extended periods but still be alive and resuscitable</li>
-                    <li><strong>CPR guidelines:</strong>
-                        <ul style="margin-top: 8px;">
-                            <li>Check carotid pulse for UP TO 60 SECONDS (hypothermia slows pulse)</li>
-                            <li>If ANY pulse or sign of life is present after the 60-second check — even a very slow one — do NOT start chest compressions</li>
-                            <li>If no pulse or sign of life: START CPR</li>
-                            <li>Continue CPR throughout evacuation</li>
-                            <li>Do NOT withhold CPR due to prolonged cardiac arrest if hypothermia suspected</li>
-                            <li><strong>Accepted exceptions</strong> — do not start or continue CPR if there is an obvious lethal injury, the chest is frozen solid/incompressible, the airway is packed with snow or ice, or there is a valid DNR order</li>
-                        </ul>
-                    </li>
-                    <li><strong>Defibrillation:</strong> Heart may be in VF but won't respond to defibrillation until core temp raised. Attempt defibrillation once if available, but don't repeat until core temp >30°C.</li>
-                    <li><strong>Active core rewarming:</strong> Hospital provides warmed IV fluids, heated humidified oxygen, ECMO (extracorporeal membrane oxygenation) in severe cases. Some patients have recovered after hours without pulse if hypothermia was cause.</li>
-                </ul>
-
-                <div class="alert alert-success">
-                    <strong>Remember:</strong> A hypothermic patient who appears dead may still be alive. Continue CPR. Recovery stories exist of patients revived after >3 hours of cardiac arrest if hypothermia was cause.
-                </div>
-            </div>
+        <div class="card">
+            <h3>Rewarming Technique: When to Rewarm</h3>
+            <ul>
+                <li><strong>Method:</strong> Warm water immersion, NOT dry heat</li>
+                <li><strong>Temperature:</strong> 37-39°C (body temperature warm, NOT hot). Don't use boiling water.</li>
+                <li><strong>Duration:</strong> 30-45 minutes of immersion. Takes time for tissue to thaw.</li>
+                <li><strong>Pain:</strong> Rewarming is VERY PAINFUL. Acknowledge and provide comfort measures.</li>
+                <li><strong>Activity:</strong> Gentle — don't massage or rub tissue during rewarming</li>
+            </ul>
         </div>
 
-        <!-- FROSTBITE & COLD INJURIES TAB -->
-        <div id="frostbite" class="tab-content">
-            <div class="section-title">Frostbite & Cold Injuries</div>
-
-            <div class="card">
-                <div class="subsection-title">Frostbite: Freezing of Tissue</div>
-                <p><strong>What:</strong> Ice crystal formation in tissue cells due to freezing temperatures</p>
-
-                <ul style="margin-top: 15px;">
-                    <li><strong>Mechanism:</strong> Freezing occurs when tissue temperature drops below freezing and ice crystals form. Cold-induced vasoconstriction accelerates cooling but is not itself the cause of freezing. The ice crystals then damage cells mechanically and osmotically.</li>
-                    <li><strong>Most common sites:</strong> Fingers, toes, nose, ears, cheeks</li>
-                    <li><strong>Risk factors:</strong>
-                        <ul style="margin-top: 8px;">
-                            <li>Wet skin/wet clothing</li>
-                            <li>Wind chill</li>
-                            <li>Immobility (can't move to generate heat)</li>
-                            <li>Dehydration, malnutrition</li>
-                            <li>Prior frostbite (skin loses cold tolerance)</li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <div class="subsection-title">Frostbite Stages</div>
-
-                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Frostnip (Superficial Cold Injury)</div>
-                <ul>
-                    <li><strong>What:</strong> Superficial tissue damage, NO actual freezing of deeper tissue</li>
-                    <li><strong>Signs:</strong> Skin white or pale, numb, no blistering</li>
-                    <li><strong>Recovery:</strong> Rapid and complete with rewarming (30 min). Full function returns.</li>
-                    <li><strong>Treatment:</strong> Rewarm gently with body heat or warm water</li>
-                </ul>
-
-                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Superficial Frostbite</div>
-                <ul>
-                    <li><strong>What:</strong> Skin is frozen, deeper tissue is soft</li>
-                    <li><strong>Signs:</strong> White or waxy appearance during freezing. Clear blisters form after rewarming (serous fluid, less serious).</li>
-                    <li><strong>Healing:</strong> Slower; may take weeks. Usually full recovery but possible permanent loss of cold tolerance.</li>
-                    <li><strong>Treatment:</strong> Rewarm (see below)</li>
-                </ul>
-
-                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Deep Frostbite (Full Thickness)</div>
-                <ul>
-                    <li><strong>What:</strong> Skin AND deep tissue frozen (muscle, bone). Most serious.</li>
-                    <li><strong>Signs:</strong> Hard, wooden texture. Mottled blue/purple appearance. Blood-filled blisters after rewarming (indicates tissue death).</li>
-                    <li><strong>Prognosis:</strong> Tissue death likely; permanent damage, may require amputation</li>
-                    <li><strong>Treatment:</strong> Rewarm, then urgent evacuation for surgery</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <div class="subsection-title">Rewarming Decision: CRITICAL</div>
-                <div class="alert alert-danger">
-                    <strong>ONLY REWARM IF NO RISK OF REFREEZING.</strong> Freezing, then refreezing causes FAR MORE DAMAGE than delayed rewarming.
-                </div>
-
-                <ul style="margin-top: 15px;">
-                    <li><strong>Decision:</strong> If there's risk patient will refreeze, leave frostbitten area frozen</li>
-                    <li><strong>Why:</strong> Refreezing causes massive additional tissue damage from ice crystal formation</li>
-                    <li><strong>Example:</strong> Hiker with frozen toes deep in wilderness 8 hours from help. Better to walk out on frozen feet than thaw and refreeze during transport.</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <div class="subsection-title">Rewarming Technique: When to Rewarm</div>
-                <ul>
-                    <li><strong>Method:</strong> Warm water immersion, NOT dry heat</li>
-                    <li><strong>Temperature:</strong> 37-39°C (body temperature warm, NOT hot). Don't use boiling water.</li>
-                    <li><strong>Duration:</strong> 30-45 minutes of immersion. Takes time for tissue to thaw.</li>
-                    <li><strong>Pain:</strong> Rewarming is VERY PAINFUL. Acknowledge and provide comfort measures.</li>
-                    <li><strong>Activity:</strong> Gentle — don't massage or rub tissue during rewarming</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <div class="subsection-title">Post-Thaw Care</div>
-                <ul>
-                    <li><strong>DO NOT:</strong>
-                        <ul style="margin-top: 8px;">
-                            <li>Rub the tissue (cells are fragile)</li>
-                            <li>Apply direct heat (fire, stove)</li>
-                            <li>Use alcohol or massage</li>
-                        </ul>
-                    </li>
-                    <li><strong>DO:</strong>
-                        <ul style="margin-top: 8px;">
-                            <li>Leave ALL blisters intact in the field — including blood-filled (hemorrhagic) ones, which are left undisturbed</li>
-                            <li>Protect blisters with dry, bulky dressings; any blister drainage is beyond field care</li>
-                            <li>Elevate affected area to reduce swelling</li>
-                            <li>Gentle padding/splinting for comfort</li>
-                            <li>Pain management (ibuprofen helps reduce inflammation)</li>
-                        </ul>
-                    </li>
-                    <li><strong>Evacuation:</strong> All significant frostbite requires medical evaluation</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <div class="subsection-title">Other Cold Injuries</div>
-
-                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Chilblain (Pernio)</div>
-                <ul>
-                    <li>Chronic exposure to cold + wet, non-freezing temperatures</li>
-                    <li>Itchy, red/purple lesions on ears, fingers, toes</li>
-                    <li>Treatment: rewarm, keep dry</li>
-                </ul>
-
-                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Immersion Foot (Trench Foot)</div>
-                <ul>
-                    <li>Prolonged wet + cold exposure (hours to days) without freezing</li>
-                    <li>Maceration (skin softening), pain, blisters, possible gangrene</li>
-                    <li>Treatment: clean, dry feet, rewarm slowly</li>
-                    <li>Prevention: keep feet dry during cold wet expeditions</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- FIELD REWARMING TAB -->
-        <div id="rewarming" class="tab-content">
-            <div class="section-title">Field Rewarming Strategies</div>
-
-            <div class="card">
-                <div class="subsection-title">Passive External Rewarming</div>
-                <ul>
-                    <li><strong>Mild hypothermia:</strong> May be sufficient</li>
-                    <li><strong>Method:</strong> Insulate from cold with blankets, sleeping bag, clothing</li>
-                    <li><strong>Allow body's own heat production:</strong> Shivering generates heat if insulation prevents heat loss</li>
-                    <li><strong>Advantage:</strong> No risk of afterdrop from active rewarming</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <div class="subsection-title">Active External Rewarming</div>
-                <ul>
-                    <li><strong>Methods:</strong>
-                        <ul style="margin-top: 8px;">
-                            <li>Hot water bottles (wrapped, placed on core not extremities) — most accessible field method</li>
-                            <li>Heat packs (chemical or stove-warmed rocks wrapped in cloth)</li>
-                            <li>Warm drinks if patient is conscious and able to swallow</li>
-                            <li>Skin-to-skin contact with a rescuer — mainly prevents further heat loss rather than transferring much heat; insulation plus wrapped external heat sources (warm water bottles/heat packs against the trunk) work better</li>
-                        </ul>
-                    </li>
-                    <li><strong>Target areas:</strong> Core (chest, armpits, groin) where major blood vessels are close to skin</li>
-                    <li><strong>Caution:</strong> Gentle application; don't burn skin</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <div class="subsection-title">Active Internal Rewarming</div>
-                <ul>
-                    <li><strong>Field options:</strong>
-                        <ul style="margin-top: 8px;">
-                            <li>Warm oral fluids (if conscious and can swallow) — more effective if containing sugar for metabolic heat</li>
-                            <li>Limited to field setting without advanced equipment</li>
-                        </ul>
-                    </li>
-                    <li><strong>Hospital options:</strong>
-                        <ul style="margin-top: 8px;">
-                            <li>Warmed IV fluids</li>
-                            <li>Heated humidified oxygen</li>
-                            <li>ECMO (extracorporeal membrane oxygenation) for severe cases — most advanced</li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <div class="subsection-title">Rewarming Complications</div>
-                <ul>
-                    <li><strong>Afterdrop:</strong> Core temp continues to fall even during rewarming</li>
-                    <li><strong>Rewarming "afterdrop":</strong> Rapid temperature drop after initial rewarming from sudden vasodilation</li>
-                    <li><strong>Dehydration:</strong> Cold reduces fluid intake, but rewarming increases fluid loss from sweating</li>
-                    <li><strong>Dysrhythmias:</strong> Heart may develop arrhythmias during rewarming</li>
-                    <li><strong>Prevention:</strong> Gentle rewarming, core-first approach, monitor patient</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- PREVENTION TAB -->
-        <div id="prevent" class="tab-content">
-            <div class="section-title">Prevention of Cold Injuries</div>
-
-            <div class="card">
-                <div class="subsection-title">Clothing: Layering System</div>
-                <ul>
-                    <li><strong>Layer 1 (Base):</strong> Moisture-wicking material (merino wool, synthetic) — NOT cotton. Cotton holds moisture and loses insulation when wet.</li>
-                    <li><strong>Layer 2 (Insulation):</strong> Fleece, wool, or down. Traps air. Retains insulation even if damp (wool, fleece) or loses quickly (down if wet).</li>
-                    <li><strong>Layer 3 (Shell):</strong> Windproof and waterproof outer layer. Prevents wind chill and wet.</li>
-                    <li><strong>Extremities:</strong> Hat (prevents heat loss through head), gloves, socks, gaiters to keep snow out</li>
-                </ul>
-
-                <div class="alert alert-warning">
-                    <strong>Critical:</strong> Avoid cotton. Choose wool or synthetic for any layer touching skin. Even in cool (not cold) weather, cotton loses all insulation when wet from sweat or water exposure.
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="subsection-title">Hydration & Nutrition</div>
-                <ul>
-                    <li><strong>Hydration:</strong> Cold suppresses thirst mechanism. Easy to become dehydrated in cold. Drink regularly.</li>
-                    <li><strong>Nutrition:</strong> Metabolism is main heat production. Eat high-calorie foods to fuel heat production.</li>
-                    <li><strong>Carbohydrates:</strong> Quick energy, metabolized to heat</li>
-                    <li><strong>Fats:</strong> Sustained energy and insulation</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <div class="subsection-title">Monitoring & Prevention</div>
-                <ul>
-                    <li><strong>Early signs in self:</strong> Uncontrollable shivering, poor coordination, confusion — seek shelter and warmth immediately</li>
-                    <li><strong>Early signs in partner:</strong> Watch for: shivering, slurred speech, clumsiness, withdrawal. Hypothermia victim often doesn't recognize their own symptoms.</li>
-                    <li><strong>Buddy system:</strong> Never hike alone in cold. Partners can recognize early signs and respond.</li>
-                    <li><strong>Frequent breaks:</strong> Don't push through cold and fatigue. Take breaks in shelter to rewarm.</li>
-                    <li><strong>Avoid alcohol:</strong> Causes vasodilation (increased heat loss), impairs judgment</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <div class="subsection-title">Environmental Management</div>
-                <ul>
-                    <li><strong>Shelter:</strong> Get out of wind, precipitation. Even natural windbreak (rocks, trees) helps significantly.</li>
-                    <li><strong>Insulation:</strong> Don't sit on cold ground. Use pad, branches, backpack as insulation barrier.</li>
-                    <li><strong>Fire:</strong> If available and safe, provides critical warmth. But don't rely on fire alone; still need insulation.</li>
-                    <li><strong>Avoid immersion:</strong> Stay dry. If wet, change into dry clothes immediately.</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- SCENARIOS TAB -->
-        <div id="scenarios" class="tab-content">
-            <div class="section-title">Case Scenarios</div>
-
-            <div class="scenario-case">
-                <h4>Scenario 1: Wet Hiker Showing Hypothermia Signs</h4>
-                <p><strong>Setting:</strong> A hiker has been caught in cold rain and wind for 3 hours. She's shivering violently, confused, refusing to stop. Skin is pale. You're 6 hours from the trailhead in an exposed mountain area.</p>
-
-                <button class="scenario-btn" onclick="toggleDiscussion('scenario1')">Show Management</button>
-                <div id="scenario1" class="discussion">
-                    <p><strong>Recognition:</strong> Mild hypothermia (32-35°C likely). Shivering, confusion, wet — classic presentation.</p>
-                    <p style="margin-top: 15px;"><strong>Immediate Action:</strong></p>
-                    <ul>
-                        <li>STOP activity — get to shelter immediately (behind rocks, trees, any windbreak)</li>
-                        <li>Remove wet clothing if possible, replace with dry</li>
-                        <li>Insulate from ground with anything available</li>
-                        <li>Add blankets, sleeping bag, additional layers</li>
-                        <li>Apply passive external rewarming — let body's own heat work</li>
-                        <li>Give warm sweet drinks if conscious</li>
+        <div class="card">
+            <h3>Post-Thaw Care</h3>
+            <ul>
+                <li><strong>DO NOT:</strong>
+                    <ul style="margin-top: 8px;">
+                        <li>Rub the tissue (cells are fragile)</li>
+                        <li>Apply direct heat (fire, stove)</li>
+                        <li>Use alcohol or massage</li>
                     </ul>
-                    <p style="margin-top: 15px;"><strong>Evacuation:</strong> If patient improves (shivering stops but for right reason — getting warm), may be able to walk out slowly. If confusion worsens or patient becomes unresponsive, urgent evacuation needed.</p>
-                </div>
-            </div>
-
-            <div class="scenario-case">
-                <h4>Scenario 2: Frostbitten Fingers on High Peak</h4>
-                <p><strong>Setting:</strong> A climber on a high peak (14,000 ft) develops white, numb fingers at -10°C with wind. There's a descent of 4-6 hours to base camp. Fingers are clearly frostbitten.</p>
-
-                <button class="scenario-btn" onclick="toggleDiscussion('scenario2')">Show Management</button>
-                <div id="scenario2" class="discussion">
-                    <p><strong>Recognition:</strong> Frostbite developing (white, numb fingers). Risk of refreezing during descent.</p>
-                    <p style="margin-top: 15px;"><strong>Critical Decision:</strong> DO NOT REWARM on the mountain. Risk of refreezing is too high.</p>
-                    <p style="margin-top: 15px;"><strong>Field Management:</strong></p>
-                    <ul>
-                        <li>Insulate fingers — put in pockets, under armpits, in gloves (keep frozen)</li>
-                        <li>Prevent further cold exposure with extreme care</li>
-                        <li>Keep fingers dry</li>
-                        <li>Descend carefully to shelter</li>
+                </li>
+                <li><strong>DO:</strong>
+                    <ul style="margin-top: 8px;">
+                        <li>Leave ALL blisters intact in the field — including blood-filled (hemorrhagic) ones, which are left undisturbed</li>
+                        <li>Protect blisters with dry, bulky dressings; any blister drainage is beyond field care</li>
+                        <li>Elevate affected area to reduce swelling</li>
+                        <li>Gentle padding/splinting for comfort</li>
+                        <li>Pain management (ibuprofen helps reduce inflammation)</li>
                     </ul>
-                    <p style="margin-top: 15px;"><strong>At Base Camp/Shelter:</strong> THEN rewarm with warm water immersion (37-39°C) if certain no refreezing risk exists. Urgent evacuation to hospital for frostbite care.</p>
-                </div>
+                </li>
+                <li><strong>Evacuation:</strong> All significant frostbite requires medical evaluation</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>Other Cold Injuries</h3>
+
+            <h3>Chilblain (Pernio)</h3>
+            <ul>
+                <li>Chronic exposure to cold + wet, non-freezing temperatures</li>
+                <li>Itchy, red/purple lesions on ears, fingers, toes</li>
+                <li>Treatment: rewarm, keep dry</li>
+            </ul>
+
+            <h3>Immersion Foot (Trench Foot)</h3>
+            <ul>
+                <li>Prolonged wet + cold exposure (hours to days) without freezing</li>
+                <li>Maceration (skin softening), pain, blisters, possible gangrene</li>
+                <li>Treatment: clean, dry feet, rewarm slowly</li>
+                <li>Prevention: keep feet dry during cold wet expeditions</li>
+            </ul>
+        </div>
+      </section>
+      <section class="section" id="rewarming" role="tabpanel" aria-labelledby="tab-rewarming" tabindex="0" hidden>
+        <h2>Field Rewarming Strategies</h2>
+
+        <div class="card">
+            <h3>Passive External Rewarming</h3>
+            <ul>
+                <li><strong>Mild hypothermia:</strong> May be sufficient</li>
+                <li><strong>Method:</strong> Insulate from cold with blankets, sleeping bag, clothing</li>
+                <li><strong>Allow body's own heat production:</strong> Shivering generates heat if insulation prevents heat loss</li>
+                <li><strong>Advantage:</strong> No risk of afterdrop from active rewarming</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>Active External Rewarming</h3>
+            <ul>
+                <li><strong>Methods:</strong>
+                    <ul style="margin-top: 8px;">
+                        <li>Hot water bottles (wrapped, placed on core not extremities) — most accessible field method</li>
+                        <li>Heat packs (chemical or stove-warmed rocks wrapped in cloth)</li>
+                        <li>Warm drinks if patient is conscious and able to swallow</li>
+                        <li>Skin-to-skin contact with a rescuer — mainly prevents further heat loss rather than transferring much heat; insulation plus wrapped external heat sources (warm water bottles/heat packs against the trunk) work better</li>
+                    </ul>
+                </li>
+                <li><strong>Target areas:</strong> Core (chest, armpits, groin) where major blood vessels are close to skin</li>
+                <li><strong>Caution:</strong> Gentle application; don't burn skin</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>Active Internal Rewarming</h3>
+            <ul>
+                <li><strong>Field options:</strong>
+                    <ul style="margin-top: 8px;">
+                        <li>Warm oral fluids (if conscious and can swallow) — more effective if containing sugar for metabolic heat</li>
+                        <li>Limited to field setting without advanced equipment</li>
+                    </ul>
+                </li>
+                <li><strong>Hospital options:</strong>
+                    <ul style="margin-top: 8px;">
+                        <li>Warmed IV fluids</li>
+                        <li>Heated humidified oxygen</li>
+                        <li>ECMO (extracorporeal membrane oxygenation) for severe cases — most advanced</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>Rewarming Complications</h3>
+            <ul>
+                <li><strong>Afterdrop:</strong> Rapid core temperature drop after rewarming starts, from cold peripheral blood returning to the core</li>
+                <li><strong>Dehydration:</strong> Cold reduces fluid intake, but rewarming increases fluid loss from sweating</li>
+                <li><strong>Dysrhythmias:</strong> Heart may develop arrhythmias during rewarming</li>
+                <li><strong>Prevention:</strong> Gentle rewarming, core-first approach, monitor patient</li>
+            </ul>
+        </div>
+      </section>
+      <section class="section" id="prevent" role="tabpanel" aria-labelledby="tab-prevent" tabindex="0" hidden>
+        <h2>Prevention of Cold Injuries</h2>
+
+        <div class="card">
+            <h3>Clothing: Layering System</h3>
+            <ul>
+                <li><strong>Layer 1 (Base):</strong> Moisture-wicking material (merino wool, synthetic) — NOT cotton. Cotton holds moisture and loses insulation when wet.</li>
+                <li><strong>Layer 2 (Insulation):</strong> Fleece, wool, or down. Traps air. Retains insulation even if damp (wool, fleece) or loses quickly (down if wet).</li>
+                <li><strong>Layer 3 (Shell):</strong> Windproof and waterproof outer layer. Prevents wind chill and wet.</li>
+                <li><strong>Extremities:</strong> Hat (prevents heat loss through head), gloves, socks, gaiters to keep snow out</li>
+            </ul>
+
+            <div class="alert alert-warning">
+                <strong>Critical:</strong> Avoid cotton. Choose wool or synthetic for any layer touching skin. Even in cool (not cold) weather, cotton loses all insulation when wet from sweat or water exposure.
             </div>
         </div>
 
-        <!-- QUIZ TAB -->
-        <div id="quiz" class="tab-content">
-            <div class="section-title">Knowledge Check Quiz</div>
-            <div class="quiz-section" id="quizContainer"></div>
-            <div id="score-display">
-                <div id="score-text"></div>
-                <div id="score-sub"></div>
+        <div class="card">
+            <h3>Hydration & Nutrition</h3>
+            <ul>
+                <li><strong>Hydration:</strong> Cold suppresses thirst mechanism. Easy to become dehydrated in cold. Drink regularly.</li>
+                <li><strong>Nutrition:</strong> Metabolism is main heat production. Eat high-calorie foods to fuel heat production.</li>
+                <li><strong>Carbohydrates:</strong> Quick energy, metabolized to heat</li>
+                <li><strong>Fats:</strong> Sustained energy and insulation</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>Monitoring & Prevention</h3>
+            <ul>
+                <li><strong>Early signs in self:</strong> Uncontrollable shivering, poor coordination, confusion — seek shelter and warmth immediately</li>
+                <li><strong>Early signs in partner:</strong> Watch for: shivering, slurred speech, clumsiness, withdrawal. Hypothermia victim often doesn't recognize their own symptoms.</li>
+                <li><strong>Buddy system:</strong> Never hike alone in cold. Partners can recognize early signs and respond.</li>
+                <li><strong>Frequent breaks:</strong> Don't push through cold and fatigue. Take breaks in shelter to rewarm.</li>
+                <li><strong>Avoid alcohol:</strong> Causes vasodilation (increased heat loss), impairs judgment</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>Environmental Management</h3>
+            <ul>
+                <li><strong>Shelter:</strong> Get out of wind, precipitation. Even natural windbreak (rocks, trees) helps significantly.</li>
+                <li><strong>Insulation:</strong> Don't sit on cold ground. Use pad, branches, backpack as insulation barrier.</li>
+                <li><strong>Fire:</strong> If available and safe, provides critical warmth. But don't rely on fire alone; still need insulation.</li>
+                <li><strong>Avoid immersion:</strong> Stay dry. If wet, change into dry clothes immediately.</li>
+            </ul>
+        </div>
+      </section>
+      <section class="section" id="scenarios" role="tabpanel" aria-labelledby="tab-scenarios" tabindex="0" hidden>
+        <h2>Case Scenarios</h2>
+
+        <div class="scenario-case">
+            <h4>Scenario 1: Wet Hiker Showing Hypothermia Signs</h4>
+            <p><strong>Setting:</strong> A hiker has been caught in cold rain and wind for 3 hours. She's shivering violently, confused, refusing to stop. Skin is pale. You're 6 hours from the trailhead in an exposed mountain area.</p>
+
+            <button type="button" class="btn-toggle" aria-controls="scenario1" aria-expanded="false">Show Management</button>
+            <div id="scenario1" class="discussion">
+                <p><strong>Recognition:</strong> Mild hypothermia (32-35°C likely). Shivering, confusion, wet — classic presentation.</p>
+                <p style="margin-top: 15px;"><strong>Immediate Action:</strong></p>
+                <ul>
+                    <li>STOP activity — get to shelter immediately (behind rocks, trees, any windbreak)</li>
+                    <li>Remove wet clothing if possible, replace with dry</li>
+                    <li>Insulate from ground with anything available</li>
+                    <li>Add blankets, sleeping bag, additional layers</li>
+                    <li>Apply passive external rewarming — let body's own heat work</li>
+                    <li>Give warm sweet drinks if conscious</li>
+                </ul>
+                <p style="margin-top: 15px;"><strong>Evacuation:</strong> If patient improves (shivering stops but for right reason — getting warm), may be able to walk out slowly. If confusion worsens or patient becomes unresponsive, urgent evacuation needed.</p>
             </div>
         </div>
 
-        <!-- SUMMARY TAB -->
-        <div id="summary" class="tab-content">
-            <div class="section-title">Lesson Summary</div>
+        <div class="scenario-case">
+            <h4>Scenario 2: Frostbitten Fingers on High Peak</h4>
+            <p><strong>Setting:</strong> A climber on a high peak (14,000 ft) develops white, numb fingers at -10°C with wind. There's a descent of 4-6 hours to base camp. Fingers are clearly frostbitten.</p>
 
-            <div class="key-points">
-                <h3>Key Concepts</h3>
-                <div class="key-point">Hypothermia: core temp <35°C (95°F); handle gently to avoid triggering arrhythmias</div>
-                <div class="key-point">Shivering is good (body generating heat); shivering stopping is bad (body has given up)</div>
-                <div class="key-point">Afterdrop: core temp continues to fall after removing cold source; prevent with gentle handling</div>
-                <div class="key-point">No one is dead until warm and dead — continue CPR in hypothermia even after prolonged cardiac arrest</div>
-                <div class="key-point">Frostbite: don't rewarm in field if refreezing is possible</div>
-                <div class="key-point">Rewarming technique: warm water bath 37-39°C, takes 30-45 minutes</div>
-                <div class="key-point">Prevention: avoid cotton, layer properly, stay dry, buddy system</div>
-            </div>
-
-            <div class="glossary">
-                <div class="subsection-title">Glossary</div>
-                <div class="glossary-term">
-                    <dt>Hypothermia</dt>
-                    <dd>Core body temperature <35°C (95°F); medical emergency requiring careful rewarming</dd>
-                </div>
-                <div class="glossary-term">
-                    <dt>Afterdrop</dt>
-                    <dd>Continued fall in core temperature after removal from cold due to cold blood returning to core</dd>
-                </div>
-                <div class="glossary-term">
-                    <dt>Shivering</dt>
-                    <dd>Involuntary muscle contractions generating heat; present in mild/moderate hypothermia but absent in severe</dd>
-                </div>
-                <div class="glossary-term">
-                    <dt>Frostnip</dt>
-                    <dd>Superficial cold injury without actual tissue freezing; reversible with rewarming</dd>
-                </div>
-                <div class="glossary-term">
-                    <dt>Frostbite</dt>
-                    <dd>Freezing of tissue with ice crystal formation and cell damage</dd>
-                </div>
-                <div class="glossary-term">
-                    <dt>Rewarming</dt>
-                    <dd>Process of raising core body temperature from hypothermia; must be done carefully to avoid complications</dd>
-                </div>
-                <div class="glossary-term">
-                    <dt>Paradoxical Undressing</dt>
-                    <dd>Removal of clothing in hypothermia due to peripheral vasodilation causing sensation of warmth</dd>
-                </div>
-                <div class="glossary-term">
-                    <dt>Chilblain</dt>
-                    <dd>Cold injury from chronic exposure to non-freezing cold and wet</dd>
-                </div>
-                <div class="glossary-term">
-                    <dt>Immersion Foot</dt>
-                    <dd>Cold injury from prolonged wet cold exposure without actual freezing</dd>
-                </div>
-                <div class="glossary-term">
-                    <dt>Ventricular Fibrillation</dt>
-                    <dd>Chaotic heart rhythm; can be triggered by rough handling of severely hypothermic patient</dd>
-                </div>
-                <div class="glossary-term">
-                    <dt>Insulation</dt>
-                    <dd>Materials that trap air and prevent heat loss (clothing, sleeping bag, ground barrier)</dd>
-                </div>
+            <button type="button" class="btn-toggle" aria-controls="scenario2" aria-expanded="false">Show Management</button>
+            <div id="scenario2" class="discussion">
+                <p><strong>Recognition:</strong> Frostbite developing (white, numb fingers). Risk of refreezing during descent.</p>
+                <p style="margin-top: 15px;"><strong>Critical Decision:</strong> DO NOT REWARM on the mountain. Risk of refreezing is too high.</p>
+                <p style="margin-top: 15px;"><strong>Field Management:</strong></p>
+                <ul>
+                    <li>Insulate fingers — put in pockets, under armpits, in gloves (keep frozen)</li>
+                    <li>Prevent further cold exposure with extreme care</li>
+                    <li>Keep fingers dry</li>
+                    <li>Descend carefully to shelter</li>
+                </ul>
+                <p style="margin-top: 15px;"><strong>At Base Camp/Shelter:</strong> THEN rewarm with warm water immersion (37-39°C) if certain no refreezing risk exists. Urgent evacuation to hospital for frostbite care.</p>
             </div>
         </div>
+      </section>
+      <section class="section" id="quiz" role="tabpanel" aria-labelledby="tab-quiz" tabindex="0" hidden>
+        <h2>Knowledge Check</h2>
+        <p class="quiz-intro">10 questions. Pick an answer to get immediate feedback. Answer order is shuffled each attempt, and your best score is saved on this device.</p>
+        <div id="quiz-box" class="quiz-container"></div>
+        <div id="score-display" class="score-banner" hidden aria-live="polite"></div>
+      </section>
+      <section class="section" id="summary" role="tabpanel" aria-labelledby="tab-summary" tabindex="0" hidden>
+        <h2>Lesson Summary</h2>
 
-        <!-- Navigation Footer -->
-        <div class="nav-footer">
-            <a href="08_Heat.html" class="nav-link">← Previous</a>
-            <div class="nav-center">
-                <a href="../index.html">Home</a>
-            </div>
-            <a href="10_Anaphylaxis.html" class="nav-link">Next →</a>
+        <div class="key-points">
+            <h3>Key Concepts</h3>
+            <div class="key-point">Hypothermia: core temp <35°C (95°F); handle gently to avoid triggering arrhythmias</div>
+            <div class="key-point">Shivering is good (body generating heat); shivering stopping is bad (body has given up)</div>
+            <div class="key-point">Afterdrop: core temp continues to fall after removing cold source; prevent with gentle handling</div>
+            <div class="key-point">No one is dead until warm and dead — continue CPR in hypothermia even after prolonged cardiac arrest</div>
+            <div class="key-point">Frostbite: don't rewarm in field if refreezing is possible</div>
+            <div class="key-point">Rewarming technique: warm water bath 37-39°C, takes 30-45 minutes</div>
+            <div class="key-point">Prevention: avoid cotton, layer properly, stay dry, buddy system</div>
         </div>
+
+        <div class="glossary">
+            <h3>Glossary</h3>
+            <div class="glossary-term">
+                <dt>Hypothermia</dt>
+                <dd>Core body temperature <35°C (95°F); medical emergency requiring careful rewarming</dd>
+            </div>
+            <div class="glossary-term">
+                <dt>Afterdrop</dt>
+                <dd>Continued fall in core temperature after removal from cold due to cold blood returning to core</dd>
+            </div>
+            <div class="glossary-term">
+                <dt>Shivering</dt>
+                <dd>Involuntary muscle contractions generating heat; present in mild/moderate hypothermia but absent in severe</dd>
+            </div>
+            <div class="glossary-term">
+                <dt>Frostnip</dt>
+                <dd>Superficial cold injury without actual tissue freezing; reversible with rewarming</dd>
+            </div>
+            <div class="glossary-term">
+                <dt>Frostbite</dt>
+                <dd>Freezing of tissue with ice crystal formation and cell damage</dd>
+            </div>
+            <div class="glossary-term">
+                <dt>Rewarming</dt>
+                <dd>Process of raising core body temperature from hypothermia; must be done carefully to avoid complications</dd>
+            </div>
+            <div class="glossary-term">
+                <dt>Paradoxical Undressing</dt>
+                <dd>Removal of clothing in hypothermia due to peripheral vasodilation causing sensation of warmth</dd>
+            </div>
+            <div class="glossary-term">
+                <dt>Chilblain</dt>
+                <dd>Cold injury from chronic exposure to non-freezing cold and wet</dd>
+            </div>
+            <div class="glossary-term">
+                <dt>Immersion Foot</dt>
+                <dd>Cold injury from prolonged wet cold exposure without actual freezing</dd>
+            </div>
+            <div class="glossary-term">
+                <dt>Ventricular Fibrillation</dt>
+                <dd>Chaotic heart rhythm; can be triggered by rough handling of severely hypothermic patient</dd>
+            </div>
+            <div class="glossary-term">
+                <dt>Insulation</dt>
+                <dd>Materials that trap air and prevent heat loss (clothing, sleeping bag, ground barrier)</dd>
+            </div>
+        </div>
+      </section>
     </div>
+  </div>
 
-    <script>
-        function showTab(tabName) {
-            const tabs = document.querySelectorAll('.tab-content');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            document.getElementById(tabName).classList.add('active');
+  <nav class="lesson-footer-nav" aria-label="Lesson pagination">
+    <a class="btn secondary prev" href="08_Heat.html"><span aria-hidden="true">←</span> Lesson 8: Heat-Related Emergencies</a>
+    <a class="home" href="../index.html#lessons">All lessons</a>
+    <a class="btn next" href="10_Anaphylaxis.html">Lesson 10: Anaphylaxis &amp; Allergic Reactions <span aria-hidden="true">→</span></a>
+  </nav>
+</main>
 
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            const tabArr = Array.from(buttons);
-            const activeIdx = tabArr.indexOf(event.target);
-            updateStepIndicator(activeIdx);
-        }
-        function updateStepIndicator(activeIdx) {
-            const tabs = document.querySelectorAll('.tab-btn');
-            document.getElementById('step-text').textContent = 'Step ' + (activeIdx + 1) + ' of ' + tabs.length;
-            const dots = document.getElementById('step-dots');
-            dots.innerHTML = '';
-            tabs.forEach((_, i) => {
-                const d = document.createElement('div');
-                d.style.cssText = 'width:8px;height:8px;border-radius:50%;background:' + (i === activeIdx ? '#2C7BE5' : i < activeIdx ? '#1A6B3A' : '#CBD5E0') + ';';
-                dots.appendChild(d);
-            });
-        }
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-links">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#lessons">All lessons</a>
+      <a href="../final_exam.html">Final exam</a>
+      <a href="https://github.com/owenriverk/wfa-precourse">Source on GitHub</a>
+    </div>
+    <p class="foot-disclaimer">Educational use only. This course teaches lay-rescuer wilderness first aid and does not replace hands-on training or professional medical care. In an emergency, call your local emergency number.</p>
+  </div>
+</footer>
 
-        function toggleDiscussion(id) {
-            const disc = document.getElementById(id);
-            disc.classList.toggle('show');
-        }
-
-        const questions = [
-            { q: "Hypothermia is defined as core temperature below:", options: ["35°C (95°F)", "37°C (98.6°F)", "32°C (89.6°F)", "38°C (100.4°F)"], answer: 0, exp: "Hypothermia = core temp <35°C (95°F). Normal is 37°C. Even 2-3°C drop is dangerous." },
-            { q: "Shivering in hypothermic patient indicates:", options: ["Severe hypothermia", "Cardiac arrest imminent", "Body is still trying to generate heat — relatively good sign", "Patient is too cold to treat"], answer: 2, exp: "Shivering = body still generating heat. Shivering STOPPING is the bad sign (body gave up)." },
-            { q: "'Afterdrop' refers to:", options: ["Blood pressure dropping", "Core temperature continuing to fall after warming begins", "Shivering stopping", "Heart rate dropping"], answer: 1, exp: "Afterdrop = the core keeps cooling as heat conducts into surrounding cold tissue and cold peripheral blood mixes back toward the core, especially with movement." },
-            { q: "Frostbite should be rewarmed in field:", options: ["Only if no risk of refreezing", "Always, ASAP", "Never — leave for hospital", "Using dry heat (fire)"], answer: 0, exp: "CRITICAL: Only rewarm if NO risk of refreezing. Freezing then refreezing causes massive additional damage." },
-            { q: "Correct water temperature for rewarming frostbite:", options: ["As hot as possible", "37-39°C (body temp warm, not hot)", "Ice water", "Room temperature"], answer: 1, exp: "Warm water 37-39°C — warm not hot. Too much heat causes additional tissue damage." },
-            { q: "Paradoxical undressing in hypothermia occurs because:", options: ["Delirious from fever", "Normal behavior", "Want to cool down", "Peripheral vasodilation causes sensation of warmth"], answer: 3, exp: "Paradoxical undressing = dangerous sign. Peripheral vasodilation gives false sensation of warmth; patient undresses, worsening heat loss." },
-            { q: "Severely hypothermic patient in cardiac arrest should:", options: ["Receive CPR and be evacuated (not dead until warm and dead)", "Not receive CPR", "Be given alcohol to warm", "Be left in place"], answer: 0, exp: "Continue CPR during evacuation. Severe hypothermia patients have recovered after prolonged cardiac arrest with rewarming." },
-            { q: "Immersion foot is caused by:", options: ["Freezing temperatures only", "Dehydration alone", "Walking barefoot", "Prolonged cold wet exposure without freezing"], answer: 3, exp: "Trench foot/immersion foot = wet cold (not freezing) for hours/days. Prevention: keep feet dry in cold expeditions." },
-            { q: "External heat sources for hypothermia should be applied to:", options: ["Extremities only", "High blood flow areas: neck, armpits, groin", "Only the forehead", "The entire body surface equally"], answer: 1, exp: "Apply heat to core (areas with major blood vessels near skin) not extremities, to minimize afterdrop." },
-            { q: "Patient with deep frostbite who must walk out should:", options: ["Have feet thawed immediately", "Apply hot water", "Keep feet frozen and walk — do NOT rewarm if refreezing risk", "Massage affected tissue"], answer: 2, exp: "Walking on frozen feet is better than thawing and refreezing. Refreezing causes far more damage." }
-        ];
-
-        let answered = 0;
-        const total = questions.length;
-
-        function buildQuiz() {
-            const container = document.getElementById('quizContainer');
-            questions.forEach((q, idx) => {
-                const qDiv = document.createElement('div');
-                qDiv.className = 'quiz-question';
-                qDiv.innerHTML = `
-                    <h4>Q${idx + 1}: ${q.q}</h4>
-                    <ul>
-                        ${q.options.map((opt, oi) => `
-                            <li onclick="selectAnswer(this, ${idx}, ${oi})">${opt}</li>
-                        `).join('')}
-                    </ul>
-                    <div class="explanation" id="exp-${idx}"></div>
-                `;
-                container.appendChild(qDiv);
-            });
-        }
-
-        function selectAnswer(el, qi, selected) {
-            const q = questions[qi];
-            const items = el.parentElement.querySelectorAll('li');
-            items.forEach(i => i.classList.add('disabled'));
-            const expEl = document.getElementById('exp-' + qi);
-
-            if (selected === q.answer) {
-                el.classList.add('correct');
-                expEl.className = 'explanation show correct-exp';
-                expEl.innerHTML = '✓ Correct! ' + q.exp;
-            } else {
-                el.classList.add('incorrect');
-                items[q.answer].classList.add('correct');
-                expEl.className = 'explanation show incorrect-exp';
-                expEl.innerHTML = '✗ Not quite. ' + q.exp;
-            }
-            answered++;
-            if (answered === total) showScore();
-        }
-
-        function showScore() {
-            const sc = document.querySelectorAll('.explanation.correct-exp').length;
-            const lessonId = '09';
-            const prevScore = localStorage.getItem('wfa_score_' + lessonId);
-            localStorage.setItem('wfa_completed_' + lessonId, 'true');
-            localStorage.setItem('wfa_score_' + lessonId, Math.max(sc, parseInt(prevScore || '0')));
-            const el = document.getElementById('score-display');
-            el.style.display = 'block';
-            document.getElementById('score-text').textContent = 'You scored ' + sc + ' / ' + total;
-            let msg = sc >= 8 ? '🎉 Excellent work! You are ready for the next lesson.' : sc >= 6 ? '👍 Good job! Review the sections you missed.' : '📚 Consider reviewing this lesson before moving on.';
-            if (prevScore && parseInt(prevScore) > 0) msg += ' (Previous best: ' + prevScore + '/' + total + ')';
-            document.getElementById('score-sub').textContent = msg;
-            const retryBtn = document.createElement('button');
-            retryBtn.textContent = '↺ Retry Quiz';
-            retryBtn.style.cssText = 'margin-top:16px;padding:10px 24px;background:#2C7BE5;color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;';
-            retryBtn.onclick = function() {
-                answered = 0;
-                el.style.display = 'none';
-                document.getElementById('quizContainer').innerHTML = '';
-                buildQuiz();
-                retryBtn.remove();
-            };
-            el.appendChild(retryBtn);
-            el.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        buildQuiz();
-        updateStepIndicator(0);
-    </script>
+<script>
+window.WFA_LESSON = {
+ "id": "09",
+ "questions": [
+  {
+   "q": "Hypothermia is defined as core temperature below:",
+   "options": [
+    "35°C (95°F)",
+    "37°C (98.6°F)",
+    "32°C (89.6°F)",
+    "38°C (100.4°F)"
+   ],
+   "answer": 0,
+   "exp": "Hypothermia = core temp <35°C (95°F). Normal is 37°C. Even 2-3°C drop is dangerous."
+  },
+  {
+   "q": "Shivering in hypothermic patient indicates:",
+   "options": [
+    "Severe hypothermia",
+    "Cardiac arrest imminent",
+    "Body is still trying to generate heat — relatively good sign",
+    "Patient is too cold to treat"
+   ],
+   "answer": 2,
+   "exp": "Shivering = body still generating heat. Shivering STOPPING is the bad sign (body gave up)."
+  },
+  {
+   "q": "'Afterdrop' refers to:",
+   "options": [
+    "Blood pressure dropping",
+    "Core temperature continuing to fall after warming begins",
+    "Shivering stopping",
+    "Heart rate dropping"
+   ],
+   "answer": 1,
+   "exp": "Afterdrop = the core keeps cooling as heat conducts into surrounding cold tissue and cold peripheral blood mixes back toward the core, especially with movement."
+  },
+  {
+   "q": "Frostbite should be rewarmed in field:",
+   "options": [
+    "Only if no risk of refreezing",
+    "Always, ASAP",
+    "Never — leave for hospital",
+    "Using dry heat (fire)"
+   ],
+   "answer": 0,
+   "exp": "CRITICAL: Only rewarm if NO risk of refreezing. Freezing then refreezing causes massive additional damage."
+  },
+  {
+   "q": "Correct water temperature for rewarming frostbite:",
+   "options": [
+    "As hot as possible",
+    "37-39°C (body temp warm, not hot)",
+    "Ice water",
+    "Room temperature"
+   ],
+   "answer": 1,
+   "exp": "Warm water 37-39°C — warm not hot. Too much heat causes additional tissue damage."
+  },
+  {
+   "q": "Paradoxical undressing in hypothermia occurs because:",
+   "options": [
+    "Delirious from fever",
+    "Normal behavior",
+    "Want to cool down",
+    "Peripheral vasodilation causes sensation of warmth"
+   ],
+   "answer": 3,
+   "exp": "Paradoxical undressing = dangerous sign. Peripheral vasodilation gives false sensation of warmth; patient undresses, worsening heat loss."
+  },
+  {
+   "q": "Severely hypothermic patient in cardiac arrest should:",
+   "options": [
+    "Receive CPR and be evacuated (not dead until warm and dead)",
+    "Not receive CPR",
+    "Be given alcohol to warm",
+    "Be left in place"
+   ],
+   "answer": 0,
+   "exp": "Continue CPR during evacuation. Severe hypothermia patients have recovered after prolonged cardiac arrest with rewarming."
+  },
+  {
+   "q": "Immersion foot is caused by:",
+   "options": [
+    "Freezing temperatures only",
+    "Dehydration alone",
+    "Walking barefoot",
+    "Prolonged cold wet exposure without freezing"
+   ],
+   "answer": 3,
+   "exp": "Trench foot/immersion foot = wet cold (not freezing) for hours/days. Prevention: keep feet dry in cold expeditions."
+  },
+  {
+   "q": "External heat sources for hypothermia should be applied to:",
+   "options": [
+    "Extremities only",
+    "High blood flow areas: neck, armpits, groin",
+    "Only the forehead",
+    "The entire body surface equally"
+   ],
+   "answer": 1,
+   "exp": "Apply heat to core (areas with major blood vessels near skin) not extremities, to minimize afterdrop."
+  },
+  {
+   "q": "Patient with deep frostbite who must walk out should:",
+   "options": [
+    "Have feet thawed immediately",
+    "Apply hot water",
+    "Keep feet frozen and walk — do NOT rewarm if refreezing risk",
+    "Massage affected tissue"
+   ],
+   "answer": 2,
+   "exp": "Walking on frozen feet is better than thawing and refreezing. Refreezing causes far more damage."
+  }
+ ]
+};
+</script>
+<script src="../assets/js/lesson.js"></script>
 </body>
 </html>

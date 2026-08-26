@@ -1,796 +1,771 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson 04: Bleeding, Wounds & Burns - WFA Course</title>
-    <style>
-        :root {
-            --primary: #1B4F8A; --accent: #2C7BE5; --light-bg: #E8F0FE;
-            --danger: #C0392B; --danger-bg: #FDECEA; --success: #1A6B3A; --success-bg: #E8F5E9;
-            --warning: #D35400; --warning-bg: #FFF3E0; --info: #1565C0; --info-bg: #E3F2FD;
-            --dark: #2D3748; --muted: #718096; --border: #CBD5E0; --white: #FFFFFF;
-            --card-bg: #F7FAFC;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: var(--dark); line-height: 1.6; background: #ECEFF4; }
-        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
-        .header { background: linear-gradient(135deg, var(--primary), var(--accent)); color: var(--white); padding: 30px; border-radius: 8px; margin-bottom: 30px; }
-        .header h1 { margin: 0 0 10px 0; font-size: 2.2em; }
-        .meta { font-size: 0.95em; opacity: 0.95; }
-        .meta-item { margin-right: 20px; display: inline-block; }
-        .tabs { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; border-bottom: 2px solid var(--border); }
-        .tab-btn { padding: 12px 20px; background: var(--card-bg); border: 2px solid var(--border); border-bottom: none; cursor: pointer; font-size: 1em; border-radius: 8px 8px 0 0; transition: all 0.3s; }
-        .tab-btn:hover { background: var(--light-bg); }
-        .tab-btn.active { background: var(--accent); color: var(--white); border-color: var(--accent); }
-        .tab-content { display: none; background: var(--white); padding: 25px; border-radius: 0 0 8px 8px; border: 2px solid var(--border); margin-bottom: 30px; }
-        .tab-content.active { display: block; }
-        .section-title { font-size: 1.8em; color: var(--primary); margin: 30px 0 20px 0; border-left: 5px solid var(--accent); padding-left: 15px; }
-        .subsection-title { font-size: 1.3em; color: var(--accent); margin: 20px 0 12px 0; font-weight: 600; }
-        .card { background: var(--card-bg); border-left: 5px solid var(--accent); padding: 20px; margin: 20px 0; border-radius: 6px; }
-        .alert { padding: 15px; margin: 20px 0; border-radius: 6px; border-left: 5px solid; }
-        .alert-danger { background: var(--danger-bg); border-left-color: var(--danger); color: var(--danger); }
-        .alert-warning { background: var(--warning-bg); border-left-color: var(--warning); color: var(--warning); }
-        .alert-success { background: var(--success-bg); border-left-color: var(--success); color: var(--success); }
-        .alert-info { background: var(--info-bg); border-left-color: var(--info); color: var(--info); }
-        .mnemonic-box { background: linear-gradient(135deg, var(--primary), var(--accent)); color: var(--white); padding: 20px; margin: 20px 0; border-radius: 8px; font-weight: 600; font-size: 1.1em; }
-        .mnemonic-item { margin: 10px 0; }
-        .mnemonic-letter { display: inline-block; background: var(--white); color: var(--primary); width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: 700; margin-right: 10px; }
-        ul, ol { margin-left: 20px; margin-bottom: 15px; }
-        li { margin-bottom: 8px; }
-        .key-points { background: linear-gradient(135deg, #F093FB, #F5576C); color: var(--white); padding: 20px; margin: 25px 0; border-radius: 8px; }
-        .key-points h3 { margin-top: 0; margin-bottom: 15px; font-size: 1.3em; }
-        .key-point { margin: 8px 0; padding-left: 25px; position: relative; }
-        .key-point:before { content: "★"; position: absolute; left: 0; font-size: 1.2em; }
-        .scenario-case { background: var(--info-bg); border: 2px solid var(--info); border-radius: 8px; padding: 20px; margin: 20px 0; }
-        .scenario-case h4 { color: var(--info); margin-bottom: 12px; font-size: 1.1em; }
-        .scenario-btn { background: var(--info); color: var(--white); padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 0.95em; transition: background 0.3s; }
-        .scenario-btn:hover { background: #0d47a1; }
-        .discussion { display: none; margin-top: 15px; background: var(--white); padding: 15px; border-radius: 6px; border-left: 4px solid var(--info); }
-        .discussion.show { display: block; }
-        .glossary { background: var(--card-bg); padding: 20px; margin: 20px 0; border-radius: 8px; }
-        .glossary-term { margin-bottom: 15px; }
-        .glossary-term dt { color: var(--accent); font-weight: 700; font-size: 1.05em; }
-        .glossary-term dd { margin-left: 20px; margin-top: 5px; color: var(--dark); }
-        .quiz-section { background: var(--white); padding: 25px; border-radius: 8px; border: 2px solid var(--border); margin: 20px 0; }
-        .quiz-question { background: var(--card-bg); padding: 20px; margin: 20px 0; border-radius: 6px; border-left: 4px solid var(--accent); }
-        .quiz-question h4 { color: var(--dark); margin-bottom: 15px; font-size: 1.1em; }
-        .quiz-question ul { list-style: none; margin: 0; }
-        .quiz-question li { padding: 10px 12px; margin: 8px 0; background: var(--white); border: 2px solid var(--border); border-radius: 4px; cursor: pointer; transition: all 0.3s; }
-        .quiz-question li:hover { border-color: var(--accent); background: var(--light-bg); }
-        .quiz-question li.disabled { opacity: 0.6; cursor: not-allowed; }
-        .quiz-question li.correct { background: var(--success-bg); border-color: var(--success); color: var(--success); font-weight: 600; }
-        .quiz-question li.incorrect { background: var(--danger-bg); border-color: var(--danger); color: var(--danger); font-weight: 600; }
-        .explanation { display: none; margin-top: 12px; padding: 12px; border-radius: 4px; font-size: 0.95em; }
-        .explanation.show { display: block; }
-        .correct-exp { background: var(--success-bg); color: var(--success); border-left: 4px solid var(--success); }
-        .incorrect-exp { background: var(--danger-bg); color: var(--danger); border-left: 4px solid var(--danger); }
-        #score-display { display: none; background: linear-gradient(135deg, var(--primary), var(--accent)); color: var(--white); padding: 30px; border-radius: 8px; text-align: center; margin: 30px 0; }
-        #score-text { font-size: 2em; font-weight: 700; margin-bottom: 10px; }
-        #score-sub { font-size: 1.1em; opacity: 0.95; }
-        .nav-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 40px; padding-top: 20px; border-top: 2px solid var(--border); }
-        .nav-link { padding: 12px 24px; background: var(--accent); color: var(--white); text-decoration: none; border-radius: 6px; transition: background 0.3s; cursor: pointer; font-weight: 600; }
-        .nav-link:hover { background: var(--primary); }
-        .nav-link.disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
-        .nav-center { text-align: center; }
-        .nav-center a { color: var(--accent); text-decoration: none; font-weight: 600; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bleeding, Wounds &amp; Burns — Lesson 4 | Wilderness First Aid</title>
+<meta name="description" content="Hemorrhage control, tourniquets, wound care, burns, infection prevention. Free online wilderness first aid lesson with scenarios and a self-check quiz.">
+<meta name="theme-color" content="#1B4F8A">
+<link rel="canonical" href="https://owenriverk.github.io/wfa-precourse/lessons/04_Bleeding_Wounds.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bleeding, Wounds &amp; Burns — Lesson 4 of 15">
+<meta property="og:description" content="Hemorrhage control, tourniquets, wound care, burns, infection prevention.">
+<meta property="og:url" content="https://owenriverk.github.io/wfa-precourse/lessons/04_Bleeding_Wounds.html">
+<meta property="og:site_name" content="Wilderness First Aid — free online course">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/site.css">
 </head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>Lesson 04: Bleeding, Wounds & Burns</h1>
-            <div class="meta">
-                <span class="meta-item">Estimated Time: 45 minutes</span>
-                <span class="meta-item">Module 04 of 14</span>
-            </div>
+<body class="lesson" data-lesson-id="04" data-next-href="05_Shock.html" data-next-title="Shock Recognition &amp; Treatment">
+<a class="skip-link" href="#content">Skip to lesson content</a>
+
+<header class="site-nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="2" y="2" width="28" height="28" rx="7" fill="currentColor" opacity="0.12"/><path d="M6 23 L12 12 L16 18 L19 14 L26 23 Z" fill="currentColor" opacity="0.85"/><path d="M16 6 v6 M13 9 h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg><span>Wilderness First Aid</span><span class="brand-sub">Free online course</span></a>
+    <span class="lesson-pos">Lesson 4 of 15</span>
+    <nav class="nav-links" aria-label="Course navigation">
+      <a class="hide-sm" href="../index.html#lessons">All lessons</a>
+      <a class="icon-btn" href="03_Airway.html" aria-label="Previous lesson: Airway &amp; Breathing Emergencies"><span aria-hidden="true">←</span></a>
+      <a class="icon-btn" href="05_Shock.html" aria-label="Next lesson: Shock Recognition &amp; Treatment"><span aria-hidden="true">→</span></a>
+    </nav>
+  </div>
+</header>
+
+<header class="lesson-head">
+  <div class="wrap">
+    <div class="eyebrow"><span>Lesson 04</span><span class="dot">45 minutes</span><span class="dot">8 sections</span></div>
+    <h1>Bleeding, Wounds &amp; Burns</h1>
+    <p class="lead">Hemorrhage control, tourniquets, wound care, burns, infection prevention.</p>
+    <div class="tags"><span class="badge tag-red">Life Threat</span><span class="badge tag-red">Hemorrhage</span><span class="badge tag-blue">Tourniquet</span><span class="badge tag-orange">Burns</span></div>
+  </div>
+</header>
+
+<main id="content" class="wrap">
+  <div class="lesson-body">
+    <nav class="lesson-toc" aria-label="Lesson sections">
+      <p class="toc-label">In this lesson</p>
+      <div class="tablist" role="tablist">
+        <button class="tab" role="tab" id="tab-overview" aria-controls="overview" aria-selected="false" tabindex="-1"><span class="tab-n" aria-hidden="true">1</span><span class="tab-label">Overview</span></button>
+        <button class="tab" role="tab" id="tab-hemorrhage" aria-controls="hemorrhage" aria-selected="false" tabindex="-1"><span class="tab-n" aria-hidden="true">2</span><span class="tab-label">Hemorrhage Control</span></button>
+        <button class="tab" role="tab" id="tab-wounds" aria-controls="wounds" aria-selected="false" tabindex="-1"><span class="tab-n" aria-hidden="true">3</span><span class="tab-label">Wound Care</span></button>
+        <button class="tab" role="tab" id="tab-internal" aria-controls="internal" aria-selected="false" tabindex="-1"><span class="tab-n" aria-hidden="true">4</span><span class="tab-label">Internal Bleeding</span></button>
+        <button class="tab" role="tab" id="tab-burns" aria-controls="burns" aria-selected="false" tabindex="-1"><span class="tab-n" aria-hidden="true">5</span><span class="tab-label">Burns</span></button>
+        <button class="tab" role="tab" id="tab-scenarios" aria-controls="scenarios" aria-selected="false" tabindex="-1"><span class="tab-n" aria-hidden="true">6</span><span class="tab-label">Scenarios</span></button>
+        <button class="tab" role="tab" id="tab-quiz" aria-controls="quiz" aria-selected="false" tabindex="-1"><span class="tab-n" aria-hidden="true">7</span><span class="tab-label">Quiz</span></button>
+        <button class="tab" role="tab" id="tab-summary" aria-controls="summary" aria-selected="false" tabindex="-1"><span class="tab-n" aria-hidden="true">8</span><span class="tab-label">Summary</span></button>
+      </div>
+      <div class="toc-progress"><span class="label">0 of 8 sections viewed</span><div class="bar" aria-hidden="true"><span></span></div></div>
+    </nav>
+
+    <div class="lesson-content">
+      <section class="section" id="overview" role="tabpanel" aria-labelledby="tab-overview" tabindex="0" hidden>
+        <h2>Overview: Bleeding, Wounds & Burns</h2>
+        <p>Bleeding is the most preventable cause of death in trauma. This lesson covers hemorrhage control—the most critical wilderness first aid skill—and wound management to prevent infection and promote healing. It also covers burns: on our trips, exhaust-pipe contact, campfire and stove mishaps, and sun exposure make burns one of the most common soft-tissue injuries you will actually treat.</p>
+
+        <div class="alert alert-danger">
+            <strong>Critical:</strong> Exsanguinating hemorrhage (X in XABCDE) is treated BEFORE airway. Control massive bleeding immediately.
         </div>
 
-        <div class="tabs">
-            <button class="tab-btn active" onclick="showTab('overview')">Overview</button>
-            <button class="tab-btn" onclick="showTab('hemorrhage')">Hemorrhage Control</button>
-            <button class="tab-btn" onclick="showTab('wounds')">Wound Care</button>
-            <button class="tab-btn" onclick="showTab('internal')">Internal Bleeding</button>
-            <button class="tab-btn" onclick="showTab('burns')">Burns</button>
-            <button class="tab-btn" onclick="showTab('scenarios')">Scenarios</button>
-            <button class="tab-btn" onclick="showTab('quiz')">Quiz</button>
-            <button class="tab-btn" onclick="showTab('summary')">Summary</button>
+        <h3>Hemorrhage is the Priority</h3>
+        <ul>
+            <li>Massive arterial bleeding can kill in under five minutes — faster than most airway problems develop</li>
+            <li>Shock from bleeding kills faster than airway obstruction in many trauma cases</li>
+            <li>Hemorrhage control is the skill that saves the most lives in wilderness trauma</li>
+        </ul>
+
+        <div class="key-points">
+            <h3>Key Points</h3>
+            <div class="key-point">Direct pressure and time controls most bleeding</div>
+            <div class="key-point">Obviously life-threatening extremity bleeding gets a tourniquet immediately — don't wait for pressure to fail</div>
+            <div class="key-point">Hemostatic agents (QuikClot, Combat Gauze) enhance clotting in wounds</div>
+            <div class="key-point">Wound irrigation is the most important step in wound care</div>
+            <div class="key-point">Don't close bite wounds or punctures — infection risk too high</div>
+            <div class="key-point">Cool burns with cool (not ice-cold) running water for 10-20 minutes — never ice</div>
+            <div class="key-point">Any airway/inhalation involvement with a burn (singed nasal hair, hoarseness, sooty sputum) = EMERGENT evacuation</div>
         </div>
-        <div id="step-indicator" style="background:#F0F4F8;border-bottom:1px solid #CBD5E0;padding:8px 20px;font-size:13px;color:#718096;display:flex;gap:16px;align-items:center;">
-          <span id="step-text">Step 1 of 8</span>
-          <div id="step-dots" style="display:flex;gap:6px;"></div>
-        </div>
+      </section>
+      <section class="section" id="hemorrhage" role="tabpanel" aria-labelledby="tab-hemorrhage" tabindex="0" hidden>
+        <h2>Hemorrhage Control</h2>
 
-        <!-- OVERVIEW TAB -->
-        <div id="overview" class="tab-content active">
-            <div class="section-title">Overview: Bleeding, Wounds & Burns</div>
-            <p>Bleeding is the most preventable cause of death in trauma. This lesson covers hemorrhage control—the most critical wilderness first aid skill—and wound management to prevent infection and promote healing. It also covers burns: on our trips, exhaust-pipe contact, campfire and stove mishaps, and sun exposure make burns one of the most common soft-tissue injuries you will actually treat.</p>
-
-            <div class="alert alert-danger">
-                <strong>Critical:</strong> Exsanguinating hemorrhage (X in XABCDE) is treated BEFORE airway. Control massive bleeding immediately.
-            </div>
-
-            <div class="subsection-title">Hemorrhage is the Priority</div>
+        <div class="card">
+            <h3>Types of Bleeding</h3>
             <ul>
-                <li>Massive arterial bleeding can kill in under five minutes — faster than most airway problems develop</li>
-                <li>Shock from bleeding kills faster than airway obstruction in many trauma cases</li>
-                <li>Hemorrhage control is the skill that saves the most lives in wilderness trauma</li>
+                <li><strong>Arterial (Bright Red, Pulsatile):</strong> Oxygen-rich blood from arteries. Bright red color, pulsatile flow (spurts with heartbeat). LIFE-THREATENING — urgent control needed.</li>
+                <li><strong>Venous (Dark Red, Steady):</strong> Deoxygenated blood from veins. Darker red color, steady flow. Still serious but usually controlled more easily than arterial.</li>
+                <li><strong>Capillary (Oozing):</strong> Slow ooze from small vessels in skin. Usually stops on its own with direct pressure.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>Direct Pressure: The Gold Standard</h3>
+            <ul>
+                <li><strong>Technique:</strong> Apply firm continuous pressure with gloved hands and clean cloth/gauze directly on wound</li>
+                <li><strong>Duration:</strong> Minimum 10 minutes of continuous pressure without peeking. Seriously — don't lift to check if bleeding stopped.</li>
+                <li><strong>If bleeding continues:</strong> Add more dressing layers on top (do NOT remove first layer, as this disrupts clotting). Keep pressure on.</li>
+                <li><strong>Re-bleeding:</strong> If bleeding resumes after pressure released, reapply direct pressure for another 10 minutes</li>
+                <li><strong>Escalation sequence:</strong> Direct pressure → wound packing → tourniquet. (Elevating the limb is no longer taught as a bleeding-control step.)</li>
             </ul>
 
-            <div class="key-points">
-                <h3>Key Points</h3>
-                <div class="key-point">Direct pressure and time controls most bleeding</div>
-                <div class="key-point">Obviously life-threatening extremity bleeding gets a tourniquet immediately — don't wait for pressure to fail</div>
-                <div class="key-point">Hemostatic agents (QuikClot, Combat Gauze) enhance clotting in wounds</div>
-                <div class="key-point">Wound irrigation is the most important step in wound care</div>
-                <div class="key-point">Don't close bite wounds or punctures — infection risk too high</div>
-                <div class="key-point">Cool burns with cool (not ice-cold) running water for 10-20 minutes — never ice</div>
-                <div class="key-point">Any airway/inhalation involvement with a burn (singed nasal hair, hoarseness, sooty sputum) = EMERGENT evacuation</div>
+            <div class="alert alert-warning">
+                <strong>Do NOT peek:</strong> Lifting the dressing disrupts clot formation. Keep pressure on for the full 10 minutes.
             </div>
         </div>
 
-        <!-- HEMORRHAGE CONTROL TAB -->
-        <div id="hemorrhage" class="tab-content">
-            <div class="section-title">Hemorrhage Control</div>
+        <div class="card">
+            <h3>Pressure Dressing</h3>
+            <ul>
+                <li>After bleeding controlled, apply elastic bandage (ACE wrap or similar) over gauze pads</li>
+                <li>Maintains constant pressure to keep clot intact</li>
+                <li>Allows continued activity with some protection</li>
+                <li>Monitor for signs of too-tight bandage: cold fingers/toes, numbness, tingling, color changes</li>
+            </ul>
+        </div>
 
-            <div class="card">
-                <div class="subsection-title">Types of Bleeding</div>
-                <ul>
-                    <li><strong>Arterial (Bright Red, Pulsatile):</strong> Oxygen-rich blood from arteries. Bright red color, pulsatile flow (spurts with heartbeat). LIFE-THREATENING — urgent control needed.</li>
-                    <li><strong>Venous (Dark Red, Steady):</strong> Deoxygenated blood from veins. Darker red color, steady flow. Still serious but usually controlled more easily than arterial.</li>
-                    <li><strong>Capillary (Oozing):</strong> Slow ooze from small vessels in skin. Usually stops on its own with direct pressure.</li>
-                </ul>
-            </div>
+        <div class="card">
+            <h3>Tourniquet Application</h3>
+            <p><strong>When to use:</strong> For obviously life-threatening extremity hemorrhage (bright red/pulsatile bleeding, blood pooling rapidly, patient becoming shocky), apply a tourniquet IMMEDIATELY — do not wait for direct pressure to fail. Direct pressure is for bleeding that is not clearly life-threatening, or to buy time while the tourniquet is being readied.</p>
 
-            <div class="card">
-                <div class="subsection-title">Direct Pressure: The Gold Standard</div>
-                <ul>
-                    <li><strong>Technique:</strong> Apply firm continuous pressure with gloved hands and clean cloth/gauze directly on wound</li>
-                    <li><strong>Duration:</strong> Minimum 10 minutes of continuous pressure without peeking. Seriously — don't lift to check if bleeding stopped.</li>
-                    <li><strong>If bleeding continues:</strong> Add more dressing layers on top (do NOT remove first layer, as this disrupts clotting). Keep pressure on.</li>
-                    <li><strong>Re-bleeding:</strong> If bleeding resumes after pressure released, reapply direct pressure for another 10 minutes</li>
-                    <li><strong>Escalation sequence:</strong> Direct pressure → wound packing → tourniquet. (Elevating the limb is no longer taught as a bleeding-control step.)</li>
-                </ul>
+            <ul style="margin-top: 15px;">
+                <li><strong>Indication:</strong> Obviously life-threatening bleeding from an arm or leg (tourniquet FIRST), or extremity bleeding that direct pressure fails to control</li>
+                <li><strong>Location:</strong> Apply 2-3 inches ABOVE the wound, NOT on the joint</li>
+                <li><strong>Tightness:</strong> Tighten until bleeding stops completely AND the pulse below the tourniquet (distal pulse) is gone</li>
+                <li><strong>If bleeding continues:</strong> Apply a second tourniquet just above/beside the first</li>
+                <li><strong>Document time:</strong> Write application time directly on patient's skin (forehead works) or tourniquet</li>
+                <li><strong>DO NOT remove in field:</strong> Once applied, leave it. Risk of massive re-bleeding if loosened.</li>
+                <li><strong>Types:</strong> Commercial tourniquets (CAT, SOFTT-W) are more effective than improvised</li>
+            </ul>
 
-                <div class="alert alert-warning">
-                    <strong>Do NOT peek:</strong> Lifting the dressing disrupts clot formation. Keep pressure on for the full 10 minutes.
-                </div>
-            </div>
+            <h3>Improvised Tourniquet</h3>
+            <ul>
+                <li>Use minimum 2-inch wide material (belt, rolled cloth)</li>
+                <li>Windlass technique: wrap around limb above wound, place stick through loop, twist to tighten</li>
+                <li>Less effective than commercial but can work in emergency</li>
+                <li>Document time clearly</li>
+            </ul>
 
-            <div class="card">
-                <div class="subsection-title">Pressure Dressing</div>
-                <ul>
-                    <li>After bleeding controlled, apply elastic bandage (ACE wrap or similar) over gauze pads</li>
-                    <li>Maintains constant pressure to keep clot intact</li>
-                    <li>Allows continued activity with some protection</li>
-                    <li>Monitor for signs of too-tight bandage: cold fingers/toes, numbness, tingling, color changes</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <div class="subsection-title">Tourniquet Application</div>
-                <p><strong>When to use:</strong> For obviously life-threatening extremity hemorrhage (bright red/pulsatile bleeding, blood pooling rapidly, patient becoming shocky), apply a tourniquet IMMEDIATELY — do not wait for direct pressure to fail. Direct pressure is for bleeding that is not clearly life-threatening, or to buy time while the tourniquet is being readied.</p>
-
-                <ul style="margin-top: 15px;">
-                    <li><strong>Indication:</strong> Obviously life-threatening bleeding from an arm or leg (tourniquet FIRST), or extremity bleeding that direct pressure fails to control</li>
-                    <li><strong>Location:</strong> Apply 2-3 inches ABOVE the wound, NOT on the joint</li>
-                    <li><strong>Tightness:</strong> Tighten until bleeding stops completely AND the pulse below the tourniquet (distal pulse) is gone</li>
-                    <li><strong>If bleeding continues:</strong> Apply a second tourniquet just above/beside the first</li>
-                    <li><strong>Document time:</strong> Write application time directly on patient's skin (forehead works) or tourniquet</li>
-                    <li><strong>DO NOT remove in field:</strong> Once applied, leave it. Risk of massive re-bleeding if loosened.</li>
-                    <li><strong>Types:</strong> Commercial tourniquets (CAT, SOFTT-W) are more effective than improvised</li>
-                </ul>
-
-                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Improvised Tourniquet</div>
-                <ul>
-                    <li>Use minimum 2-inch wide material (belt, rolled cloth)</li>
-                    <li>Windlass technique: wrap around limb above wound, place stick through loop, twist to tighten</li>
-                    <li>Less effective than commercial but can work in emergency</li>
-                    <li>Document time clearly</li>
-                </ul>
-
-                <div class="alert alert-danger">
-                    <strong>Don't hesitate:</strong> Tourniquets are safe in place for at least 2 hours. Fear of tissue damage should never delay application — a patient can bleed to death while you wait for pressure to work. Use tourniquets when indicated.
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="subsection-title">Wound Packing: Junctional Hemorrhage</div>
-                <p><strong>When to use:</strong> Wounds in areas where tourniquets cannot be applied (groin/inguinal crease, axilla)</p>
-
-                <ul style="margin-top: 15px;">
-                    <li><strong>Technique:</strong> Tightly pack clean gauze into the wound</li>
-                    <li><strong>Maintain pressure:</strong> Don't just stuff gauze and leave — maintain constant pressure</li>
-                    <li><strong>Hemostatic gauze preferred:</strong> Gauze impregnated with kaolin or chitosan enhances clotting</li>
-                    <li><strong>Duration:</strong> At least 3 minutes of sustained pressure with hemostatic gauze; plain gauze needs about 10 minutes of sustained pressure</li>
-                    <li><strong>Dressing:</strong> Once bleeding controlled, leave packing in place with pressure dressing over it</li>
-                    <li><strong>NEVER pack:</strong> Chest or abdominal wounds — packing does not reach the bleeding and delays care. Neck wounds get sustained direct pressure only, never packing.</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <div class="subsection-title">Hemostatic Agents</div>
-                <ul>
-                    <li><strong>What they do:</strong> Gauze impregnated with clotting agents (kaolin, chitosan) enhances body's natural clotting</li>
-                    <li><strong>Products:</strong> QuikClot, Combat Gauze — commonly found in wilderness first aid kits</li>
-                    <li><strong>Application:</strong> Pack tightly into wound with sustained pressure</li>
-                    <li><strong>Dwell time:</strong> Hold pressure for at least 3 minutes</li>
-                    <li><strong>Removal:</strong> Can be rinsed out but often left in place for transport</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <div class="subsection-title">Epistaxis (Nosebleed)</div>
-                <ul>
-                    <li><strong>Position:</strong> Lean FORWARD (not back as old instruction said) to prevent blood draining down throat</li>
-                    <li><strong>Pressure:</strong> Pinch soft part of nose (below bone) firmly</li>
-                    <li><strong>Duration:</strong> 10-15 minutes continuous pressure</li>
-                    <li><strong>Cold compress:</strong> Apply ice/cold compress to bridge of nose and face</li>
-                    <li><strong>After control:</strong> Avoid blowing nose, strenuous activity for hours</li>
-                    <li><strong>When to evacuate:</strong> If continues >20 min with pressure, or heavy recurrent bleeding, evacuate for medical evaluation</li>
-                </ul>
+            <div class="alert alert-danger">
+                <strong>Don't hesitate:</strong> Tourniquets are safe in place for at least 2 hours. Fear of tissue damage should never delay application — a patient can bleed to death while you wait for pressure to work. Use tourniquets when indicated.
             </div>
         </div>
 
-        <!-- WOUND CARE TAB -->
-        <div id="wounds" class="tab-content">
-            <div class="section-title">Wound Care & Infection Prevention</div>
+        <div class="card">
+            <h3>Wound Packing: Junctional Hemorrhage</h3>
+            <p><strong>When to use:</strong> Wounds in areas where tourniquets cannot be applied (groin/inguinal crease, axilla)</p>
 
-            <div class="card">
-                <div class="subsection-title">Wound Assessment</div>
-                <ul>
-                    <li><strong>Mechanism:</strong> How was the wound created? (Clean cut, crush, contamination level?)</li>
-                    <li><strong>Depth:</strong> Superficial (epidermis), partial thickness (dermis), full thickness (into subcutaneous)</li>
-                    <li><strong>Contamination:</strong> Clean (surgical), clean-contaminated, contaminated (soil, feces), dirty/infected</li>
-                    <li><strong>Neurovascular status:</strong> Is blood supply intact distal to wound? Sensation normal?</li>
-                    <li><strong>Time elapsed:</strong> How long since injury? Affects infection risk (>8 hrs = higher infection risk) — note it and report to the receiving clinician</li>
-                </ul>
-            </div>
+            <ul style="margin-top: 15px;">
+                <li><strong>Technique:</strong> Tightly pack clean gauze into the wound</li>
+                <li><strong>Maintain pressure:</strong> Don't just stuff gauze and leave — maintain constant pressure</li>
+                <li><strong>Hemostatic gauze preferred:</strong> Gauze impregnated with kaolin or chitosan enhances clotting</li>
+                <li><strong>Duration:</strong> At least 3 minutes of sustained pressure with hemostatic gauze; plain gauze needs about 10 minutes of sustained pressure</li>
+                <li><strong>Dressing:</strong> Once bleeding controlled, leave packing in place with pressure dressing over it</li>
+                <li><strong>NEVER pack:</strong> Chest or abdominal wounds — packing does not reach the bleeding and delays care. Neck wounds get sustained direct pressure only, never packing.</li>
+            </ul>
+        </div>
 
-            <div class="card">
-                <div class="subsection-title">Wound Types & Management</div>
+        <div class="card">
+            <h3>Hemostatic Agents</h3>
+            <ul>
+                <li><strong>What they do:</strong> Gauze impregnated with clotting agents (kaolin, chitosan) enhances body's natural clotting</li>
+                <li><strong>Products:</strong> QuikClot, Combat Gauze — commonly found in wilderness first aid kits</li>
+                <li><strong>Application:</strong> Pack tightly into wound with sustained pressure</li>
+                <li><strong>Dwell time:</strong> Hold pressure for at least 3 minutes</li>
+                <li><strong>Removal:</strong> Can be rinsed out but often left in place for transport</li>
+            </ul>
+        </div>
 
-                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Abrasion (Road Rash)</div>
-                <ul>
-                    <li>Shallow scraping of skin surface</li>
-                    <li><strong>Clean thoroughly:</strong> This is the most important step. Remove all dirt/debris. Use brush if available.</li>
-                    <li>May be painful without anesthesia — local numbing spray can help if available</li>
-                    <li>Dress with antibiotic ointment and sterile gauze</li>
-                </ul>
+        <div class="card">
+            <h3>Epistaxis (Nosebleed)</h3>
+            <ul>
+                <li><strong>Position:</strong> Lean FORWARD (not back as old instruction said) to prevent blood draining down throat</li>
+                <li><strong>Pressure:</strong> Pinch soft part of nose (below bone) firmly</li>
+                <li><strong>Duration:</strong> 10-15 minutes continuous pressure</li>
+                <li><strong>Cold compress:</strong> Apply ice/cold compress to bridge of nose and face</li>
+                <li><strong>After control:</strong> Avoid blowing nose, strenuous activity for hours</li>
+                <li><strong>When to evacuate:</strong> If continues >20 min with pressure, or heavy recurrent bleeding, evacuate for medical evaluation</li>
+            </ul>
+        </div>
+      </section>
+      <section class="section" id="wounds" role="tabpanel" aria-labelledby="tab-wounds" tabindex="0" hidden>
+        <h2>Wound Care & Infection Prevention</h2>
 
-                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Laceration (Clean Cut)</div>
-                <ul>
-                    <li>Relatively clean wound edges</li>
-                    <li>Irrigate and clean thoroughly</li>
-                    <li>Dress and keep clean</li>
-                    <li>Gaping wounds will be evaluated for closure at a clinic — evacuate wounds that need closure</li>
-                </ul>
+        <div class="card">
+            <h3>Wound Assessment</h3>
+            <ul>
+                <li><strong>Mechanism:</strong> How was the wound created? (Clean cut, crush, contamination level?)</li>
+                <li><strong>Depth:</strong> Superficial (epidermis), partial thickness (dermis), full thickness (into subcutaneous)</li>
+                <li><strong>Contamination:</strong> Clean (surgical), clean-contaminated, contaminated (soil, feces), dirty/infected</li>
+                <li><strong>Neurovascular status:</strong> Is blood supply intact distal to wound? Sensation normal?</li>
+                <li><strong>Time elapsed:</strong> How long since injury? Affects infection risk (>8 hrs = higher infection risk) — note it and report to the receiving clinician</li>
+            </ul>
+        </div>
 
-                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Puncture Wound</div>
-                <ul>
-                    <li>Small entrance, deep penetration</li>
-                    <li><strong>HIGH infection risk:</strong> Deep environment favors anaerobic bacteria (tetanus)</li>
-                    <li><strong>DO NOT close:</strong> Closure traps infection deep in wound</li>
-                    <li>Encourage bleeding/drainage to flush wound</li>
-                    <li>Soak in warm water if possible to promote drainage</li>
-                    <li>Tetanus prophylaxis needed if contaminated (soil, animal matter)</li>
-                </ul>
+        <div class="card">
+            <h3>Wound Types & Management</h3>
 
-                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Avulsion (Tissue Flap)</div>
-                <ul>
-                    <li>Tissue torn and partially detached</li>
-                    <li>If tissue is attached, return to normal position if possible</li>
-                    <li>If tissue is completely removed, save it (may be reattachable) in clean moist container</li>
-                    <li>Irrigate wound, cover loosely (don't close tightly)</li>
-                    <li>Urgent evacuation for surgical evaluation</li>
-                </ul>
+            <h3>Abrasion (Road Rash)</h3>
+            <ul>
+                <li>Shallow scraping of skin surface</li>
+                <li><strong>Clean thoroughly:</strong> This is the most important step. Remove all dirt/debris. Use brush if available.</li>
+                <li>May be painful without anesthesia — local numbing spray can help if available</li>
+                <li>Dress with antibiotic ointment and sterile gauze</li>
+            </ul>
 
-                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Crush Wound</div>
-                <ul>
-                    <li>Tissue crushed from blunt force</li>
-                    <li>Contaminated and high infection risk</li>
-                    <li><strong>DO NOT close:</strong> High infection risk</li>
-                    <li>Clean and dress, monitor for signs of infection</li>
-                </ul>
-            </div>
+            <h3>Laceration (Clean Cut)</h3>
+            <ul>
+                <li>Relatively clean wound edges</li>
+                <li>Irrigate and clean thoroughly</li>
+                <li>Dress and keep clean</li>
+                <li>Gaping wounds will be evaluated for closure at a clinic — evacuate wounds that need closure</li>
+            </ul>
 
-            <div class="card">
-                <div class="subsection-title">Wound Irrigation: The Most Important Step</div>
-                <p><strong>Principle:</strong> Clean wounds are less likely to get infected</p>
-                <ul style="margin-top: 15px;">
-                    <li><strong>Volume:</strong> At least 500 mL - 1 L for dirty wounds. Keep going until the wound is visibly clean.</li>
-                    <li><strong>Pressure:</strong> Moderate-pressure irrigation works best — a 20-60 mL syringe, or a squeeze bottle with a pinhole in the cap.</li>
-                    <li><strong>Solution:</strong> Clean drinking water is effective. Sterile saline ideal if available.</li>
-                    <li><strong>What NOT to use:</strong> DO NOT irrigate with hydrogen peroxide or iodine in wound bed. These damage tissue and kill healing cells.</li>
-                    <li><strong>Scrubbing:</strong> Gentle cleaning with gauze or brush to remove debris. Avoid vigorous scrubbing that damages tissue.</li>
-                </ul>
+            <h3>Puncture Wound</h3>
+            <ul>
+                <li>Small entrance, deep penetration</li>
+                <li><strong>HIGH infection risk:</strong> Deep environment favors anaerobic bacteria (tetanus)</li>
+                <li><strong>DO NOT close:</strong> Closure traps infection deep in wound</li>
+                <li>Encourage bleeding/drainage to flush wound</li>
+                <li>Soak in warm water if possible to promote drainage</li>
+                <li>Tetanus prophylaxis needed if contaminated (soil, animal matter)</li>
+            </ul>
 
-                <div class="alert alert-info">
-                    <strong>Key:</strong> Clean water irrigation is more effective than any antiseptic solution at preventing infection.
-                </div>
-            </div>
+            <h3>Avulsion (Tissue Flap)</h3>
+            <ul>
+                <li>Tissue torn and partially detached</li>
+                <li>If tissue is attached, return to normal position if possible</li>
+                <li>If tissue is completely removed, save it (may be reattachable) in clean moist container</li>
+                <li>Irrigate wound, cover loosely (don't close tightly)</li>
+                <li>Urgent evacuation for surgical evaluation</li>
+            </ul>
 
-            <div class="card">
-                <div class="subsection-title">Wounds That Need Closure</div>
-                <p><strong>Field approach:</strong> Wound closure is a clinical decision made at a clinic or hospital — not in the field. Your job: clean the wound thoroughly, dress it, keep it clean, and evacuate wounds that need closure. A gaping wound will be evaluated for closure by a clinician.</p>
+            <h3>Crush Wound</h3>
+            <ul>
+                <li>Tissue crushed from blunt force</li>
+                <li>Contaminated and high infection risk</li>
+                <li><strong>DO NOT close:</strong> High infection risk</li>
+                <li>Clean and dress, monitor for signs of infection</li>
+            </ul>
+        </div>
 
-                <p style="margin-top: 15px;"><strong>Red flags — these wounds must always be seen by a clinician:</strong></p>
-                <ul>
-                    <li>Bite wounds (dog, cat, human) — high infection risk</li>
-                    <li>Puncture wounds — infection risk from anaerobes</li>
-                    <li>Heavily contaminated wounds (soil, feces)</li>
-                    <li>Older wounds (many hours since injury)</li>
-                    <li>Signs of infection already present</li>
-                </ul>
-            </div>
+        <div class="card">
+            <h3>Wound Irrigation: The Most Important Step</h3>
+            <p><strong>Principle:</strong> Clean wounds are less likely to get infected</p>
+            <ul style="margin-top: 15px;">
+                <li><strong>Volume:</strong> At least 500 mL - 1 L for dirty wounds. Keep going until the wound is visibly clean.</li>
+                <li><strong>Pressure:</strong> Moderate-pressure irrigation works best — a 20-60 mL syringe, or a squeeze bottle with a pinhole in the cap.</li>
+                <li><strong>Solution:</strong> Clean drinking water is effective. Sterile saline ideal if available.</li>
+                <li><strong>What NOT to use:</strong> DO NOT irrigate with hydrogen peroxide or iodine in wound bed. These damage tissue and kill healing cells.</li>
+                <li><strong>Scrubbing:</strong> Gentle cleaning with gauze or brush to remove debris. Avoid vigorous scrubbing that damages tissue.</li>
+            </ul>
 
-            <div class="card">
-                <div class="subsection-title">Dressing</div>
-                <ul>
-                    <li><strong>Sterile gauze:</strong> Use clean/sterile gauze to cover wound</li>
-                    <li><strong>Non-adherent:</strong> Use non-stick gauze to avoid disturbing healing tissue when changing dressing</li>
-                    <li><strong>Cover completely:</strong> Entire wound should be covered to keep dirt out</li>
-                    <li><strong>Change frequency:</strong> Daily or whenever wet/soiled</li>
-                    <li><strong>Observation:</strong> Check for signs of infection with each dressing change</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <div class="subsection-title">Infection Signs & Evacuation</div>
-                <ul>
-                    <li><strong>Cellulitis:</strong> Redness expanding beyond wound edges, warmth, increasing pain</li>
-                    <li><strong>Purulent discharge:</strong> Pus draining from wound</li>
-                    <li><strong>Lymphangitis:</strong> Red streaks extending from wound (traveling toward heart) — SERIOUS, indicates systemic infection</li>
-                    <li><strong>Fever:</strong> Systemic infection sign</li>
-                    <li><strong>Swollen lymph nodes:</strong> Near wound (armpit for arm wound, groin for leg wound)</li>
-                </ul>
-
-                <div class="alert alert-danger">
-                    <strong>Red streaks from wound (lymphangitis) = urgent evacuation.</strong> This indicates infection traveling toward heart.
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="subsection-title">Tetanus & Animal Bites</div>
-                <ul>
-                    <li><strong>Tetanus risk:</strong> Any wound contaminated with soil, feces, or animal matter. Check patient's vaccination status.</li>
-                    <li><strong>Booster needed if:</strong> >5 years since last tetanus (if dirty wound), >10 years (if clean wound)</li>
-                    <li><strong>Animal bites:</strong> Wash immediately and aggressively. High infection risk (Pasteurella bacteria). Rabies risk assessment required. Report to public health.</li>
-                    <li><strong>DO NOT close animal bites:</strong> Even "minor" bites should not be closed due to infection risk</li>
-                </ul>
+            <div class="alert alert-info">
+                <strong>Key:</strong> Clean water irrigation is more effective than any antiseptic solution at preventing infection.
             </div>
         </div>
 
-        <!-- INTERNAL BLEEDING TAB -->
-        <div id="internal" class="tab-content">
-            <div class="section-title">Internal Bleeding</div>
+        <div class="card">
+            <h3>Wounds That Need Closure</h3>
+            <p><strong>Field approach:</strong> Wound closure is a clinical decision made at a clinic or hospital — not in the field. Your job: clean the wound thoroughly, dress it, keep it clean, and evacuate wounds that need closure. A gaping wound will be evaluated for closure by a clinician.</p>
 
-            <div class="card">
-                <div class="subsection-title">Recognition of Internal Bleeding</div>
-                <p><strong>Challenge:</strong> Internal bleeding is not visible but can cause massive blood loss</p>
+            <p style="margin-top: 15px;"><strong>Red flags — these wounds must always be seen by a clinician:</strong></p>
+            <ul>
+                <li>Bite wounds (dog, cat, human) — high infection risk</li>
+                <li>Puncture wounds — infection risk from anaerobes</li>
+                <li>Heavily contaminated wounds (soil, feces)</li>
+                <li>Older wounds (many hours since injury)</li>
+                <li>Signs of infection already present</li>
+            </ul>
+        </div>
 
-                <ul style="margin-top: 15px;">
-                    <li><strong>Abdominal signs:</strong>
-                        <ul style="margin-top: 8px;">
-                            <li>Rigid/board-like abdomen (sign of peritoneal irritation)</li>
-                            <li>Distension (swelling)</li>
-                            <li>Bruising over abdomen</li>
-                            <li>Grey-Turner sign: bruising on flanks (sides)</li>
-                            <li>Cullen's sign: bruising around umbilicus (belly button)</li>
-                            <li>Note: Grey-Turner and Cullen's signs are DELAYED findings (hours), so absence early doesn't rule out bleeding</li>
-                        </ul>
-                    </li>
-                    <li><strong>Other signs:</strong>
-                        <ul style="margin-top: 8px;">
-                            <li>Blood in stool (dark/tarry = upper GI bleeding, bright red = lower GI)</li>
-                            <li>Blood in urine</li>
-                            <li>Vomiting blood (hematemesis)</li>
-                        </ul>
-                    </li>
-                    <li><strong>Shock without external bleeding:</strong> Think internal bleeding. Signs: pale, cool, diaphoretic skin; rapid pulse; weak pulses; confusion</li>
-                </ul>
-            </div>
+        <div class="card">
+            <h3>Dressing</h3>
+            <ul>
+                <li><strong>Sterile gauze:</strong> Use clean/sterile gauze to cover wound</li>
+                <li><strong>Non-adherent:</strong> Use non-stick gauze to avoid disturbing healing tissue when changing dressing</li>
+                <li><strong>Cover completely:</strong> Entire wound should be covered to keep dirt out</li>
+                <li><strong>Change frequency:</strong> Daily or whenever wet/soiled</li>
+                <li><strong>Observation:</strong> Check for signs of infection with each dressing change</li>
+            </ul>
+        </div>
 
-            <div class="card">
-                <div class="subsection-title">Field Treatment of Internal Bleeding</div>
-                <ul>
-                    <li><strong>Position:</strong> Supine (flat). Do not elevate the legs — routine leg elevation is no longer taught.</li>
-                    <li><strong>Keep warm:</strong> Prevent hypothermia which worsens shock</li>
-                    <li><strong>Nothing by mouth:</strong> Patient may need surgery; NPO (nothing by mouth) reduces aspiration risk</li>
-                    <li><strong>Urgent evacuation:</strong> No field treatment will stop internal bleeding. Get to hospital.</li>
-                    <li><strong>Monitor:</strong> Watch for deterioration; repeat vitals every 5 minutes if unstable</li>
-                </ul>
-            </div>
+        <div class="card">
+            <h3>Infection Signs & Evacuation</h3>
+            <ul>
+                <li><strong>Cellulitis:</strong> Redness expanding beyond wound edges, warmth, increasing pain</li>
+                <li><strong>Purulent discharge:</strong> Pus draining from wound</li>
+                <li><strong>Lymphangitis:</strong> Red streaks extending from wound (traveling toward heart) — SERIOUS, indicates systemic infection</li>
+                <li><strong>Fever:</strong> Systemic infection sign</li>
+                <li><strong>Swollen lymph nodes:</strong> Near wound (armpit for arm wound, groin for leg wound)</li>
+            </ul>
 
-            <div class="card">
-                <div class="subsection-title">Specific Internal Bleeding Scenarios</div>
-
-                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Aortic Rupture/Aneurysm</div>
-                <ul>
-                    <li><strong>Signs:</strong> Severe tearing pain in back or abdomen, shock, elderly patient</li>
-                    <li><strong>Prognosis:</strong> Extremely high mortality even with surgery</li>
-                    <li><strong>Treatment:</strong> Immediate evacuation (helicopter if available)</li>
-                </ul>
-
-                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Pelvic Fracture</div>
-                <ul>
-                    <li>Pelvis has large blood vessels; fracture can cause massive internal bleeding</li>
-                    <li><strong>Your actions:</strong> Suspect from mechanism (high fall, crush, high-energy impact). Do NOT press on or "stress" the pelvis. Keep the patient still. Evacuate EMERGENTLY.</li>
-                    <li><strong>For reference:</strong> EMS providers may apply a pelvic binder to stabilize the pelvis and reduce bleeding</li>
-                </ul>
+            <div class="alert alert-danger">
+                <strong>Red streaks from wound (lymphangitis) = urgent evacuation.</strong> This indicates infection traveling toward heart.
             </div>
         </div>
 
-        <!-- BURNS TAB -->
-        <div id="burns" class="tab-content">
-            <div class="section-title">Burns</div>
-            <p>Burns are a fact of life on motorcycle and river trips: a bare calf against an exhaust header, a flaring camp stove, a spilled pot of boiling water, or a full day of sun on the water. Most are manageable in the field — the skill is cooling them properly, dressing them simply, and recognizing the ones that must be evacuated.</p>
-
-            <div class="card">
-                <div class="subsection-title">Stop the Burning</div>
-                <ul>
-                    <li><strong>Remove from the source:</strong> Extinguish flames (stop-drop-roll if clothing is on fire), pull the patient away from the exhaust pipe, stove, or fire. Get sunburned patients into shade.</li>
-                    <li><strong>Remove jewelry and loose clothing EARLY:</strong> Rings, watches, and bracelets come off before swelling starts — a ring on a burned finger becomes a tourniquet. Remove boots/socks and non-adherent clothing around the burn.</li>
-                    <li><strong>NEVER peel off melted or stuck fabric:</strong> Synthetic riding gear and fleece melt into the burn. Cool over it and cut around it — leave adhered material in place for the clinician.</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <div class="subsection-title">Cool the Burn</div>
-                <ul>
-                    <li><strong>Cool running water, 10-20 minutes:</strong> Cool (not ice-cold) water as soon as possible. This is the single most effective burn treatment — it limits how deep the burn goes.</li>
-                    <li><strong>Still worth doing up to ~3 hours after injury:</strong> If it takes time to reach water, cool the burn anyway when you can.</li>
-                    <li><strong>NO ice or ice water:</strong> Ice constricts blood flow and deepens the injury.</li>
-                    <li><strong>Solution:</strong> Clean drinking water is ideal, but on the river, cool clear water for cooling beats no cooling.</li>
-                </ul>
-
-                <div class="alert alert-warning">
-                    <strong>Backcountry caution:</strong> Cooling a large burn area can chill the whole patient. Cool the burn, but keep the rest of the patient warm and dry — watch for hypothermia.
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="subsection-title">Assessing the Burn: Depth & Extent</div>
-
-                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Superficial</div>
-                <ul>
-                    <li>Red, dry, painful — no blisters. Classic sunburn.</li>
-                    <li>Heals on its own; comfort care only</li>
-                </ul>
-
-                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Partial-Thickness</div>
-                <ul>
-                    <li>Blisters, moist/weeping surface, VERY painful</li>
-                    <li>Typical scald, stove flare, or brief flame contact</li>
-                </ul>
-
-                <div class="subsection-title" style="margin-top: 15px; font-size: 1.1em;">Full-Thickness</div>
-                <ul>
-                    <li>Leathery, waxy, or charred; may be painless in the center (nerve endings destroyed) even when the edges hurt</li>
-                    <li>Always an evacuation, regardless of size</li>
-                </ul>
-
-                <div class="alert alert-info">
-                    <strong>Depth declares itself over 24-48 hours:</strong> A burn often looks shallower on day one than it really is. Reassess — and when in doubt, assume deeper. <strong>Extent:</strong> the patient's palm plus fingers ≈ 1% of their body surface area (the palm method).
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="subsection-title">Dressing the Burn</div>
-                <ul>
-                    <li><strong>After cooling, cover loosely:</strong> Clean, non-stick dressing over the burn. Clean plastic wrap laid on (NOT wrapped circumferentially) works well and lets clinicians inspect without pulling the dressing off.</li>
-                    <li><strong>Leave blisters intact:</strong> The blister is a sterile biological dressing. Don't pop it.</li>
-                    <li><strong>NO home remedies:</strong> No butter, toothpaste, oils, or ointments on the burn — they trap heat and cause infection.</li>
-                    <li><strong>Sunburn exception:</strong> Plain aloe or moisturizer is fine for superficial sunburn only</li>
-                    <li><strong>Pain control:</strong> OTC pain medication (ibuprofen) — burns hurt, treat the pain</li>
-                    <li><strong>Tetanus:</strong> Burns are tetanus-prone wounds. Check vaccination status just like a dirty wound (see Tetanus & Animal Bites in the Wound Care tab).</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <div class="subsection-title">Burn Evacuation Criteria</div>
-                <ul>
-                    <li><strong>Any full-thickness burn</strong> — even a small one</li>
-                    <li><strong>Partial-thickness larger than a few palm-areas (~5% body surface)</strong></li>
-                    <li><strong>Burns to face, hands, feet, genitals, or across joints</strong> — high-function areas that scar badly</li>
-                    <li><strong>Circumferential burns</strong> (all the way around a limb or the chest) — burned skin tightens as it swells and can cut off circulation or restrict breathing. This is a tightening emergency.</li>
-                    <li><strong>Electrical burns</strong> — internal injury is far worse than the skin suggests</li>
-                    <li><strong>Very young or very old patients</strong></li>
-                </ul>
-
-                <div class="alert alert-danger">
-                    <strong>Airway/inhalation involvement = EMERGENT evacuation.</strong> Burned face, singed nasal hair or eyebrows, soot in the mouth or sputum, hoarseness, or a persistent cough after fire or smoke exposure means the airway may be burned — and a burned airway can swell shut over hours. Do not wait for breathing trouble to start.
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="subsection-title">Exhaust Pipes & Road Rash: The Crossovers</div>
-                <ul>
-                    <li><strong>Exhaust-pipe contact burns are deceptively deep:</strong> A second of contact with metal at several hundred degrees makes a small but often deep partial- or full-thickness burn. Small size does NOT mean minor — assess depth honestly and reassess at 24-48 hours.</li>
-                    <li><strong>Road rash is an abrasion:</strong> Manage it with aggressive cleaning and irrigation as covered under Abrasion in the Wound Care tab</li>
-                    <li><strong>Large-area road rash thinks like a burn:</strong> When road rash covers a large area, use burn thinking for fluid loss, infection risk, and evacuation decisions</li>
-                </ul>
-            </div>
+        <div class="card">
+            <h3>Tetanus & Animal Bites</h3>
+            <ul>
+                <li><strong>Tetanus risk:</strong> Any wound contaminated with soil, feces, or animal matter. Check patient's vaccination status.</li>
+                <li><strong>Booster needed if:</strong> >5 years since last tetanus (if dirty wound), >10 years (if clean wound)</li>
+                <li><strong>Animal bites:</strong> Wash immediately and aggressively. High infection risk (Pasteurella bacteria). Rabies risk assessment required. Report to public health.</li>
+                <li><strong>DO NOT close animal bites:</strong> Even "minor" bites should not be closed due to infection risk</li>
+            </ul>
         </div>
+      </section>
+      <section class="section" id="internal" role="tabpanel" aria-labelledby="tab-internal" tabindex="0" hidden>
+        <h2>Internal Bleeding</h2>
 
-        <!-- SCENARIOS TAB -->
-        <div id="scenarios" class="tab-content">
-            <div class="section-title">Case Scenarios</div>
+        <div class="card">
+            <h3>Recognition of Internal Bleeding</h3>
+            <p><strong>Challenge:</strong> Internal bleeding is not visible but can cause massive blood loss</p>
 
-            <div class="scenario-case">
-                <h4>Scenario 1: Rock Climbing Fall with Arterial Bleeding</h4>
-                <p><strong>Setting:</strong> A climber falls 15 feet onto rock. Left thigh has a large laceration with bright red pulsatile bleeding. Patient is conscious, in pain, and shocked. You're 2 hours from the nearest road.</p>
-
-                <button class="scenario-btn" onclick="toggleDiscussion('scenario1')">Show Management</button>
-                <div id="scenario1" class="discussion">
-                    <p><strong>Immediate Actions:</strong></p>
-                    <ul>
-                        <li>Bright red pulsatile bleeding in a patient becoming shocky = obviously life-threatening hemorrhage: apply a tourniquet IMMEDIATELY, 2-3 inches above the wound. Do NOT wait to see if direct pressure works.</li>
-                        <li>Press directly on the wound with a gloved hand only while the tourniquet is being readied</li>
-                        <li>Tighten until bleeding stops AND the pulse at the ankle is gone; if the first tourniquet doesn't stop it, apply a second just above/beside the first</li>
-                        <li>Document the application time on skin or tourniquet; do NOT remove or loosen it in the field</li>
-                        <li>Once bleeding controlled, perform a neurovascular check below the wound</li>
+            <ul style="margin-top: 15px;">
+                <li><strong>Abdominal signs:</strong>
+                    <ul style="margin-top: 8px;">
+                        <li>Rigid/board-like abdomen (sign of peritoneal irritation)</li>
+                        <li>Distension (swelling)</li>
+                        <li>Bruising over abdomen</li>
+                        <li>Grey-Turner sign: bruising on flanks (sides)</li>
+                        <li>Cullen's sign: bruising around umbilicus (belly button)</li>
+                        <li>Note: Grey-Turner and Cullen's signs are DELAYED findings (hours), so absence early doesn't rule out bleeding</li>
                     </ul>
-                    <p style="margin-top: 15px;"><strong>Tourniquet Note:</strong> Tourniquets are safe in place for at least 2 hours. For obviously life-threatening extremity bleeding, the tourniquet is the FIRST move — direct pressure is for bleeding that is not clearly life-threatening, or to buy time while the tourniquet is readied.</p>
-                    <p style="margin-top: 15px;"><strong>Shock Management:</strong> Patient showing signs of shock (pale, diaphoretic). Position supine (flat), prevent heat loss with insulation, treat the cause (the bleeding is controlled), evacuate. Do not elevate the legs.</p>
-                    <p style="margin-top: 15px;"><strong>Evacuation:</strong> URGENT. Activate emergency services. Continue monitoring vitals every 5 minutes during evacuation.</p>
-                </div>
-            </div>
-
-            <div class="scenario-case">
-                <h4>Scenario 2: Backpacker with Rigid Abdomen & Shock</h4>
-                <p><strong>Setting:</strong> A backpacker fell hard on rocks 4 miles into a wilderness area. She reports abdominal pain but no external bleeding visible. On assessment: rigid abdomen, rapidly deteriorating, pale and clammy. No signs of external bleeding.</p>
-
-                <button class="scenario-btn" onclick="toggleDiscussion('scenario2')">Show Management</button>
-                <div id="scenario2" class="discussion">
-                    <p><strong>Recognition:</strong> Rigid abdomen + shock without external bleeding = internal bleeding from abdominal trauma (likely solid organ like spleen or liver)</p>
-                    <p style="margin-top: 15px;"><strong>Field Treatment:</strong></p>
-                    <ul>
-                        <li>Position supine (flat) — do not elevate the legs</li>
-                        <li>Keep warm — prevent hypothermia</li>
-                        <li>Nothing by mouth</li>
-                        <li>Monitor closely for deterioration</li>
+                </li>
+                <li><strong>Other signs:</strong>
+                    <ul style="margin-top: 8px;">
+                        <li>Blood in stool (dark/tarry = upper GI bleeding, bright red = lower GI)</li>
+                        <li>Blood in urine</li>
+                        <li>Vomiting blood (hematemesis)</li>
                     </ul>
-                    <p style="margin-top: 15px;"><strong>Evacuation:</strong> URGENT — this is a surgical emergency. No field treatment will help. Immediate helicopter evacuation if available, otherwise fastest evacuation possible (may need litter carry).</p>
-                </div>
-            </div>
+                </li>
+                <li><strong>Shock without external bleeding:</strong> Think internal bleeding. Signs: pale, cool, diaphoretic skin; rapid pulse; weak pulses; confusion</li>
+            </ul>
+        </div>
 
-            <div class="scenario-case">
-                <h4>Scenario 3: Exhaust-Pipe Burn at the Lunch Stop</h4>
-                <p><strong>Setting:</strong> On a dual-sport ride, a rider dismounts awkwardly on a rocky pull-out and presses her calf against the exhaust header. The burn is small — about half a palm-area — with a pale, waxy center, a red blistering rim, and a patch of melted riding-pant fabric stuck to one edge. She says it "barely hurts" and wants to keep riding.</p>
+        <div class="card">
+            <h3>Field Treatment of Internal Bleeding</h3>
+            <ul>
+                <li><strong>Position:</strong> Supine (flat). Do not elevate the legs — routine leg elevation is no longer taught.</li>
+                <li><strong>Keep warm:</strong> Prevent hypothermia which worsens shock</li>
+                <li><strong>Nothing by mouth:</strong> Patient may need surgery; NPO (nothing by mouth) reduces aspiration risk</li>
+                <li><strong>Urgent evacuation:</strong> No field treatment will stop internal bleeding. Get to hospital.</li>
+                <li><strong>Monitor:</strong> Watch for deterioration; repeat vitals every 5 minutes if unstable</li>
+            </ul>
+        </div>
 
-                <button class="scenario-btn" onclick="toggleDiscussion('scenario3')">Show Management</button>
-                <div id="scenario3" class="discussion">
-                    <p><strong>Immediate Actions:</strong></p>
-                    <ul>
-                        <li>Cool the burn with cool (not ice-cold) water for 10-20 minutes — still effective up to ~3 hours after injury. NO ice.</li>
-                        <li>Do NOT peel the melted fabric — cool over it, cut around it, and leave the adhered material in place</li>
-                        <li>Remove the boot and sock on that leg before swelling starts</li>
-                        <li>After cooling: loose, clean, non-stick dressing; leave blisters intact; ibuprofen for pain</li>
-                    </ul>
-                    <p style="margin-top: 15px;"><strong>The Red Flag:</strong> A pale, waxy center that "barely hurts" suggests FULL-THICKNESS burn — the nerve endings are destroyed. Exhaust-pipe contact burns are deceptively deep, and depth often declares itself over 24-48 hours. Small size does not make this minor.</p>
-                    <p style="margin-top: 15px;"><strong>Evacuation:</strong> Any suspected full-thickness burn is an evacuation, even a small one. She rides pillion or the group re-routes to get her to care — she does not "keep riding and see how it feels tomorrow." Burns are also tetanus-prone: check her vaccination status.</p>
-                </div>
+        <div class="card">
+            <h3>Specific Internal Bleeding Scenarios</h3>
+
+            <h3>Aortic Rupture/Aneurysm</h3>
+            <ul>
+                <li><strong>Signs:</strong> Severe tearing pain in back or abdomen, shock, elderly patient</li>
+                <li><strong>Prognosis:</strong> Extremely high mortality even with surgery</li>
+                <li><strong>Treatment:</strong> Immediate evacuation (helicopter if available)</li>
+            </ul>
+
+            <h3>Pelvic Fracture</h3>
+            <ul>
+                <li>Pelvis has large blood vessels; fracture can cause massive internal bleeding</li>
+                <li><strong>Your actions:</strong> Suspect from mechanism (high fall, crush, high-energy impact). Do NOT press on or "stress" the pelvis. Keep the patient still. Evacuate EMERGENTLY.</li>
+                <li><strong>For reference:</strong> EMS providers may apply a pelvic binder to stabilize the pelvis and reduce bleeding</li>
+            </ul>
+        </div>
+      </section>
+      <section class="section" id="burns" role="tabpanel" aria-labelledby="tab-burns" tabindex="0" hidden>
+        <h2>Burns</h2>
+        <p>Burns are a fact of life on motorcycle and river trips: a bare calf against an exhaust header, a flaring camp stove, a spilled pot of boiling water, or a full day of sun on the water. Most are manageable in the field — the skill is cooling them properly, dressing them simply, and recognizing the ones that must be evacuated.</p>
+
+        <div class="card">
+            <h3>Stop the Burning</h3>
+            <ul>
+                <li><strong>Remove from the source:</strong> Extinguish flames (stop-drop-roll if clothing is on fire), pull the patient away from the exhaust pipe, stove, or fire. Get sunburned patients into shade.</li>
+                <li><strong>Remove jewelry and loose clothing EARLY:</strong> Rings, watches, and bracelets come off before swelling starts — a ring on a burned finger becomes a tourniquet. Remove boots/socks and non-adherent clothing around the burn.</li>
+                <li><strong>NEVER peel off melted or stuck fabric:</strong> Synthetic riding gear and fleece melt into the burn. Cool over it and cut around it — leave adhered material in place for the clinician.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>Cool the Burn</h3>
+            <ul>
+                <li><strong>Cool running water, 10-20 minutes:</strong> Cool (not ice-cold) water as soon as possible. This is the single most effective burn treatment — it limits how deep the burn goes.</li>
+                <li><strong>Still worth doing up to ~3 hours after injury:</strong> If it takes time to reach water, cool the burn anyway when you can.</li>
+                <li><strong>NO ice or ice water:</strong> Ice constricts blood flow and deepens the injury.</li>
+                <li><strong>Solution:</strong> Clean drinking water is ideal, but on the river, cool clear water for cooling beats no cooling.</li>
+            </ul>
+
+            <div class="alert alert-warning">
+                <strong>Backcountry caution:</strong> Cooling a large burn area can chill the whole patient. Cool the burn, but keep the rest of the patient warm and dry — watch for hypothermia.
             </div>
         </div>
 
-        <!-- QUIZ TAB -->
-        <div id="quiz" class="tab-content">
-            <div class="section-title">Knowledge Check Quiz</div>
-            <div class="quiz-section" id="quizContainer"></div>
-            <div id="score-display">
-                <div id="score-text"></div>
-                <div id="score-sub"></div>
+        <div class="card">
+            <h3>Assessing the Burn: Depth & Extent</h3>
+
+            <h3>Superficial</h3>
+            <ul>
+                <li>Red, dry, painful — no blisters. Classic sunburn.</li>
+                <li>Heals on its own; comfort care only</li>
+            </ul>
+
+            <h3>Partial-Thickness</h3>
+            <ul>
+                <li>Blisters, moist/weeping surface, VERY painful</li>
+                <li>Typical scald, stove flare, or brief flame contact</li>
+            </ul>
+
+            <h3>Full-Thickness</h3>
+            <ul>
+                <li>Leathery, waxy, or charred; may be painless in the center (nerve endings destroyed) even when the edges hurt</li>
+                <li>Always an evacuation, regardless of size</li>
+            </ul>
+
+            <div class="alert alert-info">
+                <strong>Depth declares itself over 24-48 hours:</strong> A burn often looks shallower on day one than it really is. Reassess — and when in doubt, assume deeper. <strong>Extent:</strong> the patient's palm plus fingers ≈ 1% of their body surface area (the palm method).
             </div>
         </div>
 
-        <!-- SUMMARY TAB -->
-        <div id="summary" class="tab-content">
-            <div class="section-title">Lesson Summary</div>
+        <div class="card">
+            <h3>Dressing the Burn</h3>
+            <ul>
+                <li><strong>After cooling, cover loosely:</strong> Clean, non-stick dressing over the burn. Clean plastic wrap laid on (NOT wrapped circumferentially) works well and lets clinicians inspect without pulling the dressing off.</li>
+                <li><strong>Leave blisters intact:</strong> The blister is a sterile biological dressing. Don't pop it.</li>
+                <li><strong>NO home remedies:</strong> No butter, toothpaste, oils, or ointments on the burn — they trap heat and cause infection.</li>
+                <li><strong>Sunburn exception:</strong> Plain aloe or moisturizer is fine for superficial sunburn only</li>
+                <li><strong>Pain control:</strong> OTC pain medication (ibuprofen) — burns hurt, treat the pain</li>
+                <li><strong>Tetanus:</strong> Burns are tetanus-prone wounds. Check vaccination status just like a dirty wound (see Tetanus & Animal Bites in the Wound Care tab).</li>
+            </ul>
+        </div>
 
-            <div class="key-points">
-                <h3>Key Concepts</h3>
-                <div class="key-point">Direct pressure for minimum 10 minutes is the gold standard for hemorrhage control</div>
-                <div class="key-point">Tourniquets save lives for life-threatening extremity bleeding</div>
-                <div class="key-point">Wound packing controls junctional hemorrhage (areas where tourniquets don't apply)</div>
-                <div class="key-point">Wound irrigation with clean water is the most important infection prevention step</div>
-                <div class="key-point">Don't close bite wounds, punctures, or heavily contaminated wounds</div>
-                <div class="key-point">Internal bleeding without external signs requires urgent evacuation</div>
-                <div class="key-point">Red streaks from wound (lymphangitis) indicate urgent evacuation needed</div>
-                <div class="key-point">Cool burns with cool (not ice-cold) running water for 10-20 minutes — no ice, no butter or home remedies, leave blisters intact</div>
-                <div class="key-point">Evacuate: any full-thickness burn; partial-thickness over ~5% (a few palm-areas); burns to face/hands/feet/genitals/joints; circumferential burns; electrical burns; ANY inhalation signs (EMERGENT)</div>
-                <div class="key-point">Small contact burns (exhaust pipes) are deceptively deep — and burns are tetanus-prone wounds</div>
-            </div>
+        <div class="card">
+            <h3>Burn Evacuation Criteria</h3>
+            <ul>
+                <li><strong>Any full-thickness burn</strong> — even a small one</li>
+                <li><strong>Partial-thickness larger than a few palm-areas (~5% body surface)</strong></li>
+                <li><strong>Burns to face, hands, feet, genitals, or across joints</strong> — high-function areas that scar badly</li>
+                <li><strong>Circumferential burns</strong> (all the way around a limb or the chest) — burned skin tightens as it swells and can cut off circulation or restrict breathing. This is a tightening emergency.</li>
+                <li><strong>Electrical burns</strong> — internal injury is far worse than the skin suggests</li>
+                <li><strong>Very young or very old patients</strong></li>
+            </ul>
 
-            <div class="glossary">
-                <div class="subsection-title">Glossary</div>
-                <div class="glossary-term">
-                    <dt>Hemorrhage</dt>
-                    <dd>Bleeding; loss of blood from blood vessels</dd>
-                </div>
-                <div class="glossary-term">
-                    <dt>Tourniquet</dt>
-                    <dd>Device or material applied above extremity wound to stop bleeding by compression</dd>
-                </div>
-                <div class="glossary-term">
-                    <dt>Hemostasis</dt>
-                    <dd>Stopping of bleeding; formation of blood clot</dd>
-                </div>
-                <div class="glossary-term">
-                    <dt>Wound Packing</dt>
-                    <dd>Tight packing of gauze into wounds to control junctional hemorrhage</dd>
-                </div>
-                <div class="glossary-term">
-                    <dt>Hemostatic Gauze</dt>
-                    <dd>Gauze impregnated with clotting agents (kaolin, chitosan) that enhance blood clotting</dd>
-                </div>
-                <div class="glossary-term">
-                    <dt>Laceration</dt>
-                    <dd>Clean cut or tear in skin with defined edges</dd>
-                </div>
-                <div class="glossary-term">
-                    <dt>Avulsion</dt>
-                    <dd>Tissue torn away from body; partial or complete detachment</dd>
-                </div>
-                <div class="glossary-term">
-                    <dt>Cellulitis</dt>
-                    <dd>Spreading inflammation and infection of skin and surrounding tissues</dd>
-                </div>
-                <div class="glossary-term">
-                    <dt>Lymphangitis</dt>
-                    <dd>Infection of lymphatic vessels; red streaks extending from wound toward heart; serious, requires urgent treatment</dd>
-                </div>
-                <div class="glossary-term">
-                    <dt>Exsanguination</dt>
-                    <dd>Massive loss of blood leading to death</dd>
-                </div>
-                <div class="glossary-term">
-                    <dt>Direct Pressure</dt>
-                    <dd>Application of firm continuous pressure directly on wound to control bleeding</dd>
-                </div>
-                <div class="glossary-term">
-                    <dt>Pressure Dressing</dt>
-                    <dd>Elastic bandage applied over gauze to maintain constant pressure after bleeding controlled</dd>
-                </div>
-                <div class="glossary-term">
-                    <dt>Partial-Thickness Burn</dt>
-                    <dd>Burn through the epidermis into the dermis; blistered, moist, and very painful</dd>
-                </div>
-                <div class="glossary-term">
-                    <dt>Full-Thickness Burn</dt>
-                    <dd>Burn destroying all skin layers; leathery, waxy, or charred, and may be painless in the center where nerve endings are destroyed</dd>
-                </div>
-                <div class="glossary-term">
-                    <dt>Palm Method</dt>
-                    <dd>Estimating burn extent using the patient's palm plus fingers as roughly 1% of their body surface area</dd>
-                </div>
+            <div class="alert alert-danger">
+                <strong>Airway/inhalation involvement = EMERGENT evacuation.</strong> Burned face, singed nasal hair or eyebrows, soot in the mouth or sputum, hoarseness, or a persistent cough after fire or smoke exposure means the airway may be burned — and a burned airway can swell shut over hours. Do not wait for breathing trouble to start.
             </div>
         </div>
 
-        <!-- Navigation Footer -->
-        <div class="nav-footer">
-            <a href="03_Airway.html" class="nav-link">← Previous</a>
-            <div class="nav-center">
-                <a href="../index.html">Home</a>
-            </div>
-            <a href="05_Shock.html" class="nav-link">Next →</a>
+        <div class="card">
+            <h3>Exhaust Pipes & Road Rash: The Crossovers</h3>
+            <ul>
+                <li><strong>Exhaust-pipe contact burns are deceptively deep:</strong> A second of contact with metal at several hundred degrees makes a small but often deep partial- or full-thickness burn. Small size does NOT mean minor — assess depth honestly and reassess at 24-48 hours.</li>
+                <li><strong>Road rash is an abrasion:</strong> Manage it with aggressive cleaning and irrigation as covered under Abrasion in the Wound Care tab</li>
+                <li><strong>Large-area road rash thinks like a burn:</strong> When road rash covers a large area, use burn thinking for fluid loss, infection risk, and evacuation decisions</li>
+            </ul>
         </div>
+      </section>
+      <section class="section" id="scenarios" role="tabpanel" aria-labelledby="tab-scenarios" tabindex="0" hidden>
+        <h2>Case Scenarios</h2>
+
+        <div class="scenario-case">
+            <h4>Scenario 1: Rock Climbing Fall with Arterial Bleeding</h4>
+            <p><strong>Setting:</strong> A climber falls 15 feet onto rock. Left thigh has a large laceration with bright red pulsatile bleeding. Patient is conscious, in pain, and shocked. You're 2 hours from the nearest road.</p>
+
+            <button type="button" class="btn-toggle" aria-controls="scenario1" aria-expanded="false">Show Management</button>
+            <div id="scenario1" class="discussion">
+                <p><strong>Immediate Actions:</strong></p>
+                <ul>
+                    <li>Bright red pulsatile bleeding in a patient becoming shocky = obviously life-threatening hemorrhage: apply a tourniquet IMMEDIATELY, 2-3 inches above the wound. Do NOT wait to see if direct pressure works.</li>
+                    <li>Press directly on the wound with a gloved hand only while the tourniquet is being readied</li>
+                    <li>Tighten until bleeding stops AND the pulse at the ankle is gone; if the first tourniquet doesn't stop it, apply a second just above/beside the first</li>
+                    <li>Document the application time on skin or tourniquet; do NOT remove or loosen it in the field</li>
+                    <li>Once bleeding controlled, perform a neurovascular check below the wound</li>
+                </ul>
+                <p style="margin-top: 15px;"><strong>Tourniquet Note:</strong> Tourniquets are safe in place for at least 2 hours. For obviously life-threatening extremity bleeding, the tourniquet is the FIRST move — direct pressure is for bleeding that is not clearly life-threatening, or to buy time while the tourniquet is readied.</p>
+                <p style="margin-top: 15px;"><strong>Shock Management:</strong> Patient showing signs of shock (pale, diaphoretic). Position supine (flat), prevent heat loss with insulation, treat the cause (the bleeding is controlled), evacuate. Do not elevate the legs.</p>
+                <p style="margin-top: 15px;"><strong>Evacuation:</strong> URGENT. Activate emergency services. Continue monitoring vitals every 5 minutes during evacuation.</p>
+            </div>
+        </div>
+
+        <div class="scenario-case">
+            <h4>Scenario 2: Backpacker with Rigid Abdomen & Shock</h4>
+            <p><strong>Setting:</strong> A backpacker fell hard on rocks 4 miles into a wilderness area. She reports abdominal pain but no external bleeding visible. On assessment: rigid abdomen, rapidly deteriorating, pale and clammy. No signs of external bleeding.</p>
+
+            <button type="button" class="btn-toggle" aria-controls="scenario2" aria-expanded="false">Show Management</button>
+            <div id="scenario2" class="discussion">
+                <p><strong>Recognition:</strong> Rigid abdomen + shock without external bleeding = internal bleeding from abdominal trauma (likely solid organ like spleen or liver)</p>
+                <p style="margin-top: 15px;"><strong>Field Treatment:</strong></p>
+                <ul>
+                    <li>Position supine (flat) — do not elevate the legs</li>
+                    <li>Keep warm — prevent hypothermia</li>
+                    <li>Nothing by mouth</li>
+                    <li>Monitor closely for deterioration</li>
+                </ul>
+                <p style="margin-top: 15px;"><strong>Evacuation:</strong> URGENT — this is a surgical emergency. No field treatment will help. Immediate helicopter evacuation if available, otherwise fastest evacuation possible (may need litter carry).</p>
+            </div>
+        </div>
+
+        <div class="scenario-case">
+            <h4>Scenario 3: Exhaust-Pipe Burn at the Lunch Stop</h4>
+            <p><strong>Setting:</strong> On a dual-sport ride, a rider dismounts awkwardly on a rocky pull-out and presses her calf against the exhaust header. The burn is small — about half a palm-area — with a pale, waxy center, a red blistering rim, and a patch of melted riding-pant fabric stuck to one edge. She says it "barely hurts" and wants to keep riding.</p>
+
+            <button type="button" class="btn-toggle" aria-controls="scenario3" aria-expanded="false">Show Management</button>
+            <div id="scenario3" class="discussion">
+                <p><strong>Immediate Actions:</strong></p>
+                <ul>
+                    <li>Cool the burn with cool (not ice-cold) water for 10-20 minutes — still effective up to ~3 hours after injury. NO ice.</li>
+                    <li>Do NOT peel the melted fabric — cool over it, cut around it, and leave the adhered material in place</li>
+                    <li>Remove the boot and sock on that leg before swelling starts</li>
+                    <li>After cooling: loose, clean, non-stick dressing; leave blisters intact; ibuprofen for pain</li>
+                </ul>
+                <p style="margin-top: 15px;"><strong>The Red Flag:</strong> A pale, waxy center that "barely hurts" suggests FULL-THICKNESS burn — the nerve endings are destroyed. Exhaust-pipe contact burns are deceptively deep, and depth often declares itself over 24-48 hours. Small size does not make this minor.</p>
+                <p style="margin-top: 15px;"><strong>Evacuation:</strong> Any suspected full-thickness burn is an evacuation, even a small one. She rides pillion or the group re-routes to get her to care — she does not "keep riding and see how it feels tomorrow." Burns are also tetanus-prone: check her vaccination status.</p>
+            </div>
+        </div>
+      </section>
+      <section class="section" id="quiz" role="tabpanel" aria-labelledby="tab-quiz" tabindex="0" hidden>
+        <h2>Knowledge Check</h2>
+        <p class="quiz-intro">12 questions. Pick an answer to get immediate feedback. Answer order is shuffled each attempt, and your best score is saved on this device.</p>
+        <div id="quiz-box" class="quiz-container"></div>
+        <div id="score-display" class="score-banner" hidden aria-live="polite"></div>
+      </section>
+      <section class="section" id="summary" role="tabpanel" aria-labelledby="tab-summary" tabindex="0" hidden>
+        <h2>Lesson Summary</h2>
+
+        <div class="key-points">
+            <h3>Key Concepts</h3>
+            <div class="key-point">Direct pressure for minimum 10 minutes is the gold standard for hemorrhage control</div>
+            <div class="key-point">Tourniquets save lives for life-threatening extremity bleeding</div>
+            <div class="key-point">Wound packing controls junctional hemorrhage (areas where tourniquets don't apply)</div>
+            <div class="key-point">Wound irrigation with clean water is the most important infection prevention step</div>
+            <div class="key-point">Don't close bite wounds, punctures, or heavily contaminated wounds</div>
+            <div class="key-point">Internal bleeding without external signs requires urgent evacuation</div>
+            <div class="key-point">Red streaks from wound (lymphangitis) indicate urgent evacuation needed</div>
+            <div class="key-point">Cool burns with cool (not ice-cold) running water for 10-20 minutes — no ice, no butter or home remedies, leave blisters intact</div>
+            <div class="key-point">Evacuate: any full-thickness burn; partial-thickness over ~5% (a few palm-areas); burns to face/hands/feet/genitals/joints; circumferential burns; electrical burns; ANY inhalation signs (EMERGENT)</div>
+            <div class="key-point">Small contact burns (exhaust pipes) are deceptively deep — and burns are tetanus-prone wounds</div>
+        </div>
+
+        <div class="glossary">
+            <h3>Glossary</h3>
+            <div class="glossary-term">
+                <dt>Hemorrhage</dt>
+                <dd>Bleeding; loss of blood from blood vessels</dd>
+            </div>
+            <div class="glossary-term">
+                <dt>Tourniquet</dt>
+                <dd>Device or material applied above extremity wound to stop bleeding by compression</dd>
+            </div>
+            <div class="glossary-term">
+                <dt>Hemostasis</dt>
+                <dd>Stopping of bleeding; formation of blood clot</dd>
+            </div>
+            <div class="glossary-term">
+                <dt>Wound Packing</dt>
+                <dd>Tight packing of gauze into wounds to control junctional hemorrhage</dd>
+            </div>
+            <div class="glossary-term">
+                <dt>Hemostatic Gauze</dt>
+                <dd>Gauze impregnated with clotting agents (kaolin, chitosan) that enhance blood clotting</dd>
+            </div>
+            <div class="glossary-term">
+                <dt>Laceration</dt>
+                <dd>Clean cut or tear in skin with defined edges</dd>
+            </div>
+            <div class="glossary-term">
+                <dt>Avulsion</dt>
+                <dd>Tissue torn away from body; partial or complete detachment</dd>
+            </div>
+            <div class="glossary-term">
+                <dt>Cellulitis</dt>
+                <dd>Spreading inflammation and infection of skin and surrounding tissues</dd>
+            </div>
+            <div class="glossary-term">
+                <dt>Lymphangitis</dt>
+                <dd>Infection of lymphatic vessels; red streaks extending from wound toward heart; serious, requires urgent treatment</dd>
+            </div>
+            <div class="glossary-term">
+                <dt>Exsanguination</dt>
+                <dd>Massive loss of blood leading to death</dd>
+            </div>
+            <div class="glossary-term">
+                <dt>Direct Pressure</dt>
+                <dd>Application of firm continuous pressure directly on wound to control bleeding</dd>
+            </div>
+            <div class="glossary-term">
+                <dt>Pressure Dressing</dt>
+                <dd>Elastic bandage applied over gauze to maintain constant pressure after bleeding controlled</dd>
+            </div>
+            <div class="glossary-term">
+                <dt>Partial-Thickness Burn</dt>
+                <dd>Burn through the epidermis into the dermis; blistered, moist, and very painful</dd>
+            </div>
+            <div class="glossary-term">
+                <dt>Full-Thickness Burn</dt>
+                <dd>Burn destroying all skin layers; leathery, waxy, or charred, and may be painless in the center where nerve endings are destroyed</dd>
+            </div>
+            <div class="glossary-term">
+                <dt>Palm Method</dt>
+                <dd>Estimating burn extent using the patient's palm plus fingers as roughly 1% of their body surface area</dd>
+            </div>
+        </div>
+      </section>
     </div>
+  </div>
 
-    <script>
-        function showTab(tabName) {
-            const tabs = document.querySelectorAll('.tab-content');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            document.getElementById(tabName).classList.add('active');
+  <nav class="lesson-footer-nav" aria-label="Lesson pagination">
+    <a class="btn secondary prev" href="03_Airway.html"><span aria-hidden="true">←</span> Lesson 3: Airway &amp; Breathing Emergencies</a>
+    <a class="home" href="../index.html#lessons">All lessons</a>
+    <a class="btn next" href="05_Shock.html">Lesson 5: Shock Recognition &amp; Treatment <span aria-hidden="true">→</span></a>
+  </nav>
+</main>
 
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            const tabArr = Array.from(buttons);
-            const activeIdx = tabArr.indexOf(event.target);
-            updateStepIndicator(activeIdx);
-        }
-        function updateStepIndicator(activeIdx) {
-            const tabs = document.querySelectorAll('.tab-btn');
-            document.getElementById('step-text').textContent = 'Step ' + (activeIdx + 1) + ' of ' + tabs.length;
-            const dots = document.getElementById('step-dots');
-            dots.innerHTML = '';
-            tabs.forEach((_, i) => {
-                const d = document.createElement('div');
-                d.style.cssText = 'width:8px;height:8px;border-radius:50%;background:' + (i === activeIdx ? '#2C7BE5' : i < activeIdx ? '#1A6B3A' : '#CBD5E0') + ';';
-                dots.appendChild(d);
-            });
-        }
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-links">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#lessons">All lessons</a>
+      <a href="../final_exam.html">Final exam</a>
+      <a href="https://github.com/owenriverk/wfa-precourse">Source on GitHub</a>
+    </div>
+    <p class="foot-disclaimer">Educational use only. This course teaches lay-rescuer wilderness first aid and does not replace hands-on training or professional medical care. In an emergency, call your local emergency number.</p>
+  </div>
+</footer>
 
-        function toggleDiscussion(id) {
-            const disc = document.getElementById(id);
-            disc.classList.toggle('show');
-        }
-
-        const questions = [
-            { q: "Tourniquet should be placed:", options: ["Directly on the wound", "2-3 inches above the wound", "Below the wound", "At the nearest joint"], answer: 1, exp: "Tourniquets should be placed 2-3 inches ABOVE the wound. Below the wound would not compress the bleeding vessel." },
-            { q: "After applying a tourniquet, you should:", options: ["Note the exact time of application on the patient", "Remove it every 30 minutes", "Loosen it if the patient complains of pain", "Apply ice over it"], answer: 0, exp: "Document the time of tourniquet application clearly on patient's skin or tourniquet itself. This critical info guides hospital care." },
-            { q: "The ideal irrigation solution for wound cleaning in wilderness:", options: ["Hydrogen peroxide", "Rubbing alcohol", "Iodine solution", "Clean drinking water"], answer: 3, exp: "Clean drinking water is effective and doesn't damage tissue like peroxide or iodine. High-volume irrigation is key." },
-            { q: "In the wilderness, a clean but gaping laceration should be:", options: ["Closed in the field with Steri-Strips", "Sutured by whoever has a kit", "Cleaned thoroughly, dressed, and evacuated for closure evaluation at a clinic", "Left uncovered to air-dry"], answer: 2, exp: "Wound closure is a clinical decision made at a clinic or hospital, not in the field. Clean thoroughly, dress, keep clean, and evacuate wounds that need closure." },
-            { q: "Signs of wound infection include all EXCEPT:", options: ["Normal temperature", "Purulent discharge", "Red streaks from wound", "Expanding redness and warmth"], answer: 0, exp: "Fever (elevated temperature) IS a sign of infection. Normal temperature would be reassuring for NO infection." },
-            { q: "Hemostatic gauze should be:", options: ["Placed loosely on wound", "Packed tightly with sustained pressure", "Applied dry without pressure", "Changed every 5 minutes"], answer: 1, exp: "Hemostatic gauze (QuikClot, Combat Gauze) must be packed tightly into wound with 3 minutes of pressure to activate clotting." },
-            { q: "Internal bleeding should be suspected when:", options: ["Patient has minor laceration", "Patient shows shock with NO external bleeding source", "Patient has minor bruising", "Patient has mild pain only"], answer: 1, exp: "Internal bleeding: Think of shock without visible bleeding. Rigid abdomen, bruising, signs of shock without external wound." },
-            { q: "Direct pressure for hemorrhage should be maintained minimum:", options: ["10 minutes", "1-2 minutes", "30 seconds", "Only until bleeding slows"], answer: 0, exp: "Direct pressure must be continuous for 10 minutes without lifting to check. Lifting disrupts clot formation." },
-            { q: "Wound packing is indicated for:", options: ["Superficial abrasions", "Chest and abdominal wounds", "Junctional wounds (groin/inguinal crease, axilla)", "Neck wounds"], answer: 2, exp: "Wound packing controls hemorrhage where tourniquets can't be applied (groin/inguinal crease, axilla). NEVER pack chest or abdominal wounds, and neck wounds get sustained direct pressure only." },
-            { q: "Patient with bite wound should:", options: ["Have wound closed immediately", "Ignore if animal looked healthy", "Apply tourniquet", "Have wound irrigated aggressively and NOT closed"], answer: 3, exp: "Always irrigate aggressively and leave open. Do NOT close. High infection risk even from \"innocent\" looking bites." },
-            { q: "A rafter scalds her forearm with boiling water from the camp stove. Immediate first aid is:", options: ["Apply ice directly to the burn", "Apply butter or toothpaste to seal the burn", "Cool with cool (not ice-cold) running water for 10-20 minutes", "Pop the blisters and bandage tightly"], answer: 2, exp: "Cool running water for 10-20 minutes is the single most effective burn treatment, and still helps up to ~3 hours after injury. Ice deepens the injury, home remedies trap heat and cause infection, and blisters should be left intact." },
-            { q: "After a campfire flare-up, which finding requires EMERGENT evacuation?", options: ["A palm-sized area of redness on the forearm", "Sunburn on the neck and shoulders", "A small intact blister on one finger", "Singed nasal hair, hoarse voice, and sooty sputum"], answer: 3, exp: "Singed nasal hair, hoarseness, and sooty sputum are signs of airway/inhalation involvement — a burned airway can swell shut over hours. Evacuate EMERGENTLY, before breathing trouble starts." }
-        ];
-
-        let answered = 0;
-        const total = questions.length;
-
-        function buildQuiz() {
-            const container = document.getElementById('quizContainer');
-            questions.forEach((q, idx) => {
-                const qDiv = document.createElement('div');
-                qDiv.className = 'quiz-question';
-                qDiv.innerHTML = `
-                    <h4>Q${idx + 1}: ${q.q}</h4>
-                    <ul>
-                        ${q.options.map((opt, oi) => `
-                            <li onclick="selectAnswer(this, ${idx}, ${oi})">${opt}</li>
-                        `).join('')}
-                    </ul>
-                    <div class="explanation" id="exp-${idx}"></div>
-                `;
-                container.appendChild(qDiv);
-            });
-        }
-
-        function selectAnswer(el, qi, selected) {
-            const q = questions[qi];
-            const items = el.parentElement.querySelectorAll('li');
-            items.forEach(i => i.classList.add('disabled'));
-            const expEl = document.getElementById('exp-' + qi);
-
-            if (selected === q.answer) {
-                el.classList.add('correct');
-                expEl.className = 'explanation show correct-exp';
-                expEl.innerHTML = '✓ Correct! ' + q.exp;
-            } else {
-                el.classList.add('incorrect');
-                items[q.answer].classList.add('correct');
-                expEl.className = 'explanation show incorrect-exp';
-                expEl.innerHTML = '✗ Not quite. ' + q.exp;
-            }
-            answered++;
-            if (answered === total) showScore();
-        }
-
-        function showScore() {
-            const sc = document.querySelectorAll('.explanation.correct-exp').length;
-            const lessonId = '04';
-            const prevScore = localStorage.getItem('wfa_score_' + lessonId);
-            localStorage.setItem('wfa_completed_' + lessonId, 'true');
-            localStorage.setItem('wfa_score_' + lessonId, Math.max(sc, parseInt(prevScore || '0')));
-            const el = document.getElementById('score-display');
-            el.style.display = 'block';
-            document.getElementById('score-text').textContent = 'You scored ' + sc + ' / ' + total;
-            let msg = sc >= Math.round(total * 0.8) ? '🎉 Excellent work! You are ready for the next lesson.' : sc >= Math.round(total * 0.6) ? '👍 Good job! Review the sections you missed.' : '📚 Consider reviewing this lesson before moving on.';
-            if (prevScore && parseInt(prevScore) > 0) msg += ' (Previous best: ' + prevScore + '/' + total + ')';
-            document.getElementById('score-sub').textContent = msg;
-            const retryBtn = document.createElement('button');
-            retryBtn.textContent = '↺ Retry Quiz';
-            retryBtn.style.cssText = 'margin-top:16px;padding:10px 24px;background:#2C7BE5;color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;';
-            retryBtn.onclick = function() {
-                answered = 0;
-                el.style.display = 'none';
-                document.getElementById('quizContainer').innerHTML = '';
-                buildQuiz();
-                retryBtn.remove();
-            };
-            el.appendChild(retryBtn);
-            el.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        buildQuiz();
-        updateStepIndicator(0);
-    </script>
+<script>
+window.WFA_LESSON = {
+ "id": "04",
+ "questions": [
+  {
+   "q": "Tourniquet should be placed:",
+   "options": [
+    "Directly on the wound",
+    "2-3 inches above the wound",
+    "Below the wound",
+    "At the nearest joint"
+   ],
+   "answer": 1,
+   "exp": "Tourniquets should be placed 2-3 inches ABOVE the wound. Below the wound would not compress the bleeding vessel."
+  },
+  {
+   "q": "After applying a tourniquet, you should:",
+   "options": [
+    "Note the exact time of application on the patient",
+    "Remove it every 30 minutes",
+    "Loosen it if the patient complains of pain",
+    "Apply ice over it"
+   ],
+   "answer": 0,
+   "exp": "Document the time of tourniquet application clearly on patient's skin or tourniquet itself. This critical info guides hospital care."
+  },
+  {
+   "q": "The ideal irrigation solution for wound cleaning in wilderness:",
+   "options": [
+    "Hydrogen peroxide",
+    "Rubbing alcohol",
+    "Iodine solution",
+    "Clean drinking water"
+   ],
+   "answer": 3,
+   "exp": "Clean drinking water is effective and doesn't damage tissue like peroxide or iodine. High-volume irrigation is key."
+  },
+  {
+   "q": "In the wilderness, a clean but gaping laceration should be:",
+   "options": [
+    "Closed in the field with Steri-Strips",
+    "Sutured by whoever has a kit",
+    "Cleaned thoroughly, dressed, and evacuated for closure evaluation at a clinic",
+    "Left uncovered to air-dry"
+   ],
+   "answer": 2,
+   "exp": "Wound closure is a clinical decision made at a clinic or hospital, not in the field. Clean thoroughly, dress, keep clean, and evacuate wounds that need closure."
+  },
+  {
+   "q": "Signs of wound infection include all EXCEPT:",
+   "options": [
+    "Normal temperature",
+    "Purulent discharge",
+    "Red streaks from wound",
+    "Expanding redness and warmth"
+   ],
+   "answer": 0,
+   "exp": "Fever (elevated temperature) IS a sign of infection. Normal temperature would be reassuring for NO infection."
+  },
+  {
+   "q": "Hemostatic gauze should be:",
+   "options": [
+    "Placed loosely on wound",
+    "Packed tightly with sustained pressure",
+    "Applied dry without pressure",
+    "Changed every 5 minutes"
+   ],
+   "answer": 1,
+   "exp": "Hemostatic gauze (QuikClot, Combat Gauze) must be packed tightly into wound with 3 minutes of pressure to activate clotting."
+  },
+  {
+   "q": "Internal bleeding should be suspected when:",
+   "options": [
+    "Patient has minor laceration",
+    "Patient shows shock with NO external bleeding source",
+    "Patient has minor bruising",
+    "Patient has mild pain only"
+   ],
+   "answer": 1,
+   "exp": "Internal bleeding: Think of shock without visible bleeding. Rigid abdomen, bruising, signs of shock without external wound."
+  },
+  {
+   "q": "Direct pressure for hemorrhage should be maintained minimum:",
+   "options": [
+    "10 minutes",
+    "1-2 minutes",
+    "30 seconds",
+    "Only until bleeding slows"
+   ],
+   "answer": 0,
+   "exp": "Direct pressure must be continuous for 10 minutes without lifting to check. Lifting disrupts clot formation."
+  },
+  {
+   "q": "Wound packing is indicated for:",
+   "options": [
+    "Superficial abrasions",
+    "Chest and abdominal wounds",
+    "Junctional wounds (groin/inguinal crease, axilla)",
+    "Neck wounds"
+   ],
+   "answer": 2,
+   "exp": "Wound packing controls hemorrhage where tourniquets can't be applied (groin/inguinal crease, axilla). NEVER pack chest or abdominal wounds, and neck wounds get sustained direct pressure only."
+  },
+  {
+   "q": "Patient with bite wound should:",
+   "options": [
+    "Have wound closed immediately",
+    "Ignore if animal looked healthy",
+    "Apply tourniquet",
+    "Have wound irrigated aggressively and NOT closed"
+   ],
+   "answer": 3,
+   "exp": "Always irrigate aggressively and leave open. Do NOT close. High infection risk even from \"innocent\" looking bites."
+  },
+  {
+   "q": "A rafter scalds her forearm with boiling water from the camp stove. Immediate first aid is:",
+   "options": [
+    "Apply ice directly to the burn",
+    "Apply butter or toothpaste to seal the burn",
+    "Cool with cool (not ice-cold) running water for 10-20 minutes",
+    "Pop the blisters and bandage tightly"
+   ],
+   "answer": 2,
+   "exp": "Cool running water for 10-20 minutes is the single most effective burn treatment, and still helps up to ~3 hours after injury. Ice deepens the injury, home remedies trap heat and cause infection, and blisters should be left intact."
+  },
+  {
+   "q": "After a campfire flare-up, which finding requires EMERGENT evacuation?",
+   "options": [
+    "A palm-sized area of redness on the forearm",
+    "Sunburn on the neck and shoulders",
+    "A small intact blister on one finger",
+    "Singed nasal hair, hoarse voice, and sooty sputum"
+   ],
+   "answer": 3,
+   "exp": "Singed nasal hair, hoarseness, and sooty sputum are signs of airway/inhalation involvement — a burned airway can swell shut over hours. Evacuate EMERGENTLY, before breathing trouble starts."
+  }
+ ]
+};
+</script>
+<script src="../assets/js/lesson.js"></script>
 </body>
 </html>
