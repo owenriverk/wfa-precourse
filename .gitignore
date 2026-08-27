@@ -3,3 +3,4 @@
 .gstack/
 .backups/
 dist/
+.claude/
