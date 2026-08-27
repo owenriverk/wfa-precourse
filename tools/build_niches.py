@@ -2,7 +2,7 @@
 """Generate for/<slug>.html niche landing pages. Content lives here; template below."""
 import os
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BASE = "https://owenriverk.github.io/wfa-precourse"
+BASE = "https://openwfa.com"
 
 import json as _json
 IMG_KEY = {"Trail & Mountain": "trail", "Climbing & Snow": "climb", "Water & Maritime": "water",
@@ -15,18 +15,24 @@ IMG_ALT = {"trail": "A hiking trail winding along a green alpine ridge", "climb"
            "travel": "A hiker in a desert canyon", "rescue": "A rescue helicopter on a snowy slope",
            "rural": "Horses grazing in a mountain meadow", "events": "A runner racing the Sierre-Zinal mountain course"}
 IMG_SRC = _json.load(open(os.path.join(ROOT, "assets", "img", "sources.json")))
-def img_block(cat):
-    k = IMG_KEY.get(cat)
-    if not k: return ""
-    meta = IMG_SRC.get(k, {})
+def img_block(cat, slug):
+    per = os.path.join(ROOT, "assets", "img", "for", slug + ".jpg")
+    if os.path.exists(per):
+        meta = IMG_SRC.get("for/" + slug, {})
+        src_img, alt = "../assets/img/for/%s.jpg" % slug, meta.get("alt", "")
+    else:
+        k = IMG_KEY.get(cat)
+        if not k: return ""
+        meta = IMG_SRC.get(k, {})
+        src_img, alt = "../assets/img/niche-%s.jpg" % k, IMG_ALT.get(k, "")
     lic = meta.get("license", "")
     creator = (meta.get("creator") or "").strip()
     if lic.lower().startswith("public domain") or lic.lower() in ("cc0", "pdm"):
         credit = "Public domain, via Wikimedia Commons"
     else:
         credit = "Photo: %s, %s, via Wikimedia Commons" % (creator or "unknown", lic)
-    return ('  <figure class="niche-hero"><img src="../assets/img/niche-%s.jpg" alt="%s" loading="lazy">'
-            '<figcaption>%s</figcaption></figure>\n' % (k, IMG_ALT.get(k, ""), credit))
+    return ('  <figure class="niche-hero"><img src="%s" alt="%s" loading="lazy">'
+            '<figcaption>%s</figcaption></figure>\n' % (src_img, alt, credit))
 
 CERT_SHARED = """<p><strong>The certification question, honestly.</strong> “Wilderness First Aid” isn’t a regulated credential. No government body defines what a WFA card means — it means whatever the company that printed it says it means. What counts in front of a patient is whether you can do the work. This course teaches the work, free, and issues a record of completion — not a certificate, and we won’t pretend otherwise. %s If nobody requires you to hold a card, what you need are the skills, not the laminate.</p>"""
 
@@ -153,7 +159,7 @@ for n in NICHES:
     sims = "\n".join('      <li><a href="../%s">%s</a> — <span class="hook">%s</span></li>' % (h, t, k) for h, t, k in n["sims"])
     cert = "    " + (CERT_SHARED % n["cert"])
     page = TPL.format(base=BASE, slug=n["slug"], title=n["title"], desc=n["desc"], eyebrow=n["eyebrow"],
-                      h1=n["h1"], lead=n["lead"], days=days, path=path, sims=sims, cert=cert, img=img_block(n.get("cat", "")))
+                      h1=n["h1"], lead=n["lead"], days=days, path=path, sims=sims, cert=cert, img=img_block(n.get("cat", ""), n["slug"]))
     open(os.path.join(ROOT, "for", n["slug"] + ".html"), "w").write(page)
 print("built %d niche pages" % len(NICHES))
 

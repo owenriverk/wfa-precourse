@@ -2,7 +2,7 @@
 
 A free, open, self-paced course in lay-rescuer wilderness first aid. No account, no cost, no tracking.
 
-**Live site:** https://owenriverk.github.io/wfa-precourse/
+**Live site:** https://openwfa.com/
 
 ## What's in it
 
