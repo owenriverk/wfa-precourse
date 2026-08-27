@@ -96,7 +96,7 @@ TPL = """<!DOCTYPE html>
 
 <header class="lesson-head">
   <div class="wrap">
-    <div class="eyebrow"><span>{eyebrow}</span><span class="dot">Free · no signup · nothing tracked</span></div>
+    <div class="eyebrow">{eyebrow_icon}<span>{eyebrow}</span><span class="dot">Free · no signup · nothing tracked</span></div>
     <h1>{h1}</h1>
     <p class="lead">{lead}</p>
   </div>
@@ -153,6 +153,12 @@ TPL = """<!DOCTYPE html>
 </html>
 """
 
+CAT_ICON = {
+    "Trail & Mountain": "mountains", "Climbing & Snow": "snowflake", "Water & Maritime": "canoe",
+    "Motorized & Airborne": "wheel", "Youth & Education": "campfire", "Remote Work & Field Science": "flask",
+    "Travel & Expeditions": "wagon", "Rescue & Public Safety": "cross", "Rural & Homesteading": "barn",
+    "Pros, Events & Coaching": "flag",
+}
 CAT_PEER_LABEL = {
     "Trail & Mountain": "Same trails, different speeds:",
     "Climbing & Snow": "Other people who rope up:",
@@ -208,6 +214,7 @@ for n in NICHES:
     og_img = '<meta property="og:image" content="%s">\n' % img_url if img_url else ""
     page = TPL.format(base=BASE, slug=n["slug"], title=n["title"], desc=n["desc"], eyebrow=n["eyebrow"],
                       h1=n["h1"], lead=n["lead"], days=days, path=path, sims=sims, cert=cert, img=img,
+                      eyebrow_icon='<span class="px px-%s" aria-hidden="true"></span>' % CAT_ICON.get(n.get("cat", ""), "heart"),
                       h2_days=n.get("h2_days", "Your version of a bad day"),
                       h2_path=n.get("h2_path", "Start here"),
                       path_intro=n.get("path_intro", "All 15 lessons are worth your time, but this order front-loads what your world serves up:"),
@@ -228,10 +235,12 @@ for cat in CAT_ORDER + sorted(set(by_cat) - set(CAT_ORDER)):
     if cat not in by_cat: continue
     chips = "\n".join('        <a class="crew-chip" href="for/%s.html">%s</a>' % (n["slug"], (lambda s: s[0].upper() + s[1:])(n["eyebrow"].replace("For ", "", 1)))
                        for n in sorted(by_cat[cat], key=lambda x: x["slug"]))
-    rows.append('      <h3>%s</h3>\n      <div class="crew-row">\n%s\n      </div>' % (cat, chips))
+    rows.append('      <h3><span class="px px-%s" aria-hidden="true"></span>%s</h3>\n      <div class="crew-row">\n%s\n      </div>'
+                % (CAT_ICON.get(cat, "heart"), cat, chips))
 directory = ('  <section class="section-block" id="for-you" aria-label="Choose your adventure">\n'
-             '    <h2>Choose your adventure</h2>\n'
+             '    <h2><span class="px px-wagon" aria-hidden="true"></span>Choose your adventure</h2>\n'
              '    <p class="sub">Same course, different bad days. %d paths through the material, each built around how you actually get outside — the lessons to front-load, and the practice scenarios that match your world.</p>\n'
+             '    <div class="trail-divider" aria-hidden="true"></div>\n'
              '%s\n  </section>') % (len(NICHES), "\n".join(rows))
 ip = os.path.join(ROOT, "index.html")
 isrc = open(ip).read()
