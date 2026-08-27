@@ -36,6 +36,25 @@ NICHES = [
           ('sims/the-burrito.html', 'The Burrito', 'turning a wet, cold hiker back around'),
           ('sims/two-go-one-stays.html', 'Two Go, One Stays',
            'getting word out when the phone is a brick')],
+ 'h2_days': 'The trail keeps a ledger',
+ 'h2_path': 'Zero-day reading order',
+ 'path_intro': 'Every lesson is short enough for town-stop wifi; these five earn their spot first:',
+ 'faq_title': 'Trail-register questions',
+ 'faq': [('What actually ends thru-hikes?',
+          'Rarely bears, rarely cliffs. Feet, wet cold, dehydration, and ordinary bodies doing '
+          'extraordinary mileage — the dangerous stuff is the stuff that looks like a bad day until it '
+          'isn’t. <a href="../lessons/09_Cold.html">Cold Injuries</a> and '
+          '<a href="../lessons/11_Medical.html">Medical Emergencies</a> cover the two that sneak up.'),
+         ('Do I actually need to worry about snakes?',
+          'You’ll walk past far more than you’ll ever see, and that’s fine — until the road-walk morning '
+          'one objects. The protocol has no folklore in it: mark the swelling edge with a time, '
+          'immobilize the limb, jewelry off, evacuate now. No cutting, no sucking, no ice, no chasing '
+          'the snake for identification.'),
+         ('What’s a realistic thru-hiker first aid kit?',
+          'One that restocks at gas stations: tape for feet, gloves, gauze, an elastic wrap, and the '
+          'over-the-counter basics. If an item survives three shakedowns and you still can’t say what '
+          'it’s for, mail it home. Start from the <a href="../kit.html">kit checklist</a> and argue '
+          'with every gram.')],
  'slug': 'thru-hikers',
  'title': 'Free Wilderness First Aid for Thru-Hikers'},
 
@@ -74,6 +93,9 @@ NICHES = [
           ('sims/guy-whos-fine.html', 'The Guy Who’s Fine',
            'the crash your partner almost walks away from'),
           ('sims/stop-peeking.html', 'Stop Peeking', 'pressure that holds while you want to look')],
+ 'h2_days': 'Thirty gravel miles from a clinic',
+ 'h2_path': 'Route-planning for your brain',
+ 'path_intro': 'Load these five before the next overnighter:',
  'slug': 'bikepackers',
  'title': 'Free First Aid for Bikepackers & Gravel Cyclists'},
 
@@ -110,6 +132,9 @@ NICHES = [
           ('sims/wiggle-feel-warm.html', 'Wiggle, Feel, Warm',
            'splint doctrine and the CSM check your ankle patient needs'),
           ('sims/cool-first.html', 'Cool First', 'heat stroke where the shade isn’t')],
+ 'h2_days': 'Committed terrain, committed problems',
+ 'h2_path': 'Read these before you drop in',
+ 'path_intro': 'Ordered for the way canyons stack their hazards:',
  'slug': 'canyoneers',
  'title': 'Free Wilderness First Aid for Canyoneers'},
 
@@ -146,6 +171,9 @@ NICHES = [
            'the marker, the time, and none of the folklore'),
           ('sims/cool-first.html', 'Cool First',
            'when your doubles partner stops making sense in the heat')],
+ 'h2_days': 'League-night incidents',
+ 'h2_path': 'Five lessons between rounds',
+ 'path_intro': 'Short lessons, ordered by what wooded courses actually produce:',
  'slug': 'disc-golfers',
  'title': 'Free First Aid for Disc Golfers'},
 

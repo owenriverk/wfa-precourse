@@ -36,6 +36,9 @@ NICHES = [
           ('sims/wiggle-feel-warm.html', 'Wiggle, Feel, Warm', 'improvised splinting, checked properly'),
           ('sims/two-go-one-stays.html', 'Two Go, One Stays',
            'the early call, made with less than you’d like')],
+ 'h2_days': 'Your skills, minus the building',
+ 'h2_path': 'The context-flip reading order',
+ 'path_intro': 'Ordered by what changes most when the walls come off:',
  'slug': 'nurses-to-field',
  'title': 'Free Wilderness First Aid for Nurses, Medics & Clinicians'},
 
@@ -76,6 +79,9 @@ NICHES = [
           ('sims/the-burrito.html', 'The Burrito', 'the wrap, before the shivering stops'),
           ('sims/guy-whos-fine.html', 'The Guy Who’s Fine',
            '“I’m fine” meets two sets of vitals')],
+ 'h2_days': 'Slow-burn emergencies',
+ 'h2_path': 'Mid-season study order',
+ 'path_intro': 'Ordered for weeks-long trips and known rosters:',
  'slug': 'wilderness-therapy',
  'title': 'Free First Aid for Wilderness Therapy Field Staff'},
 
@@ -116,6 +122,9 @@ NICHES = [
            'reverse triage when the sky wins'),
           ('sims/two-go-one-stays.html', 'Two Go, One Stays',
            'messengers and notes when the radios die')],
+ 'h2_days': 'Race-day scenarios',
+ 'h2_path': 'The race-director five',
+ 'path_intro': 'Ordered by what actually hits aid stations:',
  'slug': 'event-organizers',
  'title': 'Free First Aid for Outdoor Event Organizers'},
 
@@ -155,6 +164,9 @@ NICHES = [
           ('sims/wiggle-feel-warm.html', 'Wiggle, Feel, Warm',
            'the crash wrist, splinted and re-checked'),
           ('sims/sugar-first.html', 'Sugar First', 'the roster kid, going low')],
+ 'h2_days': 'Practice-day emergencies',
+ 'h2_path': 'Read these before the season',
+ 'path_intro': 'Ordered by what shows up at practice:',
  'slug': 'youth-coaches',
  'title': 'Free First Aid for Youth Sport Coaches'},
 

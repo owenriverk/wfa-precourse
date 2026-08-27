@@ -37,6 +37,27 @@ NICHES = [
            'Wiggle, Feel, Warm',
            'splint, check, re-check — the doctrine your sling hangs on'),
           ('sims/dont-sit-him-up.html', 'Don’t Sit Him Up', 'neck pain in a bad spot, weather coming')],
+ 'h2_days': 'After the swim',
+ 'h2_path': 'Read these between river days',
+ 'path_intro': 'Ordered the way the river hands them to you:',
+ 'faq_title': 'Eddy-line questions',
+ 'faq': [('The swimmer’s out and coughing — is that an emergency?',
+          'It’s an evacuation, and the river doesn’t get a vote on that. A cough that persists after '
+          'going under means water reached the lungs, and that injury can worsen over the next several '
+          'hours — the rule is <a href="../lessons/14_Water_Lightning.html">any symptoms after '
+          'submersion, evacuate for evaluation</a>, not “wait and see” at camp. No symptoms still '
+          'earns hours of close watching and dry layers; unresponsive in the water means breaths '
+          'first, before compressions.'),
+         ('Should you put a dislocated shoulder back in on the river?',
+          'No — and this course won’t teach you to, because that’s a clinician’s job with imaging and '
+          'anesthesia behind it. What you can do well on a gravel bar: sling it, support it in the '
+          'position of comfort, check the hand before and after, and change the trip plan. '
+          '<a href="../lessons/06_Musculoskeletal.html">Lesson 6</a> covers the sling.'),
+         ('Does a wetsuit mean I don’t need to worry about cold?',
+          'It means the schedule is longer, not cancelled. Every swim is a cold-water event, even in '
+          'July, even in neoprene — and a long swim followed by wind on a wet boater is how hypothermia '
+          'arrives mid-afternoon. Watch the shivering: if it stops without rewarming, that’s worse, '
+          'not better.')],
  'slug': 'whitewater',
  'title': 'Free Wilderness First Aid for Whitewater Boaters'},
 
@@ -82,6 +103,9 @@ NICHES = [
           ('sims/two-go-one-stays.html',
            'Two Go, One Stays',
            'exhaust communication before you spend people')],
+ 'h2_days': 'A swim from shore',
+ 'h2_path': 'Chart these five first',
+ 'path_intro': 'The immersion timeline sets the order:',
  'slug': 'open-water-paddlers',
  'title': 'Free First Aid for Sea Kayakers & Open-Water Paddlers'},
 
@@ -127,6 +151,9 @@ NICHES = [
           ('sims/two-go-one-stays.html',
            'Two Go, One Stays',
            'the note that travels three portages without you')],
+ 'h2_days': 'Lake-country bad days',
+ 'h2_path': 'Portage-order reading',
+ 'path_intro': 'Ordered by what lake country actually breaks:',
  'slug': 'canoe-trippers',
  'title': 'Free Wilderness First Aid for Canoe Trippers'},
 
@@ -170,6 +197,9 @@ NICHES = [
           ('sims/guy-whos-fine.html',
            'The Guy Who’s Fine',
            'he says it was nothing — the second set of vitals disagrees')],
+ 'h2_days': 'What the river collects',
+ 'h2_path': 'Five lessons before the next float',
+ 'path_intro': 'Tied in the order your water serves them:',
  'slug': 'fly-anglers',
  'title': 'Free First Aid for Fly Fishing & Backcountry Anglers'},
 
@@ -213,6 +243,9 @@ NICHES = [
           ('sims/guy-whos-fine.html',
            'The Guy Who’s Fine',
            'he took the hit and he’s laughing — take vitals twice')],
+ 'h2_days': 'When the ocean wins one',
+ 'h2_path': 'Read these between swells',
+ 'path_intro': 'Ordered by what remote breaks actually produce:',
  'slug': 'surfers',
  'title': 'Free First Aid for Surfers & Remote Surf Camps'},
 
@@ -261,6 +294,9 @@ NICHES = [
           ('sims/two-go-one-stays.html',
            'Two Go, One Stays',
            'getting help to a coastline with no address')],
+ 'h2_days': 'Shore-side emergencies',
+ 'h2_path': 'Surface intervals, well spent',
+ 'path_intro': 'Read in this order — the beach half of dive safety:',
  'slug': 'remote-divers',
  'title': 'Free First Aid for Freedivers, Spearfishers & Remote Divers'},
 
@@ -304,6 +340,9 @@ NICHES = [
           ('sims/wiggle-feel-warm.html',
            'Wiggle, Feel, Warm',
            'splint it so it survives the ride back in')],
+ 'h2_days': 'Underway, without warning',
+ 'h2_path': 'The watch-standing five',
+ 'path_intro': 'Ordered for how trouble comes aboard:',
  'slug': 'boat-crews',
  'title': 'Free First Aid for Boat Captains & Crew'},
 

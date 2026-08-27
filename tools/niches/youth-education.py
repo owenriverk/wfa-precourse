@@ -36,6 +36,25 @@ NICHES = [
           ('sims/wiggle-feel-warm.html',
            'Wiggle, Feel, Warm',
            'the climbing-wall wrist, start to finish')],
+ 'h2_days': 'A summer’s worth in one week',
+ 'h2_path': 'The staff-week head start',
+ 'path_intro': 'Read these five before staff week:',
+ 'faq_title': 'Bunk-time questions',
+ 'faq': [('Will this count toward my camp’s first aid requirement?',
+          'No — camps answer to ACA accreditation and state licensing, which name the certifications '
+          'and providers they accept. Check with your camp director. What this does is make you the '
+          'counselor who already knows why the protocols say what they say, which is worth more than it '
+          'sounds like in week six.'),
+         ('What should I actually have memorized before campers arrive?',
+          'Two things cold: which of your campers carry epinephrine and exactly where it lives, and '
+          'that <a href="../lessons/14_Water_Lightning.html">drowning changes the order</a> — breaths '
+          'first, before compressions. Everything else can live in a reference card; those two have to '
+          'live in you.'),
+         ('A camper says they’re fine — do I believe them?',
+          'Believe them twice. Kids under-report to stay in the game, avoid the nurse, or avoid the '
+          'phone call home — so check now and check again in fifteen minutes, and let the second look '
+          'make the call. A kid who’s trending quieter, paler, or clumsier is telling you the truth '
+          'their mouth won’t.')],
  'slug': 'camp-counselors',
  'title': 'Free Wilderness First Aid for Summer Camp Counselors'},
 
@@ -79,6 +98,9 @@ NICHES = [
           ('sims/two-go-one-stays.html',
            'Two Go, One Stays',
            'who goes, who stays, what the note says')],
+ 'h2_days': 'Field-trip failure modes',
+ 'h2_path': 'The staff-training five',
+ 'path_intro': 'In the order institutional trips need them:',
  'slug': 'outdoor-educators',
  'title': 'Free Wilderness First Aid for Outdoor Educators & Trip Staff'},
 
@@ -120,6 +142,9 @@ NICHES = [
            'the airway you can hear — positioning under pressure'),
           ('sims/find-the-epi.html', 'Find the Epi', 'the reaction that escalates while you decide'),
           ('sims/the-burrito.html', 'The Burrito', 'cold and wet, wrapped right')],
+ 'h2_days': 'Small-patient emergencies',
+ 'h2_path': 'Circle-time study order',
+ 'path_intro': 'Ordered for the youngest patients:',
  'slug': 'forest-school',
  'title': 'Free Wilderness First Aid for Forest School Educators'},
 
@@ -159,6 +184,9 @@ NICHES = [
            'the runner down who isn’t napping'),
           ('sims/stop-peeking.html', 'Stop Peeking', 'pressure held through the urge to look'),
           ('sims/wiggle-feel-warm.html', 'Wiggle, Feel, Warm', 'the FOOSH wrist and the CSM habit')],
+ 'h2_days': 'On the morning loop',
+ 'h2_path': 'Between-walk reading',
+ 'path_intro': 'Five lessons, ordered by what the job serves up:',
  'slug': 'dog-walkers',
  'title': 'Free First Aid for Dog Walkers & Off-Leash Group Leaders'},
 

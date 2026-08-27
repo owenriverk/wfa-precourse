@@ -15,6 +15,9 @@ Fields (all required):
 - `days`: exactly 3 tuples ("Bold hook.", "1-2 sentence vignette.") — plausible, specific bad days for THIS activity. No other niche's hazards.
 - `path`: exactly 5 tuples (lesson_file_stem, lesson_title, why) — why-strings tailored to the niche, not generic.
 - `sims`: exactly 3 tuples (href_from_repo_root, title, hook) — pick the scenarios closest to this world.
+- `h2_days`: heading for the bad-day section — niche-anchored, unique across all pages (no page may reuse another's)
+- `h2_path`: heading for the lesson-path section — same uniqueness rule
+- `path_intro`: one-line lead-in to the lesson path, in the niche's register
 - `cert`: 1-2 sentences completing the shared honesty paragraph — name the niche's REAL credential landscape when one exists (NWCG, OEC, swiftwater, etc.) and position this as prep-before/sharp-between, never a substitute.
 
 Lessons: 01_Provider_Safety, 02_Patient_Assessment, 03_Airway, 04_Bleeding_Wounds, 05_Shock,
@@ -38,6 +41,11 @@ sims/sugar-first.html — diabetic hypoglycemia, the closing swallow window
 sims/sharpie-on-the-leg.html — snakebite, movie-medicine temptations
 sims/treat-the-dead-first.html — lightning strike, reverse triage
 sims/two-go-one-stays.html — evac note, two messengers, dying phone
+
+Optional fields:
+- `faq_title` + `faq`: 3 tuples ("question", "answer html") — questions this audience actually
+  searches or asks, answered in-doctrine (§3), 2-4 sentences, at most one internal link each,
+  one quotable sentence per answer. Rendered after the cert box; also emitted as FAQPage JSON-LD.
 
 Hard rules: AGENTS.md §2-§4 bind. Never promise skills the 15 lessons don't teach (no dive
 medicine, no avalanche rescue, no rope rescue, no altitude pharmacology — name the gap honestly

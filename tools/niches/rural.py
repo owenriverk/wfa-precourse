@@ -39,6 +39,9 @@ NICHES = [
  'sims': [('sims/stop-peeking.html', 'Stop Peeking', 'deep laceration, steady pressure — the chainsaw drill'),
           ('sims/guy-whos-fine.html', 'The Guy Who’s Fine', 'blunt trauma hides — vitals twice, believe the trend'),
           ('sims/wiggle-feel-warm.html', 'Wiggle, Feel, Warm', 'the splint check you’ll be doing on family')],
+ 'h2_days': 'The woodpile ledger',
+ 'h2_path': 'Kitchen-table study order',
+ 'path_intro': 'Read these five first — evenings, kitchen table, whole family:',
  'slug': 'homesteaders',
  'title': 'Free First Aid for Off-Grid Homesteaders'},
 
@@ -81,6 +84,9 @@ NICHES = [
  'sims': [('sims/not-indigestion.html', 'It’s Not Indigestion', 'the stoic neighbor, the chest pain, the call'),
           ('sims/cool-first.html', 'Cool First', 'heat stroke in the field, cooled where he dropped'),
           ('sims/guy-whos-fine.html', 'The Guy Who’s Fine', 'kicked, laughing, and quietly bleeding inside')],
+ 'h2_days': 'What the place serves up',
+ 'h2_path': 'Five lessons between chores',
+ 'path_intro': 'Ordered by what actually comes through the gate:',
  'slug': 'ranchers',
  'title': 'Free First Aid for Ranchers & Farmers'},
 
@@ -121,6 +127,9 @@ NICHES = [
            'The Guy Who’s Fine',
            'a ground fall from stand height, and the vitals that argue'),
           ('sims/the-burrito.html', 'The Burrito', 'wrap the cold hunter before cold becomes the emergency')],
+ 'h2_days': 'September problems',
+ 'h2_path': 'Offseason study order',
+ 'path_intro': 'Ordered for the way archery seasons go wrong:',
  'slug': 'bowhunters',
  'title': 'Free Wilderness First Aid for Backcountry Bowhunters'},
 
@@ -168,6 +177,9 @@ NICHES = [
            'The Guy Who’s Fine',
            'the kicked rider who’s joking, until the trend says otherwise'),
           ('sims/two-go-one-stays.html', 'Two Go, One Stays', 'sending for help from country without cell bars')],
+ 'h2_days': 'When the wreck settles',
+ 'h2_path': 'Barn-aisle reading order',
+ 'path_intro': 'Ordered for stock country:',
  'slug': 'horsepackers',
  'title': 'Free Wilderness First Aid for Horsepackers & Trail Riders'},
 
@@ -213,6 +225,9 @@ NICHES = [
            'snakebite, and every wrong thing the movies taught you'),
           ('sims/find-the-epi.html', 'Find the Epi', 'stings to wheeze in five minutes — beat the clock'),
           ('sims/two-go-one-stays.html', 'Two Go, One Stays', 'getting help to a patch that isn’t on any map')],
+ 'h2_days': 'What the leaf litter holds',
+ 'h2_path': 'Between-seasons reading',
+ 'path_intro': 'Ordered by what finds your hands first:',
  'slug': 'foragers',
  'title': 'Free Wilderness First Aid for Foragers & Mushroom Hunters'},
 
@@ -261,6 +276,26 @@ NICHES = [
            'Two Go, One Stays',
            'getting help to a spot with no address while the phone dies'),
           ('sims/cool-first.html', 'Cool First', 'desert boondocking heat, cooled where it happens')],
+ 'h2_days': 'Parked far out',
+ 'h2_path': 'Rainy-day reading order',
+ 'path_intro': 'Ordered for life at the end of a numbered road:',
+ 'faq_title': 'Camp-chair questions',
+ 'faq': [('How do I tell 911 where I am when the road has no name?',
+          'Your phone’s GPS works without cell signal — pull the coordinates from any map app and read '
+          'them slowly, twice. Add the road number if the BLM signed it, the last landmark a driver '
+          'would recognize, and offer to meet the ambulance partway at something findable. '
+          '<a href="../lessons/13_Evacuation.html">The call itself is a skill</a>; practice it before '
+          'the day it matters.'),
+         ('Which burns can I handle in the van?',
+          'First, cool it: cool (not ice-cold) running water for a solid 10–20 minutes — the one move '
+          'that limits how deep a burn goes, and it still helps up to a few hours after. Then cover it '
+          'clean and loose. What ends the boondock: burns to the face, hands, feet, genitals, or '
+          'across a joint; anything bigger than a few palm-areas; and any burn that looks waxy or '
+          'barely hurts, because deep burns kill their own nerves.'),
+         ('I travel solo. What’s the one habit that matters most?',
+          'The check-in. One person always knows where you’re parked and when you’ll ping next, and the '
+          'gap is short enough that a search starts while it can still help. Boring and automatic beats '
+          'elaborate and skipped — a dead-simple routine outperforms gear you never configured.')],
  'slug': 'vanlifers',
  'title': 'Free First Aid for Vanlifers & Full-Time RVers'},
 

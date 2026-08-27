@@ -41,6 +41,9 @@ NICHES = [
           ('sims/two-go-one-stays.html',
            'Two Go, One Stays',
            'the overdue-partner problem, worked properly')],
+ 'h2_days': 'Incidents per unit effort',
+ 'h2_path': 'Protocol order',
+ 'path_intro': 'Read in this order before the field season:',
  'slug': 'field-scientists',
  'title': 'Free Wilderness First Aid for Field Scientists'},
 
@@ -81,6 +84,9 @@ NICHES = [
           ('sims/two-go-one-stays.html',
            'Two Go, One Stays',
            'sending for help when nothing has bars')],
+ 'h2_days': 'When the woods bite back',
+ 'h2_path': 'Crummy-ride reading order',
+ 'path_intro': 'Five lessons, ordered by what the unit serves up:',
  'slug': 'forestry-workers',
  'title': 'Free Wilderness First Aid for Forestry Workers & Arborists'},
 
@@ -126,6 +132,9 @@ NICHES = [
           ('sims/guy-whos-fine.html',
            'The Guy Who’s Fine',
            'serial vitals on the crewmate who shook it off')],
+ 'h2_days': 'What fills the med tent',
+ 'h2_path': 'Off-season study order',
+ 'path_intro': 'Ordered by what actually gets crews:',
  'slug': 'wildland-fire',
  'title': 'Free Wilderness First Aid for Wildland Firefighters'},
 
@@ -171,6 +180,9 @@ NICHES = [
           ('sims/two-go-one-stays.html',
            'Two Go, One Stays',
            'who goes, who stays, what the note says')],
+ 'h2_days': 'Hitch hazards',
+ 'h2_path': 'The crew-leader five',
+ 'path_intro': 'Ordered for rock bars and crosscuts:',
  'slug': 'trail-crews',
  'title': 'Free Wilderness First Aid for Trail Crews & Conservation Corps'},
 
@@ -208,6 +220,9 @@ NICHES = [
  'sims': [('sims/cool-first.html', 'Cool First', 'heat stroke between the rows'),
           ('sims/guy-whos-fine.html', 'The Guy Who’s Fine', 'the ladder fall that looked fine'),
           ('sims/two-go-one-stays.html', 'Two Go, One Stays', 'making one bar of signal count')],
+ 'h2_days': 'Between the rows',
+ 'h2_path': 'Tailboard reading order',
+ 'path_intro': 'Five lessons, in site-priority order:',
  'slug': 'renewable-techs',
  'title': 'Free First Aid for Wind & Solar Field Technicians'},
 
@@ -249,6 +264,9 @@ NICHES = [
            'Wiggle, Feel, Warm',
            'the wrist you caught yourself with'),
           ('sims/the-burrito.html', 'The Burrito', 'the wrap for the partner who got too cold')],
+ 'h2_days': 'When the subject goes down',
+ 'h2_path': 'Read these between shoots',
+ 'path_intro': 'Ordered for people who work where their subjects play:',
  'slug': 'outdoor-photographers',
  'title': 'Free Wilderness First Aid for Outdoor Photographers'},
 

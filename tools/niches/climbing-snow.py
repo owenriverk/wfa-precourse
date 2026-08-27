@@ -37,6 +37,9 @@ NICHES = [
           ('sims/guy-whos-fine.html', 'The Guy Who’s Fine',
            'the decked leader who wants to keep climbing'),
           ('sims/leave-it-frozen.html', 'Leave It Frozen', 'the thaw-or-walk call, made properly')],
+ 'h2_days': 'What the mountain sends down',
+ 'h2_path': 'Rack these five first',
+ 'path_intro': 'Ordered for how alpine days come apart:',
  'slug': 'alpine-climbers',
  'title': 'Free Wilderness First Aid for Alpine & Multi-Pitch Climbers'},
 
@@ -73,6 +76,9 @@ NICHES = [
            'the highball knockout, minute by minute'),
           ('sims/dont-sit-him-up.html', 'Don’t Sit Him Up',
            'everyone will want to sit him up — don’t')],
+ 'h2_days': 'Between the pads',
+ 'h2_path': 'Session reading, in order',
+ 'path_intro': 'Five short lessons, ordered by how ground falls actually land:',
  'slug': 'boulderers',
  'title': 'Free First Aid for Boulderers & Crag Guides'},
 
@@ -116,6 +122,9 @@ NICHES = [
            'lightning triage — the backwards rule that saves lives'),
           ('sims/sugar-first.html', 'Sugar First',
            'the shaky, confused client with a history nobody asked about')],
+ 'h2_days': 'Mid-cable emergencies',
+ 'h2_path': 'Clip through these in order',
+ 'path_intro': 'For climbers and operators both, this order pays off first:',
  'slug': 'via-ferrata',
  'title': 'Free Wilderness First Aid for Via Ferrata Climbers'},
 
@@ -156,6 +165,25 @@ NICHES = [
           ('sims/the-burrito.html', 'The Burrito', 'the wrap, in the environment it was invented for'),
           ('sims/two-go-one-stays.html', 'Two Go, One Stays',
            'sending for help before the light runs out')],
+ 'h2_days': 'The hour after',
+ 'h2_path': 'Study order for the skin track',
+ 'path_intro': 'Winter stacks its problems in a particular order — read in it:',
+ 'faq_title': 'Skin-track questions',
+ 'faq': [('Does this course cover avalanche rescue?',
+          'No, and be suspicious of any first aid course that claims to. Beacon, probe, and shovel live '
+          'in an avalanche course (AIARE or AST) and in regular practice with your partners. What '
+          'lives here is the hour after: the airway of the person you dug out, the hypothermia that '
+          'follows every winter problem, and the evacuation clock.'),
+         ('My partner’s out of the tree well and breathing — now what?',
+          'Listen to the breathing. A snore means the airway is partly blocked — '
+          '<a href="../lessons/03_Airway.html">position it</a> now, not once help is called. Then get '
+          'insulation between him and the snow, and check his level of response every few minutes. '
+          '“Breathing” is a starting point, not an all-clear.'),
+         ('How do you spot hypothermia on a tour?',
+          'Watch the partner, not the thermometer. Clumsy transitions, unusual quiet, and the fumbled '
+          'buckle are early data; shivering that stops without rewarming is worsening, not improving. '
+          'Dry layers, calories, and the <a href="../sims/the-burrito.html">wrap</a> all work best '
+          'embarrassingly early.')],
  'slug': 'backcountry-skiers',
  'title': 'Free Wilderness First Aid for Backcountry Skiers'},
 
@@ -196,6 +224,9 @@ NICHES = [
           ('sims/the-burrito.html', 'The Burrito', 'packaging a cold patient who can’t help you do it'),
           ('sims/two-go-one-stays.html', 'Two Go, One Stays',
            'spending people carefully when the route home is long')],
+ 'h2_days': 'High-camp arithmetic',
+ 'h2_path': 'Acclimatize to these five',
+ 'path_intro': 'Read them in this order on the flight in:',
  'slug': 'mountaineers',
  'title': 'Free Wilderness First Aid for Mountaineers'},
 
@@ -234,6 +265,9 @@ NICHES = [
            'refreeze is the one mistake you can’t take back'),
           ('sims/guy-whos-fine.html', 'The Guy Who’s Fine',
            'the belayer who took ice and says she’s good')],
+ 'h2_days': 'Sharp, frozen, or both',
+ 'h2_path': 'Before the next freeze',
+ 'path_intro': 'Ordered by what the ice actually serves up:',
  'slug': 'ice-climbers',
  'title': 'Free Wilderness First Aid for Ice Climbers'},
 

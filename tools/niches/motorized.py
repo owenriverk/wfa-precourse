@@ -32,6 +32,9 @@ NICHES = [
  'sims': [('sim.html', 'The Rider Down', 'a downed rider, a helmet question, a leg that needs a splint'),
           ('sims/dont-sit-him-up.html', 'Don’t Sit Him Up', 'protecting a spine while you move it anyway'),
           ('sims/guy-whos-fine.html', 'The Guy Who’s Fine', 'the rollover victim who walks away — for now')],
+ 'h2_days': 'Rollover days',
+ 'h2_path': 'Five lessons before the next ride-out',
+ 'path_intro': 'Ordered by what machines do to people:',
  'slug': 'atv-utv',
  'title': 'Free Wilderness First Aid for ATV & Side-by-Side Riders'},
 
@@ -71,6 +74,9 @@ NICHES = [
           ('sims/two-go-one-stays.html',
            'Two Go, One Stays',
            'the evac decision when the phone is a paperweight')],
+ 'h2_days': 'Camp, track, and winch line',
+ 'h2_path': 'Load these five first',
+ 'path_intro': 'Pack them in this order:',
  'slug': 'overlanders',
  'title': 'Free Wilderness First Aid for Overlanders & 4x4 Off-Roaders'},
 
@@ -109,6 +115,9 @@ NICHES = [
           ('sims/leave-it-frozen.html',
            'Leave It Frozen',
            'the frostbite call sledders actually face')],
+ 'h2_days': 'Speed, cold, and distance — pick three',
+ 'h2_path': 'Pre-season reading order',
+ 'path_intro': 'Ordered for how sled days go wrong:',
  'slug': 'snowmobilers',
  'title': 'Free Wilderness First Aid for Snowmobilers & Snowbikers'},
 
@@ -151,6 +160,9 @@ NICHES = [
           ('sims/two-go-one-stays.html',
            'Two Go, One Stays',
            'getting help to a hillside with no address')],
+ 'h2_days': 'Hard arrivals',
+ 'h2_path': 'Ground school for the ground',
+ 'path_intro': 'Ordered by how landings actually go wrong:',
  'slug': 'paragliders',
  'title': 'Free Wilderness First Aid for Paraglider, Hang Glider & PPG Pilots'},
 
@@ -186,6 +198,9 @@ NICHES = [
  'sims': [('sims/cool-first.html', 'Cool First', 'heat stroke, cooled where it happens'),
           ('sims/sharpie-on-the-leg.html', 'Sharpie on the Leg', 'snakebite, minus the folklore'),
           ('sims/hero-complex.html', 'Hero Complex', 'reading the scene before you become part of it')],
+ 'h2_days': 'Solo-site emergencies',
+ 'h2_path': 'Pre-flight your first aid',
+ 'path_intro': 'Checklist order, for people who like checklists:',
  'slug': 'drone-operators',
  'title': 'Free Wilderness First Aid for Remote Drone Operators & Aerial Surveyors'},
 

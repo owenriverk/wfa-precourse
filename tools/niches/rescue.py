@@ -44,6 +44,9 @@ NICHES = [
           ('sims/guy-whos-fine.html',
            'The Guy Who’s Fine',
            'serial vitals catch the quiet bleed')],
+ 'h2_days': 'First-due, no ambulance',
+ 'h2_path': 'Between-calls study order',
+ 'path_intro': 'Ordered by what your run log already says:',
  'slug': 'rural-firefighters',
  'title': 'Free Wilderness First Aid for Rural Volunteer Firefighters'},
 
@@ -87,6 +90,9 @@ NICHES = [
           ('sims/sharpie-on-the-leg.html',
            'Sharpie on the Leg',
            'mark the edge, watch the clock')],
+ 'h2_days': 'Solo-patrol calls',
+ 'h2_path': 'Patrol-truck reading order',
+ 'path_intro': 'Ordered by what visitors actually do:',
  'slug': 'rangers-wardens',
  'title': 'Free Wilderness First Aid for Rangers & Game Wardens'},
 
@@ -132,6 +138,9 @@ NICHES = [
           ('sims/wiggle-feel-warm.html',
            'Wiggle, Feel, Warm',
            'the terrain-park wrist, checked twice')],
+ 'h2_days': 'What sweep finds',
+ 'h2_path': 'Pre-season doctrine order',
+ 'path_intro': 'Ordered the way the hill teaches it:',
  'slug': 'ski-patrol',
  'title': 'Free Wilderness First Aid for Ski Patrol Volunteers'},
 

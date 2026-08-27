@@ -36,6 +36,9 @@ NICHES = [
  'sims': [('sims/cool-first.html', 'Cool First', 'heat stroke, cooled where it happens'),
           ('sims/stop-peeking.html', 'Stop Peeking', 'pressure that doesn’t take breaks'),
           ('sims/sharpie-on-the-leg.html', 'Sharpie on the Leg', 'snakebite minus the movie medicine')],
+ 'h2_days': 'What ripens in the wet',
+ 'h2_path': 'Read these before the flight',
+ 'path_intro': 'Ordered for climates that don’t forgive:',
  'slug': 'jungle-trekkers',
  'title': 'Free Wilderness First Aid for Jungle & Tropical Trekkers'},
 
@@ -74,6 +77,9 @@ NICHES = [
           ('sims/sharpie-on-the-leg.html', 'Sharpie on the Leg', 'the snakebite, done by doctrine'),
           ('sims/two-go-one-stays.html', 'Two Go, One Stays',
            'the messenger plan when driving out isn’t an option')],
+ 'h2_days': 'How canyon country bites',
+ 'h2_path': 'Study these before the washboard',
+ 'path_intro': 'Heat first, because out here it always is:',
  'slug': 'desert-explorers',
  'title': 'Free Wilderness First Aid for Desert & Canyon Country Explorers'},
 
@@ -113,6 +119,9 @@ NICHES = [
           ('sims/leave-it-frozen.html', 'Leave It Frozen', 'the thaw call that can’t be unmade'),
           ('sims/two-go-one-stays.html', 'Two Go, One Stays',
            'moving a message across an empty map')],
+ 'h2_days': 'Cold, and then more cold',
+ 'h2_path': 'Tent-day reading order',
+ 'path_intro': 'The cold curriculum, front-loaded:',
  'slug': 'polar-expeditions',
  'title': 'Free Wilderness First Aid for Polar & Arctic Expeditions'},
 
@@ -152,6 +161,9 @@ NICHES = [
           ('sims/wiggle-feel-warm.html', 'Wiggle, Feel, Warm', 'a splint from daypack contents'),
           ('sims/two-go-one-stays.html', 'Two Go, One Stays',
            'getting help when you can’t just dial')],
+ 'h2_days': 'Far from a number to dial',
+ 'h2_path': 'The pre-departure five',
+ 'path_intro': 'Read these five between booking and boarding:',
  'slug': 'adventure-travelers',
  'title': 'Free First Aid for Adventure Travelers & Eco-Tourists'},
 
@@ -191,6 +203,9 @@ NICHES = [
           ('sims/stop-peeking.html', 'Stop Peeking', 'direct pressure, held honest'),
           ('sims/two-go-one-stays.html', 'Two Go, One Stays',
            'the written note that makes a report')],
+ 'h2_days': 'On deployment',
+ 'h2_path': 'The readiness five',
+ 'path_intro': 'In the order deployments demand them:',
  'slug': 'humanitarian-volunteers',
  'title': 'Free First Aid for Disaster Relief Volunteers'},
 

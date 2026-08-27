@@ -19,20 +19,17 @@ def img_block(cat, slug):
     per = os.path.join(ROOT, "assets", "img", "for", slug + ".jpg")
     if os.path.exists(per):
         meta = IMG_SRC.get("for/" + slug, {})
-        src_img, alt = "../assets/img/for/%s.jpg" % slug, meta.get("alt", "")
+        rel = "for/%s.jpg" % slug
+        src_img, alt = "../assets/img/" + rel, meta.get("alt", "")
     else:
         k = IMG_KEY.get(cat)
-        if not k: return ""
+        if not k: return "", ""
         meta = IMG_SRC.get(k, {})
-        src_img, alt = "../assets/img/niche-%s.jpg" % k, IMG_ALT.get(k, "")
-    lic = meta.get("license", "")
-    creator = (meta.get("creator") or "").strip()
-    if lic.lower().startswith("public domain") or lic.lower() in ("cc0", "pdm"):
-        credit = "Public domain, via Wikimedia Commons"
-    else:
-        credit = "Photo: %s, %s, via Wikimedia Commons" % (creator or "unknown", lic)
-    return ('  <figure class="niche-hero"><img src="%s" alt="%s" loading="lazy">'
-            '<figcaption>%s</figcaption></figure>\n' % (src_img, alt, credit))
+        rel = "niche-%s.jpg" % k
+        src_img, alt = "../assets/img/" + rel, IMG_ALT.get(k, "")
+    abs_url = BASE + "/assets/img/" + rel
+    return ('  <figure class="niche-hero"><img src="%s" alt="%s" loading="lazy"></figure>\n'
+            % (src_img, alt)), abs_url
 
 CERT_SHARED = """<p><strong>The certification question, honestly.</strong> “Wilderness First Aid” isn’t a regulated credential. No government body defines what a WFA card means — it means whatever the company that printed it says it means. What counts in front of a patient is whether you can do the work. This course teaches the work, free, and issues a record of completion — not a certificate, and we won’t pretend otherwise. %s If nobody requires you to hold a card, what you need are the skills, not the laminate.</p>"""
 
@@ -60,7 +57,7 @@ TPL = """<!DOCTYPE html>
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
 <meta property="og:url" content="{base}/for/{slug}.html">
-<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+{og_img}{jsonld}<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/css/site.css">
 <style>
   .niche-main {{ max-width: 780px; }}
@@ -79,7 +76,9 @@ TPL = """<!DOCTYPE html>
   .cta-row {{ display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }}
   .niche-hero {{ margin: 20px 0 0; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--surface); }}
   .niche-hero img {{ width: 100%; height: 250px; object-fit: cover; display: block; }}
-  .niche-hero figcaption {{ font-size: 0.72em; color: var(--text-faint); padding: 4px 12px; }}
+  .faq-item h3 {{ margin: 18px 0 6px; font-size: 1.02em; }}
+  .faq-item p {{ margin: 0; }}
+  .see-also {{ margin-top: 22px; font-size: 0.92em; color: var(--text-muted); }}
 </style>
 </head>
 <body>
@@ -105,15 +104,15 @@ TPL = """<!DOCTYPE html>
 
 <main id="content" class="wrap niche-main">
 {img}  <section class="section-block">
-    <h2>Your version of a bad day</h2>
+    <h2>{h2_days}</h2>
     <ul class="badday">
 {days}
     </ul>
   </section>
 
   <section class="section-block">
-    <h2>Start here</h2>
-    <p>All 15 lessons are worth your time, but this order front-loads what your world serves up:</p>
+    <h2>{h2_path}</h2>
+    <p>{path_intro}</p>
     <ol class="path">
 {path}
     </ol>
@@ -127,7 +126,7 @@ TPL = """<!DOCTYPE html>
   <div class="cert-box">
 {cert}
   </div>
-
+{faq}
   <section class="section-block">
     <h2>What this is</h2>
     <p>Fifteen lessons, a 40-question knowledge check, sixteen practice scenarios, a printable <a href="../reference.html">field reference card</a>, and a <a href="../kit.html">kit checklist</a>. Free, no account, nothing recorded about you, source on <a href="https://github.com/owenriverk/wfa-precourse">GitHub</a>. It teaches decision-making, not hands-on skill — practice the hands-on parts on a real, padded, complaining friend.</p>
@@ -135,7 +134,7 @@ TPL = """<!DOCTYPE html>
       <a class="btn lg" href="../lessons/01_Provider_Safety.html">Start Lesson 1 →</a>
       <a class="btn secondary lg" href="../sim.html">Try a scenario</a>
     </div>
-  </section>
+{see_also}  </section>
 </main>
 
 <footer class="site-footer">
@@ -144,6 +143,7 @@ TPL = """<!DOCTYPE html>
       <a href="../index.html">Home</a>
       <a href="../index.html#lessons">All lessons</a>
       <a href="../sim.html">Practice</a>
+      <a href="../credits.html">Photo credits</a>
       <a href="https://github.com/owenriverk/wfa-precourse">Source on GitHub</a>
     </div>
     <p class="foot-disclaimer">Educational use only. This course supports wilderness first aid training and does not replace hands-on instruction or professional medical care. In an emergency, call your local emergency number.</p>
@@ -153,13 +153,66 @@ TPL = """<!DOCTYPE html>
 </html>
 """
 
+CAT_PEER_LABEL = {
+    "Trail & Mountain": "Same trails, different speeds:",
+    "Climbing & Snow": "Other people who rope up:",
+    "Water & Maritime": "Other people who read water:",
+    "Motorized & Airborne": "Other throttle-and-altitude people:",
+    "Youth & Education": "Others out there with a crowd of kids:",
+    "Remote Work & Field Science": "Other far-from-help day jobs:",
+    "Travel & Expeditions": "Other long-haul people:",
+    "Rescue & Public Safety": "Others who answer the call:",
+    "Rural & Homesteading": "Other far-from-town neighbors:",
+    "Pros, Events & Coaching": "Adjacent worlds:",
+}
+_by_cat_slugs = {}
+for n in NICHES:
+    _by_cat_slugs.setdefault(n.get("cat", ""), []).append(n)
+
+def see_also_block(n):
+    sibs = _by_cat_slugs.get(n.get("cat", ""), [])
+    others = [s for s in sibs if s["slug"] != n["slug"]]
+    if not others: return ""
+    i = next((j for j, s in enumerate(sibs) if s["slug"] == n["slug"]), 0)
+    rot = [sibs[(i + k) % len(sibs)] for k in range(1, len(sibs))]
+    picks = [s for s in rot if s["slug"] != n["slug"]][:3]
+    label = CAT_PEER_LABEL.get(n.get("cat", ""), "Nearby worlds:")
+    links = " · ".join('<a href="%s.html">%s</a>' % (s["slug"], s["eyebrow"].replace("For ", "", 1)) for s in picks)
+    return '    <p class="see-also"><strong>%s</strong> %s</p>\n' % (label, links)
+
+def faq_html(n):
+    if not n.get("faq"): return ""
+    items = "\n".join('    <div class="faq-item">\n      <h3>%s</h3>\n      <p>%s</p>\n    </div>' % (q, a)
+                      for q, a in n["faq"])
+    return ('\n  <section class="section-block">\n    <h2>%s</h2>\n%s\n  </section>\n'
+            % (n.get("faq_title", "Fair questions"), items))
+
+_TAG = __import__("re").compile("<[^>]+>")
+def jsonld_html(n, img_url):
+    blocks = [{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Wilderness First Aid", "item": BASE + "/"},
+        {"@type": "ListItem", "position": 2, "name": n["title"], "item": "%s/for/%s.html" % (BASE, n["slug"])}]}]
+    if n.get("faq"):
+        blocks.append({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+            {"@type": "Question", "name": _TAG.sub("", q), "acceptedAnswer":
+             {"@type": "Answer", "text": _TAG.sub("", a)}} for q, a in n["faq"]]})
+    return "".join('<script type="application/ld+json">%s</script>\n'
+                   % _json.dumps(b, ensure_ascii=False, separators=(",", ":")) for b in blocks)
+
 for n in NICHES:
     days = "\n".join('      <li><strong>%s</strong> %s</li>' % (b, r) for b, r in n["days"])
     path = "\n".join('      <li><a href="../lessons/%s.html">%s</a> — <span class="why">%s</span></li>' % (f, t, w) for f, t, w in n["path"])
     sims = "\n".join('      <li><a href="../%s">%s</a> — <span class="hook">%s</span></li>' % (h, t, k) for h, t, k in n["sims"])
     cert = "    " + (CERT_SHARED % n["cert"])
+    img, img_url = img_block(n.get("cat", ""), n["slug"])
+    og_img = '<meta property="og:image" content="%s">\n' % img_url if img_url else ""
     page = TPL.format(base=BASE, slug=n["slug"], title=n["title"], desc=n["desc"], eyebrow=n["eyebrow"],
-                      h1=n["h1"], lead=n["lead"], days=days, path=path, sims=sims, cert=cert, img=img_block(n.get("cat", ""), n["slug"]))
+                      h1=n["h1"], lead=n["lead"], days=days, path=path, sims=sims, cert=cert, img=img,
+                      h2_days=n.get("h2_days", "Your version of a bad day"),
+                      h2_path=n.get("h2_path", "Start here"),
+                      path_intro=n.get("path_intro", "All 15 lessons are worth your time, but this order front-loads what your world serves up:"),
+                      faq=faq_html(n), see_also=see_also_block(n),
+                      og_img=og_img, jsonld=jsonld_html(n, img_url))
     open(os.path.join(ROOT, "for", n["slug"] + ".html"), "w").write(page)
 print("built %d niche pages" % len(NICHES))
 
@@ -201,3 +254,93 @@ for n in NICHES:
         added += 1
 open(sp, "w").write(sm)
 print("sitemap: +%d (now %d urls)" % (added, sm.count("<url>")))
+
+# ---- credits.html: attribution for hero photos (CC licenses require it; pages stay caption-free) ----
+def _meta_for(n):
+    slug = n["slug"]
+    if os.path.exists(os.path.join(ROOT, "assets", "img", "for", slug + ".jpg")):
+        return IMG_SRC.get("for/" + slug, {})
+    return IMG_SRC.get(IMG_KEY.get(n.get("cat", ""), ""), {})
+
+_photos = {}
+for n in NICHES:
+    meta = _meta_for(n)
+    source = meta.get("source", "")
+    if not source: continue
+    p = _photos.setdefault(source, {"meta": meta, "pages": []})
+    p["pages"].append(n)
+
+rows = []
+for source, p in sorted(_photos.items(), key=lambda kv: kv[1]["meta"].get("title", "")):
+    meta = p["meta"]
+    title = meta.get("title", "").replace("File:", "", 1).rsplit(".", 1)[0]
+    creator = (meta.get("creator") or "").strip()
+    lic = meta.get("license", "")
+    who = (" by %s" % creator) if creator else ""
+    used = ", ".join('<a href="for/%s.html">%s</a>' % (n["slug"], n["eyebrow"].replace("For ", "", 1))
+                     for n in p["pages"])
+    rows.append('      <li><a href="%s" rel="noopener">%s</a>%s — %s, via Wikimedia Commons. Used on: %s</li>'
+                % (source, title, who, lic, used))
+
+CREDITS = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Photo Credits | Wilderness First Aid — Free Online Course</title>
+<meta name="description" content="Attribution for the photographs used across this free wilderness first aid course. All images come from Wikimedia Commons under their listed licenses.">
+<meta name="theme-color" content="#1B4F8A">
+<link rel="canonical" href="%s/credits.html">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+  .credits-main { max-width: 780px; }
+  .credit-list { margin: 0; padding-left: 22px; }
+  .credit-list li { padding: 6px 0; font-size: 0.95em; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#content">Skip to content</a>
+
+<header class="site-nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="2" y="2" width="28" height="28" rx="7" fill="currentColor" opacity="0.12"/><path d="M6 23 L12 12 L16 18 L19 14 L26 23 Z" fill="currentColor" opacity="0.85"/><path d="M16 6 v6 M13 9 h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg><span>Wilderness First Aid</span><span class="brand-sub">Free online course</span></a>
+    <nav class="nav-links" aria-label="Course navigation">
+      <a href="index.html#lessons">All lessons</a>
+      <a href="sim.html">Practice</a>
+    </nav>
+  </div>
+</header>
+
+<header class="lesson-head">
+  <div class="wrap">
+    <div class="eyebrow"><span>Photo credits</span></div>
+    <h1>The photographers who make the pages.</h1>
+    <p class="lead">Every photo on this site comes from Wikimedia Commons, used under the license its photographer chose. They get named here, with a link back to the original.</p>
+  </div>
+</header>
+
+<main id="content" class="wrap credits-main">
+  <section class="section-block">
+    <ol class="credit-list">
+%s
+    </ol>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#lessons">All lessons</a>
+      <a href="sim.html">Practice</a>
+      <a href="https://github.com/owenriverk/wfa-precourse">Source on GitHub</a>
+    </div>
+    <p class="foot-disclaimer">Educational use only. This course supports wilderness first aid training and does not replace hands-on instruction or professional medical care. In an emergency, call your local emergency number.</p>
+  </div>
+</footer>
+</body>
+</html>
+""" % (BASE, "\n".join(rows))
+open(os.path.join(ROOT, "credits.html"), "w").write(CREDITS)
+print("credits.html: %d photos, %d page uses" % (len(_photos), sum(len(p["pages"]) for p in _photos.values())))
