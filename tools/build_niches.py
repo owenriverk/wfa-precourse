@@ -64,7 +64,12 @@ TPL = """<!DOCTYPE html>
   .badday {{ list-style: none; margin: 0; padding: 0; }}
   .badday li {{ padding: 12px 0 12px 34px; position: relative; border-bottom: 1px solid var(--border); }}
   .badday li:last-child {{ border-bottom: 0; }}
-  .badday li::before {{ content: "⚠"; position: absolute; left: 4px; color: var(--warning); font-weight: 800; }}
+  .badday li::before {{ content: ""; position: absolute; left: 2px; top: 17px; width: 15px; height: 15px;
+    background: var(--warning); -webkit-mask: url(../assets/img/pixel/cross.svg) center / contain no-repeat;
+    mask: url(../assets/img/pixel/cross.svg) center / contain no-repeat; }}
+  .badday strong {{ font-family: var(--font-pixel); font-weight: 400; font-size: 1.24em; letter-spacing: 0.02em; }}
+  .path li::marker {{ font-family: var(--font-pixel); color: var(--text-muted); }}
+  .lesson-head .eyebrow {{ font-family: var(--font-pixel); font-size: 1.04em; letter-spacing: 0.07em; }}
   .path {{ margin: 0; padding-left: 22px; }}
   .path li {{ padding: 6px 0; }}
   .path .why {{ color: var(--text-muted); }}
@@ -116,11 +121,18 @@ TPL = """<!DOCTYPE html>
     <ol class="path">
 {path}
     </ol>
-    <h3 style="margin-top:22px;">Then pressure-test it</h3>
-    <p>Interactive scenarios — one decision at a time, tempting mistakes included, debrief at the end:</p>
-    <ul class="simrow">
+    <div class="sim-console">
+      <div class="sim-console-head">
+        <img class="duck" src="../assets/img/pixel/duck.svg" alt="" width="54" height="45">
+        <div>
+          <h3>Then pressure-test it</h3>
+          <p>Interactive scenarios — one decision at a time, tempting mistakes included, debrief at the end:</p>
+        </div>
+      </div>
+      <ul class="simrow">
 {sims}
-    </ul>
+      </ul>
+    </div>
   </section>
 
   <div class="cert-box">

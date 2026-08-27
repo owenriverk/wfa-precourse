@@ -482,6 +482,15 @@ body.exam .lesson-head .wrap { max-width: 868px; }
   body.exam #record-block { position: absolute; left: 0; top: 0; width: 100%; margin: 0; border-radius: 0; }
 }
 
+/* ---------- Pixel type (self-hosted VT323, SIL OFL — see assets/fonts/) ---------- */
+@font-face {
+  font-family: "VT323";
+  src: url(../fonts/vt323-latin.woff2) format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+:root { --font-pixel: "VT323", "Courier New", ui-monospace, monospace; }
+.duck { image-rendering: pixelated; display: block; flex: none; }
+
 /* ---------- Pixel flair (Oregon Trail accents) ---------- */
 .px { display: inline-block; width: 20px; height: 20px; flex: none; background: currentColor;
   -webkit-mask: var(--px-src) center / contain no-repeat; mask: var(--px-src) center / contain no-repeat; }
@@ -511,14 +520,35 @@ body.exam .lesson-head .wrap { max-width: 868px; }
   padding: 26px 30px 24px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; }
 .crt-panel::after { content: ""; position: absolute; inset: 0; pointer-events: none;
   background: repeating-linear-gradient(0deg, transparent 0 2px, rgba(140, 190, 255, 0.03) 2px 4px); }
-.crt-status { font-family: var(--font-mono); font-size: 0.74em; letter-spacing: 0.09em; color: #7EE787;
+.crt-status { font-family: var(--font-pixel); font-size: 1.02em; letter-spacing: 0.09em; color: #7EE787;
   display: flex; flex-wrap: wrap; gap: 6px 22px; margin-bottom: 14px; text-transform: uppercase; }
 .crt-status span::before { content: "▸ "; opacity: 0.7; }
 .crt-panel h2 { color: #fff; font-size: 1.4em; margin-bottom: 6px; }
 .crt-panel p { color: #AFC3DE; margin: 0; }
-.crt-badge { font-size: 0.55em; vertical-align: middle; font-family: var(--font-mono); letter-spacing: 0.1em;
+.crt-badge { font-size: 0.72em; vertical-align: middle; font-family: var(--font-pixel); letter-spacing: 0.1em;
   color: #7EE787; border: 1px solid #2E5A41; background: rgba(126, 231, 135, 0.08); padding: 2px 10px; border-radius: 3px; }
-.crt-panel .btn { background: #7EE787; border-color: #7EE787; color: #08240F; font-family: var(--font-mono); }
+.crt-panel .btn { background: #7EE787; border-color: #7EE787; color: #08240F; font-family: var(--font-pixel); font-size: 1.3em; letter-spacing: 0.03em; }
 .crt-panel .btn:hover { background: #99F0A5; border-color: #99F0A5; }
-.crt-hint { font-family: var(--font-mono); font-size: 0.78em; color: #6B87AC; margin-top: 12px !important; }
+.crt-hint { font-family: var(--font-pixel); font-size: 1.05em; color: #6B87AC; margin-top: 12px !important; }
 @media (max-width: 640px) { .crt-panel { grid-template-columns: 1fr; } .crt-panel .btn { width: 100%; text-align: center; } }
+
+/* ---------- Sim console (niche pages) ---------- */
+.sim-console { position: relative; overflow: hidden; background: #0E1B30; border: 2px solid #2C4A73;
+  border-radius: 6px; padding: 20px 24px 14px; margin-top: 28px; }
+.sim-console::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(0deg, transparent 0 2px, rgba(140, 190, 255, 0.03) 2px 4px); }
+.sim-console-head { display: flex; gap: 18px; align-items: center; margin-bottom: 4px; }
+.sim-console-head .duck { width: 54px; height: auto; }
+.sim-console h3 { font-family: var(--font-pixel); font-weight: 400; font-size: 1.55em; letter-spacing: 0.04em;
+  color: #7EE787; margin: 0 0 2px; text-transform: uppercase; }
+.sim-console-head p { color: #AFC3DE; font-size: 0.92em; margin: 0; }
+.sim-console .simrow { margin: 10px 0 0; }
+.sim-console .simrow li { border-bottom: 1px solid #22354F; padding: 9px 0; }
+.sim-console .simrow li:last-child { border-bottom: 0; }
+.sim-console .simrow li::before { content: "▸"; color: #7EE787; opacity: 0.65; margin-right: 11px; }
+.sim-console .simrow a { color: #7EE787; font-family: var(--font-pixel); font-size: 1.24em; letter-spacing: 0.02em; text-decoration: none; }
+.sim-console .simrow a:hover { text-decoration: underline; }
+.sim-console .simrow .hook { color: #6B87AC; }
+.crt-side { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.crt-side .duck { width: 76px; height: auto; }
+@media (max-width: 640px) { .sim-console-head { flex-direction: column; align-items: flex-start; gap: 10px; } }
