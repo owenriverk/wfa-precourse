@@ -108,7 +108,19 @@
     function renderChoices() {
       var listEl = el('choice-list');
       listEl.innerHTML = '';
-      (SC.suggest(S) || []).filter(avail).slice(0, 6).forEach(function (id) { listEl.appendChild(makeBtn(byId[id])); });
+      var ids = (SC.suggest(S) || []).filter(avail).slice(0, 6);
+      /* Findability guarantee (AGENTS.md 6.3): right moves sit beside tempting
+         mistakes in every shortlist. Crit ids match action ids by convention,
+         so any available action tied to a still-unmet critical action is
+         appended if the curated list missed it — never buried in the drawer.
+         Decide actions stay in their own drawer by design. */
+      var promoted = 0;
+      SC.crits.forEach(function (c) {
+        if (promoted >= 2) return;
+        var id = c[0], a = byId[id];
+        if (a && !S.crits[id] && a.g !== 'decide' && avail(id) && ids.indexOf(id) === -1) { ids.push(id); promoted++; }
+      });
+      ids.forEach(function (id) { listEl.appendChild(makeBtn(byId[id])); });
       var moreEl = el('more-list');
       moreEl.innerHTML = '';
       [['assess', 'Assess'], ['ask', 'Ask'], ['treat', 'Treat']].forEach(function (grp) {
@@ -121,6 +133,8 @@
       decEl.innerHTML = '';
       SC.actions.filter(function (a) { return a.g === 'decide' && avail(a.id); }).forEach(function (a) { decEl.appendChild(makeBtn(a)); });
     }
+
+    window.__SIM = { S: S, SC: SC, byId: byId, avail: avail, act: function (id) { doAction(byId[id]); } };
 
     /* ---- turn loop ---- */
     var ended = false;

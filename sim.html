@@ -632,9 +632,9 @@
     else if (!S.splinted)
       c = ['csm', 'splint', 'sample', 'insulate', 'move', 'vitals'];
     else if (!S.insulated)
-      c = ['insulate', 'csm', 'vitals', 'reassure', 'move', 'end-call'];
+      c = ['insulate', 'csm', 'vitals', 'sample', 'move', 'end-call'];
     else
-      c = ['vitals', 'csm', 'water', 'reassure', 'end-call', 'end-send'];
+      c = ['vitals', 'csm', 'sample', 'water', 'reassure', 'end-call', 'end-send'];
     return c.filter(available).slice(0, 6);
   }
 
@@ -668,6 +668,8 @@
 
   /* ---- turn loop ---- */
   var ended = false;
+  window.__SIM = { S: S, byId: byId, avail: available, suggest: suggest, CRITS: CRITS, act: function (id) { doAction(byId[id]); } };
+
   function doAction(a) {
     if (ended) return;
     turnEvents = [];
