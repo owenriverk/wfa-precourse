@@ -582,3 +582,203 @@ body.exam .lesson-head .wrap { max-width: 868px; }
 .px-manual    { --px-src: url(../img/pixel/manual.svg); }
 .px-hourglass { --px-src: url(../img/pixel/hourglass.svg); }
 .px-question  { --px-src: url(../img/pixel/question.svg); }
+
+/* ============================================================================
+   LESSONS — Oregon Trail treatment
+   Same rule as the sims: the game skin goes on CHROME (wayfinding, labels,
+   numerals, score surfaces) and never on medical body copy. Palette hexes are
+   lifted from the scene generators (tools/niche_pixel.py, scene_pixel.py) so a
+   lesson page and a hero illustration read as the same world.
+   Per-lesson icons key off body[data-lesson-id] — no per-file HTML needed.
+   ============================================================================ */
+:root {
+  --trail:      #E9DFC6;   /* trail fill    */
+  --trail-edge: #CDBD97;   /* trail edge    */
+  --trail-post: #6B4E32;   /* signpost wood */
+  --trail-deep: #3E4F39;   /* pine dark     */
+  --trail-rust: #A34E3B;   /* wagon red     */
+}
+
+/* ---- lesson header: topic icon + pixel eyebrow ---- */
+body.lesson { --lesson-icon: url(../img/pixel/manual.svg);
+  --toc-w: 276px;   /* the wagon marker needs room; keeps labels on one line */ }
+body.lesson[data-lesson-id="01"] { --lesson-icon: url(../img/pixel/helmet.svg); }
+body.lesson[data-lesson-id="02"] { --lesson-icon: url(../img/pixel/manual.svg); }
+body.lesson[data-lesson-id="03"] { --lesson-icon: url(../img/pixel/breath.svg); }
+body.lesson[data-lesson-id="04"] { --lesson-icon: url(../img/pixel/drop.svg); }
+body.lesson[data-lesson-id="05"] { --lesson-icon: url(../img/pixel/heart.svg); }
+body.lesson[data-lesson-id="06"] { --lesson-icon: url(../img/pixel/bone.svg); }
+body.lesson[data-lesson-id="07"] { --lesson-icon: url(../img/pixel/spine.svg); }
+body.lesson[data-lesson-id="08"] { --lesson-icon: url(../img/pixel/sun.svg); }
+body.lesson[data-lesson-id="09"] { --lesson-icon: url(../img/pixel/snowflake.svg); }
+body.lesson[data-lesson-id="10"] { --lesson-icon: url(../img/pixel/injector.svg); }
+body.lesson[data-lesson-id="11"] { --lesson-icon: url(../img/pixel/flask.svg); }
+body.lesson[data-lesson-id="12"] { --lesson-icon: url(../img/pixel/bee.svg); }
+body.lesson[data-lesson-id="13"] { --lesson-icon: url(../img/pixel/wagon.svg); }
+body.lesson[data-lesson-id="14"] { --lesson-icon: url(../img/pixel/bolt.svg); }
+body.lesson[data-lesson-id="15"] { --lesson-icon: url(../img/pixel/pack.svg); }
+
+body.lesson .lesson-head .eyebrow::before {
+  content: ""; display: inline-block; flex: none; width: 22px; height: 22px;
+  background: var(--primary);
+  -webkit-mask: var(--lesson-icon) center / contain no-repeat;
+  mask: var(--lesson-icon) center / contain no-repeat;
+}
+body.lesson .lesson-head .eyebrow {
+  font-family: var(--font-pixel); font-weight: 400; font-size: 1.16em;
+  letter-spacing: 0.08em; color: var(--text-muted);
+}
+body.lesson .lesson-head .tags .badge {
+  font-family: var(--font-pixel); font-weight: 400; font-size: 1.02em;
+  letter-spacing: 0.07em; border-radius: 3px;
+}
+
+/* ---- table of contents as a trail map ----
+   The dotted line threads the section markers; the current section carries the
+   wagon. Marker states: unvisited (empty post), visited (filled), current. */
+body.lesson .lesson-toc .toc-label {
+  font-family: var(--font-pixel); font-size: 1.12em; font-weight: 400;
+  letter-spacing: 0.14em; color: var(--trail-post);
+}
+body.lesson .tablist { position: relative; }
+body.lesson .tablist::before {          /* the trail itself */
+  content: ""; position: absolute; left: 22px; top: 18px; bottom: 18px; width: 2px;
+  background: repeating-linear-gradient(to bottom,
+    var(--trail-edge) 0 3px, transparent 3px 7px);
+}
+body.lesson .tab .tab-n {
+  position: relative; z-index: 1; border-radius: 2px;
+  font-family: var(--font-pixel); font-weight: 400; font-size: 1.16em;
+  background: var(--surface); color: var(--text-faint);
+  box-shadow: inset 0 0 0 2px var(--trail-edge);
+}
+body.lesson .tab.visited .tab-n {
+  background: var(--trail-edge); color: var(--trail-post);
+  box-shadow: inset 0 0 0 2px var(--trail-edge);
+}
+body.lesson .tab[aria-selected="true"] .tab-n,
+body.lesson .tab.visited[aria-selected="true"] .tab-n {
+  background: var(--primary); color: var(--primary-contrast);
+  box-shadow: inset 0 0 0 2px var(--primary), 0 0 0 3px rgba(27, 79, 138, 0.14);
+}
+body.lesson .tab { position: relative; padding-right: 36px; }
+body.lesson .tab[aria-selected="true"]::after {   /* you are here */
+  content: ""; position: absolute; right: 10px; top: 50%; margin-top: -8px;
+  width: 22px; height: 16px; background: var(--trail-rust);
+  -webkit-mask: url(../img/pixel/wagon.svg) center / contain no-repeat;
+  mask: url(../img/pixel/wagon.svg) center / contain no-repeat;
+}
+body.lesson .tab[aria-selected="true"] { border-color: var(--trail-edge); }
+
+/* ---- progress: a supply-gauge, not a hairline ---- */
+body.lesson .toc-progress {
+  font-family: var(--font-pixel); font-size: 1.08em; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--trail-post);
+}
+body.lesson .toc-progress .bar {
+  height: 10px; border-radius: 2px; background: var(--surface);
+  box-shadow: inset 0 0 0 2px var(--trail-edge); padding: 2px; overflow: hidden;
+}
+body.lesson .toc-progress .bar > span {
+  background: var(--trail-deep);
+  -webkit-mask: repeating-linear-gradient(to right, #000 0 4px, transparent 4px 6px);
+  mask: repeating-linear-gradient(to right, #000 0 4px, transparent 4px 6px);
+}
+
+/* ---- mnemonic letters as game tiles ---- */
+body.lesson .mnemonic-letter {
+  font-family: var(--font-pixel); font-weight: 400; font-size: 1.62em;
+  border-radius: 3px; box-shadow: inset -2px -2px 0 rgba(0, 0, 0, 0.22);
+}
+
+/* ---- alerts: pixel sigil + pixel label ---- */
+body.lesson .alert-title {
+  font-family: var(--font-pixel); font-weight: 400; font-size: 1.28em;
+  letter-spacing: 0.09em; display: flex; align-items: center; gap: 7px;
+}
+body.lesson .alert-title::before {
+  content: ""; flex: none; width: 16px; height: 16px; background: currentColor;
+  -webkit-mask: var(--alert-icon) center / contain no-repeat;
+  mask: var(--alert-icon) center / contain no-repeat;
+}
+body.lesson .alert > strong:first-child {
+  font-family: var(--font-pixel); font-weight: 400; font-size: 1.22em;
+  letter-spacing: 0.06em;
+}
+body.lesson .alert > strong:first-child::before {
+  content: ""; display: inline-block; vertical-align: -2px; margin-right: 6px;
+  width: 15px; height: 15px; background: currentColor;
+  -webkit-mask: var(--alert-icon) center / contain no-repeat;
+  mask: var(--alert-icon) center / contain no-repeat;
+}
+body.lesson .alert          { --alert-icon: url(../img/pixel/manual.svg); }
+body.lesson .alert-danger   { --alert-icon: url(../img/pixel/bolt.svg); }
+body.lesson .alert-warning  { --alert-icon: url(../img/pixel/flag.svg); }
+body.lesson .alert-info     { --alert-icon: url(../img/pixel/manual.svg); }
+body.lesson .alert-success  { --alert-icon: url(../img/pixel/heart.svg); }
+
+/* ---- key points: each one a flag planted ---- */
+body.lesson .key-points h3, body.lesson .key-points h4 {
+  font-family: var(--font-pixel); font-weight: 400; font-size: 1.5em;
+  letter-spacing: 0.12em;
+  /* .lesson-content h3 (later in this file, equal specificity) was winning and
+     painting this heading --text on the blue panel — about 1.5:1. Pin it. */
+  color: var(--primary-contrast);
+}
+body.lesson .key-points .key-point::before {
+  content: ""; top: 11px; left: 2px; width: 13px; height: 13px;
+  background: currentColor;
+  -webkit-mask: url(../img/pixel/flag.svg) center / contain no-repeat;
+  mask: url(../img/pixel/flag.svg) center / contain no-repeat;
+}
+
+/* ---- scenarios: field dispatches ---- */
+body.lesson .scenario-header {
+  font-family: var(--font-pixel); font-weight: 400; font-size: 1.34em;
+  letter-spacing: 0.08em;
+}
+body.lesson .scenario-title {
+  font-family: var(--font-pixel); font-weight: 400; font-size: 1.4em;
+  letter-spacing: 0.06em;
+}
+
+/* ---- quiz: the one true game surface in a lesson ---- */
+body.lesson .quiz-question .q-n {
+  font-family: var(--font-pixel); font-size: 1.3em; color: var(--trail-post);
+}
+body.lesson .quiz-option .opt-l {     /* same tile vocabulary as the mnemonics */
+  font-family: var(--font-pixel); font-weight: 400; font-size: 1.16em;
+  border-radius: 3px;
+}
+/* Scoped away from the answered states: .quiz-option.correct/.incorrect .opt-l
+   paint their own white-on-green/red, and a background here would erase the
+   letter (this selector outranks them). */
+body.lesson .quiz-option:not(.correct):not(.incorrect) .opt-l {
+  background: var(--surface); box-shadow: inset 0 0 0 2px var(--trail-edge);
+}
+body.lesson .score-banner h3 {
+  font-family: var(--font-pixel); font-weight: 400; font-size: 3.2em;
+  letter-spacing: 0.04em; line-height: 1;
+}
+
+/* ---- footer: back on the trail ---- */
+body.lesson .lesson-footer-nav .btn.next::before {
+  content: ""; flex: none; width: 22px; height: 16px; background: currentColor;
+  -webkit-mask: url(../img/pixel/wagon.svg) center / contain no-repeat;
+  mask: url(../img/pixel/wagon.svg) center / contain no-repeat;
+}
+
+@media (max-width: 640px) {   /* VT323 runs wide; keep the eyebrow on one line */
+  body.lesson .lesson-head .eyebrow { font-size: 1.04em; gap: 6px 10px; }
+}
+
+/* Horizontal TOC strip on tablet/mobile: the trail line would cut through the
+   pills, so it is dropped and the markers carry the state on their own. */
+@media (max-width: 900px) {
+  body.lesson .tablist::before { display: none; }
+  body.lesson .tab[aria-selected="true"]::after { display: none; }
+  body.lesson .tab[aria-selected="true"] .tab-n {
+    background: color-mix(in srgb, var(--primary-contrast) 22%, transparent);
+    box-shadow: none; color: var(--primary-contrast);
+  }
+}
