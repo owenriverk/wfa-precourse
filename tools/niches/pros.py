@@ -14,8 +14,7 @@ NICHES = [
            'A fall, a sore belly, a pulse trending up, four hours of daylight. There’s no imaging to '
            'order — the evacuation call is the medicine, and early beats confirmed.')],
  'desc': 'Free wilderness first aid for nurses, medics, and clinicians heading outdoors: improvised '
-         'splinting, trend-reading without monitors, and the early evacuation decision. No signup, no '
-         'cost.',
+         'splinting, reading trends without monitors, and early evacuation.',
  'eyebrow': 'For nurses, medics & clinicians heading outdoors',
  'h1': 'All your training, none of your equipment.',
  'lead': 'You already work above this course’s clinical ceiling — that isn’t the problem. The problem is '
@@ -40,7 +39,7 @@ NICHES = [
  'h2_path': 'The context-flip reading order',
  'path_intro': 'Ordered by what changes most when the walls come off:',
  'slug': 'nurses-to-field',
- 'title': 'Free Wilderness First Aid for Nurses, Medics & Clinicians'},
+ 'title': 'Free Wilderness First Aid for Nurses & Medics'},
 
 {'cat': 'Pros, Events & Coaching',
  'cert': 'Your employer’s training requirement — typically WFR for field staff — stands, and this course '
@@ -56,9 +55,8 @@ NICHES = [
           ('“I’m fine” is doing a lot of work.',
            'A fall on the talus and a participant who deflects everything, medical questions included. '
            'Serial vitals don’t care about the group narrative — two sets make a trend.')],
- 'desc': 'Free wilderness first aid study for wilderness therapy field instructors: known-condition '
-         'rosters, diabetic emergencies, slow-burn hypothermia, and vitals that cut through '
-         'presentation. No signup, no cost.',
+ 'desc': 'Free first aid study for wilderness therapy field instructors: known-condition rosters, diabetic '
+         'emergencies, slow-burn hypothermia, and honest vitals.',
  'eyebrow': 'For wilderness therapy field instructors',
  'h1': 'The emergencies out here burn slow.',
  'lead': 'You’re in the field for weeks with participants whose medical histories arrived in a binder: '
@@ -99,8 +97,8 @@ NICHES = [
           ('The cell on the ridge line.',
            'Weather says thirty minutes, the back of the field says ninety. Hold, reroute, or stop is '
            'your call, and everyone off the exposed section is the first move, not the last resort.')],
- 'desc': 'Free first aid fluency for outdoor event organizers: heat casualties in bulk, lightning '
-         'holds, sweep kits, comms trees, and the stop-the-event call. No signup, no cost.',
+ 'desc': 'Free first aid for outdoor event organizers: heat casualties in bulk, lightning holds, sweep kits, '
+         'comms trees, and the call to stop the event.',
  'eyebrow': 'For outdoor event organizers — gravel races, ultras, festivals',
  'h1': 'The risk plan meets mile 40.',
  'lead': 'On paper you have a medical plan, a sweep protocol, and a comms tree. This course is for making '
@@ -143,8 +141,8 @@ NICHES = [
           ('Where’s his inhaler?',
            'Mid-workout wheeze, and the answer lives on a form you read in September — or didn’t. '
            'Roster medical forms are first aid equipment.')],
- 'desc': 'Free first aid for youth XC, MTB, and trail team coaches: asthma and inhalers, heat on '
-         'interval days, crash wrists, and medical forms actually read. No signup, no cost.',
+ 'desc': 'Free first aid for youth XC, MTB, and trail team coaches: asthma and inhalers, heat on interval '
+         'days, crash wrists, and medical forms someone actually reads.',
  'eyebrow': 'For youth sport coaches — XC, MTB & trail teams',
  'h1': 'Fifteen kids, one whistle, no athletic trainer.',
  'lead': 'Practice happens in parks and trail networks, a long jog from the parking lot, with somebody '

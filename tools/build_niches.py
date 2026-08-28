@@ -57,14 +57,16 @@ TPL = """<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{title} | Wilderness First Aid — Free Online Course</title>
+<title>{title} | OpenWFA</title>
 <meta name="description" content="{desc}">
 <meta name="theme-color" content="#1B4F8A">
-<link rel="canonical" href="{base}/for/{slug}.html">
+<link rel="canonical" href="{base}/for/{slug}">
 <meta property="og:type" content="website">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
-<meta property="og:url" content="{base}/for/{slug}.html">
+<meta property="og:url" content="{base}/for/{slug}">
+<meta property="og:site_name" content="Wilderness First Aid — free online course">
+<meta name="twitter:card" content="summary_large_image">
 {og_img}{jsonld}<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/css/site.css">
 <style>
@@ -217,7 +219,7 @@ _TAG = __import__("re").compile("<[^>]+>")
 def jsonld_html(n, img_url):
     blocks = [{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "Wilderness First Aid", "item": BASE + "/"},
-        {"@type": "ListItem", "position": 2, "name": n["title"], "item": "%s/for/%s.html" % (BASE, n["slug"])}]}]
+        {"@type": "ListItem", "position": 2, "name": n["title"], "item": "%s/for/%s" % (BASE, n["slug"])}]}]
     if n.get("faq"):
         blocks.append({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
             {"@type": "Question", "name": _TAG.sub("", q), "acceptedAnswer":
@@ -231,7 +233,9 @@ for n in NICHES:
     sims = "\n".join('      <li><a href="../%s">%s</a> — <span class="hook">%s</span></li>' % (h, t, k) for h, t, k in n["sims"])
     cert = "    " + (CERT_SHARED % n["cert"])
     img, img_url = img_block(n.get("cat", ""), n["slug"])
-    og_img = '<meta property="og:image" content="%s">\n' % img_url if img_url else ""
+    og_img = ('<meta property="og:image" content="%s">\n'
+               '<meta property="og:image:width" content="1200">\n'
+               '<meta property="og:image:height" content="630">\n' % img_url) if img_url else ""
     page = TPL.format(base=BASE, slug=n["slug"], title=n["title"], desc=n["desc"], eyebrow=n["eyebrow"],
                       h1=n["h1"], lead=n["lead"], days=days, path=path, sims=sims, cert=cert, img=img,
                       eyebrow_icon='<span class="px px-%s" aria-hidden="true"></span>' % CAT_ICON.get(n.get("cat", ""), "heart"),
@@ -272,17 +276,8 @@ if S in isrc:
 else:
     print("WARNING: FOR-YOU markers not found in index.html")
 
-# sitemap (idempotent)
-sp = os.path.join(ROOT, "sitemap.xml")
-sm = open(sp).read()
-added = 0
-for n in NICHES:
-    loc = "%s/for/%s.html" % (BASE, n["slug"])
-    if loc not in sm:
-        sm = sm.replace("</urlset>", "  <url><loc>%s</loc><lastmod>2026-08-26</lastmod></url>\n</urlset>" % loc)
-        added += 1
-open(sp, "w").write(sm)
-print("sitemap: +%d (now %d urls)" % (added, sm.count("<url>")))
+# sitemap: owned by tools/build_sitemap.py, which regenerates it from disk with
+# extensionless URLs and git-derived lastmod. Run that after this script.
 
 # ---- credits.html: attribution for hero photos (CC licenses require it; pages stay caption-free) ----
 def _meta_for(n):
@@ -321,16 +316,31 @@ else:
                        'Creative Commons photographs from Wikimedia Commons; none remain in use, and we thank '
                        'those photographers all the same.</p>')
 
+_CREDITS_LD = "".join('<script type="application/ld+json">%s</script>\n'
+    % _json.dumps(b, ensure_ascii=False, separators=(",", ":")) for b in [
+    {"@context": "https://schema.org", "@type": "WebPage",
+     "name": "Art & Credits", "url": BASE + "/credits",
+     "description": "Where the artwork on this free wilderness first aid course comes from.",
+     "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "OpenWFA", "url": BASE + "/"}},
+    {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Wilderness First Aid", "item": BASE + "/"},
+        {"@type": "ListItem", "position": 2, "name": "Art & Credits", "item": BASE + "/credits"}]},
+])
+
 CREDITS = """<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Art &amp; Credits | Wilderness First Aid — Free Online Course</title>
-<meta name="description" content="Where the imagery on this free wilderness first aid course comes from: original pixel-art scenes drawn for each page, plus attribution for any photographs still in use.">
+<title>Art &amp; Credits | OpenWFA</title>
+<meta name="description" content="Where the artwork on this free wilderness first aid course comes from: original pixel-art scenes drawn for each page, plus credit for any photos still in use.">
 <meta name="theme-color" content="#1B4F8A">
-<link rel="canonical" href="%s/credits.html">
-<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="%s/credits">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://openwfa.com/assets/img/pages/index.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+%s<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/css/site.css">
 <style>
   .credits-main { max-width: 780px; }
@@ -377,6 +387,6 @@ CREDITS = """<!DOCTYPE html>
 </footer>
 </body>
 </html>
-""" % (BASE, _credit_section)
+""" % (BASE, _CREDITS_LD, _credit_section)
 open(os.path.join(ROOT, "credits.html"), "w").write(CREDITS)
 print("credits.html: %d photos, %d page uses" % (len(_photos), sum(len(p["pages"]) for p in _photos.values())))

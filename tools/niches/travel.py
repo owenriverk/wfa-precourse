@@ -15,9 +15,8 @@ NICHES = [
           ('The hand on the trunk.',
            'He grabbed a tree on the steep bit and something under the bark objected. Now there are '
            'hives, a wheeze, and an auto-injector somewhere in a dry bag.')],
- 'desc': 'Free wilderness first aid for jungle and tropical trekkers: heat illness in saturated air, '
-         'wound care where everything festers, stings and snakebite, and evacuation measured in '
-         'river-days. No signup, no cost.',
+ 'desc': 'Free wilderness first aid for jungle and tropical trekkers: heat illness in saturated air, wound '
+         'care where everything festers, and river-day evacuations.',
  'eyebrow': 'For jungle & tropical trekkers',
  'h1': 'Help is four river-days downstream.',
  'lead': 'The jungle doesn’t produce exotic emergencies so much as ordinary ones that ripen fast: heat '
@@ -40,7 +39,7 @@ NICHES = [
  'h2_path': 'Read these before the flight',
  'path_intro': 'Ordered for climates that don’t forgive:',
  'slug': 'jungle-trekkers',
- 'title': 'Free Wilderness First Aid for Jungle & Tropical Trekkers'},
+ 'title': 'Free Wilderness First Aid for Jungle Trekkers'},
 
 {'cat': 'Travel & Expeditions',
  'cert': 'Slot-canyon rescue is rope work, and rope work belongs to a rope course — we don’t teach it. '
@@ -55,9 +54,8 @@ NICHES = [
           ('The truck is the casualty.',
            'A sheared valve stem two hours down a washboard road, one gallon left per person. '
            'Stay-or-walk is an evacuation problem, and the arithmetic is unforgiving in July.')],
- 'desc': 'Free wilderness first aid for desert and canyon-country explorers: heat stroke, water math, '
-         'flash-flood scene judgment, snakebite, and the stay-or-walk call when the truck dies. No '
-         'signup, no cost.',
+ 'desc': 'Free wilderness first aid for desert and canyon country explorers: heat stroke, water math, '
+         'snakebite, and the stay-or-walk call when the truck dies.',
  'eyebrow': 'For desert & canyon-country explorers',
  'h1': 'Heat is the terrain. Water is the clock.',
  'lead': 'Canyon country strips the margin out of ordinary mistakes: the heat spectrum runs its course '
@@ -81,7 +79,7 @@ NICHES = [
  'h2_path': 'Study these before the washboard',
  'path_intro': 'Heat first, because out here it always is:',
  'slug': 'desert-explorers',
- 'title': 'Free Wilderness First Aid for Desert & Canyon Country Explorers'},
+ 'title': 'Free Wilderness First Aid for Desert Explorers'},
 
 {'cat': 'Travel & Expeditions',
  'cert': 'True expedition medicine — caring for a patient for weeks — is beyond any first-aid course, '
@@ -99,8 +97,7 @@ NICHES = [
            'She can’t ski and the forecast is a wall. Serial vitals in a sleeping bag and a sat-phone '
            'call made early are the medicine now.')],
  'desc': 'Free wilderness first aid for polar and arctic expedition members: frostbite and the refreeze '
-         'rule, hypothermia wraps in wind, tent-bound patient care, and expedition evacuation '
-         'timescales. No signup, no cost.',
+         'rule, hypothermia wraps in wind, and tent-bound patient care.',
  'eyebrow': 'For polar & arctic expedition members',
  'h1': 'The plane comes when the weather says so.',
  'lead': 'On a polar route, cold is the whole syllabus: frostbite calls with no good options, hypothermia '
@@ -123,7 +120,7 @@ NICHES = [
  'h2_path': 'Tent-day reading order',
  'path_intro': 'The cold curriculum, front-loaded:',
  'slug': 'polar-expeditions',
- 'title': 'Free Wilderness First Aid for Polar & Arctic Expeditions'},
+ 'title': 'Free Wilderness First Aid for Polar Expeditions'},
 
 {'cat': 'Travel & Expeditions',
  'cert': 'If your itinerary includes diving or serious altitude, those carry their own medicine and '
@@ -138,9 +135,8 @@ NICHES = [
           ('The insurance card doesn’t fly.',
            'Heat exhaustion on an “easy” island hike, and the policy in your pocket reimburses — it '
            'doesn’t rescue. Somebody still has to run the first hour, and the local number isn’t 911.')],
- 'desc': 'Free first aid for eco-tourists and adventure travelers: assessment across language barriers, '
-         'splinting from a daypack, heat illness, and getting help where nobody dials 911. No signup, '
-         'no cost.',
+ 'desc': 'Free first aid for adventure travelers and eco-tourists: assessment across a language barrier, '
+         'splinting from a daypack, and help where nobody dials 911.',
  'eyebrow': 'For eco-tourists & adventure travel enthusiasts',
  'h1': 'Nobody here dials 911.',
  'lead': 'Adventure travel puts you hours from care in places where you don’t know the number, the '
@@ -165,7 +161,7 @@ NICHES = [
  'h2_path': 'The pre-departure five',
  'path_intro': 'Read these five between booking and boarding:',
  'slug': 'adventure-travelers',
- 'title': 'Free First Aid for Adventure Travelers & Eco-Tourists'},
+ 'title': 'Free First Aid for Adventure Travelers'},
 
 {'cat': 'Travel & Expeditions',
  'cert': 'Organized response runs on real credentials — agencies train, certify, and coordinate their '
@@ -181,9 +177,8 @@ NICHES = [
           ('“What have you got?”',
            'The coordinator’s radio question deserves better than adjectives. Location, patient count, '
            'what you found, what you need — a clear report is a medical skill.')],
- 'desc': 'Free first aid basics for humanitarian and disaster relief volunteers: assessment, bleeding '
-         'control, heat illness, scene judgment, and reporting clearly up the chain. No signup, no '
-         'cost.',
+ 'desc': 'Free first aid for humanitarian and disaster relief volunteers: assessment, bleeding control, heat '
+         'illness, scene judgment, and reporting up the chain.',
  'eyebrow': 'For humanitarian & disaster relief volunteers in off-grid areas',
  'h1': 'Show up as an asset, not a liability.',
  'lead': 'Disaster response is organized work: real standards, real coordinators, and no room for '

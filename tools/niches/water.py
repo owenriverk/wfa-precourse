@@ -14,8 +14,7 @@ NICHES = [
            'His foot caught and he was under longer than anyone will say out loud. He’s out and breathing '
            'now — the next ten minutes are yours, and they matter.')],
  'desc': 'Free wilderness first aid for rafters, kayakers, and packrafters: cold-water swims, shoulder '
-         'injuries, drowning response, and the river-left-or-river-right evacuation call — no signup, no '
-         'cost.',
+         'injuries, drowning response, and which bank to evacuate from.',
  'eyebrow': 'For whitewater rafters, kayakers & packrafters',
  'h1': 'Your job starts when the swim ends.',
  'lead': 'Swiftwater rescue training gets people out of the river. This is what happens next: the swimmer '
@@ -74,8 +73,8 @@ NICHES = [
           ('The tow home.',
            'You got her back on the board, but she’s clumsy and slurring. Hypothermia keeps working while '
            'you paddle — reading the signs decides how hard you push.')],
- 'desc': 'Free first aid for sea kayakers, SUP, and open-water paddlers: cold shock and the hypothermia '
-         'timeline, drowning response, and the paddle-out-or-call-out decision — no signup, no cost.',
+ 'desc': 'Free first aid for sea kayakers, SUP, and open-water paddlers: cold shock, the hypothermia '
+         'timeline, drowning response, and whether to paddle out or call.',
  'eyebrow': 'For sea kayakers, SUP & open-water paddlers',
  'h1': 'Cold shock, swim failure, hypothermia — in that order.',
  'lead': 'On open water the distance is the hazard: every emergency happens a swim from shore, in water '
@@ -107,7 +106,7 @@ NICHES = [
  'h2_path': 'Chart these five first',
  'path_intro': 'The immersion timeline sets the order:',
  'slug': 'open-water-paddlers',
- 'title': 'Free First Aid for Sea Kayakers & Open-Water Paddlers'},
+ 'title': 'Free First Aid for Sea Kayakers & SUP Paddlers'},
 
 {'cat': 'Water & Maritime',
  'cert': 'Outfitters and camps that staff trips usually require a WFA or WFR card from a recognized '
@@ -123,7 +122,7 @@ NICHES = [
            'Mid-lake, the sky goes green-black and the first strike hits the far point. Getting off open '
            'water is the medicine; everything else waits.')],
  'desc': 'Free wilderness first aid for canoe trippers: portage injuries, axe and saw wounds, capsizes in '
-         'cold lake water, and evacuation math measured in days — no signup, no cost.',
+         'cold lake water, and evacuation measured in days.',
  'eyebrow': 'For canoe trippers & Boundary Waters explorers',
  'h1': 'Three portages in, four days from a road.',
  'lead': 'Lake-country injuries are ordinary — ankles, wrists, axe wounds. The address isn’t: days from a '
@@ -170,8 +169,8 @@ NICHES = [
           ('Indigestion, he says.',
            'He’s 61, sweating in a cool breeze, rubbing his sternum between casts. Chest pain plus denial '
            'is a pattern, and the pattern has a protocol.')],
- 'desc': 'Free first aid for fly and backcountry anglers: wading falls, hooks past the barb, cold-water '
-         'immersion, and the chest pain your partner calls indigestion — no signup, no cost.',
+ 'desc': 'Free first aid for fly fishing and backcountry anglers: wading falls, hooks past the barb, '
+         'cold-water immersion, and chest pain called indigestion.',
  'eyebrow': 'For fly fishing & backcountry anglers',
  'h1': 'Slick rock, cold current, and a partner who says he’s fine.',
  'lead': 'Fly fishing puts you alone, in cold moving water, on the slickest rocks in the county — often '
@@ -201,7 +200,7 @@ NICHES = [
  'h2_path': 'Five lessons before the next float',
  'path_intro': 'Tied in the order your water serves them:',
  'slug': 'fly-anglers',
- 'title': 'Free First Aid for Fly Fishing & Backcountry Anglers'},
+ 'title': 'Free First Aid for Fly & Backcountry Anglers'},
 
 {'cat': 'Water & Maritime',
  'cert': 'If you operate a camp or retreat, duty of care is real: insurers and host countries often expect '
@@ -217,7 +216,7 @@ NICHES = [
            'The inside section put her on the coral and her shin is open and dirty. A long way from a '
            'clinic, cleaning the wound matters as much as covering it.')],
  'desc': 'Free first aid for surfers and remote surf camps: board lacerations, breaths-first drowning '
-         'response, reef cuts, and head hits at breaks with no lifeguard — no signup, no cost.',
+         'response, reef cuts, and head hits with no lifeguard nearby.',
  'eyebrow': 'For surfers & remote surf camp operators',
  'h1': 'The nearest lifeguard is you.',
  'lead': 'Remote breaks trade crowds for consequences: no tower, no guard, help measured in hours. The '
@@ -263,8 +262,7 @@ NICHES = [
            'Something on the reef lit up her forearm, and now there are welts past the elbow and a cough '
            'she didn’t have. Most stings are pain; this one is becoming an emergency with a name.')],
  'desc': 'Free shore-side first aid for freedivers, spearfishers, and remote divers: drowning response, '
-         'bleeding control, marine stings, and the remote-coast evacuation call. Dive medicine belongs to '
-         'DAN — no signup, no cost.',
+         'bleeding control, marine stings, and the evacuation call.',
  'eyebrow': 'For freedivers, spearfishers & remote scuba divers',
  'h1': 'Dive medicine belongs to DAN. The beach belongs to you.',
  'lead': 'The honest part first: DCS, barotrauma, anything involving pressure — beyond this course, and DAN '
@@ -298,7 +296,7 @@ NICHES = [
  'h2_path': 'Surface intervals, well spent',
  'path_intro': 'Read in this order — the beach half of dive safety:',
  'slug': 'remote-divers',
- 'title': 'Free First Aid for Freedivers, Spearfishers & Remote Divers'},
+ 'title': 'Free First Aid for Freedivers & Spearfishers'},
 
 {'cat': 'Water & Maritime',
  'cert': 'STCW medical training and USCG requirements for commercial crew are real and stand — this '
@@ -314,7 +312,7 @@ NICHES = [
            'The owner is gray in the cockpit and calling it seasickness. You have aspirin, a radio, and a '
            'decision that improves the earlier you make it.')],
  'desc': 'Free first aid for boat captains and crew: winch and line injuries, overboard recovery, cardiac '
-         'events under way, and calling for help early and clearly — no signup, no cost.',
+         'events under way, and calling for help early and clearly.',
  'eyebrow': 'For boat captains & crew, commercial and recreational',
  'h1': 'A radio is not a paramedic.',
  'lead': 'A radio shortens the conversation, not the distance — offshore, response is still hours away and '

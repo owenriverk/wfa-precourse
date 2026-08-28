@@ -15,8 +15,8 @@ NICHES = [
            'Talus rolls under a full pack ninety minutes above the bivy, and an ankle folds. Whether '
            'that’s a slow limp or a long night depends on the splint — and on vitals taken more than '
            'once.')],
- 'desc': 'Free wilderness first aid for alpine and multi-pitch climbers: rockfall injuries, frostbite and '
-         'refreeze doctrine, patient assessment on ledges, and retreat decisions — no signup, no cost.',
+ 'desc': 'Free wilderness first aid for alpine and multi-pitch climbers: rockfall wounds, frostbite, patient '
+         'assessment on a ledge, and the call to retreat.',
  'eyebrow': 'For alpine & multi-pitch climbers',
  'h1': 'Help is six rappels and nine miles away.',
  'lead': 'Alpine routes stack every complication this course covers: distance, cold, terrain that fights '
@@ -41,7 +41,7 @@ NICHES = [
  'h2_path': 'Rack these five first',
  'path_intro': 'Ordered for how alpine days come apart:',
  'slug': 'alpine-climbers',
- 'title': 'Free Wilderness First Aid for Alpine & Multi-Pitch Climbers'},
+ 'title': 'Free Wilderness First Aid for Alpine Climbers'},
 
 {'cat': 'Climbing & Snow',
  'cert': 'Crag guides and instructors: the AMGA single pitch track and most employers expect a current WFA '
@@ -56,8 +56,8 @@ NICHES = [
           ('The highball wins.',
            'She hits from high and doesn’t bounce up — she’s out cold, and there’s a snore in it. That '
            'sound is an airway problem, and it outranks everything else at the boulder.')],
- 'desc': 'Free first aid for boulderers and crag guides: ground-fall ankles and wrists, back-first '
-         'landings, the knocked-out highball fall, and carry-out decisions — no signup, no cost.',
+ 'desc': 'Free first aid for boulderers and crag guides: ground-fall ankles and wrists, back-first landings, '
+         'the knocked-out highball, and the carry-out call.',
  'eyebrow': 'For boulderers & crag guides',
  'h1': 'Pads soften the landing, not the physics.',
  'lead': 'Every bouldering injury is a ground fall, witnessed from six feet away by the people best placed '
@@ -99,8 +99,8 @@ NICHES = [
            'A slip onto the lanyard smacks a wrist into iron. Splinting on a ledge, checking fingers '
            'before and after, and walking nine other people past the scene — that’s the whole job at '
            'once.')],
- 'desc': 'Free first aid for via ferrata climbers and operators: lightning on iron routes, cardiac events '
-         'mid-cable, mixed-ability groups, and getting help to a cliff — no signup, no cost.',
+ 'desc': 'Free first aid for via ferrata climbers and operators: lightning on the cable, a cardiac event '
+         'mid-route, and getting help to a patient on a cliff.',
  'eyebrow': 'For via ferrata climbers & operators',
  'h1': 'Anyone can clip in. That’s the point, and the problem.',
  'lead': 'Via ferrata invites people onto terrain their experience hasn’t vetted — that’s the sport’s '
@@ -144,8 +144,7 @@ NICHES = [
            'Your partner’s been cold since the second transition. Now she’s quiet, clumsy, and not '
            'shivering anymore — which reads as improvement and is the opposite.')],
  'desc': 'Free wilderness first aid for backcountry skiers and splitboarders: tree-well aftermath, blown '
-         'knees, hypothermia, and evacuation before dark. Not an avalanche course — and says so. No '
-         'signup, no cost.',
+         'knees, hypothermia, and getting out before dark.',
  'eyebrow': 'For backcountry skiers & splitboarders',
  'h1': 'Avalanche rescue is another course. This is the hour after.',
  'lead': 'Say it plainly: this course does not teach avalanche rescue — no beacon drills, no probe lines, '
@@ -204,9 +203,8 @@ NICHES = [
            'A teammate’s headache worsens with every camp, and now he’s stumbling on flat ground. Naming '
            'it is beyond this course — the response isn’t: stop going up, start going down, and don’t '
            'send him down alone.')],
- 'desc': 'Free wilderness first aid for mountaineers: frostbite and the refreeze rule, hypothermia hidden '
-         'in exhaustion, and high-consequence evacuation decisions. Honest about altitude illness. No '
-         'signup, no cost.',
+ 'desc': 'Free wilderness first aid for mountaineers: frostbite and the refreeze rule, hypothermia hidden in '
+         'exhaustion, and high-consequence evacuation calls.',
  'eyebrow': 'For mountaineers & high-altitude climbers',
  'h1': 'Above a certain line, the treatment for most things is down.',
  'lead': 'Honesty first: altitude illness (AMS, HACE, HAPE) is beyond this course, and the one treatment '
@@ -245,7 +243,7 @@ NICHES = [
            'Three pitches of standing still in clothes you chose for moving. Belay hypothermia doesn’t '
            'announce itself — it just makes you slow, clumsy, and certain you’re fine.')],
  'desc': 'Free wilderness first aid for ice climbers: tool and crampon lacerations, bleeding control with '
-         'cold hands, belay-jacket hypothermia, frostbite, and falling-ice trauma — no signup, no cost.',
+         'numb hands, belay-jacket hypothermia, and falling ice.',
  'eyebrow': 'For ice climbers & mixed-terrain athletes',
  'h1': 'Everything on your harness is sharp. Everything else is frozen.',
  'lead': 'Ice climbing concentrates two whole chapters of this course: sharp-object trauma (tools, '

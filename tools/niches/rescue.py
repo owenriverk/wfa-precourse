@@ -14,8 +14,8 @@ NICHES = [
           ('The rollover on the county road.',
            'High-energy mechanism, an ejected passenger quiet in the grass, eight minutes before the '
            'next unit. Snoring isn’t sleeping — the airway comes before everything but the bleeding.')],
- 'desc': 'Free, no-signup study for volunteer firefighters in rural and WUI districts: patient care in '
-         'the EMS gap, cardiac calls, airway basics, and the wilderness-adjacent response.',
+ 'desc': 'Free first aid study for volunteer firefighters in rural and WUI districts: patient care in the '
+         'EMS gap, cardiac calls, airway basics, and scene judgment.',
  'eyebrow': 'For volunteer firefighters in rural & wildland-urban interface districts',
  'h1': 'The ambulance is twenty-five minutes out. You’re already there.',
  'lead': 'Small departments run medical calls whether or not the district can staff an ambulance — '
@@ -48,7 +48,7 @@ NICHES = [
  'h2_path': 'Between-calls study order',
  'path_intro': 'Ordered by what your run log already says:',
  'slug': 'rural-firefighters',
- 'title': 'Free Wilderness First Aid for Rural Volunteer Firefighters'},
+ 'title': 'Free First Aid for Rural Volunteer Firefighters'},
 
 {'cat': 'Rescue & Public Safety',
  'cert': 'Agency training requirements — academy medical blocks, in-service standards, whatever your '
@@ -64,9 +64,8 @@ NICHES = [
           ('The creel check that changes.',
            'The angler you stopped mentions the snake only when you notice the swelling. Sharpie the '
            'edge, note the time, jewelry off — and none of the folklore.')],
- 'desc': 'Free, no-signup wilderness first aid for park rangers, game wardens, and conservation '
-         'officers: solo-patrol response to heat stroke, cardiac events, and snakebite until backup '
-         'arrives.',
+ 'desc': 'Free wilderness first aid for park rangers, game wardens, and conservation officers: heat stroke, '
+         'cardiac events, and snakebite handled on solo patrol.',
  'eyebrow': 'For park rangers, game wardens & conservation officers',
  'h1': 'First on scene is the job description.',
  'lead': 'Rangers, wardens, conservation officers — different patches, same math: solo patrol, big '
@@ -94,7 +93,7 @@ NICHES = [
  'h2_path': 'Patrol-truck reading order',
  'path_intro': 'Ordered by what visitors actually do:',
  'slug': 'rangers-wardens',
- 'title': 'Free Wilderness First Aid for Rangers & Game Wardens'},
+ 'title': 'Wilderness First Aid for Rangers & Game Wardens'},
 
 {'cat': 'Rescue & Public Safety',
  'cert': 'OEC — Outdoor Emergency Care, through the National Ski Patrol — is the patrol credential, and '
@@ -110,8 +109,8 @@ NICHES = [
            'Conscious, talking, helmet on, neck sore — and the sled is below him on a 30-degree pitch. '
            'Packaging him and moving him both have to happen, in the right order, head in the right '
            'hands.')],
- 'desc': 'Free, no-signup study for ski patrol candidates and resort staff: cold injuries, on-slope '
-         'splinting and packaging, and transport decisions. Pre-season prep for OEC, not a substitute.',
+ 'desc': 'Free first aid study for ski patrol candidates and resort safety staff: cold injuries, on-slope '
+         'splinting and packaging, and the transport decision.',
  'eyebrow': 'For ski patrol volunteers & resort safety staff',
  'h1': 'Patrol runs on OEC. Show up already speaking it.',
  'lead': 'Outdoor Emergency Care is the patrol credential, and there’s no shortcut into it — this '
@@ -142,6 +141,6 @@ NICHES = [
  'h2_path': 'Pre-season doctrine order',
  'path_intro': 'Ordered the way the hill teaches it:',
  'slug': 'ski-patrol',
- 'title': 'Free Wilderness First Aid for Ski Patrol Volunteers'},
+ 'title': 'Free Wilderness First Aid for Ski Patrol'},
 
 ]

@@ -16,7 +16,7 @@ NICHES = [
            'An ankle rolls fourteen miles from pavement and the next hiker through is tomorrow. What saves '
            'you was decided back in town: who knows your plan, and when they’d start wondering.')],
  'desc': 'Free wilderness first aid for AT, PCT, and Camino thru-hikers: wet-cold hypothermia, snakebite '
-         'protocol, and solo-stretch evacuation decisions — no signup, no cost.',
+         'protocol, and evacuation calls on long solo stretches.',
  'eyebrow': 'For thru-hikers & long-distance trekkers',
  'h1': 'Luck runs out around mile 900.',
  'lead': 'A weekend trip can dodge the odds; a five-month walk collects them. Somewhere between the first '
@@ -73,7 +73,7 @@ NICHES = [
            'Your partner goes down hard, dusts off, and rides on. Two hours later he’s pale and slow on '
            'every riser — a pulse taken twice at the crash site would have told you sooner.')],
  'desc': 'Free first aid for bikepackers and gravel cyclists: crash assessment far from cell service, '
-         'bleeding control, splinting, and the ride-or-wait call — no signup, no cost.',
+         'bleeding control, splinting, and the ride-or-wait call.',
  'eyebrow': 'For bikepackers & gravel cyclists',
  'h1': 'You planned the route. Plan the crash.',
  'lead': 'Bikepacking puts the crash farther from the ambulance than almost any way you can travel — you '
@@ -113,7 +113,7 @@ NICHES = [
            'The technical section went fine. The sandstone exit in full sun is where your partner stops '
            'sweating and starts talking nonsense — and the cooling happens there, not at the car.')],
  'desc': 'Free wilderness first aid for canyoneers: flash-flood scene judgment, ankle injuries in the '
-         'narrows, heat illness, and evacuation from committed terrain — no signup, no cost.',
+         'narrows, heat illness, and evacuation from committed terrain.',
  'eyebrow': 'For canyoneers & slot canyon explorers',
  'h1': 'The only way out is through. Now add a patient.',
  'lead': 'Canyons are committing by design — once the rope is pulled, the exit is downstream, through '
@@ -153,8 +153,8 @@ NICHES = [
            'A sting at the tee pad turns into hives by the fairway and a tight chest at the basket. '
            'Somebody’s bag needs epi in it, and everybody needs to know it goes in now — not after the '
            'antihistamine.')],
- 'desc': 'Free first aid for disc golfers: bee-sting anaphylaxis, snakes in the rough, heat on the back '
-         'nine, and rolled ankles a long walk from the lot — no signup, no cost.',
+ 'desc': 'Free first aid for disc golfers on wooded courses: bee-sting anaphylaxis, snakes in the rough, '
+         'heat on the back nine, and ankles a long walk from the lot.',
  'eyebrow': 'For disc golfers on wooded & remote courses',
  'h1': 'The back nine doesn’t have cell service either.',
  'lead': 'A wooded back nine puts you a mile of trees from the parking lot without ever feeling like a '

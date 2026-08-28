@@ -14,8 +14,8 @@ NICHES = [
           ('The climbing wall.',
            'A camper puts a hand out at the bottom of the wall and the wrist goes wrong. Splint it, check '
            'the fingers before and after, and keep the rest of the line moving.')],
- 'desc': 'Free first aid study for camp counselors and activity directors: anaphylaxis at the cookout, '
-         'waterfront rescues, wrist fractures, and heat on field-game days — no signup, no cost.',
+ 'desc': 'Free first aid study for summer camp counselors and activity directors: anaphylaxis at the '
+         'cookout, waterfront rescues, wrist fractures, and hot game days.',
  'eyebrow': 'For summer camp counselors & activity directors',
  'h1': 'Ten weeks, ninety kids, one of you.',
  'lead': 'Camp compresses a childhood’s worth of emergencies into one summer: allergies at every cookout, '
@@ -56,7 +56,7 @@ NICHES = [
           'make the call. A kid who’s trending quieter, paler, or clumsier is telling you the truth '
           'their mouth won’t.')],
  'slug': 'camp-counselors',
- 'title': 'Free Wilderness First Aid for Summer Camp Counselors'},
+ 'title': 'Free Wilderness First Aid for Camp Counselors'},
 
 {'cat': 'Youth & Education',
  'cert': 'Most institutions specify the credential their field staff need — WFA or WFR from an approved '
@@ -71,9 +71,8 @@ NICHES = [
           ('The hand-off.',
            'EMS meets you at the trailhead and asks what happened. Two sets of vitals with times, written '
            'down, turn you from a bystander into the first link in the chain.')],
- 'desc': 'Free wilderness first aid for outdoor educators, university rec staff, and school trip '
-         'coordinators: managing a group around one patient, roster conditions, documentation — no signup, '
-         'no cost.',
+ 'desc': 'Free wilderness first aid for outdoor educators and trip leaders: running a group around one '
+         'patient, roster conditions, and documentation that holds up.',
  'eyebrow': 'For outdoor education instructors, university rec staff & school trip coordinators',
  'h1': 'One patient, eleven spectators.',
  'lead': 'Institutional trips fail differently: the medicine is standard, but it happens in front of a '
@@ -102,7 +101,7 @@ NICHES = [
  'h2_path': 'The staff-training five',
  'path_intro': 'In the order institutional trips need them:',
  'slug': 'outdoor-educators',
- 'title': 'Free Wilderness First Aid for Outdoor Educators & Trip Staff'},
+ 'title': 'Free Wilderness First Aid for Outdoor Educators'},
 
 {'cat': 'Youth & Education',
  'cert': 'Childcare licensing in most states requires pediatric first aid and CPR from an approved '
@@ -118,8 +117,8 @@ NICHES = [
           ('Puddle season.',
            'The three-year-old who sat down in the creek an hour ago is now oddly quiet and doesn’t want '
            'to play. Small bodies cool fast and complain little — warm, dry, calories, and watch.')],
- 'desc': 'Free first aid for forest school educators and early-childhood nature guides: choking response, '
-         'first-time allergic reactions, small bodies in cold weather — no signup, no cost.',
+ 'desc': 'Free first aid for forest school educators and nature guides: choking response, first-time '
+         'allergic reactions, and small bodies in cold, wet weather.',
  'eyebrow': 'For forest school educators & early-childhood nature guides',
  'h1': 'Small patients, big woods.',
  'lead': 'Preschoolers outdoors are wonderful and slightly terrifying: straw-sized airways, no allergy '
@@ -146,7 +145,7 @@ NICHES = [
  'h2_path': 'Circle-time study order',
  'path_intro': 'Ordered for the youngest patients:',
  'slug': 'forest-school',
- 'title': 'Free Wilderness First Aid for Forest School Educators'},
+ 'title': 'Wilderness First Aid for Forest School Educators'},
 
 {'cat': 'Youth & Education',
  'cert': 'Pet first aid classes cover the dogs; this covers the humans. If a client contract or insurer '
@@ -160,8 +159,8 @@ NICHES = [
           ('The regular who isn’t moving.',
            'Same loop, same faces — until the morning cyclist is off the trail at the bottom of the '
            'switchback. You’re first on scene by default, and the next ten minutes are this course.')],
- 'desc': 'Free first aid for professional dog walkers and off-leash group leaders: dog-bite wound care, '
-         'leash-tangle falls, heat days, and the stranger you find on the trail — no signup, no cost.',
+ 'desc': 'Free first aid for professional dog walkers and off-leash group leaders: dog-bite wounds, '
+         'leash-tangle falls, heat days, and strangers found on the trail.',
  'eyebrow': 'For dog walkers & off-leash trail group leaders',
  'h1': 'The regular who finds the irregular.',
  'lead': 'Daily miles in all weather, usually alone, often with six dogs and one working hand — that’s an '
@@ -188,6 +187,6 @@ NICHES = [
  'h2_path': 'Between-walk reading',
  'path_intro': 'Five lessons, ordered by what the job serves up:',
  'slug': 'dog-walkers',
- 'title': 'Free First Aid for Dog Walkers & Off-Leash Group Leaders'},
+ 'title': 'Free First Aid for Professional Dog Walkers'},
 
 ]

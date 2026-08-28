@@ -1,5 +1,8 @@
 User-agent: *
 Allow: /
-Disallow: /final_exam.html
+
+# final_exam carries <meta name="robots" content="noindex">. It is deliberately
+# left crawlable: a Disallow here would stop crawlers reading that tag, and a
+# blocked-but-linked URL can still land in the index as a bare result.
 
 Sitemap: https://openwfa.com/sitemap.xml

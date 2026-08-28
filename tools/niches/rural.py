@@ -15,8 +15,8 @@ NICHES = [
           ('The heifer didn’t mean it.',
            'She catches your husband square in the ribs at the chute, and he waves it off. Blunt trauma '
            'bleeds where you can’t see it — the second set of vitals is the one that tells the truth.')],
- 'desc': 'Free, no-signup first aid for off-grid homesteaders and community preparedness groups: chainsaw '
-         'wounds, wood-stove burns, livestock kicks, and the forty-minute ambulance problem.',
+ 'desc': 'Free first aid for off-grid homesteaders: chainsaw wounds, wood-stove burns, livestock kicks, and '
+         'what to do while the ambulance is forty minutes out.',
  'eyebrow': 'For off-grid homesteaders & self-reliance folks',
  'h1': 'Forty minutes from an ambulance, on purpose.',
  'lead': 'You chose the distance, and the distance has a medical side: the saw, the stove, the stock, and '
@@ -61,9 +61,8 @@ NICHES = [
            'He’s gray, sweating through his shirt, and bound on fixing the baler. Crushing chest pain plus '
            'denial is the classic presentation — sit him down, aspirin if nothing rules it out, and make '
            'the call he won’t.')],
- 'desc': 'Free, no-signup first aid for ranchers, farmers, and rural landowners: machinery bleeding '
-         'control, heat illness in haying season, chest-pain denial, and guiding an ambulance to a gate, '
-         'not an address.',
+ 'desc': 'Free first aid for ranchers, farmers, and rural landowners: bleeding control on machinery, heat '
+         'illness in haying season, and guiding EMS to a gate.',
  'eyebrow': 'For ranchers, farmers & rural landowners',
  'h1': 'The ER is an hour out. The work doesn’t care.',
  'lead': 'The machinery doesn’t forgive, the stock outweighs you five to one, and the culture says finish '
@@ -106,8 +105,8 @@ NICHES = [
            'Second load of elk out, base layers soaked, temperature dropping with the light. Hypothermia '
            'starts as clumsy and stupid — recognizing it in yourself, alone, is the hard version of this '
            'course.')],
- 'desc': 'Free, no-signup wilderness first aid for big game and backcountry bowhunters: broadhead '
-         'lacerations, treestand falls, cold pack-outs, and hunting solo without disappearing.',
+ 'desc': 'Free wilderness first aid for backcountry bowhunters: broadhead lacerations, treestand falls, cold '
+         'pack-outs, and hunting alone without disappearing.',
  'eyebrow': 'For big game hunters & backcountry bowhunters',
  'h1': 'Three miles past the last boot print.',
  'lead': 'Archery seasons pull you deeper, earlier, and more alone than rifle season ever does — a quiver '
@@ -131,7 +130,7 @@ NICHES = [
  'h2_path': 'Offseason study order',
  'path_intro': 'Ordered for the way archery seasons go wrong:',
  'slug': 'bowhunters',
- 'title': 'Free Wilderness First Aid for Backcountry Bowhunters'},
+ 'title': 'Free Wilderness First Aid for Bowhunters'},
 
 {'cat': 'Rural & Homesteading',
  'cert': 'If you pack or guide for an outfitter, a WFR card is often the hiring bar — take that course, '
@@ -149,8 +148,8 @@ NICHES = [
            'A pack string tangles in deadfall two drainages from any road. One rider is down, three horses '
            'aren’t caught, and the scene isn’t safe until the stock is — then the evac plan gets built '
            'around the animals that stayed calm.')],
- 'desc': 'Free, no-signup wilderness first aid for horsepackers and trail riders: thrown riders, kicks '
-         'and crush injuries, and evacuation from country only stock can reach.',
+ 'desc': 'Free wilderness first aid for horsepackers and equestrian trail riders: thrown riders, kicks and '
+         'crush injuries, and evacuation from stock-only country.',
  'eyebrow': 'For horsepackers & equestrian trail riders',
  'h1': 'The thousand-pound variable.',
  'lead': 'Horse wrecks combine high-energy mechanism with terrain no ambulance reaches — a rider thrown '
@@ -181,7 +180,7 @@ NICHES = [
  'h2_path': 'Barn-aisle reading order',
  'path_intro': 'Ordered for stock country:',
  'slug': 'horsepackers',
- 'title': 'Free Wilderness First Aid for Horsepackers & Trail Riders'},
+ 'title': 'Free Wilderness First Aid for Horsepackers'},
 
 {'cat': 'Rural & Homesteading',
  'cert': 'There’s no first aid card for foraging — the credential that keeps mushroom hunters alive is '
@@ -200,8 +199,8 @@ NICHES = [
            'Good patches don’t grow beside trails. An ankle rolls in a creek bottom at dusk, the way back '
            'is a guess, and nobody knows which forest you drove to — that last part is fixable tonight, '
            'free.')],
- 'desc': 'Free, no-signup wilderness first aid for foragers, herbalists, and mushroom hunters: snakebite '
-         'at hand level, ground-nest stings, off-trail ankles, and solo days nobody is tracking.',
+ 'desc': 'Free wilderness first aid for foragers and mushroom hunters: snakebite at hand level, ground-nest '
+         'stings, off-trail ankles, and days nobody is tracking.',
  'eyebrow': 'For foragers, herbalists & mushroom hunters',
  'h1': 'Eyes down, feet off the trail.',
  'lead': 'Foraging means hours of head-down wandering off-trail, hands in the same leaf litter snakes and '
@@ -229,7 +228,7 @@ NICHES = [
  'h2_path': 'Between-seasons reading',
  'path_intro': 'Ordered by what finds your hands first:',
  'slug': 'foragers',
- 'title': 'Free Wilderness First Aid for Foragers & Mushroom Hunters'},
+ 'title': 'Free First Aid for Foragers & Mushroom Hunters'},
 
 {'cat': 'Rural & Homesteading',
  'cert': 'No one checks a card at a BLM boundary. If a seasonal gig — camp host, campground crew, trail '
@@ -245,8 +244,8 @@ NICHES = [
           ('The rig two sites down.',
            'The guy you waved at yesterday is gray, sweating, and calling it indigestion. Out here the '
            'first wave of EMS is whoever’s parked closest — today that’s you.')],
- 'desc': 'Free, no-signup first aid for vanlifers and full-time RVers: galley burns, the where-am-I 911 '
-         'call on nameless BLM roads, and being the closest help at a dispersed site.',
+ 'desc': 'Free first aid for vanlifers and full-time RVers: galley burns, the where-am-I 911 call on a '
+         'nameless BLM road, and being closest help at a dispersed site.',
  'eyebrow': 'For vanlifers & full-time RV travelers',
  'h1': 'Six miles up a road with no name.',
  'lead': 'Boondocking trades neighbors and street addresses for distance — which is the deal, until '

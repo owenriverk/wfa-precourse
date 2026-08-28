@@ -13,9 +13,8 @@ NICHES = [
           ('The scene that bites back.',
            'Loose rock above the subject, a bystander in the fall line. The difference between a rescuer and '
            'a second patient is thirty seconds of reading the slope.')],
- 'desc': 'Free, no-signup wilderness first aid for search and rescue candidates and volunteers: patient '
-         "assessment, packaging, hypothermia wraps, and evacuation logic — before you ever ring the team's "
-         'doorbell.',
+ 'desc': 'Free wilderness first aid for search and rescue candidates and volunteers: patient assessment, '
+         'packaging, hypothermia wraps, and evacuation logic.',
  'eyebrow': 'For SAR candidates & volunteers',
  'h1': 'Speak the language before you join the team.',
  'lead': 'You don’t need a mission number to start thinking like a rescuer. Learn the assessment system, the '
@@ -65,8 +64,8 @@ NICHES = [
           ('July, full gear.',
            'Armored jacket, black pants, no shade. Heat illness in riding gear comes on fast and reads as '
            '“just tired” until it doesn’t.')],
- 'desc': 'Free trailside first aid for dual-sport and adventure riders: rider-down assessment, helmet '
-         'decisions, splinting, and the evacuation call — no signup, no cost.',
+ 'desc': 'Free trailside first aid for dual-sport and adventure riders: rider-down assessment, the helmet '
+         'decision, splinting, and when to call for evacuation.',
  'eyebrow': 'For dual-sport & ADV riders',
  'h1': 'Forty minutes of rough trail from help.',
  'lead': 'You carry tools for the bike. This is the toolkit for the rider — what to do in the minutes after '
@@ -101,7 +100,7 @@ NICHES = [
           'help, two go, one stays, carrying a written note. '
           '<a href="../lessons/13_Evacuation.html">Evacuation</a> teaches the math before you need it.')],
  'slug': 'riders',
- 'title': 'Free Wilderness First Aid for Dual-Sport & ADV Riders'},
+ 'title': 'Wilderness First Aid for Dual-Sport & ADV Riders'},
 
 {'cat': 'Rural & Homesteading',
  'cert': 'If an outfitter or employer wants a provider’s card, take their class — this makes it easy.',
@@ -114,9 +113,8 @@ NICHES = [
           ('“It’s just the coffee.”',
            'Your buddy at the tailgate is sweaty, gray, and rubbing his chest. The most dangerous sentence '
            'in the woods is “I’m fine.”')],
- 'desc': 'Free first aid training for hunters and anglers: severe bleeding control, cold-water immersion, '
-         'treestand falls, and the cardiac event at the truck — no signup, no cost, no certification '
-         'theater.',
+ 'desc': 'Free first aid for hunters and anglers: severe bleeding control, cold-water immersion, treestand '
+         'falls, and the cardiac event back at the truck.',
  'eyebrow': 'For hunters & anglers',
  'h1': 'A long way from the truck.',
  'lead': 'Knives, broadheads, cold water, steep dark timber, and a demographic that shrugs off chest pain. '
@@ -165,7 +163,7 @@ NICHES = [
            'Your partner stops making sense on the exposed switchbacks at noon. Cool first, right there, '
            'with what you carry — not at the car.')],
  'desc': 'Free wilderness first aid for backpackers and thru-hikers: ankle injuries miles from the '
-         'trailhead, heat illness, anaphylaxis, and evacuation decisions — no signup, no cost.',
+         'trailhead, heat illness, anaphylaxis, and the evacuation call.',
  'eyebrow': 'For backpackers & thru-hikers',
  'h1': 'Six miles out, three hours of light.',
  'lead': 'Every mile you walk in is a mile somebody might have to carry you out. The skills that change that '
@@ -199,7 +197,7 @@ NICHES = [
           'injuries walk out and which don’t. <a href="../lessons/15_Kits_Preparation.html">Kits & '
           'Preparation</a> covers the plan you leave behind.')],
  'slug': 'backpackers',
- 'title': 'Free Wilderness First Aid for Backpackers & Thru-Hikers'},
+ 'title': 'Free Wilderness First Aid for Backpackers'},
 
 {'cat': 'Trail & Mountain',
  'cert': 'If a race series, bike patrol, or employer requires a provider’s card, take their class — you’ll '
@@ -214,7 +212,7 @@ NICHES = [
            'Fifteen-foot ground fall, already joking. His heart rate has an opinion, but only if somebody '
            'takes it twice.')],
  'desc': 'Free trailside first aid for mountain bikers: over-the-bars crashes, wrist and collarbone '
-         "injuries, the helmet and spine decision, and riders who say they're fine — no signup, no cost.",
+         'injuries, the helmet question, and riders who say they’re fine.',
  'eyebrow': 'For mountain bikers',
  'h1': 'Over the bars happens fast.',
  'lead': 'The crash takes half a second; the next half hour is on whoever’s standing there. Learn what to '
@@ -262,7 +260,7 @@ NICHES = [
            'Sweaty, confused, and swearing she’s fine — if she can still swallow, sugar now beats diagnosis '
            'later.')],
  'desc': 'Free first aid for trail and ultra runners: the runner down and snoring, heat stroke at noon, '
-         'sugar crashes, and being useful with almost no gear — no signup, no cost.',
+         'sugar crashes, and being useful with almost no gear.',
  'eyebrow': 'For trail runners',
  'h1': 'You carry a phone and 400 calories. Be useful anyway.',
  'lead': 'Runners travel light and far — which means the first person to reach a backcountry emergency is '
@@ -311,8 +309,7 @@ NICHES = [
            'The Type 1 kid is sweaty, confused, and insists he’s fine. If he can swallow, sugar now — the '
            'window closes fast.')],
  'desc': 'Free wilderness first aid study for scout and youth outdoor leaders: anaphylaxis, fractures, '
-         'diabetic emergencies, and leader-level judgment. Prep for and stay sharp between your '
-         "organization's required trainings.",
+         'diabetic emergencies, and leader-level judgment calls.',
  'eyebrow': 'For scout & youth outdoor leaders',
  'h1': 'Somebody’s kid, your call.',
  'lead': 'Taking other people’s children into the backcountry concentrates responsibility wonderfully. This '
@@ -345,6 +342,6 @@ NICHES = [
           'You’re not the medic first; you’re the leader of a group that currently contains a '
           'patient.')],
  'slug': 'youth-leaders',
- 'title': 'Free Wilderness First Aid Prep for Scout & Youth Leaders'},
+ 'title': 'Wilderness First Aid for Scout & Youth Leaders'},
 
 ]

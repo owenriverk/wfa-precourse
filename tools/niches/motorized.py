@@ -15,8 +15,8 @@ NICHES = [
           ('The ride-out temptation.',
            'You’ve got seats and he’s hurt. Loading a sore spine into a machine built for whoops is a '
            'decision, not a reflex — sometimes it’s right, and there’s a way to make the call.')],
- 'desc': 'Free trailside first aid for ATV and UTV riders: rollover assessment, moving a patient as one '
-         'unit, helmet decisions, and whether the machine drives anyone out — no signup, no cost.',
+ 'desc': 'Free trailside first aid for ATV and side-by-side riders: rollover assessment, moving a patient as '
+         'one unit, helmet decisions, and the ride-out call.',
  'eyebrow': 'For ATV & side-by-side riders',
  'h1': 'When the machine ends up on top.',
  'lead': 'A quad outweighs you and a side-by-side outweighs four of you, and neither cares which way is up. '
@@ -36,7 +36,7 @@ NICHES = [
  'h2_path': 'Five lessons before the next ride-out',
  'path_intro': 'Ordered by what machines do to people:',
  'slug': 'atv-utv',
- 'title': 'Free Wilderness First Aid for ATV & Side-by-Side Riders'},
+ 'title': 'Free Wilderness First Aid for ATV & UTV Riders'},
 
 {'cat': 'Motorized & Airborne',
  'cert': 'There’s no overlanding license, and a winching clinic from a real recovery school prevents more '
@@ -52,7 +52,7 @@ NICHES = [
            'Your co-driver is gray and rubbing his chest, and the map says fourteen hours of track. Drive, '
            'wait, or call for help — the answer isn’t automatic in either direction.')],
  'desc': 'Free first aid for overlanders and 4x4 off-roaders: winch and recovery injuries, camp burns and '
-         'lacerations, and the honest drive-out-or-call decision — no signup, no cost.',
+         'cuts, and the honest drive-out-or-call decision.',
  'eyebrow': 'For overlanders & 4x4 off-roaders',
  'h1': 'The recovery is the dangerous part.',
  'lead': 'Days-deep routes mean nobody comes quickly, and the winch, the jack, and the camp kitchen all '
@@ -78,7 +78,7 @@ NICHES = [
  'h2_path': 'Load these five first',
  'path_intro': 'Pack them in this order:',
  'slug': 'overlanders',
- 'title': 'Free Wilderness First Aid for Overlanders & 4x4 Off-Roaders'},
+ 'title': 'Free Wilderness First Aid for Overlanders'},
 
 {'cat': 'Motorized & Airborne',
  'cert': 'The real credential in this sport is avalanche training — an AIARE or equivalent rescue course '
@@ -94,8 +94,8 @@ NICHES = [
            'A splinted arm, a two-up seat, and an hour of wind chill to the truck. An injured passenger '
            'cools faster than a riding one — insulation, pace, and knowing what worsening looks like are '
            'the whole decision.')],
- 'desc': 'Free first aid for snowmobilers and snowbikers: collision trauma at speed, overflow immersion, '
-         'the hypothermia wrap, and the ride-out decision — no signup, no cost.',
+ 'desc': 'Free first aid for snowmobilers and snowbikers: collision trauma at speed, overflow immersion, the '
+         'hypothermia wrap, and the ride-out decision.',
  'eyebrow': 'For snowmobilers & snowbikers',
  'h1': 'Sixty miles an hour, ten below, forty miles in.',
  'lead': 'Sledding stacks the three things that make a backcountry emergency ugly: speed, cold, and '
@@ -119,7 +119,7 @@ NICHES = [
  'h2_path': 'Pre-season reading order',
  'path_intro': 'Ordered for how sled days go wrong:',
  'slug': 'snowmobilers',
- 'title': 'Free Wilderness First Aid for Snowmobilers & Snowbikers'},
+ 'title': 'Free Wilderness First Aid for Snowmobilers'},
 
 {'cat': 'Motorized & Airborne',
  'cert': 'USHPA ratings certify your flying, not your medicine. If a comp, tandem operation, or instructor '
@@ -135,7 +135,7 @@ NICHES = [
            'A solo XC pilot, a dot that quit updating, and you’re the closest person with boots on. '
            'Whoever hikes in is the first responder — what you bring, what you check, how you call it in.')],
  'desc': 'Free first aid for paraglider, hang glider, and PPG pilots: hard-landing assessment, spine '
-         'protection, lower-leg fractures, and reaching a pilot down off the LZ — no signup, no cost.',
+         'protection, leg fractures, and reaching a pilot off the LZ.',
  'eyebrow': 'For paragliders, hang gliders & PPG pilots',
  'h1': 'The landing you didn’t choose.',
  'lead': 'Free flight’s injury list is short and specific: vertical energy into legs and spine, usually '
@@ -164,7 +164,7 @@ NICHES = [
  'h2_path': 'Ground school for the ground',
  'path_intro': 'Ordered by how landings actually go wrong:',
  'slug': 'paragliders',
- 'title': 'Free Wilderness First Aid for Paraglider, Hang Glider & PPG Pilots'},
+ 'title': 'Free First Aid for Paraglider & Hang Glider Pilots'},
 
 {'cat': 'Motorized & Airborne',
  'cert': 'Part 107 covers the airspace; it has nothing to say about the aftermath. If a client or employer '
@@ -180,8 +180,8 @@ NICHES = [
           ('The dot on the screen.',
            'A mapping pass over the canyon shows a dirt bike on its side and a rider who isn’t moving. You '
            'have a truck, a kit, coordinates, and a head start — what you do with them is this course.')],
- 'desc': 'Free first aid for remote drone operators and aerial surveyors: heat on exposed sites, snakebite '
-         'at the LZ, and being first when the camera finds someone — no signup, no cost.',
+ 'desc': 'Free first aid for drone operators and aerial surveyors: heat on exposed sites, snakebite at the '
+         'launch point, and being first when the camera finds someone.',
  'eyebrow': 'For remote drone operators & aerial surveyors',
  'h1': 'A truck, a controller, and nobody else for twenty miles.',
  'lead': 'Survey work puts you alone on roadside pullouts, ridge tops, and black-rock mesas in exactly the '
@@ -202,6 +202,6 @@ NICHES = [
  'h2_path': 'Pre-flight your first aid',
  'path_intro': 'Checklist order, for people who like checklists:',
  'slug': 'drone-operators',
- 'title': 'Free Wilderness First Aid for Remote Drone Operators & Aerial Surveyors'},
+ 'title': 'Free First Aid for Remote Drone Operators'},
 
 ]

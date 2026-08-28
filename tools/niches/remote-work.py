@@ -14,9 +14,8 @@ NICHES = [
           ('The check-in that doesn’t come.',
            'Your partner is wading a sample site two drainages over and misses the 1400 call. The '
            'protocol you agreed on before the season — window, route, response — is now the whole plan.')],
- 'desc': 'Free, no-signup wilderness first aid for field biologists, ecologists, geologists, and '
-         'environmental consultants: snakebite protocol, heat on survey grids, and check-in discipline '
-         'for solo work.',
+ 'desc': 'Free wilderness first aid for field biologists, ecologists, and environmental consultants: '
+         'snakebite protocol, heat on survey grids, and solo check-ins.',
  'eyebrow': 'For field biologists, ecologists & environmental consultants',
  'h1': 'The safety plan lives in a binder. You’re at flag 47.',
  'lead': 'Biologists, ecologists, geologists, wetland delineators, environmental consultants — fieldwork '
@@ -59,8 +58,8 @@ NICHES = [
           ('Cruising alone, unit 40.',
            'You’re solo on a timber cruise when the ground rolls an ankle out from under you. The '
            'check-in window you set this morning is now the rescue plan — be the person who set one.')],
- 'desc': 'Free, no-signup first aid for forestry workers, timber cruisers, and arborists: tourniquet '
-         'fluency, struck-by trauma, and getting help to a unit with no cell coverage.',
+ 'desc': 'Free first aid for forestry workers, timber cruisers, and arborists: tourniquet fluency, struck-by '
+         'trauma, and getting help to a unit with no cell signal.',
  'eyebrow': 'For forestry workers, timber cruisers & arborists',
  'h1': 'When the chaps don’t catch it.',
  'lead': 'Saws, steep ground, and wood that moves when it shouldn’t — forestry stacks severe-bleeding '
@@ -88,7 +87,7 @@ NICHES = [
  'h2_path': 'Crummy-ride reading order',
  'path_intro': 'Five lessons, ordered by what the unit serves up:',
  'slug': 'forestry-workers',
- 'title': 'Free Wilderness First Aid for Forestry Workers & Arborists'},
+ 'title': 'Free First Aid for Forestry Workers & Arborists'},
 
 {'cat': 'Remote Work & Field Science',
  'cert': 'NWCG sets the training standards for everyone on a fireline, they are not negotiable, and '
@@ -103,9 +102,8 @@ NICHES = [
           ('The hike out at 8,000 feet.',
            'A twenty-year veteran goes gray on the climb, rubbing his chest and blaming the smoke. Hard '
            'work at altitude finds hearts — stop the exertion, sit him down, take it seriously.')],
- 'desc': 'Free, no-signup study for wildland firefighters and support crews: heat illness on the line, '
-         'blister and boot-injury care, cardiac warning signs at altitude. Not NWCG training — the '
-         'fluency under it.',
+ 'desc': 'Free first aid study for wildland firefighters and support crews: heat illness on the line, '
+         'blister and boot care, and cardiac warning signs at altitude.',
  'eyebrow': 'For wildland firefighters & support crews',
  'h1': 'Heat, not flame, fills the medical tent.',
  'lead': 'If you’re waiting on a season, chasing a first call, or working camp support, your quals run '
@@ -136,7 +134,7 @@ NICHES = [
  'h2_path': 'Off-season study order',
  'path_intro': 'Ordered by what actually gets crews:',
  'slug': 'wildland-fire',
- 'title': 'Free Wilderness First Aid for Wildland Firefighters'},
+ 'title': 'Wilderness First Aid for Wildland Firefighters'},
 
 {'cat': 'Remote Work & Field Science',
  'cert': 'Many corps and agencies require crew leaders to hold a WFA or WFR card from a recognized '
@@ -151,9 +149,8 @@ NICHES = [
           ('Day six of eight.',
            'A crew member has been quiet since breakfast and now can’t keep water down. Sick, far in, '
            'six days of work still scheduled — the evac decision is yours, and hope is not a plan.')],
- 'desc': 'Free, no-signup wilderness first aid for trail crews, conservation corps, and volunteer '
-         'stewards: crush injuries, tool lacerations, and the evacuation call from a hitch-deep '
-         'worksite.',
+ 'desc': 'Free wilderness first aid for trail crews and conservation corps: crush injuries, tool '
+         'lacerations, and the evacuation call from a hitch-deep worksite.',
  'eyebrow': 'For trail crews, conservation corps & volunteer stewards',
  'h1': 'Sharp tools, green hands, a hitch from the road.',
  'lead': 'Corps crews, agency trail crews, and volunteer trail and park stewards do industrial work in '
@@ -184,7 +181,7 @@ NICHES = [
  'h2_path': 'The crew-leader five',
  'path_intro': 'Ordered for rock bars and crosscuts:',
  'slug': 'trail-crews',
- 'title': 'Free Wilderness First Aid for Trail Crews & Conservation Corps'},
+ 'title': 'Free Wilderness First Aid for Trail Crews'},
 
 {'cat': 'Remote Work & Field Science',
  'cert': 'Your employer’s safety program — fall protection, LOTO, whatever first-aid card the contract '
@@ -199,8 +196,8 @@ NICHES = [
           ('Calling 911 from a road with no name.',
            'Dispatch wants an address; you have a turbine number and eleven miles of gravel. What you '
            'stage before the season — pins, gate codes, a meet point — is measured in minutes saved.')],
- 'desc': 'Free, no-signup first aid for wind and solar field techs: heat illness on the array, ladder '
-         'falls, and getting an ambulance to a nameless access road.',
+ 'desc': 'Free first aid for wind and solar field technicians: heat illness on the array, ladder falls, and '
+         'getting an ambulance to a nameless access road.',
  'eyebrow': 'For wind & solar field technicians',
  'h1': 'The nearest cross street is forty miles back.',
  'lead': 'Wind and solar work is remote work with a badge: hours of gravel to the site, heat coming off '
@@ -239,8 +236,8 @@ NICHES = [
           ('Somebody else’s worst day.',
            'The skier you’re shooting doesn’t get up. The camera goes in the snow, and the questions '
            'become scene, spine, bleeding — in that order, from the person hired to watch.')],
- 'desc': 'Free, no-signup wilderness first aid for outdoor photographers and documentary crews: falls '
-         'on scrambles, cold exposure on long shoots, and being first to someone else’s accident.',
+ 'desc': 'Free wilderness first aid for outdoor photographers and film crews: falls on scrambles, cold on '
+         'long shoots, and being first to someone else’s accident.',
  'eyebrow': 'For outdoor & adventure photographers and documentary crews',
  'h1': 'Half the pack is glass. None of it stops bleeding.',
  'lead': 'Photographers and documentary crews work the same terrain as their subjects, at worse hours, '
@@ -268,6 +265,6 @@ NICHES = [
  'h2_path': 'Read these between shoots',
  'path_intro': 'Ordered for people who work where their subjects play:',
  'slug': 'outdoor-photographers',
- 'title': 'Free Wilderness First Aid for Outdoor Photographers'},
+ 'title': 'Wilderness First Aid for Outdoor Photographers'},
 
 ]
