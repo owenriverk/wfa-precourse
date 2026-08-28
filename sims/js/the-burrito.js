@@ -108,13 +108,24 @@ window.WFA_SCENARIO = {
   scene: {
     svg: SCN.wrap(
       SCN.mountains() + SCN.lake() + SCN.trees([680, 730, 770]) +
-      '<path d="M60,222 q42,-15 86,0 q-44,10 -86,0 z" class="o w2"/><path d="M74,214 l14,-6" class="ln thin"/>' +
+      '<g id="kayak">' +
+        SCN.pxRect(128, 204, 4, 4, 'strap') +
+        SCN.pxRow(92, 116, 208, 'helm') +
+        SCN.pxRow(76, 132, 212, 'bike') +
+        SCN.pxRow(68, 140, 216, 'bike') +
+        SCN.pxRow(72, 136, 220, 'tank') +
+        SCN.pxRow(84, 124, 224, 'tank') +
+        SCN.pxRect(96, 212, 20, 8, 'bar') +
+        SCN.pxRect(64, 228, 80, 4, 'shadow') +
+      '</g>' +
       SCN.boulder(560, 232, 36) +
       '<g id="theo-pos"><g class="shakeable">' +
       SCN.figSit('theo', 330, 230, { accent: true }) +
       SCN.padUnder('padg', 314, 231, 62) +
       SCN.blanketOver('wrapg', 312, 231, 68) +
-      '<g id="hood" style="display:none;"><path d="M320,190 a8,8 0 0 1 16,0 l-1,4 l-14,0 z" class="o a2"/></g>' +
+      '<g id="hood" style="display:none;">' +
+        SCN.pxRect(320, 178, 16, 4, 'helm') + SCN.pxRect(316, 182, 24, 4, 'helmsh') + SCN.pxRect(320, 186, 16, 4, 'helmsh') +
+      '</g>' +
       '</g></g>',
       { label: 'A soaked kayaker shivering on a gravel beach, his swamped boat at the waterline.' }),
     update: function (S) {

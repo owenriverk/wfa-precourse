@@ -111,14 +111,16 @@ window.WFA_SCENARIO = {
   scene: {
     svg: SCN.wrap(
       SCN.mountains() + SCN.lake() + SCN.trees([60, 105, 730]) +
-      '<path d="M600,187 q28,9 56,0 l-7,7 q-21,7 -42,0 z" class="o w"/>' +
+      SCN.pxRow(612, 644, 188, 'bootsh') + SCN.pxRow(600, 656, 192, 'boot') + SCN.pxRow(608, 648, 196, 'bootsh') +
       SCN.tent(90, 230) + SCN.stove(300, 230) +
-      '<path d="M366,216 h74 M380,216 v16 M426,216 v16" class="ln"/>' +
+      SCN.pxRect(364, 212, 84, 8, 'trunk') + SCN.pxRect(364, 220, 84, 4, 'boot') +
+      SCN.pxRect(380, 224, 8, 8, 'boot') + SCN.pxRect(432, 224, 8, 8, 'boot') +
+      SCN.pxRect(360, 232, 92, 4, 'shadow') +
       SCN.figSit('rosa', 480, 230, { accent: true }) +
       SCN.mark('wound', 494, 214) +
-      '<path id="drip" d="M494,218 l0,14 M492,236 l4,0" class="ln thin" style="display:none;"/>' +
+      '<g id="drip" style="display:none;">' + SCN.pxRect(492, 216, 4, 16, 'BRU') + SCN.pxRect(488, 232, 12, 4, 'BRU') + '</g>' +
       SCN.dressing('dress', 494, 214) +
-      '<g id="wrapband" style="display:none;"><rect x="486" y="208" width="18" height="11" rx="3" class="o w2"/></g>' +
+      '<g id="wrapband" style="display:none;">' + SCN.pxRect(484, 208, 20, 8, 'splint') + SCN.pxRect(484, 216, 20, 4, 'strap') + '</g>' +
       '<g id="helper" style="display:none;">' + SCN.figKneel('you', 522, 230, { flip: true }) + '</g>',
       { sky: 'noon', label: 'A camp kitchen by the river: tent, stove, picnic table, and a paddler seated with a bleeding forearm.' }),
     update: function (S) {

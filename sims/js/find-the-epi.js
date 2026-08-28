@@ -1,4 +1,32 @@
 /* Find the Epi — anaphylaxis: epinephrine first and early, and know where it lives before lunch. */
+/* Pixel crag rising behind the lunch ledge — stepped granite tiers, two-tone
+   shaded, with a couple of ledge/crack strata replacing the old ink strokes. */
+function epiCrag() {
+  var tiers = [
+    [700, 204, 104, 28, 28],
+    [712, 172, 80, 32, 24],
+    [724, 140, 56, 32, 20],
+    [736, 108, 36, 32, 12],
+    [744, 92, 20, 16, 8]
+  ];
+  var s = '', i, t;
+  for (i = 0; i < tiers.length; i++) {
+    t = tiers[i];
+    s += SCN.pxRect(t[0], t[1], t[2], t[3], 'ridge');
+    s += SCN.pxRect(t[0] + t[2] - t[4], t[1], t[4], t[3], 'ridgesh');
+  }
+  s += SCN.pxRow(712, 776, 188, 'rockD');
+  s += SCN.pxRow(700, 780, 216, 'rockD');
+  s += SCN.pxRow(696, 808, 232, 'shadow');
+  return s;
+}
+/* Chunky dropped pack — body + flap + a shadow to seat it on the slab. */
+function packDrop(x, y, w, flap) {
+  return SCN.pxRect(x, y, w, 4, flap) +
+    SCN.pxRect(x, y + 4, w, 12, 'jkt') +
+    SCN.pxRect(x + w - 8, y + 4, 8, 12, 'jktsh') +
+    SCN.pxRect(x - 4, y + 16, w + 8, 4, 'shadow');
+}
 window.WFA_SCENARIO = {
   env: '68°F · sunny · lunch ledge below the crag',
   brief: '<p>Climbing day, four of you, lunch spread on the slabs below the crag. Priya is mid-sandwich when a bee gets her on the forearm. She’s allergic — she told everyone at the trailhead — and her twin-pack of epinephrine auto-injectors is in somebody’s pack. Nobody is sure whose, because the group gear got shuffled in the parking lot.</p><p>You have three packs, a group first aid kit with antihistamine tablets, and a phone with service. The trailhead is forty minutes down an easy trail.</p>',
@@ -130,9 +158,12 @@ window.WFA_SCENARIO = {
   scene: {
     svg: SCN.wrap(
       SCN.mountains() + SCN.trail() + SCN.trees([60, 100], 190) +
-      '<polygon points="700,232 758,92 810,112 810,232" class="o w"/><path d="M726,182 l22,-8 M714,210 l24,-9" class="ln thin faint"/>' +
-      '<rect x="380" y="216" width="26" height="16" rx="5" class="o w2"/><rect x="418" y="218" width="24" height="14" rx="5" class="o w2"/><rect x="452" y="215" width="26" height="17" rx="5" class="o w2"/>' +
-      '<g id="epipen" style="display:none;"><rect x="466" y="199" width="5" height="15" rx="2.5" class="o a"/></g>' +
+      epiCrag() +
+      packDrop(380, 216, 28, 'blank') + packDrop(418, 216, 24, 'olive') + packDrop(452, 216, 28, 'pants2') +
+      '<g id="epipen" style="display:none;">' +
+        SCN.pxRect(464, 196, 8, 4, 'visor') + SCN.pxRect(464, 200, 8, 12, 'jkt') +
+        SCN.pxRect(468, 200, 4, 12, 'jktsh') + SCN.pxRect(464, 212, 8, 4, 'helm') +
+      '</g>' +
       '<g id="priya-sit">' + SCN.figSit('priya', 540, 228, { accent: true }) +
       SCN.mark('hivesA', 538, 199) + SCN.mark('hivesB', 551, 213) + '</g>' +
       '<g id="priya-flat" style="display:none;">' + SCN.figSupine('priya2', 510, 232, { accent: true }) + SCN.mark('hivesC', 512, 216) + '</g>' +

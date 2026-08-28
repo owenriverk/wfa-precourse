@@ -99,7 +99,9 @@ window.WFA_SCENARIO = {
   scene: {
     svg: SCN.wrap(
       SCN.mountains() + SCN.trees([90, 140, 620, 665, 710]) + SCN.trail() +
-      '<path d="M398,236 q12,-9 26,-3" class="ln thin"/>' +
+      '<g id="root">' +
+        SCN.pxRow(398, 424, 232, 'trunk') + SCN.pxRect(408, 224, 8, 8, 'trunk') + SCN.pxRow(398, 424, 236, 'boot') +
+      '</g>' +
       '<g id="pt-prone">' + SCN.figProne('p1', 432, 248, { accent: true }) + '</g>' +
       '<g id="pt-sup" style="display:none;">' + SCN.figSupine('p2', 432, 248, { accent: true }) + '</g>' +
       '<g id="pt-reco" style="display:none;"><g transform="translate(0 -12) rotate(90 432 248)">' + SCN.figSit('p3', 432, 248, { accent: true }) + '</g></g>' +

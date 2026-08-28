@@ -110,13 +110,13 @@ window.WFA_SCENARIO = {
   scene: {
     svg: SCN.wrap(
       SCN.mountains() + SCN.trail() +
-      '<ellipse cx="580" cy="235" rx="42" ry="7" style="fill:#4A4433;opacity:0.16"/>' +
+      SCN.pxRow(540, 620, 232, 'sun') + SCN.pxRow(552, 608, 236, 'sunhi') +
       SCN.boulder(520, 232, 38) +
       '<g id="pt-up">' + SCN.figStand('dev', 300, 228, { accent: true, hat: true }) + '</g>' +
       '<g id="pt-down" style="display:none;">' + SCN.figSit('dev2', 580, 230, { accent: true }) + '</g>' +
-      '<g id="wet1" style="display:none;"><path d="M290,168 l0,6 M301,164 l0,6 M312,169 l0,6" class="ln thin"/></g>' +
-      '<g id="wet2" style="display:none;"><path d="M568,180 l0,6 M579,176 l0,6 M590,181 l0,6" class="ln thin"/><path d="M566,206 q12,5 24,0" class="ln thin faint"/></g>' +
-      '<g id="fanlines" style="display:none;"><path d="M610,198 q9,9 0,18 M620,193 q12,12 0,24" class="ln thin faint"/></g>',
+      '<g id="wet1" style="display:none;">' + SCN.pxRect(288, 164, 4, 8, 'water') + SCN.pxRect(300, 160, 4, 8, 'watersh') + SCN.pxRect(312, 168, 4, 8, 'water') + '</g>' +
+      '<g id="wet2" style="display:none;">' + SCN.pxRect(568, 180, 4, 8, 'water') + SCN.pxRect(580, 176, 4, 8, 'watersh') + SCN.pxRect(588, 180, 4, 8, 'water') + SCN.pxRect(568, 204, 24, 4, 'watersh') + '</g>' +
+      '<g id="fanlines" style="display:none;">' + SCN.pxRect(608, 196, 8, 4, 'cloud') + SCN.pxRect(600, 204, 8, 4, 'cloudsh') + SCN.pxRect(620, 188, 8, 4, 'cloud') + SCN.pxRect(612, 196, 8, 4, 'cloudsh') + SCN.pxRect(624, 208, 8, 4, 'cloud') + '</g>',
       { sky: 'noon', label: 'A hiker wobbling on a bare ridge at noon, one boulder of shade nearby.' }),
     update: function (S) {
       SCN.show('pt-up', !S.shaded);

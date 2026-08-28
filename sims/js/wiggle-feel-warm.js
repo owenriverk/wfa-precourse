@@ -104,7 +104,11 @@ window.WFA_SCENARIO = {
       SCN.figSit('june', 448, 230, { accent: true }) +
       SCN.mark('wound', 462, 213) +
       SCN.splintOn('splint', 448, 212, 30) +
-      '<g id="sling" style="display:none;"><path d="M446,196 L462,214 L468,204" class="ln"/></g>' +
+      '<g id="sling" style="display:none;">' +
+        SCN.pxRect(444, 196, 8, 4, 'strap') + SCN.pxRect(448, 200, 8, 4, 'strap') +
+        SCN.pxRect(452, 204, 8, 4, 'strap') + SCN.pxRect(456, 208, 8, 4, 'strap') +
+        SCN.pxRect(460, 212, 8, 4, 'strap') +
+      '</g>' +
       '<g id="helper">' + SCN.figKneel('you', 500, 230, { flip: true }) + '</g>',
       { label: 'A scrambler sitting on a talus slab, cradling a deformed wrist; a partner kneeling beside her.' }),
     update: function (S) {

@@ -111,7 +111,7 @@ window.WFA_SCENARIO = {
       SCN.splintOn('ksplint', 564, 226, 26) +
       '<g id="tylerG">' + SCN.figStand('tylerF', 640, 226, { hat: true }) + '</g>' +
       '<g id="anaG">' + SCN.figStand('anaF', 684, 228, { flip: true }) + '</g>' +
-      '<g id="flagpole" style="display:none;"><path d="M730,228 L730,186" class="ln"/><polygon points="730,186 754,193 730,200" class="o a"/></g>',
+      '<g id="flagpole" style="display:none;">' + SCN.pxRect(728, 188, 4, 40, 'boot') + SCN.pxRect(730, 188, 24, 4, 'blank') + SCN.pxRect(730, 192, 16, 4, 'blank') + SCN.pxRect(730, 196, 8, 4, 'blanksh') + '</g>',
       { sky: 'dusk', label: 'A backpacker with an injured ankle resting against talus while her group plans the evacuation.' }),
     update: function (S) {
       SCN.show('ksplint', S.splinted);

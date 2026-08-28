@@ -98,11 +98,26 @@ window.WFA_SCENARIO = {
       SCN.mountains() + SCN.snowGround() + SCN.trees([640, 690, 745], 200) +
       SCN.tent(360, 232) + SCN.stove(470, 232) +
       '<g id="sam-pos">' + SCN.figSit('sam', 290, 230, { accent: true }) +
-      '<g id="toes-frozen" style="display:none;"><circle cx="312" cy="227" r="4" class="o w"/><circle cx="318" cy="229" r="3.2" class="o w"/></g>' +
-      '<g id="toes-thawed" style="display:none;"><ellipse cx="315" cy="228" rx="8" ry="5" class="bru"/></g>' +
-      '<g id="padg" style="display:none;"><rect x="304" y="219" width="20" height="13" rx="5" class="o w2"/></g>' +
+      '<g id="toes-frozen" style="display:none;">' +
+        SCN.pxRect(308, 220, 8, 8, 'snow') + SCN.pxRect(308, 228, 8, 4, 'cloudsh') +
+        SCN.pxRect(316, 224, 8, 8, 'snow') + SCN.pxRect(316, 228, 8, 4, 'cloudsh') +
       '</g>' +
-      '<g id="flakes" style="display:none;" class="ln thin faint"><path d="M150,70 l0,3 M260,50 l0,3 M420,80 l0,3 M560,55 l0,3 M700,75 l0,3 M340,110 l0,3"/></g>',
+      '<g id="toes-thawed" style="display:none;">' +
+        SCN.pxRect(311, 224, 8, 4, 'BRU') + SCN.pxRect(307, 228, 16, 4, 'BRU') + SCN.pxRect(311, 232, 8, 4, 'BRU') +
+      '</g>' +
+      '<g id="padg" style="display:none;">' +
+        SCN.pxRect(304, 220, 20, 8, 'pad') + SCN.pxRect(304, 228, 20, 4, 'padsh') +
+        SCN.pxRect(308, 220, 4, 8, 'padsh') + SCN.pxRect(316, 220, 4, 8, 'padsh') +
+      '</g>' +
+      '</g>' +
+      '<g id="flakes" style="display:none;">' +
+        SCN.pxRect(150, 70, 4, 4, 'snow') + SCN.pxRect(146, 74, 4, 4, 'cloud') +
+        SCN.pxRect(260, 50, 4, 4, 'snow') + SCN.pxRect(256, 54, 4, 4, 'cloud') +
+        SCN.pxRect(420, 80, 4, 4, 'snow') + SCN.pxRect(416, 84, 4, 4, 'cloud') +
+        SCN.pxRect(560, 55, 4, 4, 'snow') + SCN.pxRect(556, 59, 4, 4, 'cloud') +
+        SCN.pxRect(700, 75, 4, 4, 'snow') + SCN.pxRect(696, 79, 4, 4, 'cloud') +
+        SCN.pxRect(340, 110, 4, 4, 'snow') + SCN.pxRect(336, 114, 4, 4, 'cloud') +
+      '</g>',
       { winter: true, label: 'A winter camp — tent, stove, and a camper examining two frozen toes.' }),
     update: function (S) {
       SCN.show('toes-frozen', S.examined && !S.thawed && !S.padded);

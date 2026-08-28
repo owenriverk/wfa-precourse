@@ -111,8 +111,14 @@ window.WFA_SCENARIO = {
   scene: {
     svg: SCN.wrap(
       SCN.mountains() +
-      '<path d="M180,166 Q400,146 620,168" class="ln thin faint"/>' + SCN.trail() +
-      '<path id="bolt" d="M600,8 L572,66 L592,68 L556,128 M556,128 l10,-4 M556,128 l2,-10" class="ln"/>' +
+      SCN.pxRow(180, 260, 164, 'hillrim') + SCN.pxRow(260, 340, 156, 'hillrim') + SCN.pxRow(340, 460, 148, 'hillrim') + SCN.pxRow(460, 540, 156, 'hillrim') + SCN.pxRow(540, 620, 164, 'hillrim') + SCN.trail() +
+      '<g id="bolt">' +
+        SCN.pxRect(596, 8, 8, 16, 'sunhi') + SCN.pxRect(588, 24, 8, 16, 'sunhi') +
+        SCN.pxRect(580, 40, 12, 16, 'sunhi') + SCN.pxRect(584, 56, 12, 12, 'sunhi') +
+        SCN.pxRect(576, 68, 12, 12, 'sunhi') + SCN.pxRect(568, 80, 8, 16, 'sunhi') +
+        SCN.pxRect(560, 96, 8, 16, 'sunhi') + SCN.pxRect(552, 112, 8, 16, 'sunhi') +
+        SCN.pxRect(560, 120, 8, 4, 'sun') + SCN.pxRect(556, 108, 4, 8, 'sun') +
+      '</g>' +
       '<g id="party">' +
         '<g id="alex-p">' + SCN.figProne('alexP', 430, 232, { accent: true }) + '</g>' +
         '<g id="alex-s" style="display:none;">' + SCN.figSupine('alexS', 430, 232, { accent: true }) + '</g>' +

@@ -108,8 +108,21 @@ window.WFA_SCENARIO = {
   scene: {
     svg: SCN.wrap(
       SCN.mountains() + SCN.trail() + SCN.boulder(120, 234, 30) +
-      '<rect x="560" y="222" width="88" height="10" rx="5" class="o w2"/>' +
-      '<g id="snake"><path d="M600,236 q7,-8 14,0 q7,8 14,0 q5,-6 11,-3" class="ln"/><circle cx="641" cy="231" r="1.8" class="dot"/></g>' +
+      '<g id="log">' +
+        SCN.pxRow(560, 648, 220, '#7E5C3A') +
+        SCN.pxRow(560, 648, 224, 'trunk') +
+        SCN.pxRow(560, 648, 228, 'boot') +
+        SCN.pxDisc(648, 224, 8, 'boot') + SCN.pxDisc(648, 224, 4, 'trunk') +
+        SCN.pxRect(556, 232, 96, 4, 'shadow') +
+      '</g>' +
+      '<g id="snake">' +
+        SCN.pxRect(592, 232, 8, 4, 'spk2') +
+        SCN.pxRect(600, 232, 8, 4, 'olive') + SCN.pxRect(608, 228, 8, 4, 'olivesh') +
+        SCN.pxRect(616, 228, 8, 4, 'olive') + SCN.pxRect(624, 232, 8, 4, 'olivesh') +
+        SCN.pxRect(632, 232, 8, 4, 'olive') + SCN.pxRect(640, 228, 8, 4, 'olivesh') +
+        SCN.pxRect(648, 224, 12, 8, 'olive') + SCN.pxRect(648, 232, 12, 4, 'olivesh') +
+        SCN.pxRect(656, 226, 4, 4, 'wheel') +
+      '</g>' +
       '<g id="party">' +
         '<g id="m-up">' + SCN.figStand('mU', 500, 228, { accent: true }) + '</g>' +
         '<g id="m-sit" style="display:none;">' + SCN.figSit('mS', 470, 232, { accent: true }) + '</g>' +

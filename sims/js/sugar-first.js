@@ -118,7 +118,11 @@ window.WFA_SCENARIO = {
   scene: {
     svg: SCN.wrap(
       SCN.mountains() + SCN.snowGround() + SCN.trees([90, 150, 700], 200) +
-      '<path d="M330,240 l58,-6 M342,246 l58,-6" class="ln thin"/>' +
+      /* two parallel skin tracks climbing toward the group, dashed into the snow */
+      SCN.pxRect(328, 240, 12, 4, 'cloudsh') + SCN.pxRect(348, 236, 12, 4, 'cloudsh') +
+      SCN.pxRect(368, 232, 12, 4, 'cloudsh') + SCN.pxRect(388, 228, 12, 4, 'cloudsh') +
+      SCN.pxRect(342, 248, 12, 4, 'cloudsh') + SCN.pxRect(362, 244, 12, 4, 'cloudsh') +
+      SCN.pxRect(382, 240, 12, 4, 'cloudsh') + SCN.pxRect(402, 236, 12, 4, 'cloudsh') +
       '<g id="dana-up">' + SCN.figStand('danaU', 400, 226, { accent: true }) + '</g>' +
       '<g id="dana-sit" style="display:none;">' + SCN.figSit('danaS', 396, 230, { accent: true }) + '</g>' +
       '<g id="dana-down" style="display:none;">' + SCN.figSupine('danaD', 380, 232, { accent: true }) + '</g>' +

@@ -93,11 +93,26 @@ window.WFA_SCENARIO = {
       SCN.mountains() + SCN.trail() + SCN.trees([644, 690, 736], 230) +
       SCN.bikeDown(230, 238) +
       '<g id="grp">' + SCN.figSupine('theo', 372, 234, { accent: true }) +
-      '<path d="M363,225 A9,9 0 0 1 381,225" class="ln"/><path d="M369,217 l4,5" class="ln thin"/>' +
+      /* cracked helmet: dome + shaded side over the head, a skin/face window
+         left open below, and a dark chip standing in for the crack */
+      SCN.pxRect(366, 208, 12, 4, 'helm') + SCN.pxRect(362, 212, 20, 4, 'helmsh') +
+      SCN.pxRect(366, 216, 12, 8, 'SKIN') + SCN.pxRect(372, 208, 4, 4, 'visor') +
       SCN.figKneel('ben', 478, 234) + '</g>' +
       SCN.padUnder('pad', 584, 238, 96) +
-      '<g id="storm-hit" style="display:none;"><path d="M520,8 L504,58 L520,55 L497,110" class="ln" style="stroke-width:2.6"/>' +
-      '<path d="M90,66 l-6,14 M190,58 l-6,14 M310,64 l-6,14 M600,54 l-6,14 M710,68 l-6,14" class="ln thin faint"/></g>',
+      '<g id="storm-hit" style="display:none;">' +
+        /* zigzag lightning bolt, two-tone */
+        SCN.pxRect(516, 8, 8, 28, 'sunhi') + SCN.pxRect(520, 8, 4, 28, 'sun') +
+        SCN.pxRect(500, 36, 20, 8, 'sunhi') +
+        SCN.pxRect(504, 44, 8, 28, 'sunhi') + SCN.pxRect(508, 44, 4, 28, 'sun') +
+        SCN.pxRect(492, 72, 20, 8, 'sunhi') +
+        SCN.pxRect(496, 80, 8, 32, 'sunhi') + SCN.pxRect(500, 80, 4, 32, 'sun') +
+        /* short rain streaks scattered high in the sky */
+        SCN.pxRect(90, 58, 4, 8, 'stormsh') + SCN.pxRect(86, 66, 4, 8, 'stormsh') +
+        SCN.pxRect(190, 54, 4, 8, 'stormsh') + SCN.pxRect(186, 62, 4, 8, 'stormsh') +
+        SCN.pxRect(310, 60, 4, 8, 'stormsh') + SCN.pxRect(306, 68, 4, 8, 'stormsh') +
+        SCN.pxRect(600, 50, 4, 8, 'stormsh') + SCN.pxRect(596, 58, 4, 8, 'stormsh') +
+        SCN.pxRect(710, 62, 4, 8, 'stormsh') + SCN.pxRect(706, 70, 4, 8, 'stormsh') +
+      '</g>',
       { sky: 'storm', label: 'A mountain biker flat on his back on an open berm, cracked helmet on, bike down, storm building; a friend kneeling beside him.' }),
     update: function (S) {
       var g = document.getElementById('grp');

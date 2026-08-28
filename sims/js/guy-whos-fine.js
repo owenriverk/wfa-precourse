@@ -88,7 +88,9 @@ window.WFA_SCENARIO = {
     svg: SCN.wrap(
       SCN.mountains() + SCN.trees([70, 115, 700, 748]) + SCN.trail() +
       SCN.boulder(300, 232, 56) +
-      '<rect x="392" y="224" width="88" height="8" rx="4" class="o a2"/>' +
+      /* crash pad on the ground under Dale — pad + ribbed shading */
+      SCN.pxRect(392, 224, 88, 4, 'pad') + SCN.pxRect(392, 228, 88, 4, 'padsh') +
+      SCN.pxRect(400, 224, 8, 4, 'padsh') + SCN.pxRect(424, 224, 8, 4, 'padsh') + SCN.pxRect(448, 224, 8, 4, 'padsh') +
       '<g id="pt-sit">' + SCN.figSit('d1', 430, 226, { accent: true }) + '</g>' +
       '<g id="pt-flat" style="display:none;">' + SCN.figSupine('d2', 408, 224, { accent: true }) + '</g>' +
       SCN.blanketOver('blank', 414, 226, 62) +

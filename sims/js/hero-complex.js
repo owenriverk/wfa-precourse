@@ -99,7 +99,13 @@ window.WFA_SCENARIO = {
     svg: SCN.wrap(
       SCN.mountains() + SCN.scree() + SCN.trail() + SCN.trees([700, 750]) +
       SCN.boulder(560, 232, 34) +
-      '<g id="release" style="display:none;"><path d="M120,90 L300,206 M160,86 L330,200 M200,92 L360,208" class="ln thin faint"/><path d="M300,208 l7,-2 l3,4 l-8,2 z M336,214 l6,-2 l3,4 l-7,2 z" class="ln thin"/></g>' +
+      '<g id="release" style="display:none;">' +
+        SCN.pxRect(120, 88, 8, 12, 'spk1') + SCN.pxRect(160, 120, 8, 12, 'spk1') + SCN.pxRect(220, 160, 8, 12, 'spk1') + SCN.pxRect(280, 196, 8, 12, 'spk1') +
+        SCN.pxRect(160, 84, 8, 12, 'shadow') + SCN.pxRect(200, 116, 8, 12, 'shadow') + SCN.pxRect(252, 152, 8, 12, 'shadow') + SCN.pxRect(308, 188, 8, 12, 'shadow') +
+        SCN.pxRect(200, 92, 8, 12, 'spk1') + SCN.pxRect(252, 124, 8, 12, 'spk1') + SCN.pxRect(300, 160, 8, 12, 'spk1') + SCN.pxRect(340, 196, 8, 12, 'spk1') +
+        SCN.pxRect(296, 204, 16, 8, 'ridgesh') + SCN.pxRect(304, 208, 8, 4, 'rockD') +
+        SCN.pxRect(332, 208, 16, 8, 'ridgesh') + SCN.pxRect(340, 212, 8, 4, 'rockD') +
+      '</g>' +
       '<g id="pt-pos">' + SCN.figSupine('pt', 300, 232, { accent: true }) + SCN.dressing('dress', 296, 218) + '</g>' +
       '<g id="jess-near">' + SCN.figKneel('jess1', 356, 232) + '</g>' +
       '<g id="jess-safe" style="display:none;">' + SCN.figStand('jess2', 610, 226, { wave: false }) + '</g>',
