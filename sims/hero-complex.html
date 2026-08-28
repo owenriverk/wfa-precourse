@@ -30,7 +30,7 @@
 
 <header class="lesson-head">
   <div class="wrap">
-    <div class="eyebrow"><span>Practice scenario</span><span class="dot">Scene safety</span></div>
+    <div class="eyebrow"><span class="px px-wheel" aria-hidden="true"></span><span>Practice scenario</span><span class="dot">Scene safety</span></div>
     <h1>Hero Complex <span class="beta-tag">Beta</span></h1>
     <p class="lead">One decision at a time, no script. The sim offers plausible moves — right ones and tempting mistakes alike — and only tells you what you actually assess. End it with a decision, then debrief. Nothing you do here is recorded anywhere.</p>
   </div>
@@ -38,51 +38,58 @@
 
 <main id="content" class="wrap sim-main">
   <div class="sim-panel" id="briefing" style="margin-top:20px;">
-    <h2>Dispatch</h2>
+    <h2 class="hud-head"><span class="px px-flag" aria-hidden="true"></span>Dispatch</h2>
     <div id="brief-body"></div>
-    <p style="margin-bottom:0;"><button class="btn" id="start-btn">Approach the scene →</button></p>
+    <p style="margin-bottom:0;"><button class="btn hud-btn" id="start-btn">Approach the scene →</button></p>
   </div>
 
   <div id="sim-ui" hidden>
-    <div class="stage-panel">
-      <div id="stage-slot"></div>
-      <div class="status-strip">
-        <span class="chip clock">Clock <b id="clock">T+0 min</b></span>
-        <span class="chip" id="env-chip"></span>
-        <span class="chip unknown" id="chip-hr">Pulse <b>—</b></span>
-        <span class="chip unknown" id="chip-rr">Breathing <b>—</b></span>
-        <span class="chip unknown" id="chip-avpu">AVPU <b>—</b></span>
-        <span class="chip unknown" id="chip-skin">Skin <b>—</b></span>
-        <span class="chip unknown" id="chip-last">Last vitals <b>not taken</b></span>
+    <div class="stage-panel hud-shell">
+      <div class="hud-bar">
+        <img class="duck" src="../assets/img/pixel/duck.svg" alt="" width="24" height="20">
+        <span class="hud-bar-label" aria-hidden="true">Hero Complex</span>
+        <span class="hud-rec" aria-hidden="true"></span>
+        <span class="chip clock"><span class="k">Clock</span> <b id="clock">T+0 min</b></span>
+      </div>
+      <div class="scene-frame"><div id="stage-slot"></div></div>
+      <div class="status-strip" id="status-strip">
+        <span class="chip wx" id="env-chip"></span>
+        <span class="chip unknown" id="chip-hr"><span class="k">Pulse</span> <b>—</b></span>
+        <span class="chip unknown" id="chip-rr"><span class="k">Breathing</span> <b>—</b></span>
+        <span class="chip unknown" id="chip-avpu"><span class="k">AVPU</span> <b>—</b></span>
+        <span class="chip unknown" id="chip-skin"><span class="k">Skin</span> <b>—</b></span>
+        <span class="chip unknown" id="chip-last"><span class="k">Last vitals</span> <b>not taken</b></span>
         <span id="extra-chips" style="display:contents;"></span>
       </div>
     </div>
 
     <div class="narration" id="narration" aria-live="polite"></div>
 
-    <div class="choices" id="choices">
+    <div class="choices hud-shell" id="choices">
       <h2>What do you do?</h2>
       <div id="choice-list"></div>
       <details class="more" id="more-actions"><summary>All actions…</summary><div id="more-list"></div></details>
       <details class="more" id="decide-actions"><summary>Decide — ends the scenario…</summary><div id="decide-list"></div></details>
     </div>
 
-    <details class="transcript-panel" id="transcript"><summary>Full transcript</summary><div class="sim-log" id="log"></div></details>
+    <details class="transcript-panel hud-shell" id="transcript"><summary>Full transcript</summary><div class="sim-log" id="log"></div></details>
   </div>
 
   <div id="debrief" hidden>
     <div class="sim-panel" style="margin-top:20px;">
-      <h2>Debrief</h2>
+      <h2 class="hud-head"><span class="px px-cross" aria-hidden="true"></span>Debrief<img class="duck" src="../assets/img/pixel/duck.svg" alt="" width="30" height="25"></h2>
       <p id="debrief-summary" style="font-size:1.05em;"></p>
       <div id="debrief-flags"></div>
-      <h3 style="margin-top:20px;">Critical actions</h3>
+      <h3>Critical actions</h3>
       <ul class="debrief-list" id="debrief-crit"></ul>
       <p style="margin-top:20px;" id="debrief-links"></p>
-      <p style="margin-bottom:0;"><button class="btn" onclick="location.reload()">↺ Run it again</button> <a class="btn secondary" href="../sim.html">More scenarios</a></p>
+      <p style="margin-bottom:0;"><button class="btn hud-btn" onclick="location.reload()">↺ Run it again</button> <a class="btn secondary" href="../sim.html">More scenarios</a></p>
     </div>
   </div>
 
-  <p style="margin-top:24px; font-size:0.9em; color:var(--text-muted);">This is a deterministic practice sandbox — the patient follows the physiology taught in the course, not a script or an AI. It teaches decision-making, not hands-on skill: nothing here replaces practicing on a real, padded, complaining friend.</p>
+  <div class="trail-divider" aria-hidden="true"></div>
+
+  <p style="margin-top:10px; font-size:0.9em; color:var(--text-muted);">This is a deterministic practice sandbox — the patient follows the physiology taught in the course, not a script or an AI. It teaches decision-making, not hands-on skill: nothing here replaces practicing on a real, padded, complaining friend.</p>
 </main>
 
 <footer class="site-footer">

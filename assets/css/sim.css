@@ -1,47 +1,203 @@
-/* Shared styles for practice scenarios (sims/). Extracted from sim.html. */
+/* ==========================================================================
+   Shared styles for practice scenarios (sims/) — "Hybrid HUD" skin.
+   Ported from sim.html (The Rider Down), the canonical reference.
+
+   PRESENTATION ONLY. Narrative and medical strings keep the light, professional
+   reading surface in the site's normal face; the instruments — stage, sim clock,
+   vitals cluster, action console, transcript — are Oregon Trail console chrome.
+   VT323 (var(--font-pixel), @font-face lives in site.css, which every sims/
+   page loads) is reserved for HUD labels, numerals and short headings.
+
+   The engine (assets/js/sim-engine.js) rewrites className on #chip-hr / #chip-rr
+   / #chip-avpu / #chip-skin / #chip-last to exactly "chip" or "chip unknown",
+   so per-cell layout tweaks for those must hang off the id, never a class.
+   ========================================================================== */
+:root {
+  --hud-bg:        #0E1B30;
+  --hud-bg-2:      #13233C;
+  --hud-bg-3:      #1B3055;
+  --hud-line:      #2C4A73;
+  --hud-line-soft: #22354F;
+  --hud-green:     #7EE787;
+  --hud-green-hi:  #99F0A5;
+  --hud-ink:       #AFC3DE;
+  --hud-ink-dim:   #6B87AC;
+  --hud-ink-off:   #7C99BC;
+  --hud-ink-lit:   #8FA6C4;
+  --hud-amber:     #F3C07B;
+  --hud-scan:      repeating-linear-gradient(0deg, transparent 0 2px, rgba(140, 190, 255, 0.035) 2px 4px);
+  --hud-scan-lit:  repeating-linear-gradient(0deg, transparent 0 2px, rgba(14, 27, 48, 0.055) 2px 4px);
+  --frame-pad:     10px;
+}
+
 .sim-main { max-width: 880px; }
-.stage-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-top: 20px; }
-.stage-panel svg { display: block; width: 100%; height: auto; }
-.status-strip { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 10px 14px; border-top: 1px solid var(--border); }
-.chip { background: var(--surface-2); border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px; font-size: 0.82em; color: var(--text-muted); white-space: nowrap; }
-.chip b { color: var(--text); font-variant-numeric: tabular-nums; }
-.chip.clock b { color: var(--primary); }
-.chip.unknown b { color: var(--text-faint); font-weight: 400; }
-.chip.alert { background: var(--warning-bg); border-color: var(--warning-border); }
-.chip.alert b { color: var(--warning); }
-.narration { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--primary); border-radius: var(--radius); padding: 14px 18px; margin-top: 16px; font-size: 0.97em; }
-.narration .you-did { color: var(--primary); font-weight: 700; font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 4px; }
-.narration .event-line { display: block; margin-top: 10px; color: var(--warning); font-weight: 600; }
-.choices { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; margin-top: 16px; }
-.choices h2 { font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.06em; color: var(--primary); margin: 0 0 10px; border: 0; padding: 0; }
-.choice-btn { display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; text-align: left; background: var(--surface); border: 1.5px solid var(--border-strong); border-radius: 10px; padding: 11px 14px; margin: 6px 0; font-size: 0.93em; font-weight: 550; color: var(--text); cursor: pointer; transition: border-color var(--ease), background var(--ease); }
-.choice-btn:hover { border-color: var(--accent); background: var(--info-bg); }
-.choice-btn .mins { color: var(--text-faint); font-weight: 400; font-size: 0.88em; white-space: nowrap; }
-.choice-btn.decide { border-color: var(--danger-border); }
-.choice-btn.decide:hover { border-color: var(--danger); background: var(--danger-bg); }
-details.more { margin-top: 12px; }
-details.more summary { cursor: pointer; color: var(--link); font-size: 0.9em; font-weight: 600; padding: 4px 0; }
-details.more h3 { font-size: 0.78em; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-faint); margin: 12px 0 2px; }
-.transcript-panel { margin-top: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 18px; }
-.transcript-panel summary { cursor: pointer; font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.06em; color: var(--primary); font-weight: 700; }
-.sim-log { max-height: 360px; overflow-y: auto; display: flex; flex-direction: column-reverse; margin-top: 8px; }
-.sim-log .entry { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.93em; }
-.sim-log .entry:first-child { border-bottom: 0; }
-.sim-log .stamp { color: var(--text-faint); font-size: 0.85em; font-variant-numeric: tabular-nums; margin-right: 8px; white-space: nowrap; }
-.sim-log .event { color: var(--warning); font-weight: 600; }
-.sim-log .you { color: var(--primary); font-weight: 600; }
-.sim-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; }
+
+/* ---- shared console shell (dark instrument panel) ----------------------- */
+.hud-shell { position: relative; overflow: hidden; background: var(--hud-bg); border: 2px solid var(--hud-line); border-radius: 6px; }
+/* positioned pseudo-element so it paints over the panel's in-flow children —
+   same trick .crt-panel / .sim-console use in site.css */
+.hud-shell::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: var(--hud-scan); }
+
+/* ---- light panels + their dark title bars ------------------------------ */
+.sim-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow-sm); }
 .sim-panel h2 { font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.06em; color: var(--primary); margin: 0 0 10px; border: 0; padding: 0; }
+.sim-panel h2.hud-head {
+  display: flex; align-items: center; gap: 10px;
+  margin: -18px -20px 16px; padding: 8px 20px 9px;
+  background: var(--hud-bg); border-bottom: 2px solid var(--hud-line);
+  border-radius: 9px 9px 0 0;
+  font-family: var(--font-pixel); font-weight: 400; font-size: 1.4em;
+  letter-spacing: 0.07em; text-transform: uppercase; color: var(--hud-green);
+  position: relative; overflow: hidden;
+}
+.sim-panel h2.hud-head::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: var(--hud-scan); }
+.hud-head .px { width: 17px; height: 17px; color: var(--hud-green); opacity: 0.85; }
+.hud-head .duck { margin-left: auto; width: 30px; height: 25px; opacity: 0.9; }
+
+.btn.hud-btn { background: var(--hud-green); border-color: var(--hud-green); color: #08240F; border-radius: 4px;
+  font-family: var(--font-pixel); font-weight: 400; font-size: 1.3em; letter-spacing: 0.04em; }
+.btn.hud-btn:hover { background: var(--hud-green-hi); border-color: var(--hud-green-hi); }
+
+/* ---- stage: HUD bar + screen + vitals cluster --------------------------- */
+.stage-panel { margin-top: 20px; box-shadow: 0 6px 22px rgba(14, 27, 48, 0.16); }
+
+.hud-bar { display: flex; align-items: center; gap: 10px; padding: 7px 12px;
+  background: linear-gradient(180deg, var(--hud-bg-2), var(--hud-bg)); border-bottom: 2px solid var(--hud-line); }
+.hud-bar .duck { width: 24px; height: 20px; }
+.hud-bar-label { font-family: var(--font-pixel); font-size: 1.2em; letter-spacing: 0.11em;
+  text-transform: uppercase; color: var(--hud-green); line-height: 1; white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.hud-rec { width: 7px; height: 7px; flex: none; background: var(--hud-green); box-shadow: 0 0 7px rgba(126, 231, 135, 0.75);
+  animation: hud-blink 2.4s steps(1) infinite; }
+@keyframes hud-blink { 0%, 62% { opacity: 1; } 63%, 100% { opacity: 0.2; } }
+@media (prefers-reduced-motion: reduce) { .hud-rec { animation: none; } }
+
+.hud-bar .chip.clock { margin-left: auto; display: flex; align-items: baseline; gap: 8px; white-space: nowrap; flex: none;
+  background: rgba(126, 231, 135, 0.07); border: 1px solid #2E5A41; border-radius: 3px; padding: 2px 10px 3px; }
+.hud-bar .chip.clock .k { font-family: var(--font-pixel); font-size: 0.98em; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--hud-ink-dim); }
+.hud-bar .chip.clock b { font-family: var(--font-pixel); font-weight: 400; font-size: 1.3em; letter-spacing: 0.03em;
+  color: var(--hud-green); font-variant-numeric: tabular-nums; text-shadow: 0 0 9px rgba(126, 231, 135, 0.35); }
+
+/* z-index lifts the screen above the shell's scanline layer so the art gets
+   only its own (darker, readable-on-paper) scanlines — no moiré from two. */
+.scene-frame { position: relative; z-index: 1; padding: var(--frame-pad); background: var(--hud-bg); }
+.scene-frame svg { display: block; width: 100%; height: auto; border: 1px solid var(--hud-line); border-radius: 3px; }
+.scene-frame::after { content: ""; position: absolute; inset: var(--frame-pad); pointer-events: none; border-radius: 3px;
+  background: var(--hud-scan-lit); box-shadow: inset 0 0 26px rgba(14, 27, 48, 0.22); }
+
+/* ---- vitals cluster -----------------------------------------------------
+   Flex rather than a fixed grid: scenarios append 0–2 extra chips through
+   #extra-chips (display:contents), so cells must stretch to fill every row
+   instead of leaving holes. The 1px gaps show the strip's own line colour. */
+.status-strip { display: flex; flex-wrap: wrap; gap: 1px; padding: 0;
+  background: var(--hud-line-soft); border-top: 2px solid var(--hud-line); }
+.status-strip .chip { flex: 1 1 130px; min-width: 0; display: grid; align-content: start; gap: 2px;
+  padding: 8px 12px 9px; background: var(--hud-bg); border: 0; border-radius: 0; white-space: normal;
+  font-family: var(--font-pixel); font-size: 0.92em; line-height: 1.15; letter-spacing: 0.09em;
+  text-transform: uppercase; color: var(--hud-ink-dim); }
+.status-strip .chip b { font-family: var(--font-pixel); font-weight: 400; font-size: 1.43em; line-height: 1.1;
+  letter-spacing: 0.02em; text-transform: none; color: var(--hud-green); font-variant-numeric: tabular-nums; }
+.status-strip .chip.unknown b { color: var(--hud-ink-off); }
+.status-strip .chip.alert { background: #1C2436; box-shadow: inset 0 0 0 1px rgba(243, 192, 123, 0.34); }
+.status-strip .chip.alert b { color: var(--hud-amber); }
+/* engine rewrites className on these — target by id only */
+.status-strip #chip-last { flex: 1.3 1 150px; }
+#chip-hr .k::before { content: ""; display: inline-block; width: 14px; height: 9px; margin-right: 6px;
+  background: currentColor;
+  -webkit-mask: url(../img/pixel/heart.svg) center / contain no-repeat;
+          mask: url(../img/pixel/heart.svg) center / contain no-repeat; }
+/* #env-chip is filled with textContent (SC.env), so its label has to be a
+   pseudo-element — a child <span class="k"> would be wiped on boot. */
+.status-strip #env-chip { flex: 2 1 210px; color: var(--hud-ink); font-size: 1.12em; letter-spacing: 0.03em; }
+.status-strip #env-chip::before { content: "Conditions"; display: block; font-size: 0.82em;
+  letter-spacing: 0.09em; color: var(--hud-ink-dim); }
+
+/* ---- narration (reading surface — stays light and non-pixel) ------------ */
+.narration { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--hud-line);
+  border-radius: var(--radius); padding: 16px 18px; margin-top: 16px; font-size: 0.97em; box-shadow: var(--shadow-sm); }
+.narration .you-did { display: inline-block; margin-bottom: 9px; padding: 1px 10px 2px;
+  background: var(--hud-bg); border: 1px solid var(--hud-line); border-radius: 3px;
+  font-family: var(--font-pixel); font-weight: 400; font-size: 1.05em; letter-spacing: 0.07em;
+  text-transform: uppercase; color: var(--hud-green); }
+.narration .event-line { display: block; margin-top: 12px; padding: 8px 12px; font-size: 0.95em;
+  background: var(--warning-bg); border-left: 3px solid var(--warning); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  color: var(--warning); font-weight: 600; }
+
+/* ---- action console (dark) --------------------------------------------- */
+.choices { padding: 14px 16px 16px; margin-top: 16px; }
+.choices h2 { display: flex; align-items: center; gap: 9px; margin: 0 0 10px; padding: 0; border: 0;
+  font-family: var(--font-pixel); font-weight: 400; font-size: 1.4em; letter-spacing: 0.07em;
+  text-transform: uppercase; color: var(--hud-green); }
+.choices h2::before { content: "\25B8"; font-family: var(--font); font-size: 0.6em; opacity: 0.65; }
+.choice-btn { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left;
+  background: var(--hud-bg-2); border: 1px solid var(--hud-line); border-radius: 3px;
+  padding: 11px 13px; margin: 6px 0; font-size: 0.93em; font-weight: 500; color: #E4EDF9; cursor: pointer;
+  transition: border-color var(--ease), background var(--ease), transform var(--ease); }
+.choice-btn::before { content: "\25B8"; flex: none; font-size: 0.88em; line-height: 1;
+  color: var(--hud-green); opacity: 0.5; transition: opacity var(--ease); }
+.choice-btn > span:first-of-type { flex: 1 1 auto; min-width: 0; }
+.choice-btn .mins { flex: none; font-family: var(--font-pixel); font-weight: 400; font-size: 1.15em;
+  letter-spacing: 0.04em; color: var(--hud-ink-lit); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.choice-btn:hover { background: var(--hud-bg-3); border-color: var(--hud-green); }
+.choice-btn:hover::before { opacity: 1; }
+.choice-btn:hover .mins { color: var(--hud-green); }
+.choice-btn:active { transform: translateY(1px); }
+.choice-btn:focus-visible { outline-color: var(--hud-green); }
+.choice-btn.decide { background: #2A1C22; border-color: #8A4A3C; }
+.choice-btn.decide::before { color: #F0A48D; opacity: 0.7; }
+.choice-btn.decide:hover { background: #3A252C; border-color: #F0A48D; }
+.choice-btn.decide:hover .mins { color: #F0A48D; }
+details.more { margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--hud-line-soft); }
+details.more summary { cursor: pointer; padding: 4px 0; color: var(--hud-ink);
+  font-family: var(--font-pixel); font-weight: 400; font-size: 1.15em; letter-spacing: 0.07em; text-transform: uppercase; }
+details.more summary:hover { color: var(--hud-green); }
+details.more h3 { margin: 14px 0 4px; color: var(--hud-ink-dim);
+  font-family: var(--font-pixel); font-weight: 400; font-size: 1.06em; letter-spacing: 0.11em; text-transform: uppercase; }
+
+/* ---- free-text row (built by the engine, dropped into the dark console) -- */
+.free-row { display: flex; gap: 8px; margin-top: 12px; }
+.free-row input { flex: 1; min-width: 0; background: var(--hud-bg-2); border: 1px solid var(--hud-line);
+  border-radius: 3px; padding: 10px 13px; font: inherit; font-size: 0.9em; color: #E4EDF9; }
+.free-row input::placeholder { color: var(--hud-ink-lit); }
+.free-row input:focus { outline: none; border-color: var(--hud-green); box-shadow: 0 0 0 2px rgba(126, 231, 135, 0.18); }
+.free-row .btn { flex: none; padding: 8px 18px; min-height: 40px; background: var(--hud-green);
+  border-color: var(--hud-green); color: #08240F; border-radius: 3px;
+  font-family: var(--font-pixel); font-weight: 400; font-size: 1.2em; letter-spacing: 0.04em; }
+.free-row .btn:hover { background: var(--hud-green-hi); border-color: var(--hud-green-hi); }
+
+/* ---- transcript (dark terminal) ---------------------------------------- */
+.transcript-panel { margin-top: 16px; padding: 10px 16px 12px; }
+.transcript-panel summary { cursor: pointer; color: var(--hud-green);
+  font-family: var(--font-pixel); font-weight: 400; font-size: 1.2em; letter-spacing: 0.08em; text-transform: uppercase; }
+.sim-log { max-height: 360px; overflow-y: auto; display: flex; flex-direction: column-reverse; margin-top: 8px;
+  padding-right: 4px; scrollbar-width: thin; scrollbar-color: var(--hud-line) var(--hud-bg); }
+.sim-log .entry { padding: 9px 0; border-bottom: 1px solid var(--hud-line-soft); font-size: 0.92em; color: var(--hud-ink); }
+.sim-log .entry:first-child { border-bottom: 0; }
+.sim-log .stamp { font-family: var(--font-pixel); font-size: 1.12em; letter-spacing: 0.04em;
+  color: var(--hud-ink-dim); font-variant-numeric: tabular-nums; margin-right: 9px; white-space: nowrap; }
+.sim-log .event { color: var(--hud-amber); font-weight: 600; }
+.sim-log .you { color: var(--hud-green); font-weight: 600; }
+
+/* ---- debrief (light reading surface, pixel headings) -------------------- */
+#debrief h3 { margin-top: 22px; padding-bottom: 4px; border-bottom: 2px solid var(--border); color: var(--primary);
+  font-family: var(--font-pixel); font-weight: 400; font-size: 1.28em; letter-spacing: 0.07em; text-transform: uppercase; }
 .debrief-list { list-style: none; margin: 0; padding: 0; }
-.debrief-list li { padding: 7px 0 7px 30px; position: relative; border-bottom: 1px solid var(--border); font-size: 0.95em; }
+.debrief-list li { padding: 9px 0 9px 34px; position: relative; border-bottom: 1px solid var(--border); font-size: 0.95em; }
 .debrief-list li:last-child { border-bottom: 0; }
-.debrief-list li::before { position: absolute; left: 2px; font-weight: 800; }
-.debrief-list li.hit::before { content: "\2713"; color: var(--success); }
-.debrief-list li.miss::before { content: "\2717"; color: var(--danger); }
+.debrief-list li::before { position: absolute; left: 0; top: 11px; width: 21px; height: 21px;
+  display: flex; align-items: center; justify-content: center; border-radius: 3px;
+  font-family: var(--font-pixel); font-weight: 400; font-size: 1.2em; line-height: 1; }
+.debrief-list li.hit::before { content: "\2713"; color: #08240F; background: var(--hud-green); }
+.debrief-list li.miss::before { content: "\2717"; color: #fff; background: var(--danger); }
 .debrief-list li .why { display: block; color: var(--text-muted); font-size: 0.9em; }
-.flag-item { background: var(--warning-bg); border: 1px solid var(--warning-border); border-radius: var(--radius-sm); padding: 10px 14px; margin: 8px 0; font-size: 0.93em; }
-.beta-tag { display: inline-block; background: var(--warning-bg); color: var(--warning); border: 1px solid var(--warning-border); font-size: 0.7em; font-weight: 750; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 10px; border-radius: 999px; vertical-align: middle; margin-left: 8px; }
-/* scene art (field-sketch style) */
+.flag-item { background: var(--warning-bg); border: 1px solid var(--warning-border); border-left: 4px solid var(--warning);
+  border-radius: var(--radius-sm); padding: 10px 14px; margin: 8px 0; font-size: 0.93em; }
+.beta-tag { display: inline-block; background: var(--hud-bg); color: var(--hud-green); border: 1px solid var(--hud-line);
+  font-family: var(--font-pixel); font-weight: 400; font-size: 0.6em; letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 1px 10px 2px; border-radius: 3px; vertical-align: middle; margin-left: 10px; }
+
+/* ---- scene art (field-sketch style — art itself lives in sim-scenes.js) -- */
 #scene .o { stroke: #3A424D; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; fill: #FBF7EE; }
 #scene .ln { stroke: #3A424D; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; fill: none; }
 #scene .thin { stroke-width: 1.2; }
@@ -59,7 +215,19 @@ details.more h3 { font-size: 0.78em; text-transform: uppercase; letter-spacing: 
 #scene.shiver1 .shakeable { animation: shiverA 0.34s infinite; }
 #scene.shiver2 .shakeable { animation: shiverA 0.16s infinite; }
 @media (prefers-reduced-motion: reduce) { #scene .shakeable { animation: none !important; } }
-.free-row { display: flex; gap: 8px; margin-top: 10px; }
-.free-row input { flex: 1; min-width: 0; border: 1.5px solid var(--border-strong); border-radius: 10px; padding: 10px 14px; font: inherit; font-size: 0.93em; color: var(--text); background: var(--surface); }
-.free-row input:focus { outline: none; border-color: var(--accent); }
-.free-row .btn { padding: 8px 18px; }
+
+/* ---- phone -------------------------------------------------------------- */
+@media (max-width: 560px) {
+  :root { --frame-pad: 6px; }
+  .hud-bar-label { display: none; }
+  .hud-bar { padding: 6px 10px; }
+  .choices { padding: 12px 12px 14px; }
+  .transcript-panel { padding: 10px 12px 12px; }
+  .sim-panel { padding: 16px; }
+  .sim-panel h2.hud-head { margin: -16px -16px 14px; padding: 8px 16px 9px; font-size: 1.28em; }
+  .status-strip .chip { flex-basis: 44%; padding: 7px 10px 8px; }
+  .status-strip #env-chip, .status-strip #chip-last { flex-basis: 100%; }
+  .free-row { flex-wrap: wrap; }
+  .free-row input { flex-basis: 100%; }
+  .free-row .btn { width: 100%; }
+}
