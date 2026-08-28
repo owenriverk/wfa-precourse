@@ -1,0 +1,1786 @@
+#!/usr/bin/env python3
+"""Oregon Trail-style pixel hero scenes for the for/<slug>.html niche pages.
+
+Replaces the CC stock photos with generated pixel art in the house style of
+tools/scene_pixel.py (the Rider Down scene) and assets/js/sim-scenes.js:
+same 4px cell grid, same palette hexes, same RLE rect emit.
+
+Outputs, per slug:
+  assets/img/for/<slug>.svg  - the on-page hero (viewBox 0 0 800 300)
+  assets/img/for/<slug>.png  - 1200x630 og:image rendered from the same grid
+  assets/img/for/alts.json   - {slug: alt text} consumed by build_niches.py
+
+Regenerate: python3 tools/niche_pixel.py [slug ...]
+"""
+import json, os, struct, sys, zlib
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+OUT = os.path.join(ROOT, "assets", "img", "for")
+CELL = 4
+W, H = 200, 75          # canvas 800x300
+HOR = 43                # default horizon row: sky above, ground below
+
+# palette --------------------------------------------------------------
+# Every name scene_pixel.py / sim-scenes.js uses carries that exact hex;
+# new names stay in the same muted family.
+P = {
+    "sky1": "#C7D2DB", "sky2": "#D2DAD8", "sky3": "#DFE0D2",
+    "cloud": "#EFF2F1", "cloudsh": "#D9DFDE",
+    "ridge": "#A9B4BE", "ridgesh": "#97A3AF", "snow": "#EDF1F0",
+    "hill": "#A8AF97", "hillrim": "#909880",
+    "grnd": "#DCCFAF", "trail": "#E9DFC6", "tredge": "#CDBD97",
+    "spk1": "#C8B990", "spk2": "#B5A57F",
+    "pineL": "#52654B", "pineD": "#3E4F39", "trunk": "#6B4E32",
+    "wheel": "#33383E", "hub": "#5A6068", "bike": "#A34E3B", "tank": "#7E3B2D", "bar": "#3A4048",
+    "olive": "#6B7A58", "olivesh": "#59684A", "pants2": "#4A5258",
+    "jkt": "#B9AE95", "jktsh": "#9C927B", "glove": "#4E4840",
+    "pant": "#7E7D68", "pantsh": "#66654F",
+    "boot": "#4A4038", "bootsh": "#372F28",
+    "helm": "#D08A5C", "helmsh": "#B06F44", "visor": "#5A5F66",
+    "hair": "#6E4F33", "shadow": "#C9B893",
+    "splint": "#C9BC9C", "strap": "#6B6353",
+    "blank": "#C96A3F", "blanksh": "#B25834",
+    "pad": "#8E8064", "padsh": "#7A6D53",
+    "face": "#3A424D", "skin": "#D9B48F",
+    "sun": "#EBD9A8", "sunhi": "#F6EDCE",
+    "storm": "#A3ABA6", "stormsh": "#8B948F",
+    "dsk1": "#9BA3B0", "dsk2": "#C0B2A6", "dsk3": "#DEC49F",
+    "water": "#9CB0BC", "watersh": "#879DAB", "wavecap": "#CBD7DD",
+    "rockD": "#7E8891", "dusk": "#4A4433",
+    # new, muted-family additions
+    "mesa": "#B49478", "mesash": "#9C7E64", "mesad": "#8A6B52",
+    "sand": "#E2D4AC", "sandsh": "#CDBD8E",
+    "leaf": "#6E8757", "leafsh": "#5C7248",
+    "ice": "#D7E4E8", "icesh": "#BCCFD6",
+    "red": "#A84A3F", "redsh": "#8E3B32",
+    "metal": "#8B949B", "metalsh": "#737C83",
+    "wood": "#8A6B4A", "woodsh": "#71563B",
+    "denim": "#5A6B7E", "denimsh": "#4A5A6B",
+    "teal": "#5E7F7A", "tealsh": "#4E6B66",
+    "gold": "#C9A84C", "goldsh": "#AD8F3C",
+    "horse": "#7A5B3E", "horsesh": "#654A31", "horsemane": "#4A3726",
+}
+
+
+class Grid:
+    """Cell grid keyed (x, y) -> palette key. No bounds check (sprites draw
+    in local coords, negatives included); clipping happens at blit/emit."""
+
+    def __init__(self):
+        self.cells = {}
+
+    def px(self, x, y, k):
+        self.cells[(x, y)] = k
+
+    def rect(self, x, y, w, h, k):
+        for yy in range(y, y + h):
+            for xx in range(x, x + w):
+                self.cells[(xx, yy)] = k
+
+    def row(self, x0, x1, y, k):
+        for xx in range(x0, x1 + 1):
+            self.cells[(xx, y)] = k
+
+    def col(self, x, y0, y1, k):
+        for yy in range(y0, y1 + 1):
+            self.cells[(x, yy)] = k
+
+    def disc(self, cx, cy, r, k):
+        for yy in range(int(cy - r), int(cy + r) + 1):
+            for xx in range(int(cx - r), int(cx + r) + 1):
+                if (xx - cx) ** 2 + (yy - cy) ** 2 <= r * r + 0.4:
+                    self.cells[(xx, yy)] = k
+
+    def blit(self, spr, ox, oy, scale=1):
+        """Stamp sprite cells (local coords) at (ox, oy), integer-scaled."""
+        for (x, y), k in spr.cells.items():
+            if scale == 1:
+                self.cells[(ox + x, oy + y)] = k
+            else:
+                for dy in range(scale):
+                    for dx in range(scale):
+                        self.cells[(ox + x * scale + dx, oy + y * scale + dy)] = k
+
+
+# emit ----------------------------------------------------------------
+def emit_svg(grid, alt):
+    rows = []
+    for y in range(H):
+        x = 0
+        while x < W:
+            k = grid.cells.get((x, y))
+            if k is None:
+                x += 1
+                continue
+            x1 = x
+            while x1 + 1 < W and grid.cells.get((x1 + 1, y)) == k:
+                x1 += 1
+            rows.append((x, y, x1 - x + 1, k))
+            x = x1 + 1
+    parts = [
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" '
+        'role="img" aria-label="%s" shape-rendering="crispEdges">' % alt.replace('"', "&quot;"),
+        "<!-- generated by tools/niche_pixel.py; edit the generator, not these rects -->",
+    ]
+    for x, y, w, k in rows:
+        parts.append('<rect x="%d" y="%d" width="%d" height="%d" fill="%s"/>'
+                     % (x * CELL, y * CELL, w * CELL, CELL, P[k]))
+    parts.append("</svg>")
+    return "\n".join(parts)
+
+
+def hex_rgb(h):
+    return (int(h[1:3], 16), int(h[3:5], 16), int(h[5:7], 16))
+
+
+def write_png(path, grid):
+    """1200x630 truecolor PNG straight from the grid: 6px per cell
+    (1200x450) plus 90px of sky above and ground below (og:image 1.91:1)."""
+    scale, pad = 6, 15  # pad rows of cells top and bottom
+    width, height = W * scale, (H + 2 * pad) * scale
+    rgb_rows = []
+    for ry in range(-pad, H + pad):
+        y = min(max(ry, 0), H - 1)
+        line = bytearray()
+        for x in range(W):
+            k = grid.cells.get((x, y), "sky1")
+            line += bytes(hex_rgb(P[k])) * scale
+        rgb_rows.append(bytes(line))
+    raw = b"".join(b"\x00" + r for r in rgb_rows for _ in range(scale))
+    def chunk(tag, data):
+        return (struct.pack(">I", len(data)) + tag + data
+                + struct.pack(">I", zlib.crc32(tag + data) & 0xFFFFFFFF))
+    png = (b"\x89PNG\r\n\x1a\n"
+           + chunk(b"IHDR", struct.pack(">IIBBBBB", width, height, 8, 2, 0, 0, 0))
+           + chunk(b"IDAT", zlib.compress(raw, 9))
+           + chunk(b"IEND", b""))
+    open(path, "wb").write(png)
+
+
+# backdrops ------------------------------------------------------------
+# Each fills the full canvas: banded sky, skyline, ground. Scenes then
+# blit sprites over it. All return a fresh Grid.
+def sky(g, kind="day"):
+    bands = {
+        "day":    [("sky1", 0, 18), ("sky2", 18, 32), ("sky3", 32, HOR)],
+        "dusk":   [("dsk1", 0, 16), ("dsk2", 16, 30), ("dsk3", 30, HOR)],
+        "storm":  [("storm", 0, 20), ("stormsh", 20, 34), ("sky3", 34, HOR)],
+        "cold":   [("sky1", 0, 24), ("ice", 24, 36), ("snow", 36, HOR)],
+    }
+    for k, y0, y1 in bands[kind]:
+        g.rect(0, y0, W, y1 - y0, k)
+
+
+def sun_disc(g, cx=162, cy=12, r=6):
+    g.disc(cx, cy, r, "sun")
+    g.disc(cx - 1, cy - 1, r - 3, "sunhi")
+
+
+def clouds(g, xs=((22, 8), (95, 6), (150, 10))):
+    for cx, s in xs:
+        g.rect(cx - s, 8, 2 * s, 2, "cloud")
+        g.rect(cx - s + 3, 6, 2 * s - 6, 2, "cloud")
+        g.rect(cx - s + 2, 10, 2 * s + 2, 1, "cloudsh")
+
+
+def ridgeline(g, tops, bottom=HOR, fill="ridge", rim=None, snowcap=None):
+    """tops: list of (x, top_y) breakpoints, columns interpolate flat-step."""
+    ys = [0] * W
+    for i in range(len(tops) - 1):
+        x0, y0 = tops[i]; x1, y1 = tops[i + 1]
+        for x in range(x0, min(x1, W)):
+            t = (x - x0) / max(1, x1 - x0)
+            ys[x] = int(round(y0 + (y1 - y0) * t))
+    for x in range(W):
+        t = ys[x]
+        if t < bottom:
+            if snowcap and t < snowcap:
+                g.col(x, t, min(snowcap, bottom) - 1, "snow")
+                if snowcap < bottom:
+                    g.col(x, snowcap, bottom - 1, fill)
+            else:
+                g.col(x, t, bottom - 1, fill)
+            if rim:
+                g.px(x, t, rim)
+
+
+def pine(g, x, y, h=8):
+    """Pine with tip at (x, y-h); house half-stack triangles."""
+    w = 1
+    for row in range(h - 2):
+        yy = y - h + row
+        g.row(x - w // 2, x - w // 2 + w - 1, yy, "pineL" if row % 2 == 0 else "pineD")
+        if row % 2 == 1 and w < 7:
+            w += 2
+    g.rect(x, y - 2, 1, 2, "trunk")
+
+
+def pines(g, xs, y, h=8):
+    for x in xs:
+        pine(g, x, y, h)
+
+
+def big_pine(g, x, y, h=20):
+    """Foreground pine sized to the 2x figure scale; tip at (x, y-h)."""
+    w = 3
+    for row in range(h - 4):
+        yy = y - h + row
+        g.row(x - w // 2, x - w // 2 + w - 1, yy, "pineL" if (row // 2) % 2 == 0 else "pineD")
+        if row % 2 == 1 and w < 13:
+            w += 2
+    g.rect(x - 1, y - 4, 2, 4, "trunk")
+
+
+def treeline(g, y, h0=8, step=7):
+    """Varied-height pine band sitting on row y (no picket fence)."""
+    heights = (9, 7, 11, 8, 10, 7, 12, 9, 8, 11)
+    x, i = 3, 0
+    while x < W - 2:
+        pine(g, x, y, heights[i % len(heights)])
+        x += step + (i * 3) % 5
+        i += 1
+
+
+def ground(g, y0=HOR, kind="grnd", speckle=True):
+    g.rect(0, y0, W, H - y0, kind)
+    if speckle:
+        for i, (sx, sy) in enumerate([(7, 5), (23, 12), (41, 8), (58, 19), (74, 4),
+                                      (90, 15), (108, 9), (126, 22), (143, 6),
+                                      (160, 13), (178, 18), (192, 7), (34, 25),
+                                      (117, 27), (69, 27), (151, 24), (12, 21), (185, 26)]):
+            yy = y0 + 2 + sy
+            if yy < H - 1:
+                g.rect(sx, yy, 2, 1, "spk1" if i % 2 else "spk2")
+
+
+def trail_band(g, y=None, x0=0, x1=W, wobble=True):
+    """Horizontal double-track trail across the ground."""
+    y = y if y is not None else HOR + 14
+    g.rect(x0, y - 1, x1 - x0, 5, "trail")
+    g.row(x0, x1 - 1, y - 2, "tredge")
+    g.row(x0, x1 - 1, y + 4, "tredge")
+    if wobble:
+        for x in range(x0 + 4, x1 - 4, 14):
+            g.rect(x, y, 3, 1, "tredge")
+            g.rect(x + 6, y + 2, 3, 1, "tredge")
+
+
+def water_band(g, y0, y1, caps=((18, 4), (55, 6), (98, 5), (140, 7), (176, 4))):
+    g.rect(0, y0, W, y1 - y0, "water")
+    g.row(0, W - 1, y0, "wavecap")
+    for i in range(y0 + 2, y1, 3):
+        for cx, s in caps:
+            x = (cx + (i * 7) % 23) % (W - s)
+            g.rect(x, i, s, 1, "watersh")
+    for cx, s in caps:
+        g.rect(cx, y0 + 1, s, 1, "wavecap")
+
+
+def bd_ridge(skytype="day", trail=True):
+    """Snow-capped ridge over foothills; the default trail-country backdrop."""
+    g = Grid()
+    sky(g, skytype)
+    clouds(g)
+    ridgeline(g, [(0, 26), (28, 14), (52, 22), (86, 10), (120, 20), (150, 15),
+                  (176, 24), (199, 20), (200, 20)], HOR - 4, "ridge", "ridgesh", snowcap=18)
+    ridgeline(g, [(0, 40), (40, 33), (90, 38), (140, 31), (199, 39), (200, 39)],
+              HOR, "hill", "hillrim")
+    ground(g)
+    if trail:
+        trail_band(g)
+    pines(g, (30, 36, 152, 158), HOR + 2, 9)
+    big_pine(g, 10, HOR + 26, 24); big_pine(g, 188, HOR + 30, 28)
+    return g
+
+
+def bd_forest(skytype="day"):
+    """Dense pine band over rolling hill; woods-country backdrop."""
+    g = Grid()
+    sky(g, skytype)
+    clouds(g, ((30, 7), (120, 9)))
+    ridgeline(g, [(0, 30), (60, 24), (130, 29), (199, 25), (200, 25)], HOR, "hill", "hillrim")
+    for i, x in enumerate(range(4, W, 11)):
+        pine(g, x, HOR + 2, 10 if i % 2 else 12)
+    for i, x in enumerate(range(9, W, 13)):
+        pine(g, x, HOR + 5, 8)
+    ground(g, HOR + 4)
+    return g
+
+
+def bd_desert(skytype="dusk"):
+    """Mesa country: warm sky, layered rock, sand floor with scrub."""
+    g = Grid()
+    sky(g, skytype)
+    sun_disc(g)
+    ridgeline(g, [(0, 24), (20, 24), (22, 16), (40, 16), (42, 24), (95, 26),
+                  (120, 12), (146, 12), (148, 24), (199, 22), (200, 22)],
+              HOR - 2, "mesa", "mesash")
+    ridgeline(g, [(0, 38), (70, 34), (140, 39), (199, 35), (200, 35)], HOR, "mesash", "mesad")
+    ground(g, kind="sand")
+    for sx in (18, 62, 108, 152, 188):
+        g.rect(sx, HOR + 10, 3, 2, "leafsh")
+        g.rect(sx + 1, HOR + 9, 1, 1, "leafsh")
+    return g
+
+
+def bd_water(skytype="day", shore=True):
+    """Open water to the horizon; optional sand shore foreground."""
+    g = Grid()
+    sky(g, skytype)
+    clouds(g, ((40, 9), (130, 7), (178, 5)))
+    water_band(g, HOR - 10, H if not shore else HOR + 18)
+    if shore:
+        g.rect(0, HOR + 18, W, H - HOR - 18, "sand")
+        g.row(0, W - 1, HOR + 18, "sandsh")
+        ground(g, HOR + 19, "sand", speckle=False)
+        for i, sx in enumerate((15, 48, 83, 121, 157, 186)):
+            g.rect(sx, HOR + 22 + (i % 3) * 3, 2, 1, "sandsh")
+    return g
+
+
+def bd_river(skytype="day"):
+    """Far pines, river band mid-frame, grassy near bank."""
+    g = Grid()
+    sky(g, skytype)
+    clouds(g, ((60, 8), (155, 6)))
+    ridgeline(g, [(0, 28), (70, 22), (150, 27), (199, 24), (200, 24)], HOR - 6, "hill", "hillrim")
+    treeline(g, HOR - 4)
+    g.rect(0, HOR - 4, W, 3, "grnd")
+    water_band(g, HOR - 1, HOR + 16)
+    g.row(0, W - 1, HOR + 16, "tredge")
+    ground(g, HOR + 17)
+    return g
+
+
+def bd_snow(skytype="cold"):
+    """Snowfield under a cold sky."""
+    g = Grid()
+    sky(g, skytype)
+    ridgeline(g, [(0, 20), (36, 10), (70, 18), (110, 8), (150, 17), (199, 13), (200, 13)],
+              HOR, "snow", "ridgesh")
+    ridgeline(g, [(0, 38), (50, 33), (105, 37), (150, 32), (199, 36), (200, 36)],
+              HOR, "ridge", "ridgesh")
+    g.rect(0, HOR, W, H - HOR, "snow")
+    for i, (sx, sy) in enumerate([(20, 6), (55, 14), (90, 9), (130, 18), (165, 5), (185, 13), (40, 24), (110, 25)]):
+        g.rect(sx, HOR + sy, 3, 1, "icesh")
+    pines(g, (24, 30, 170), HOR + 2, 8)
+    big_pine(g, 8, HOR + 24, 22); big_pine(g, 190, HOR + 28, 24)
+    return g
+
+
+def bd_plains(skytype="day"):
+    """Big sky, flat horizon, open grass — the classic trail screen."""
+    g = Grid()
+    sky(g, skytype)
+    clouds(g, ((25, 10), (90, 7), (160, 9)))
+    ridgeline(g, [(0, 39), (80, 37), (160, 40), (199, 38), (200, 38)], HOR, "hill", "hillrim")
+    ground(g)
+    return g
+
+
+def bd_jungle(skytype="day"):
+    """Layered green hills, big leaves crowding the frame."""
+    g = Grid()
+    sky(g, skytype)
+    clouds(g, ((70, 8),))
+    ridgeline(g, [(0, 24), (50, 18), (110, 25), (160, 17), (199, 23), (200, 23)],
+              HOR - 6, "leafsh")
+    ridgeline(g, [(0, 34), (60, 29), (130, 35), (199, 30), (200, 30)], HOR, "leaf")
+    ground(g, kind="olive", speckle=False)
+    g.rect(0, HOR, W, 1, "leafsh")
+    for i, (sx, sy) in enumerate([(14, 6), (40, 14), (70, 9), (98, 20), (124, 5),
+                                  (148, 16), (176, 11), (58, 24), (110, 26)]):
+        g.rect(sx, HOR + sy, 3, 1, "olivesh")
+    g.rect(0, HOR + 13, W, 4, "pad")
+    g.row(0, W - 1, HOR + 12, "padsh"); g.row(0, W - 1, HOR + 17, "padsh")
+    for x, h in ((6, 14), (18, 10), (182, 12), (192, 16)):
+        g.rect(x, HOR - h, 2, h + 20, "trunk")
+        for dy, wd in ((-2, 7), (2, 6), (6, 5)):
+            g.rect(x - wd, HOR - h + dy, wd, 2, "leaf")
+            g.rect(x + 2, HOR - h + dy + 1, wd, 2, "leafsh")
+    return g
+
+
+# figure rig -----------------------------------------------------------
+# Ported from sim-scenes.js figStand at cell resolution: 14 cells tall,
+# feet on local y=0, body centred on x=0. Options pick kit + headgear.
+def fig(jk="olive", jks="olivesh", pl="pants2", pls="pants2",
+        hat=None, hatc="jkt", hatsh="jktsh", pack=None, packc="blank",
+        pose="stand", small=False):
+    s = Grid()
+    top = -14 if not small else -10
+
+    def head(t):
+        if hat == "brim":
+            s.rect(-1, t, 3, 1, hatc); s.rect(-2, t + 1, 5, 1, hatsh)
+            s.rect(-1, t + 2, 3, 2, "skin")
+        elif hat == "helmet":
+            s.rect(-1, t, 3, 2, hatc); s.px(1, t + 1, hatsh)
+            s.rect(-1, t + 2, 3, 2, "skin")
+        elif hat == "beanie":
+            s.rect(-1, t, 3, 2, hatc); s.rect(-1, t + 2, 3, 2, "skin")
+        elif hat == "cap":
+            s.rect(-1, t, 3, 1, hatc); s.rect(1, t + 1, 2, 1, hatsh)
+            s.rect(-1, t + 1, 2, 1, "skin"); s.rect(-1, t + 2, 3, 2, "skin")
+        elif hat == "hood":
+            s.rect(-2, t, 4, 4, jk); s.rect(-1, t + 1, 2, 2, "skin")
+        else:
+            s.rect(-1, t, 3, 1, "hair"); s.rect(-1, t + 1, 3, 3, "skin")
+        s.px(0, t + 2, "face")
+
+    if pose == "stand":
+        head(top)
+        s.rect(-2, top + 4, 5, 1, jk)              # shoulders
+        s.rect(-1, top + 5, 3, 3, jk)
+        s.rect(-1, top + 7, 3, 1, jks)
+        s.col(-2, top + 5, top + 6, jks); s.px(-2, top + 7, "skin")   # arms
+        s.col(2, top + 5, top + 6, jks); s.px(2, top + 7, "skin")
+        s.rect(-1, top + 8, 3, 1, pl)              # hips
+        s.col(-1, top + 9, -2, pl); s.col(1, top + 9, -2, pls)
+        s.rect(-2, -1, 2, 1, "boot"); s.rect(1, -1, 2, 1, "boot")
+        s.px(-2, -1, "bootsh"); s.px(2, -1, "bootsh")
+        if pack == "big":
+            s.rect(-4, top + 3, 2, 7, packc)
+            s.rect(-4, top + 4, 1, 5, jks)          # strap shadow
+            s.rect(-4, top + 2, 2, 1, packc)        # brain lid
+        elif pack == "small":
+            s.rect(-3, top + 5, 1, 4, packc)
+    elif pose == "walk":
+        head(top)
+        s.rect(-2, top + 4, 5, 1, jk)
+        s.rect(-1, top + 5, 3, 3, jk); s.rect(-1, top + 7, 3, 1, jks)
+        s.col(-2, top + 5, top + 6, jks); s.px(-2, top + 7, "skin")
+        s.col(2, top + 5, top + 6, jks); s.px(2, top + 7, "skin")
+        s.rect(-1, top + 8, 3, 1, pl)
+        s.col(-2, top + 9, -2, pl)                 # leg back
+        s.px(-1, top + 9, pl)
+        s.col(1, top + 9, -2, pls)                 # leg forward
+        s.rect(-3, -1, 2, 1, "boot"); s.rect(1, -1, 2, 1, "boot")
+        if pack == "big":
+            s.rect(-4, top + 3, 2, 7, packc); s.rect(-4, top + 2, 2, 1, packc)
+        elif pack == "small":
+            s.rect(-3, top + 5, 1, 4, packc)
+    elif pose == "run":
+        head(top)
+        s.rect(-2, top + 4, 5, 1, jk)
+        s.rect(-1, top + 5, 3, 3, jk); s.rect(-1, top + 7, 3, 1, jks)
+        s.px(-2, top + 5, jks); s.px(-3, top + 6, "skin")   # arm swung back
+        s.px(2, top + 6, jks); s.px(3, top + 5, "skin")     # arm driving
+        s.rect(-1, top + 8, 3, 1, pl)
+        s.px(-2, top + 9, pl); s.px(-3, top + 10, pl); s.px(-4, top + 11, "boot")
+        s.px(1, top + 9, pls); s.px(2, top + 10, pls); s.px(2, top + 11, pls)
+        s.rect(2, -2, 2, 1, "boot")
+    elif pose == "kneel":
+        head(top + 4)
+        s.rect(-2, top + 8, 5, 1, jk)
+        s.rect(-1, top + 9, 3, 2, jk); s.rect(-1, top + 11, 3, 1, jks)
+        s.px(-3, top + 9, jks); s.px(-4, top + 10, jks); s.px(-5, top + 11, "skin")
+        s.rect(-2, top + 11, 4, 1, pl)
+        s.rect(-3, top + 12, 8, 1, pl)             # thigh forward
+        s.px(3, -1, pl)
+        s.rect(-4, -1, 4, 1, "boot"); s.px(3, -1, "boot")
+    elif pose == "supine":
+        # head at local x=0, body along +x, lying on y=0 (feet ~x=18)
+        s.rect(-1, -4, 3, 2, "skin"); s.px(-1, -5, "hair")
+        s.px(0, -4, "face")
+        s.rect(2, -3, 9, 3, jk); s.rect(2, -1, 9, 1, jks)
+        s.rect(5, -2, 5, 1, jks); s.px(10, -2, "skin")     # arm across
+        s.rect(11, -3, 5, 2, pl); s.rect(11, -1, 5, 1, pls)
+        s.rect(16, -3, 2, 2, pl)
+        s.rect(17, -5, 2, 5, "boot")                       # boots point up
+    elif pose == "sit":
+        head(top + 2)
+        s.rect(-2, top + 6, 5, 1, jk)
+        s.rect(-1, top + 7, 3, 3, jk); s.rect(-1, top + 9, 3, 1, jks)
+        s.px(2, top + 7, jks); s.px(3, top + 8, jks); s.px(4, top + 9, "skin")
+        s.rect(-2, top + 10, 4, 1, pl)
+        s.rect(-2, top + 11, 7, 1, pl)             # thigh out front
+        s.rect(3, top + 12, 3, 1, pl)              # shin down
+        s.rect(5, -1, 3, 1, "boot")
+    return s
+
+
+def flipped(spr):
+    out = Grid()
+    for (x, y), k in spr.cells.items():
+        out.cells[(-x, y)] = k
+    return out
+
+
+def shadow_under(g, x0, x1, y):
+    g.row(x0, x1, y, "shadow")
+
+
+# props ----------------------------------------------------------------
+def trek_pole(g, x, y, h=11, lean=0):
+    """Pole planted at (x, y): straight shaft, tip on the ground."""
+    for i in range(h):
+        g.px(x + (lean * i) // max(1, h - 1), y - i, "bar")
+
+
+def prop_tent(w=14, wall="cloud", shade="jktsh"):
+    """A-frame wall tent, apex centred, base on local y=0, width w."""
+    s = Grid()
+    h = w // 2
+    for row in range(h):
+        half = 1 + row * (w // 2 - 1) // max(1, h - 1)
+        y = -h + row
+        s.row(-half, half, y, wall if row else shade)
+    s.row(-w // 2, w // 2, -1, shade)
+    s.col(0, -h, -1, shade)
+    return s
+
+
+def prop_campfire(g, x, y):
+    g.rect(x - 4, y - 1, 8, 2, "trunk")
+    g.rect(x - 3, y - 3, 6, 2, "blank")
+    g.rect(x - 2, y - 5, 4, 2, "helm")
+    g.rect(x - 1, y - 7, 2, 2, "sun")
+
+
+def prop_dog(size=3):
+    """Side-profile dog, feet on y=0, facing +x."""
+    s = Grid()
+    s.rect(-2, -3, 5, 2, "trunk")             # body
+    s.rect(3, -4, 2, 2, "trunk")              # head
+    s.px(5, -3, "woodsh")                     # snout
+    s.px(3, -5, "woodsh")                     # ear
+    s.px(-3, -4, "trunk")                     # tail up
+    s.px(-2, -1, "woodsh"); s.px(0, -1, "woodsh"); s.px(2, -1, "woodsh")
+    return s
+
+
+def prop_canoe(l=22, hull="bike", hullsh="tank"):
+    """Canoe side profile, waterline on y=0, centred on x=0."""
+    s = Grid()
+    half = l // 2
+    s.rect(-half + 2, -2, l - 4, 2, hull)
+    s.rect(-half + 3, 0, l - 6, 1, hullsh)
+    s.rect(-half, -3, 2, 3, hull); s.rect(half - 2, -3, 2, 3, hull)
+    s.px(-half, -4, hullsh); s.px(half - 1, -4, hullsh)
+    return s
+
+
+def paddle(g, x, y, blade_dy=3):
+    g.col(x, y - 4, y + blade_dy - 1, "trunk")
+    g.rect(x - 1, y + blade_dy, 2, 2, "wood")
+
+
+def prop_signpost(labels=2):
+    s = Grid()
+    s.col(0, -12, -1, "trunk")
+    for i in range(labels):
+        y = -11 + i * 3
+        s.rect(-4 + (i % 2) * 2, y, 7, 2, "wood")
+        s.rect(-3 + (i % 2) * 2, y + 1, 5, 1, "woodsh")
+    return s
+
+
+# scenes ---------------------------------------------------------------
+SCENES = {}
+
+
+def scene(slug, alt):
+    def deco(fn):
+        SCENES[slug] = (alt, fn)
+        return fn
+    return deco
+
+
+@scene("backpackers", "Pixel art of a backpacker with trekking poles walking a trail below snow-capped mountains")
+def s_backpackers():
+    g = bd_ridge()
+    y = HOR + 17
+    shadow_under(g, 88, 100, y)
+    g.blit(fig(pack="big", hat="cap", hatc="teal", pose="walk"), 94, y, 2)
+    trek_pole(g, 101, y - 1, 13, 2); trek_pole(g, 87, y - 1, 13, -2)
+    return g
+
+
+@scene("canoe-trippers", "Pixel art of two canoeists paddling a loaded canoe across a wilderness lake")
+def s_canoe_trippers():
+    g = bd_river()
+    c = Grid()
+    c.blit(prop_canoe(26), 0, 0)
+    c.blit(fig(pose="sit", jk="blank", jks="blanksh", hat="cap", hatc="jkt"), -8, -2)
+    c.blit(fig(pose="sit", jk="teal", jks="tealsh", hat="brim"), 4, -2)
+    paddle(c, -2, -3); paddle(c, 10, -3)
+    c.rect(-3, -4, 3, 2, "pad")  # gear barrel amidships
+    g.blit(c, 96, HOR + 10, 2)
+    return g
+
+
+@scene("desert-explorers", "Pixel art of a hiker crossing open desert under a low sun, mesas on the horizon")
+def s_desert_explorers():
+    g = bd_desert()
+    y = HOR + 20
+    shadow_under(g, 70, 84, y)
+    g.blit(fig(pack="big", hat="brim", hatc="jkt", jk="jkt", jks="jktsh", pose="walk"), 78, y, 2)
+    trek_pole(g, 85, y - 1, 13, 2)
+    # tall saguaro right of frame
+    g.col(150, HOR + 2, HOR + 16, "leaf"); g.col(151, HOR + 2, HOR + 16, "leafsh")
+    g.col(146, HOR + 5, HOR + 9, "leaf"); g.row(146, 149, HOR + 9, "leaf")
+    g.col(154, HOR + 4, HOR + 8, "leafsh"); g.row(152, 154, HOR + 8, "leafsh")
+    return g
+
+
+@scene("ski-patrol", "Pixel art of a ski patroller towing a rescue toboggan across a snowfield")
+def s_ski_patrol():
+    g = bd_snow()
+    y = HOR + 16
+    g.blit(fig(jk="red", jks="redsh", pl="pants2", hat="beanie", hatc="red", pose="walk"), 100, y, 2)
+    g.rect(92, y, 20, 1, "bar")                    # skis
+    trek_pole(g, 108, y - 1, 13, 2)
+    # rescue toboggan behind: red sled, wrapped patient, tow bar
+    g.rect(62, y - 3, 22, 3, "red"); g.rect(63, y - 1, 20, 1, "redsh")
+    g.rect(60, y - 3, 2, 2, "redsh")               # curled nose
+    g.rect(66, y - 6, 14, 3, "blank")              # blanket bundle
+    g.rect(66, y - 4, 14, 1, "blanksh")
+    g.rect(64, y - 6, 2, 2, "skin")                # patient head out
+    g.rect(74, y - 7, 2, 1, "snow"); g.px(74, y - 6, "snow")  # cross on blanket
+    g.rect(73, y - 6, 4, 1, "snow")
+    g.row(84, 96, y - 4, "bar")                    # tow bar to patroller
+    return g
+
+
+# scene helpers --------------------------------------------------------
+def cliff_wall(g, x0, x1, top=2, base=None):
+    """Sheer rock face from top of frame down to the ground."""
+    base = base if base is not None else HOR + 10
+    g.rect(x0, top, x1 - x0, base - top, "mesa")
+    span = max(1, base - top - 2)
+    for i in range(0, span, 5):
+        xx = x0 + 2 + (i * 7) % max(1, x1 - x0 - 9)
+        g.rect(xx, top + 1 + i, 4 + (i % 3) * 2, 1, "mesash")
+        if i % 10 == 5:
+            g.rect(x0 + (i * 3) % max(1, x1 - x0 - 5), top + 3 + i, 3, 1, "mesad")
+    g.col(x0, top, base - 1, "mesad")
+    g.rect(x0, base - 1, x1 - x0, 1, "mesad")
+
+
+def rope_line(g, x, y0, y1):
+    for yy in range(y0, y1):
+        g.px(x, yy, "splint")
+
+
+@scene("thru-hikers", "Pixel art of a thru-hiker passing a trail junction sign in evening light on a mountain trail")
+def s_thru_hikers():
+    g = bd_ridge("dusk")
+    c = Grid()
+    c.blit(fig(pack="big", packc="teal", hat="cap", hatc="blank", pose="walk"), 0, 0)
+    trek_pole(c, 4, -1, 7); trek_pole(c, -7, -1, 7)
+    c.blit(prop_signpost(3), -14, 0)
+    g.blit(c, 96, HOR + 17, 2)
+    return g
+
+
+@scene("mtb", "Pixel art of a mountain biker standing beside a bike on forest singletrack")
+def s_mtb():
+    g = bd_forest()
+    c = Grid()
+    c.blit(prop_bicycle(), 0, 0)
+    c.blit(fig(hat="helmet", hatc="red", jk="denim", jks="denimsh", pose="stand"), -9, 0)
+    g.blit(c, 100, HOR + 20, 2)
+    return g
+
+
+@scene("bikepackers", "Pixel art of a cyclist with a fully loaded bikepacking rig on a gravel road through the mountains")
+def s_bikepackers():
+    g = bd_ridge()
+    c = Grid()
+    c.blit(prop_bicycle(loaded=True), 0, 0)
+    c.blit(fig(hat="helmet", hatc="teal", jk="jkt", jks="jktsh", pose="stand"), -10, 0)
+    g.blit(c, 98, HOR + 17, 2)
+    return g
+
+
+@scene("trail-runners", "Pixel art of a trail runner in full stride on a high mountain trail")
+def s_trail_runners():
+    g = bd_ridge()
+    y = HOR + 17
+    shadow_under(g, 90, 100, y)
+    g.blit(fig(jk="teal", jks="tealsh", pl="pant", pls="pantsh", hat="cap",
+               hatc="red", pack="small", packc="gold", pose="run"), 96, y, 2)
+    for dx in (-14, -20, -26):
+        g.rect(96 + dx, y - 1, 3, 1, "tredge")   # dust kicked up behind
+    return g
+
+
+@scene("canyoneers", "Pixel art of a canyoneer rappelling into a narrow desert slot canyon")
+def s_canyoneers():
+    g = Grid()
+    sky(g, "dusk")
+    ground(g, HOR + 18, "sand")
+    g.rect(60, HOR + 16, 80, 2, "sandsh")        # lit strip of canyon floor
+    cliff_wall(g, 0, 72, 0, HOR + 20)
+    cliff_wall(g, 128, W, 0, HOR + 20)
+    for yy in range(0, HOR + 8):                 # rappel rope, dark on sky
+        g.px(96, yy, "bar")
+    c = Grid()                                   # rappeller: feet on the wall
+    c.blit(fig(hat="helmet", hatc="red", jk="jkt", jks="jktsh", pose="sit"), 0, 0)
+    g.blit(flipped(c), 88, HOR - 4, 2)
+    g.rect(74, HOR - 12, 2, 2, "bar")            # brake hand on the rope
+    return g
+
+
+@scene("disc-golfers", "Pixel art of a disc golfer lining up a throw at a chain basket on a wooded fairway")
+def s_disc_golfers():
+    g = bd_forest()
+    c = Grid()
+    c.blit(fig(jk="denim", jks="denimsh", hat="cap", hatc="red", pose="stand"), 0, 0)
+    c.px(4, -8, "gold"); c.px(3, -8, "goldsh")  # disc leaving the hand
+    g.blit(c, 66, HOR + 20, 2)
+    b = Grid(); b.blit(prop_basket(), 0, 0)
+    g.blit(b, 140, HOR + 20, 2)
+    return g
+
+
+@scene("alpine-climbers", "Pixel art of a climber roped up on a sheer rock face high above the valley")
+def s_alpine_climbers():
+    g = bd_ridge(trail=False)
+    cliff_wall(g, 128, W, 0, HOR + 26)
+    rope_line(g, 150, 2, HOR + 4)
+    c = Grid()
+    c.blit(fig(hat="helmet", hatc="gold", jk="red", jks="redsh", pose="kneel"), 0, 0)
+    g.blit(c, 150, HOR - 2, 2)                  # on the face mid-pitch
+    y = HOR + 24
+    g.blit(fig(hat="helmet", hatc="teal", pose="stand"), 120, y, 2)  # belayer
+    for yy in range(y - 30, y - 8):
+        g.px(126 + (yy - (y - 30)) // 8, yy, "strap")
+    return g
+
+
+@scene("boulderers", "Pixel art of a boulderer topping out a big block while a spotter waits above the pad")
+def s_boulderers():
+    g = bd_forest()
+    y = HOR + 22
+    # the block
+    b = Grid()
+    b.disc(0, -5, 6.5, "rockD")
+    b.rect(-7, -5, 14, 5, "rockD")
+    b.rect(-6, -1, 12, 1, "metalsh")
+    b.rect(-3, -9, 4, 1, "metal")               # highlight
+    g.blit(b, 100, y, 2)
+    g.rect(84, y - 2, 18, 2, "blank")           # crash pad
+    g.rect(84, y - 1, 18, 1, "blanksh")
+    c = Grid()                                   # climber high on the block
+    c.blit(fig(jk="pant", jks="pantsh", pose="kneel"), 0, 0)
+    g.blit(c, 98, y - 22, 2)
+    sp = fig(jk="teal", jks="tealsh", pose="stand")
+    sp.px(-3, -12, "skin"); sp.px(3, -12, "skin")   # spotter arms up
+    sp.px(-3, -11, "tealsh"); sp.px(3, -11, "tealsh")
+    g.blit(sp, 78, y, 2)
+    return g
+
+
+@scene("via-ferrata", "Pixel art of a climber clipped to the rungs of a via ferrata on a vertical wall")
+def s_via_ferrata():
+    g = bd_ridge(trail=False)
+    cliff_wall(g, 84, 148, 0, HOR + 22)
+    for yy in range(8, HOR + 18, 6):
+        g.rect(108, yy, 6, 1, "metal")          # rungs
+    g.col(106, 4, HOR + 16, "splint")           # cable
+    c = Grid()
+    c.blit(fig(hat="helmet", hatc="red", jk="gold", jks="goldsh", pose="kneel"), 0, 0)
+    g.blit(c, 112, HOR - 8, 2)
+    return g
+
+
+@scene("backcountry-skiers", "Pixel art of a backcountry skier skinning across a snowfield below gray peaks")
+def s_backcountry_skiers():
+    g = bd_snow()
+    y = HOR + 16
+    g.blit(fig(jk="blank", jks="blanksh", pl="pants2", hat="beanie", hatc="teal",
+               pack="small", packc="teal", pose="walk"), 96, y, 2)
+    g.rect(88, y, 20, 1, "bar")                 # skis
+    trek_pole(g, 104, y - 1, 13); trek_pole(g, 88, y - 1, 13)
+    for dx in range(-40, -6, 6):
+        g.rect(96 + dx, y + 1, 4, 1, "icesh")   # skin track behind
+    return g
+
+
+@scene("mountaineers", "Pixel art of a three-person rope team crossing a glacier under high peaks")
+def s_mountaineers():
+    g = bd_snow()
+    y = HOR + 14
+    xs = (58, 96, 134)
+    for i, x in enumerate(xs):
+        kitcol = (("red", "redsh"), ("teal", "tealsh"), ("blank", "blanksh"))[i]
+        g.blit(fig(jk=kitcol[0], jks=kitcol[1], hat="hood", pack="small",
+                   packc="pad", pose="walk"), x, y, 2)
+        trek_pole(g, x + 6, y - 1, 12)
+    for x0, x1 in ((xs[0] + 6, xs[1] - 6), (xs[1] + 6, xs[2] - 6)):
+        mid = (x0 + x1) // 2
+        for x in range(x0, x1):                 # rope sag between them
+            g.px(x, y - 12 + abs(x - mid) // 3 + 2, "splint")
+    g.rect(20, y + 6, 10, 2, "icesh"); g.rect(24, y + 8, 6, 1, "ridgesh")  # crevasse hint
+    return g
+
+
+@scene("ice-climbers", "Pixel art of an ice climber swinging tools up a frozen waterfall")
+def s_ice_climbers():
+    g = bd_snow()
+    # frozen falls: ice columns down a rock band
+    g.rect(120, 2, 26, HOR + 16, "rockD")
+    for cx, wd in ((122, 5), (129, 7), (138, 6)):
+        g.rect(cx, 2, wd, HOR + 14, "ice")
+        g.col(cx, 2, HOR + 14, "icesh")
+        g.rect(cx + 1, HOR + 10, wd - 2, 4, "icesh")
+    for i, (cx, cy) in enumerate([(124, 12), (133, 22), (140, 8), (127, 34), (136, 40)]):
+        g.rect(cx, cy, 2, 1, "snow")            # sparkle
+    c = Grid()
+    c.blit(fig(hat="helmet", hatc="blank", jk="denim", jks="denimsh", pose="kneel"), 0, 0)
+    c.px(-6, -12, "bar"); c.px(-7, -13, "metal")    # swung tool
+    c.px(-5, -9, "bar")
+    g.blit(c, 132, HOR - 4, 2)
+    return g
+
+
+# props: vehicles ------------------------------------------------------
+def prop_bicycle(loaded=False):
+    """Side-profile bike facing +x, wheels on y=0, ~15 wide, 8 tall."""
+    s = Grid()
+    for cx in (-5, 5):
+        s.disc(cx, -3, 3.2, "wheel")
+        s.disc(cx, -3, 1.4, "hub")
+    s.row(-4, 3, -5, "bike")                    # top tube
+    s.px(-5, -6, "bike"); s.px(-5, -7, "bar")   # seatpost + saddle
+    s.px(-6, -7, "bar")
+    s.px(4, -6, "bike"); s.rect(4, -8, 2, 1, "bar")   # head tube + bars
+    s.px(0, -3, "hub"); s.px(0, -2, "hub")      # cranks
+    s.px(-2, -4, "bike"); s.px(2, -4, "bike")   # stays / down tube
+    if loaded:
+        s.rect(-8, -6, 3, 3, "blank")           # seat bag
+        s.rect(6, -6, 2, 3, "teal")             # fork bag
+        s.rect(-2, -6, 5, 1, "pad")             # frame bag
+    return s
+
+
+def prop_moto():
+    """Upright trail motorcycle facing +x; house wheel/tank colors."""
+    s = Grid()
+    for cx in (-6, 6):
+        s.disc(cx, -3, 3.4, "wheel")
+        s.px(cx, -3, "hub")
+    s.rect(-4, -7, 9, 2, "bike")                # body
+    s.rect(-1, -8, 4, 1, "tank")                # tank
+    s.px(-5, -8, "bar"); s.px(-5, -9, "bar")    # seat rise
+    s.rect(6, -9, 1, 2, "bar"); s.px(7, -9, "bar")   # bars
+    s.px(6, -7, "tank")                          # fork
+    s.px(6, -5, "metal")
+    s.rect(-7, -6, 2, 1, "metalsh")             # exhaust
+    return s
+
+
+def prop_atv():
+    """Quad facing +x: two fat wheels, wide body, upright bars."""
+    s = Grid()
+    for cx in (-5, 5):
+        s.disc(cx, -2, 2.8, "wheel")
+        s.px(cx, -2, "hub")
+    s.rect(-7, -6, 15, 3, "red")
+    s.rect(-7, -4, 15, 1, "redsh")
+    s.rect(-3, -7, 5, 1, "pad")                 # seat
+    s.rect(5, -9, 1, 3, "bar"); s.rect(4, -9, 3, 1, "bar")
+    s.rect(-8, -5, 1, 2, "metal"); s.rect(7, -5, 1, 2, "metal")  # racks
+    return s
+
+
+def prop_snowmobile():
+    """Sled facing +x: dark track under, wedge body, tall windshield, ski."""
+    s = Grid()
+    s.rect(-9, -3, 14, 3, "wheel")              # track + tunnel
+    s.rect(-8, -1, 12, 1, "hub")
+    s.rect(-9, -6, 16, 3, "red")                # body
+    s.rect(-9, -4, 16, 1, "redsh")
+    s.rect(4, -8, 4, 2, "red")                  # nose rise
+    s.rect(7, -9, 1, 4, "ice"); s.px(8, -9, "ice")   # windshield
+    s.rect(4, -9, 3, 1, "bar")                  # bars
+    s.rect(-7, -7, 8, 1, "pad")                 # seat
+    s.px(8, -3, "metal"); s.px(9, -2, "metal")  # strut
+    s.rect(8, -1, 5, 1, "metal"); s.px(12, -2, "metal")  # ski, tip up
+    return s
+
+
+def prop_van():
+    """Camper van facing +x: tall box, windows, wheels, roof box."""
+    s = Grid()
+    s.rect(-10, -10, 21, 8, "teal")
+    s.rect(-10, -4, 21, 2, "tealsh")
+    s.rect(7, -9, 4, 4, "tealsh")               # nose
+    s.rect(-8, -9, 5, 3, "ice"); s.rect(-2, -9, 5, 3, "ice")  # windows
+    s.rect(8, -9, 3, 3, "ice")                  # windshield
+    for cx in (-6, 6):
+        s.disc(cx, -1, 2.2, "wheel"); s.px(cx, -1, "hub")
+    s.rect(-9, -12, 14, 2, "pad")               # roof box / solar
+    s.rect(-9, -11, 14, 1, "padsh")
+    return s
+
+
+def prop_truck4x4():
+    """Overland 4x4 facing +x: cab + bed, roof rack + tent, big wheels."""
+    s = Grid()
+    s.rect(-11, -8, 14, 5, "olive")             # bed + body
+    s.rect(-11, -4, 20, 1, "olivesh")
+    s.rect(3, -10, 7, 7, "olive")               # cab
+    s.rect(4, -9, 4, 3, "ice")                  # glass
+    s.rect(9, -7, 3, 4, "olivesh")              # hood
+    for cx in (-7, 6):
+        s.disc(cx, -2, 2.8, "wheel"); s.px(cx, -2, "hub")
+    s.rect(-11, -11, 13, 2, "pad")              # rooftop tent folded
+    s.rect(-11, -12, 8, 1, "padsh")
+    s.px(11, -6, "sun")                          # light bar glint
+    return s
+
+
+def prop_engine():
+    """Small rural fire engine facing +x."""
+    s = Grid()
+    s.rect(-12, -9, 17, 6, "red")
+    s.rect(-12, -4, 24, 1, "redsh")
+    s.rect(5, -10, 7, 7, "red")
+    s.rect(6, -9, 4, 3, "ice")
+    s.rect(-11, -10, 14, 1, "metal")            # ladder on top
+    for x in range(-10, 2, 3):
+        s.px(x, -11, "metal")
+    for cx in (-8, 7):
+        s.disc(cx, -2, 2.6, "wheel"); s.px(cx, -2, "hub")
+    s.rect(-4, -8, 3, 3, "metal")               # tank panel
+    s.px(11, -10, "gold")                        # beacon
+    return s
+
+
+def prop_pickup_far():
+    """Distant pickup at background scale (~8 wide)."""
+    s = Grid()
+    s.rect(-4, -3, 8, 2, "denim")
+    s.rect(0, -4, 3, 1, "denim")
+    s.px(1, -4, "ice")
+    s.px(-3, -1, "wheel"); s.px(2, -1, "wheel")
+    return s
+
+
+# props: boats ---------------------------------------------------------
+def prop_kayak(l=18, deck="teal", decksh="tealsh"):
+    """Low kayak, waterline y=0, pointed ends, cockpit amidships."""
+    s = Grid()
+    half = l // 2
+    s.rect(-half + 2, -2, l - 4, 2, deck)
+    s.row(-half, -half + 1, -1, deck); s.row(half - 2, half - 1, -1, deck)
+    s.rect(-2, -3, 4, 1, decksh)                # cockpit rim
+    return s
+
+
+def prop_raft(l=16):
+    """Whitewater raft: fat tube, upturned ends."""
+    s = Grid()
+    half = l // 2
+    s.rect(-half + 1, -3, l - 2, 3, "denim")
+    s.rect(-half + 2, -1, l - 4, 1, "denimsh")
+    s.rect(-half, -4, 2, 2, "denim"); s.rect(half - 2, -4, 2, 2, "denim")
+    return s
+
+
+def prop_workboat():
+    """Small work skiff with cabin and antenna, waterline y=0."""
+    s = Grid()
+    s.rect(-12, -4, 24, 4, "metal")
+    s.rect(-11, -1, 22, 1, "metalsh")
+    s.rect(-12, -5, 3, 1, "metal"); s.rect(10, -6, 2, 2, "metal")  # bow rise
+    s.rect(-2, -10, 8, 6, "ice")                # cabin glass front
+    s.rect(-2, -10, 8, 2, "metal")              # cabin roof
+    s.rect(0, -8, 4, 3, "ice")
+    s.col(4, -14, -10, "bar")                   # antenna
+    s.px(5, -14, "red")
+    return s
+
+
+# props: structures ----------------------------------------------------
+def fence(g, x0, x1, y, rail=2):
+    for x in range(x0, x1, 6):
+        g.rect(x, y - 4, 1, 4, "wood")
+    for r in range(rail):
+        g.row(x0, x1 - 1, y - 3 + r * 2, "woodsh")
+
+
+def prop_barn():
+    """Gable barn, base on y=0, ~22 wide."""
+    s = Grid()
+    s.rect(-10, -10, 21, 10, "red")
+    s.rect(-10, -3, 21, 3, "redsh")
+    for row in range(4):
+        half = 5 + row * 2
+        s.row(-half, half, -14 + row, "woodsh")
+    s.rect(-2, -6, 5, 6, "woodsh")              # door
+    s.rect(-1, -5, 3, 5, "trunk")
+    s.px(-6, -8, "cloud"); s.px(6, -8, "cloud") # loft windows
+    return s
+
+
+def prop_tower():
+    """Fire lookout: long legs, cab on top, base y=0."""
+    s = Grid()
+    s.rect(-5, -30, 11, 6, "wood")              # cab
+    s.rect(-5, -27, 11, 1, "woodsh")
+    s.rect(-4, -29, 3, 2, "ice"); s.rect(1, -29, 3, 2, "ice")
+    s.rect(-6, -31, 13, 1, "woodsh")            # roof
+    s.rect(-6, -24, 13, 1, "woodsh")            # catwalk
+    for i in range(24):                          # legs + cross bracing
+        s.px(-5 + i // 8, -24 + i, "trunk"); s.px(5 - i // 8, -24 + i, "trunk")
+    s.row(-4, 4, -16, "trunk"); s.row(-3, 3, -8, "trunk")
+    return s
+
+
+def prop_turbine(h=26):
+    """Wind turbine, base y=0, hub at y=-h."""
+    s = Grid()
+    s.col(0, -h, -1, "cloud"); s.col(1, -h, -1, "cloudsh")
+    s.rect(0, -h - 1, 2, 2, "metal")
+    for i in range(8):                           # 3 blades
+        s.px(2 + i, -h - 1 - i // 2, "cloud")
+        s.px(-i, -h - 1 + i // 2, "cloud")
+        s.px(1, -h + 2 + i, "cloudsh")
+    return s
+
+
+def prop_basket():
+    """Disc golf basket: pole, chain cone, tray, base y=0."""
+    s = Grid()
+    s.col(0, -12, -1, "metal")
+    s.rect(-3, -12, 7, 1, "metalsh")            # top band
+    for dx in (-3, -1, 1, 3):
+        s.px(dx, -11, "metal"); s.px(dx // 2, -10, "metal")
+    s.rect(-3, -9, 7, 2, "metalsh")             # tray
+    s.rect(-3, -7, 7, 1, "metal")
+    return s
+
+
+def prop_arch(w=30):
+    """Race finish arch: two posts + banner across."""
+    s = Grid()
+    half = w // 2
+    s.rect(-half, -16, 2, 16, "denim"); s.rect(half - 2, -16, 2, 16, "denim")
+    s.rect(-half, -16, w, 4, "red")
+    s.rect(-half, -13, w, 1, "redsh")
+    for x in range(-half + 3, half - 3, 4):
+        s.px(x, -15, "cloud")                   # banner lettering blocks
+    return s
+
+
+def prop_flagpole(color="red", h=10):
+    s = Grid()
+    s.col(0, -h, -1, "bar")
+    s.rect(1, -h, 4, 2, color)
+    return s
+
+
+# props: creatures -----------------------------------------------------
+def prop_horse(packed=False):
+    """Side-profile horse facing +x, hooves y=0, ~13 wide 10 tall."""
+    s = Grid()
+    s.rect(-5, -7, 10, 4, "horse")              # body
+    s.rect(-5, -4, 10, 1, "horsesh")
+    s.rect(4, -9, 2, 3, "horse")                # neck up
+    s.rect(5, -10, 3, 2, "horse")               # head
+    s.px(8, -9, "horsesh")                      # muzzle
+    s.px(5, -11, "horsemane"); s.px(4, -10, "horsemane")
+    s.col(-4, -3, -1, "horsesh"); s.col(-1, -3, -1, "horse")
+    s.col(1, -3, -1, "horsesh"); s.col(4, -3, -1, "horse")
+    s.px(-6, -7, "horsemane"); s.px(-6, -6, "horsemane")   # tail
+    s.px(-6, -5, "horsemane")
+    if packed:
+        s.rect(-4, -10, 6, 3, "pad")            # panniers
+        s.rect(-4, -8, 6, 1, "padsh")
+        s.rect(-4, -11, 6, 1, "strap")
+    return s
+
+
+def prop_deer_far():
+    s = Grid()
+    s.rect(-2, -3, 5, 2, "wood")
+    s.px(2, -4, "wood"); s.px(3, -4, "wood")
+    s.px(3, -5, "woodsh"); s.px(2, -5, "woodsh")   # antlers
+    s.px(-2, -1, "woodsh"); s.px(1, -1, "woodsh")
+    return s
+
+
+def prop_chicken(g, x, y):
+    g.px(x, y - 1, "cloud"); g.px(x + 1, y - 1, "cloud")
+    g.px(x + 1, y - 2, "cloud"); g.px(x + 2, y - 2, "red")
+
+
+def smoke_column(g, x, y0, h=16):
+    """Wildfire smoke rising from (x, y0) drifting right."""
+    for i in range(h):
+        w = 2 + i // 3
+        g.rect(x + i // 2 - w // 2, y0 - i, w, 1, "storm" if i % 3 else "stormsh")
+    g.rect(x - 2, y0, 5, 2, "helm")             # glow at the base
+    g.rect(x - 1, y0, 3, 1, "sun")
+
+
+
+
+@scene("whitewater", "Pixel art of two helmeted paddlers driving a raft through a whitewater rapid")
+def s_whitewater():
+    g = bd_river()
+    for y in range(HOR + 2, HOR + 15, 3):        # standing waves
+        for x0 in range(10, W - 10, 17):
+            x = (x0 + y * 5) % (W - 8)
+            g.rect(x, y, 5, 1, "wavecap")
+            g.rect(x + 2, y + 1, 3, 1, "watersh")
+    c = Grid()
+    c.blit(prop_raft(18), 0, 0)
+    c.blit(fig(pose="sit", jk="red", jks="redsh", hat="helmet", hatc="gold"), -5, -3)
+    c.blit(fig(pose="sit", jk="blank", jks="blanksh", hat="helmet", hatc="cloud"), 4, -3)
+    paddle(c, 1, -4, 4); paddle(c, 10, -4, 4)
+    c.rect(-9, -1, 4, 1, "wavecap")              # bow spray
+    c.px(-10, -2, "wavecap")
+    g.blit(c, 96, HOR + 9, 2)
+    return g
+
+
+@scene("open-water-paddlers", "Pixel art of a sea kayaker paddling open water far from shore")
+def s_open_water_paddlers():
+    g = bd_water(shore=False)
+    c = Grid()
+    c.rect(-11, -2, 22, 2, "gold")               # long low hull
+    c.rect(-13, -1, 2, 1, "gold"); c.rect(11, -1, 2, 1, "gold")   # points
+    c.rect(-10, 0, 20, 1, "goldsh")
+    c.rect(-2, -3, 5, 1, "goldsh")               # cockpit rim
+    # paddler: torso + head only above deck
+    c.rect(-1, -8, 3, 4, "teal"); c.rect(-1, -5, 3, 1, "tealsh")
+    c.rect(-1, -11, 3, 3, "skin"); c.px(0, -10, "face")
+    c.rect(-1, -12, 3, 1, "red")                 # cap
+    for i in range(9):                           # paddle held across, blades down
+        c.px(-4 + i, -7 - (i > 4) + (i < 4), "trunk")
+    c.rect(-6, -7, 2, 3, "wood"); c.rect(4, -9, 2, 3, "wood")
+    c.px(-14, 0, "wavecap"); c.rect(12, 0, 4, 1, "wavecap")
+    g.blit(c, 96, HOR + 12, 2)
+    return g
+
+
+@scene("fly-anglers", "Pixel art of an angler in waders casting a fly line across a mountain river")
+def s_fly_anglers():
+    g = bd_river()
+    y = HOR + 12                                 # standing in the current
+    c = Grid()
+    c.blit(fig(jk="jkt", jks="jktsh", pl="pant", pls="pantsh", hat="brim",
+               hatc="olive", pose="stand"), 0, 0)
+    for i in range(8):                           # rod
+        c.px(3 + i, -9 - i // 2, "bar")
+    g.blit(c, 84, y, 2)
+    for i in range(22):                          # line arcing out over the water
+        g.px(106 + i, y - 26 + (i * i) // 34, "cloud")
+    g.px(128, y - 12, "cloud")                   # fly at the end
+    g.rect(78, y - 2, 16, 1, "wavecap")          # wake around the waders
+    return g
+
+
+@scene("surfers", "Pixel art of a surfer riding a clean wave toward an empty beach")
+def s_surfers():
+    g = bd_water()
+    # a long unbroken swell rising left to right, curling at the top
+    for x in range(0, W):
+        h = 3 + (x * 16) // W
+        g.rect(x, HOR + 12 - h, 1, h + 4, "denim")
+        g.px(x, HOR + 12 - h, "wavecap")
+    g.rect(140, HOR - 8, 60, 5, "denim")         # crest mass
+    g.rect(140, HOR - 9, 60, 1, "wavecap")
+    g.rect(132, HOR - 6, 12, 3, "cloud")         # lip pitching out
+    g.rect(110, HOR + 10, 90, 2, "wavecap")      # whitewater behind
+    c = Grid()                                   # surfer trimming down the face
+    c.rect(-7, 0, 13, 1, "gold")                 # board
+    c.px(-8, -1, "goldsh"); c.px(6, -1, "goldsh")
+    f = fig(jk="pants2", jks="pants2", pl="pants2", pose="run")
+    c.blit(f, 0, 0)
+    c.rect(-9, 1, 6, 1, "cloud")                 # spray off the tail
+    g.blit(c, 78, HOR + 4, 2)
+    return g
+
+
+@scene("remote-divers", "Pixel art of a diver with a tank walking up a remote beach past a dive flag")
+def s_remote_divers():
+    g = bd_water()
+    y = HOR + 26
+    c = Grid()
+    c.blit(fig(jk="pants2", jks="pants2", pl="pants2", hat="beanie", hatc="pants2",
+               pose="walk"), 0, 0)
+    c.rect(-3, -12, 2, 6, "metal")               # tank on the back
+    c.px(-2, -13, "metalsh")
+    c.rect(2, -2, 3, 2, "gold")                  # fins in hand
+    c.px(0, -14, "ice")                          # mask up on the head
+    g.blit(c, 92, y, 2)
+    f = Grid()                                   # dive flag planted in the sand
+    f.col(0, -10, -1, "bar")
+    f.rect(1, -10, 5, 4, "red")
+    for i in range(4):
+        f.px(1 + i, -7 - i + 3 - 3, "cloud") if False else None
+    for i in range(5):
+        f.px(1 + i, -10 + i, "cloud")            # diagonal white stripe
+    g.blit(f, 138, y, 2)
+    return g
+
+
+@scene("boat-crews", "Pixel art of a crew member on the deck of a small workboat offshore")
+def s_boat_crews():
+    g = bd_water(shore=False)
+    c = Grid()
+    c.blit(prop_workboat(), 0, 0)
+    c.blit(fig(jk="blank", jks="blanksh", hat="beanie", hatc="pants2",
+               pose="stand"), -7, -4)
+    c.rect(-13, 0, 4, 1, "wavecap"); c.rect(10, 0, 4, 1, "wavecap")
+    g.blit(c, 96, HOR + 10, 2)
+    return g
+
+
+@scene("riders", "Pixel art of a dual-sport rider stopped beside a motorcycle on a remote trail")
+def s_riders():
+    g = bd_ridge()
+    c = Grid()
+    c.blit(prop_moto(), 0, 0)
+    c.blit(fig(hat="helmet", hatc="helm", jk="olive", jks="olivesh", pose="stand"), -11, 0)
+    g.blit(c, 100, HOR + 18, 2)
+    return g
+
+
+@scene("atv-utv", "Pixel art of a helmeted rider on a quad stopped on a high desert two-track")
+def s_atv_utv():
+    g = bd_desert("day")
+    trail_band(g, HOR + 16)
+    c = Grid()
+    c.blit(prop_atv(), 0, 0)
+    c.blit(fig(hat="helmet", hatc="cloud", jk="denim", jks="denimsh", pose="stand"), -12, 0)
+    g.blit(c, 102, HOR + 20, 2)
+    return g
+
+
+@scene("overlanders", "Pixel art of an overland 4x4 with a rooftop tent parked in open desert country")
+def s_overlanders():
+    g = bd_desert("day")
+    c = Grid()
+    c.blit(prop_truck4x4(), 0, 0)
+    c.blit(fig(hat="cap", hatc="blank", jk="jkt", jks="jktsh", pose="stand"), -16, 0)
+    g.blit(c, 104, HOR + 20, 2)
+    return g
+
+
+@scene("snowmobilers", "Pixel art of a snowmobiler stopped in deep winter backcountry, miles from the road")
+def s_snowmobilers():
+    g = bd_snow()
+    c = Grid()
+    c.blit(prop_snowmobile(), 0, 0)
+    c.blit(fig(hat="helmet", hatc="red", jk="pants2", jks="pants2", pose="stand"), -14, 0)
+    g.blit(c, 100, HOR + 16, 2)
+    for dx in range(-46, -14, 8):
+        g.rect(100 + dx, HOR + 17, 5, 1, "icesh")   # track behind
+    return g
+
+
+@scene("paragliders", "Pixel art of a paraglider wing high over a mountain launch, pilot hanging beneath")
+def s_paragliders():
+    g = bd_ridge(trail=False)
+    w = Grid()                                   # wing arc
+    for i in range(15):
+        h = 3 - abs(i - 7) // 3
+        w.rect(i - 7, -h - 4, 1, 2, "red" if i % 4 else "redsh")
+    for i in (-6, -3, 0, 3, 6):                  # lines
+        w.px(i, -3, "bar"); w.px(i // 2, -1, "bar")
+    w.blit(fig(hat="helmet", hatc="cloud", jk="pants2", jks="pants2", pose="sit"), 0, 6)
+    g.blit(w, 96, 20, 2)
+    y = HOR + 22                                 # spotter at launch
+    g.blit(fig(jk="teal", jks="tealsh", hat="cap", hatc="jkt", pose="stand"), 40, y, 2)
+    wind = Grid(); wind.col(0, -8, -1, "bar"); wind.rect(1, -8, 4, 2, "blank")
+    g.blit(wind, 60, y, 2)                       # windsock
+    return g
+
+
+@scene("drone-operators", "Pixel art of a drone pilot flying a survey line over open country, truck parked behind")
+def s_drone_operators():
+    g = bd_plains()
+    y = HOR + 20
+    c = Grid()
+    c.blit(fig(jk="denim", jks="denimsh", hat="cap", hatc="pants2", pose="stand"), 0, 0)
+    c.rect(2, -8, 3, 2, "metal")                 # controller held out
+    c.px(3, -9, "bar")                           # antenna
+    g.blit(c, 88, y, 2)
+    d = Grid()                                   # quad drone up in the sky
+    d.rect(-3, 0, 7, 1, "bar")
+    d.px(-4, -1, "metal"); d.px(4, -1, "metal")
+    d.rect(-6, -2, 5, 1, "metalsh"); d.rect(2, -2, 5, 1, "metalsh")
+    g.blit(d, 128, 16, 2)
+    g.blit(prop_pickup_far(), 30, HOR + 6, 2)
+    return g
+
+
+
+@scene("camp-counselors", "Pixel art of a camp counselor with campers by the fire ring among wall tents")
+def s_camp_counselors():
+    g = bd_plains()
+    g.blit(prop_tent(14), 44, HOR + 12, 2)
+    g.blit(prop_tent(12), 160, HOR + 10, 2)
+    y = HOR + 22
+    prop_campfire(g, 100, y)
+    g.blit(fig(jk="teal", jks="tealsh", hat="cap", hatc="red", pose="stand"), 76, y, 2)
+    g.blit(fig(jk="gold", jks="goldsh", small=True, pose="sit"), 116, y, 2)
+    g.blit(fig(jk="blank", jks="blanksh", small=True, pose="sit"), 128, y, 2)
+    return g
+
+
+@scene("outdoor-educators", "Pixel art of an outdoor educator teaching a seated group in a forest clearing")
+def s_outdoor_educators():
+    g = bd_forest()
+    y = HOR + 22
+    t = fig(jk="denim", jks="denimsh", hat="brim", hatc="olive", pose="stand")
+    t.px(3, -9, "skin"); t.px(4, -10, "skin")     # arm raised, mid-point
+    g.blit(t, 64, y, 2)
+    for i, (jk, jks) in enumerate((("red", "redsh"), ("gold", "goldsh"), ("teal", "tealsh"))):
+        g.blit(fig(jk=jk, jks=jks, small=True, pose="sit"), 100 + i * 18, y, 2)
+    b = Grid(); b.rect(-4, -2, 8, 2, "trunk")     # log bench line
+    g.blit(b, 118, y + 4, 2)
+    return g
+
+
+@scene("forest-school", "Pixel art of small children exploring big woods with their forest school leader")
+def s_forest_school():
+    g = bd_forest()
+    y = HOR + 22
+    g.blit(fig(jk="jkt", jks="jktsh", hat="beanie", hatc="red", pose="stand"), 70, y, 2)
+    g.blit(fig(jk="red", jks="redsh", small=True, pose="walk"), 96, y, 2)
+    g.blit(fig(jk="gold", jks="goldsh", small=True, pose="kneel"), 116, y, 2)
+    g.rect(110, y - 2, 8, 2, "trunk")             # the log being inspected
+    g.px(119, y - 3, "leaf"); g.px(120, y - 3, "leaf")
+    return g
+
+
+@scene("dog-walkers", "Pixel art of a walker and dog on a quiet wooded trail")
+def s_dog_walkers():
+    g = bd_forest()
+    trail_band(g, HOR + 18)
+    y = HOR + 24
+    c = Grid()
+    c.blit(fig(jk="teal", jks="tealsh", hat="beanie", hatc="gold", pose="walk"), 0, 0)
+    c.blit(prop_dog(), 9, 0)
+    for i in range(6):                            # leash
+        c.px(3 + i, -6 + i // 2, "strap")
+    g.blit(c, 92, y, 2)
+    return g
+
+
+@scene("youth-leaders", "Pixel art of a youth leader hiking with two scouts along a mountain trail")
+def s_youth_leaders():
+    g = bd_ridge()
+    y = HOR + 17
+    g.blit(fig(jk="olive", jks="olivesh", hat="brim", hatc="olive",
+               pack="small", packc="pad", pose="walk"), 72, y, 2)
+    g.blit(fig(jk="red", jks="redsh", small=True, pack="small", packc="teal",
+               pose="walk"), 98, y, 2)
+    g.blit(fig(jk="gold", jks="goldsh", small=True, pack="small", packc="denim",
+               pose="walk"), 120, y, 2)
+    return g
+
+
+@scene("youth-coaches", "Pixel art of a coach running practice drills with kids on an open field")
+def s_youth_coaches():
+    g = bd_plains()
+    y = HOR + 20
+    c = fig(jk="denim", jks="denimsh", hat="cap", hatc="red", pose="stand")
+    c.px(3, -10, "skin"); c.px(4, -11, "cloud")   # whistle arm up
+    g.blit(c, 60, y, 2)
+    for i, x in enumerate((104, 130)):
+        g.blit(fig(jk=("gold", "teal")[i], jks=("goldsh", "tealsh")[i],
+                   small=True, pose="run"), x, y, 2)
+    for x in (92, 116, 142):
+        g.rect(x, y - 2, 3, 1, "blank")           # cones
+        g.rect(x + 1, y - 3, 1, 1, "blanksh")
+    return g
+
+
+@scene("field-scientists", "Pixel art of a field scientist logging data at a flagged survey plot")
+def s_field_scientists():
+    g = bd_plains()
+    y = HOR + 20
+    c = Grid()
+    c.blit(fig(jk="jkt", jks="jktsh", hat="brim", hatc="jkt", pose="kneel"), 0, 0)
+    c.rect(-7, -8, 3, 4, "cloud")                 # clipboard
+    c.px(-6, -7, "bar")
+    g.blit(c, 92, y, 2)
+    for i, x in enumerate((60, 116, 136, 74)):
+        f = Grid(); f.col(0, -5, -1, "bar"); f.rect(1, -5, 3, 2, "blank")
+        g.blit(f, x, y + (i % 2) * 4 - 2, 2)      # wire flags
+    a = Grid()                                    # weather station tripod
+    a.col(0, -14, -1, "metal"); a.px(-1, -1, "metal"); a.px(1, -1, "metal")
+    a.rect(-2, -17, 5, 3, "metalsh"); a.px(2, -18, "metal")
+    g.blit(a, 156, y, 2)
+    return g
+
+
+@scene("forestry-workers", "Pixel art of a sawyer in a hard hat limbing a felled log at the edge of the cut")
+def s_forestry_workers():
+    g = bd_forest()
+    y = HOR + 22
+    g.rect(84, y - 4, 34, 4, "trunk")             # felled log
+    g.rect(84, y - 1, 34, 1, "woodsh")
+    g.rect(116, y - 5, 3, 5, "woodsh")            # cut end
+    c = Grid()
+    c.blit(fig(jk="blank", jks="blanksh", pl="denim", pls="denimsh",
+               hat="helmet", hatc="gold", pose="stand"), 0, 0)
+    c.rect(3, -7, 6, 2, "metal")                  # saw bar
+    c.rect(2, -8, 3, 3, "red")                    # powerhead
+    g.blit(c, 68, y, 2)
+    st = Grid()
+    st.rect(-2, -3, 5, 3, "trunk"); st.rect(-2, -1, 5, 1, "woodsh")
+    g.blit(st, 140, y, 2)                         # stump
+    return g
+
+
+@scene("wildland-fire", "Pixel art of a wildland firefighter watching a smoke column build over the ridge")
+def s_wildland_fire():
+    g = bd_ridge("dusk", trail=False)
+    smoke_column(g, 132, 20, 18)
+    g.rect(120, 21, 28, 2, "helm")                # fireline glow on the ridge
+    y = HOR + 20
+    c = Grid()
+    c.blit(fig(jk="gold", jks="goldsh", pl="olive", pls="olivesh",
+               hat="helmet", hatc="red", pack="small", packc="red", pose="stand"), 0, 0)
+    for i in range(7):
+        c.px(4, -1 - i, "trunk")                  # tool handle
+    c.rect(3, -9, 3, 1, "metal")                  # pulaski head
+    g.blit(c, 64, y, 2)
+    return g
+
+
+@scene("trail-crews", "Pixel art of a trail crew member swinging a pick on a half-built switchback")
+def s_trail_crews():
+    g = bd_forest()
+    trail_band(g, HOR + 18, 0, 120)
+    y = HOR + 24
+    c = Grid()
+    c.blit(fig(jk="denim", jks="denimsh", hat="helmet", hatc="gold", pose="stand"), 0, 0)
+    for i in range(6):
+        c.px(2 + i // 2, -8 - i, "trunk")         # raised handle
+    c.rect(2, -15, 4, 1, "metal")                 # pick head overhead
+    g.blit(c, 100, y, 2)
+    for i, (x, wd) in enumerate(((128, 5), (136, 4), (131, 3))):
+        g.rect(x, y - 2 - i, wd, 2, "rockD")      # rock pile
+    w = Grid()                                    # wheelbarrow
+    w.rect(-5, -4, 8, 3, "teal"); w.rect(-5, -2, 8, 1, "tealsh")
+    w.disc(3, -1, 1.4, "wheel"); w.rect(-7, -3, 2, 1, "wood")
+    g.blit(w, 62, y, 2)
+    return g
+
+
+@scene("renewable-techs", "Pixel art of a wind technician heading out to turbines on an empty plain")
+def s_renewable_techs():
+    g = bd_plains()
+    t1 = Grid(); t1.blit(prop_turbine(26), 0, 0)
+    g.blit(t1, 130, HOR + 10, 2)
+    t2 = Grid(); t2.blit(prop_turbine(18), 0, 0)
+    g.blit(t2, 178, HOR + 4, 1)
+    y = HOR + 22
+    c = Grid()
+    c.blit(fig(jk="gold", jks="goldsh", pl="denim", pls="denimsh",
+               hat="helmet", hatc="cloud", pose="walk"), 0, 0)
+    c.rect(3, -4, 3, 3, "red"); c.px(4, -5, "bar")   # tool bag
+    g.blit(c, 60, y, 2)
+    g.blit(prop_pickup_far(), 28, HOR + 8, 2)
+    return g
+
+
+@scene("outdoor-photographers", "Pixel art of a photographer at a tripod waiting on last light over the range")
+def s_outdoor_photographers():
+    g = bd_ridge("dusk", trail=False)
+    sun_disc(g, 60, 10, 5)
+    y = HOR + 20
+    c = Grid()
+    c.blit(fig(jk="pants2", jks="pants2", hat="beanie", hatc="blank",
+               pack="big", packc="pad", pose="stand"), 0, 0)
+    g.blit(c, 84, y, 2)
+    t = Grid()                                    # tripod + camera
+    t.px(-2, -1, "bar"); t.px(-1, -3, "bar"); t.px(0, -5, "bar")
+    t.px(2, -1, "bar"); t.px(1, -3, "bar")
+    t.px(0, -1, "bar"); t.px(0, -3, "bar")
+    t.col(0, -7, -4, "bar")
+    t.rect(-2, -9, 5, 2, "wheel"); t.px(3, -8, "metal")   # body + lens
+    g.blit(t, 106, y, 2)
+    return g
+
+
+@scene("sar", "Pixel art of a search and rescue team carrying a patient out on a litter")
+def s_sar():
+    g = bd_ridge(trail=False)
+    y = HOR + 20
+    c = Grid()
+    c.blit(fig(jk="red", jks="redsh", hat="helmet", hatc="cloud", pose="walk"), -12, 0)
+    c.blit(fig(jk="red", jks="redsh", hat="helmet", hatc="cloud", pose="walk"), 12, 0)
+    c.rect(-9, -8, 19, 1, "metal")               # litter rails
+    c.rect(-8, -10, 17, 2, "blank")              # wrapped patient
+    c.rect(-8, -8, 17, 1, "blanksh")
+    c.rect(-7, -11, 2, 1, "skin")                # head clear
+    g.blit(c, 96, y, 2)
+    return g
+
+
+@scene("rural-firefighters", "Pixel art of a rural firefighter beside a small engine, the only unit for miles")
+def s_rural_firefighters():
+    g = bd_plains()
+    c = Grid()
+    c.blit(prop_engine(), 0, 0)
+    c.blit(fig(jk="gold", jks="goldsh", pl="gold", pls="goldsh",
+               hat="helmet", hatc="red", pose="stand"), -17, 0)
+    g.blit(c, 104, HOR + 20, 2)
+    return g
+
+
+@scene("rangers-wardens", "Pixel art of a ranger below the fire lookout tower on morning rounds")
+def s_rangers_wardens():
+    g = bd_forest()
+    t = Grid(); t.blit(prop_tower(), 0, 0)
+    g.blit(t, 132, HOR + 22, 2)
+    y = HOR + 24
+    c = Grid()
+    c.blit(fig(jk="olive", jks="olivesh", pl="pant", pls="pantsh",
+               hat="brim", hatc="olive", pose="walk"), 0, 0)
+    g.blit(c, 72, y, 2)
+    return g
+
+
+@scene("hunters", "Pixel art of a hunter in blaze orange glassing a clearing at first light, truck far behind")
+def s_hunters():
+    g = bd_forest("dusk")
+    y = HOR + 22
+    c = Grid()
+    c.blit(fig(jk="blank", jks="blanksh", pl="olive", pls="olivesh",
+               hat="cap", hatc="blank", pack="small", packc="pad", pose="stand"), 0, 0)
+    c.rect(2, -10, 3, 2, "bar")                  # binoculars up
+    g.blit(c, 76, y, 2)
+    g.blit(prop_deer_far(), 150, HOR + 8, 2)
+    g.blit(prop_pickup_far(), 26, HOR + 6, 2)
+    return g
+
+
+@scene("bowhunters", "Pixel art of a bowhunter moving quietly through timber, bow in hand")
+def s_bowhunters():
+    g = bd_forest()
+    y = HOR + 22
+    c = Grid()
+    c.blit(fig(jk="olive", jks="olivesh", pl="pant", pls="pantsh",
+               hat="cap", hatc="blank", pack="small", packc="olive", pose="walk"), 0, 0)
+    for i in range(9):                           # recurve held at the side
+        bow_dx = (2, 3, 4, 4, 4, 4, 4, 3, 2)[i]
+        c.px(2 + bow_dx, -2 - i, "trunk")
+    for i in range(7):
+        c.px(4, -3 - i, "splint")                # string
+    g.blit(c, 92, y, 2)
+    g.blit(prop_deer_far(), 40, HOR + 6, 2)
+    return g
+
+
+@scene("homesteaders", "Pixel art of a homesteader feeding chickens by the barn, a long way from town")
+def s_homesteaders():
+    g = bd_plains()
+    b = Grid(); b.blit(prop_barn(), 0, 0)
+    g.blit(b, 60, HOR + 18, 2)
+    fence(g, 104, 176, HOR + 20)
+    y = HOR + 26
+    c = Grid()
+    c.blit(fig(jk="denim", jks="denimsh", hat="brim", hatc="jkt", pose="stand"), 0, 0)
+    c.rect(3, -5, 3, 3, "wood"); c.px(4, -6, "woodsh")   # feed bucket
+    g.blit(c, 120, y, 2)
+    for x in (136, 146, 154):
+        prop_chicken(g, x, y)
+    return g
+
+
+@scene("ranchers", "Pixel art of a rancher checking fence with a horse waiting, the ranch truck an hour behind")
+def s_ranchers():
+    g = bd_plains()
+    fence(g, 8, 88, HOR + 22)
+    y = HOR + 24
+    h = Grid(); h.blit(prop_horse(), 0, 0)
+    g.blit(h, 132, y, 2)
+    c = Grid()
+    c.blit(fig(jk="jkt", jks="jktsh", pl="denim", pls="denimsh",
+               hat="brim", hatc="wood", pose="stand"), 0, 0)
+    c.px(-4, -6, "strap"); c.px(-5, -7, "strap")  # coiled rope in hand
+    g.blit(c, 96, y, 2)
+    return g
+
+
+@scene("horsepackers", "Pixel art of a horsepacker leading a loaded pack string up a mountain trail")
+def s_horsepackers():
+    g = bd_ridge()
+    y = HOR + 18
+    r = Grid()
+    r.blit(prop_horse(), 0, 0)
+    r.blit(fig(jk="jkt", jks="jktsh", hat="brim", hatc="wood", pose="sit"), -2, -9)
+    g.blit(r, 108, y, 2)
+    p = Grid(); p.blit(prop_horse(packed=True), 0, 0)
+    g.blit(p, 62, y, 2)
+    for i in range(8):                           # lead rope
+        g.px(78 + i * 2, y - 14 + (i % 3), "strap")
+    return g
+
+
+@scene("foragers", "Pixel art of a forager kneeling off-trail with a basket, eyes on the forest floor")
+def s_foragers():
+    g = bd_forest()
+    y = HOR + 24
+    c = Grid()
+    c.blit(fig(jk="teal", jks="tealsh", hat="brim", hatc="jkt", pose="kneel"), 0, 0)
+    c.rect(-9, -4, 5, 3, "wood"); c.rect(-8, -5, 3, 1, "woodsh")   # basket
+    g.blit(c, 96, y, 2)
+    for x, c2 in ((120, "red"), (126, "jkt"), (74, "red")):
+        g.px(x, y - 1, c2); g.rect(x - 1, y - 1 + 1 - 1, 3, 1, c2) if False else None
+        g.px(x, y - 2, c2); g.rect(x - 1, y - 2, 3, 1, c2)
+        g.px(x, y - 3, "cloud") if c2 == "red" else None
+        g.col(x, y - 1, y - 1, "cloud")          # stems
+    return g
+
+
+@scene("vanlifers", "Pixel art of a camper van parked for the night up an unnamed dirt road")
+def s_vanlifers():
+    g = bd_ridge("dusk")
+    c = Grid()
+    c.blit(prop_van(), 0, 0)
+    c.blit(fig(jk="blank", jks="blanksh", hat="beanie", hatc="pad", pose="sit"), 16, 0)
+    g.blit(c, 96, HOR + 20, 2)
+    prop_campfire(g, 152, HOR + 22)
+    return g
+
+
+@scene("jungle-trekkers", "Pixel art of a trekker on a jungle track, days from the nearest road")
+def s_jungle_trekkers():
+    g = bd_jungle()
+    y = HOR + 20
+    c = Grid()
+    c.blit(fig(jk="jkt", jks="jktsh", pl="olive", pls="olivesh",
+               hat="brim", hatc="olive", pack="big", packc="teal", pose="walk"), 0, 0)
+    trek_pole(c, 5, -1, 8)
+    g.blit(c, 92, y, 2)
+    for x, yy in ((60, y + 4), (130, y + 2), (150, y + 6)):
+        g.rect(x, yy, 4, 1, "leaf"); g.rect(x + 1, yy - 1, 3, 1, "leafsh")   # undergrowth
+    return g
+
+
+@scene("polar-expeditions", "Pixel art of a polar traveler hauling a sled across the ice, flag marking the route")
+def s_polar_expeditions():
+    g = bd_snow()
+    y = HOR + 16
+    c = Grid()
+    c.blit(fig(jk="red", jks="redsh", pl="pants2", hat="hood", pose="walk"), 0, 0)
+    trek_pole(c, 4, -1, 8); trek_pole(c, -4, -1, 8)
+    g.blit(c, 104, y, 2)
+    p = Grid()                                   # pulk sled
+    p.rect(-6, -3, 12, 3, "red"); p.rect(-6, -1, 12, 1, "redsh")
+    p.rect(-5, -5, 9, 2, "pad"); p.rect(-5, -4, 9, 1, "padsh")   # lashed load
+    g.blit(p, 64, y, 2)
+    g.row(78, 96, y - 4, "strap")                # haul line
+    g.blit(prop_flagpole("red", 8), 160, y - 2, 2)
+    for dx in range(-52, -30, 7):
+        g.rect(104 + dx, y + 1, 4, 1, "icesh")   # drag marks
+    return g
+
+
+@scene("adventure-travelers", "Pixel art of a traveler with a pack at a many-armed signpost, far off the tourist map")
+def s_adventure_travelers():
+    g = bd_desert("day")
+    y = HOR + 20
+    c = Grid()
+    c.blit(fig(jk="red", jks="redsh", pl="pant", pls="pantsh",
+               hat="cap", hatc="teal", pack="big", packc="gold", pose="stand"), 0, 0)
+    g.blit(c, 84, y, 2)
+    sp = Grid()
+    sp.col(0, -14, -1, "trunk")
+    for i, dx in enumerate((-5, 1, -4, 2)):      # arms pointing both ways
+        sp.rect(dx, -13 + i * 3, 5, 2, "wood")
+        sp.rect(dx + 1, -12 + i * 3, 3, 1, "woodsh")
+    g.blit(sp, 124, y, 2)
+    return g
+
+
+@scene("humanitarian-volunteers", "Pixel art of a volunteer carrying supplies through a relief camp of wall tents")
+def s_humanitarian_volunteers():
+    g = bd_plains()
+    g.blit(prop_tent(16), 48, HOR + 14, 2)
+    g.blit(prop_tent(14), 150, HOR + 12, 2)
+    g.blit(prop_tent(12), 186, HOR + 10, 2)
+    y = HOR + 24
+    c = Grid()
+    c.blit(fig(jk="cloud", jks="jktsh", pl="pant", pls="pantsh",
+               hat="cap", hatc="cloud", pose="walk"), 0, 0)
+    c.rect(2, -9, 5, 4, "pad")                   # carried crate
+    c.rect(4, -8, 1, 2, "red"); c.rect(3, -7, 3, 1, "red") if False else None
+    c.px(3, -8, "red"); c.px(5, -8, "red"); c.px(4, -7, "red"); c.px(4, -9, "red")
+    g.blit(c, 100, y, 2)
+    return g
+
+
+@scene("nurses-to-field", "Pixel art of a clinician kneeling over a patient on a trail with an improvised kit")
+def s_nurses_to_field():
+    g = bd_ridge()
+    y = HOR + 19
+    c = Grid()
+    c.blit(fig(pose="supine", jk="denim", jks="denimsh"), 2, 0)
+    c.blit(fig(jk="teal", jks="tealsh", hat="cap", hatc="cloud", pose="kneel"), -6, 0)
+    c.rect(-13, -3, 4, 3, "red")                 # kit bag
+    c.px(-12, -4, "cloud"); c.px(-11, -4, "red")
+    c.rect(-12, -2, 2, 1, "cloud")               # white cross detail
+    g.blit(c, 100, y, 2)
+    return g
+
+
+@scene("wilderness-therapy", "Pixel art of a therapy group in a circle around the evening fire")
+def s_wilderness_therapy():
+    g = bd_forest("dusk")
+    y = HOR + 24
+    prop_campfire(g, 100, y)
+    g.blit(fig(jk="teal", jks="tealsh", pose="sit"), 68, y, 2)
+    f2 = flipped(fig(jk="blank", jks="blanksh", pose="sit"))
+    g.blit(f2, 132, y, 2)
+    g.blit(fig(jk="jkt", jks="jktsh", hat="beanie", hatc="pad", pose="sit"), 84, y + 4, 2)
+    g.blit(prop_tent(12), 34, HOR + 12, 2)
+    return g
+
+
+@scene("event-organizers", "Pixel art of a race organizer with a clipboard at the mile-40 arch as a runner comes through")
+def s_event_organizers():
+    g = bd_plains()
+    a = Grid(); a.blit(prop_arch(26), 0, 0)
+    g.blit(a, 100, HOR + 22, 2)
+    y = HOR + 22
+    g.blit(fig(jk="gold", jks="goldsh", pl="pant", pls="pantsh",
+               hat="cap", hatc="red", pose="run"), 96, y, 2)
+    c = Grid()
+    c.blit(fig(jk="denim", jks="denimsh", hat="cap", hatc="denim", pose="stand"), 0, 0)
+    c.rect(2, -8, 3, 4, "cloud"); c.px(3, -7, "bar")     # clipboard
+    g.blit(c, 148, y + 2, 2)
+    fl = Grid(); fl.blit(prop_flagpole("blank", 9), 0, 0)
+    g.blit(fl, 52, y, 2)
+    return g
+
+
+# output ---------------------------------------------------------------
+def build(slugs=None):
+    os.makedirs(OUT, exist_ok=True)
+    alts = {}
+    todo = sorted(SCENES) if not slugs else slugs
+    for slug in todo:
+        alt, fn = SCENES[slug]
+        g = fn()
+        for y in range(H):        # backfill: unpainted cells render transparent
+            for x in range(W):    # in SVG; pin them to the PNG writer's default
+                if (x, y) not in g.cells:
+                    g.cells[(x, y)] = "sky1"
+        svg = emit_svg(g, alt)
+        open(os.path.join(OUT, slug + ".svg"), "w").write(svg)
+        write_png(os.path.join(OUT, slug + ".png"), g)
+        alts[slug] = alt
+        print("%-24s svg %5.1fkB" % (slug, len(svg) / 1024.0))
+    if not slugs:
+        json.dump({s: SCENES[s][0] for s in sorted(SCENES)},
+                  open(os.path.join(OUT, "alts.json"), "w"), indent=0, sort_keys=True)
+    return alts
+
+
+if __name__ == "__main__":
+    build(sys.argv[1:] or None)

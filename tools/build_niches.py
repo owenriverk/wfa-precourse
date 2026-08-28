@@ -15,7 +15,15 @@ IMG_ALT = {"trail": "A hiking trail winding along a green alpine ridge", "climb"
            "travel": "A hiker in a desert canyon", "rescue": "A rescue helicopter on a snowy slope",
            "rural": "Horses grazing in a mountain meadow", "events": "A runner racing the Sierre-Zinal mountain course"}
 IMG_SRC = _json.load(open(os.path.join(ROOT, "assets", "img", "sources.json")))
+_ALTS_PATH = os.path.join(ROOT, "assets", "img", "for", "alts.json")
+PIXEL_ALTS = _json.load(open(_ALTS_PATH)) if os.path.exists(_ALTS_PATH) else {}
 def img_block(cat, slug):
+    # Oregon Trail-style pixel hero (tools/niche_pixel.py): svg on the page,
+    # png twin for the social card (og:image needs a raster).
+    if slug in PIXEL_ALTS and os.path.exists(os.path.join(ROOT, "assets", "img", "for", slug + ".svg")):
+        alt = PIXEL_ALTS[slug]
+        return ('  <figure class="niche-hero"><img src="../assets/img/for/%s.svg" alt="%s" width="800" height="300" loading="lazy"></figure>\n'
+                % (slug, alt.replace('"', "&quot;"))), BASE + "/assets/img/for/%s.png" % slug
     per = os.path.join(ROOT, "assets", "img", "for", slug + ".jpg")
     if os.path.exists(per):
         meta = IMG_SRC.get("for/" + slug, {})
@@ -80,7 +88,7 @@ TPL = """<!DOCTYPE html>
   .cert-box {{ background: var(--surface-2); border: 1px solid var(--border-strong); border-left: 4px solid var(--primary); border-radius: var(--radius); padding: 16px 20px; margin: 28px 0; }}
   .cta-row {{ display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }}
   .niche-hero {{ margin: 20px 0 0; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--surface); }}
-  .niche-hero img {{ width: 100%; height: 250px; object-fit: cover; display: block; }}
+  .niche-hero img {{ width: 100%; height: auto; display: block; }}
   .faq-item h3 {{ margin: 18px 0 6px; font-size: 1.02em; }}
   .faq-item p {{ margin: 0; }}
   .see-also {{ margin-top: 22px; font-size: 0.92em; color: var(--text-muted); }}
@@ -155,7 +163,7 @@ TPL = """<!DOCTYPE html>
       <a href="../index.html">Home</a>
       <a href="../index.html#lessons">All lessons</a>
       <a href="../sim.html">Practice</a>
-      <a href="../credits.html">Photo credits</a>
+      <a href="../credits.html">Art &amp; credits</a>
       <a href="https://github.com/owenriverk/wfa-precourse">Source on GitHub</a>
     </div>
     <p class="foot-disclaimer">Educational use only. This course supports wilderness first aid training and does not replace hands-on instruction or professional medical care. In an emergency, call your local emergency number.</p>
@@ -279,6 +287,8 @@ print("sitemap: +%d (now %d urls)" % (added, sm.count("<url>")))
 # ---- credits.html: attribution for hero photos (CC licenses require it; pages stay caption-free) ----
 def _meta_for(n):
     slug = n["slug"]
+    if slug in PIXEL_ALTS and os.path.exists(os.path.join(ROOT, "assets", "img", "for", slug + ".svg")):
+        return {}  # original pixel art; nothing to attribute
     if os.path.exists(os.path.join(ROOT, "assets", "img", "for", slug + ".jpg")):
         return IMG_SRC.get("for/" + slug, {})
     return IMG_SRC.get(IMG_KEY.get(n.get("cat", ""), ""), {})
@@ -303,13 +313,21 @@ for source, p in sorted(_photos.items(), key=lambda kv: kv[1]["meta"].get("title
     rows.append('      <li><a href="%s" rel="noopener">%s</a>%s — %s, via Wikimedia Commons. Used on: %s</li>'
                 % (source, title, who, lic, used))
 
+if rows:
+    _credit_section = '\n    <ol class="credit-list">\n%s\n    </ol>' % "\n".join(rows)
+else:
+    _credit_section = ('\n    <p>Every hero image now on the course pages is our own pixel art, generated from '
+                       '<code>tools/niche_pixel.py</code> in this site&rsquo;s repository. Earlier versions used '
+                       'Creative Commons photographs from Wikimedia Commons; none remain in use, and we thank '
+                       'those photographers all the same.</p>')
+
 CREDITS = """<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Photo Credits | Wilderness First Aid — Free Online Course</title>
-<meta name="description" content="Attribution for the photographs used across this free wilderness first aid course. All images come from Wikimedia Commons under their listed licenses.">
+<title>Art &amp; Credits | Wilderness First Aid — Free Online Course</title>
+<meta name="description" content="Where the imagery on this free wilderness first aid course comes from: original pixel-art scenes drawn for each page, plus attribution for any photographs still in use.">
 <meta name="theme-color" content="#1B4F8A">
 <link rel="canonical" href="%s/credits.html">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
@@ -335,17 +353,14 @@ CREDITS = """<!DOCTYPE html>
 
 <header class="lesson-head">
   <div class="wrap">
-    <div class="eyebrow"><span>Photo credits</span></div>
-    <h1>The photographers who make the pages.</h1>
-    <p class="lead">Every photo on this site comes from Wikimedia Commons, used under the license its photographer chose. They get named here, with a link back to the original.</p>
+    <div class="eyebrow"><span>Art &amp; credits</span></div>
+    <h1>Where the pictures come from.</h1>
+    <p class="lead">The scene on each course page is an original pixel-art illustration, drawn for that page in the same style as the practice sims — no stock photos. Anything we didn&rsquo;t draw ourselves gets named below, with a link back to the original.</p>
   </div>
 </header>
 
 <main id="content" class="wrap credits-main">
-  <section class="section-block">
-    <ol class="credit-list">
-%s
-    </ol>
+  <section class="section-block">%s
   </section>
 </main>
 
@@ -362,6 +377,6 @@ CREDITS = """<!DOCTYPE html>
 </footer>
 </body>
 </html>
-""" % (BASE, "\n".join(rows))
+""" % (BASE, _credit_section)
 open(os.path.join(ROOT, "credits.html"), "w").write(CREDITS)
 print("credits.html: %d photos, %d page uses" % (len(_photos), sum(len(p["pages"]) for p in _photos.values())))
