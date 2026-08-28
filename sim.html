@@ -14,56 +14,174 @@
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/css/site.css">
 <style>
+  /* ==========================================================================
+     The Rider Down — "Hybrid HUD" skin.
+     PRESENTATION ONLY. The page keeps its light, professional reading surface
+     for every narrative and medical string; the instruments — stage, sim clock,
+     vitals cluster, action console, transcript — are Oregon Trail console
+     chrome. VT323 is reserved for HUD labels, numerals and short headings.
+     ========================================================================== */
+  :root {
+    --hud-bg:        #0E1B30;
+    --hud-bg-2:      #13233C;
+    --hud-bg-3:      #1B3055;
+    --hud-line:      #2C4A73;
+    --hud-line-soft: #22354F;
+    --hud-green:     #7EE787;
+    --hud-green-hi:  #99F0A5;
+    --hud-ink:       #AFC3DE;
+    --hud-ink-dim:   #6B87AC;
+    --hud-ink-off:   #7C99BC;
+    --hud-amber:     #F3C07B;
+    --hud-scan:      repeating-linear-gradient(0deg, transparent 0 2px, rgba(140, 190, 255, 0.035) 2px 4px);
+    --hud-scan-lit:  repeating-linear-gradient(0deg, transparent 0 2px, rgba(14, 27, 48, 0.055) 2px 4px);
+    --frame-pad:     10px;
+  }
+
   .sim-main { max-width: 880px; }
 
-  /* ---- stage ---- */
-  .stage-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-top: 20px; }
-  .stage-panel svg { display: block; width: 100%; height: auto; }
-  .status-strip { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 10px 14px; border-top: 1px solid var(--border); }
-  .chip { background: var(--surface-2); border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px; font-size: 0.82em; color: var(--text-muted); white-space: nowrap; }
-  .chip b { color: var(--text); font-variant-numeric: tabular-nums; }
-  .chip.clock b { color: var(--primary); }
-  .chip.unknown b { color: var(--text-faint); font-weight: 400; }
+  /* ---- shared console shell (dark instrument panel) ---- */
+  .hud-shell { position: relative; overflow: hidden; background: var(--hud-bg); border: 2px solid var(--hud-line); border-radius: 6px; }
+  /* the overlay is a positioned pseudo-element, so it paints over the panel's
+     in-flow children — same trick .crt-panel / .sim-console use in site.css */
+  .hud-shell::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: var(--hud-scan); }
 
-  /* ---- narration ---- */
-  .narration { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--primary); border-radius: var(--radius); padding: 14px 18px; margin-top: 16px; font-size: 0.97em; }
-  .narration .you-did { color: var(--primary); font-weight: 700; font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 4px; }
-  .narration .event-line { display: block; margin-top: 10px; color: var(--warning); font-weight: 600; }
+  /* dark title bar dropped into a light panel */
+  .sim-panel h2.hud-head {
+    display: flex; align-items: center; gap: 10px;
+    margin: -18px -20px 16px; padding: 8px 20px 9px;
+    background: var(--hud-bg); border-bottom: 2px solid var(--hud-line);
+    border-radius: 9px 9px 0 0;
+    font-family: var(--font-pixel); font-weight: 400; font-size: 1.4em;
+    letter-spacing: 0.07em; text-transform: uppercase; color: var(--hud-green);
+    position: relative; overflow: hidden;
+  }
+  .sim-panel h2.hud-head::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: var(--hud-scan); }
+  .hud-head .px { width: 17px; height: 17px; color: var(--hud-green); opacity: 0.85; }
 
-  /* ---- choices ---- */
-  .choices { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; margin-top: 16px; }
-  .choices h2 { font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.06em; color: var(--primary); margin: 0 0 10px; border: 0; padding: 0; }
-  .choice-btn { display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; text-align: left; background: var(--surface); border: 1.5px solid var(--border-strong); border-radius: 10px; padding: 11px 14px; margin: 6px 0; font-size: 0.93em; font-weight: 550; color: var(--text); cursor: pointer; transition: border-color var(--ease), background var(--ease); }
-  .choice-btn:hover { border-color: var(--accent); background: var(--info-bg); }
-  .choice-btn .mins { color: var(--text-faint); font-weight: 400; font-size: 0.88em; white-space: nowrap; }
-  .choice-btn.decide { border-color: var(--danger-border); }
-  .choice-btn.decide:hover { border-color: var(--danger); background: var(--danger-bg); }
-  details.more { margin-top: 12px; }
-  details.more summary { cursor: pointer; color: var(--link); font-size: 0.9em; font-weight: 600; padding: 4px 0; }
-  details.more h3 { font-size: 0.78em; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-faint); margin: 12px 0 2px; }
+  .btn.hud-btn { background: var(--hud-green); border-color: var(--hud-green); color: #08240F; border-radius: 4px;
+    font-family: var(--font-pixel); font-weight: 400; font-size: 1.3em; letter-spacing: 0.04em; }
+  .btn.hud-btn:hover { background: var(--hud-green-hi); border-color: var(--hud-green-hi); }
 
-  /* ---- transcript ---- */
-  .transcript-panel { margin-top: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 18px; }
-  .transcript-panel summary { cursor: pointer; font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.06em; color: var(--primary); font-weight: 700; }
-  .sim-log { max-height: 360px; overflow-y: auto; display: flex; flex-direction: column-reverse; margin-top: 8px; }
-  .sim-log .entry { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.93em; }
+  /* ---- stage: HUD bar + screen + vitals cluster ---- */
+  .stage-panel { margin-top: 20px; box-shadow: 0 6px 22px rgba(14, 27, 48, 0.16); }
+
+  .hud-bar { display: flex; align-items: center; gap: 10px; padding: 7px 12px;
+    background: linear-gradient(180deg, var(--hud-bg-2), var(--hud-bg)); border-bottom: 2px solid var(--hud-line); }
+  .hud-bar .duck { width: 24px; height: 20px; }
+  .hud-bar-label { font-family: var(--font-pixel); font-size: 1.2em; letter-spacing: 0.11em;
+    text-transform: uppercase; color: var(--hud-green); line-height: 1; white-space: nowrap; }
+  .hud-rec { width: 7px; height: 7px; flex: none; background: var(--hud-green); box-shadow: 0 0 7px rgba(126, 231, 135, 0.75);
+    animation: hud-blink 2.4s steps(1) infinite; }
+  @keyframes hud-blink { 0%, 62% { opacity: 1; } 63%, 100% { opacity: 0.2; } }
+  @media (prefers-reduced-motion: reduce) { .hud-rec { animation: none; } }
+
+  .hud-bar .chip.clock { margin-left: auto; display: flex; align-items: baseline; gap: 8px; white-space: nowrap;
+    background: rgba(126, 231, 135, 0.07); border: 1px solid #2E5A41; border-radius: 3px; padding: 2px 10px 3px; }
+  .hud-bar .chip.clock .k { font-family: var(--font-pixel); font-size: 0.98em; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--hud-ink-dim); }
+  .hud-bar .chip.clock b { font-family: var(--font-pixel); font-weight: 400; font-size: 1.3em; letter-spacing: 0.03em;
+    color: var(--hud-green); font-variant-numeric: tabular-nums; text-shadow: 0 0 9px rgba(126, 231, 135, 0.35); }
+
+  /* z-index lifts the screen above the shell's scanline layer so the art gets
+     only its own (darker, readable-on-paper) scanlines — no moiré from two. */
+  .scene-frame { position: relative; z-index: 1; padding: var(--frame-pad); background: var(--hud-bg); }
+  .scene-frame svg { display: block; width: 100%; height: auto; border: 1px solid var(--hud-line); border-radius: 3px; }
+  .scene-frame::after { content: ""; position: absolute; inset: var(--frame-pad); pointer-events: none; border-radius: 3px;
+    background: var(--hud-scan-lit); box-shadow: inset 0 0 26px rgba(14, 27, 48, 0.22); }
+
+  /* 8 slots: [conditions ×2][pulse][breathing][avpu][skin][last vitals ×2] —
+     the track counts below all divide evenly, so no cell is ever left empty. */
+  .status-strip { display: grid; grid-template-columns: repeat(8, 1fr);
+    gap: 1px; padding: 0; background: var(--hud-line-soft); border-top: 2px solid var(--hud-line); }
+  .status-strip .chip { display: grid; align-content: start; gap: 1px; padding: 8px 10px 9px;
+    background: var(--hud-bg); border: 0; border-radius: 0; white-space: normal; }
+  .status-strip .chip.wx, .status-strip #chip-last { grid-column: span 2; }
+  @media (max-width: 900px) { .status-strip { grid-template-columns: repeat(4, 1fr); } }
+  .status-strip .chip .k { font-family: var(--font-pixel); font-size: 0.92em; line-height: 1.15; letter-spacing: 0.09em;
+    text-transform: uppercase; color: var(--hud-ink-dim); }
+  .status-strip .chip b { font-family: var(--font-pixel); font-weight: 400; font-size: 1.32em; line-height: 1.1;
+    letter-spacing: 0.02em; color: var(--hud-green); font-variant-numeric: tabular-nums; }
+  .status-strip .chip.unknown b { color: var(--hud-ink-off); }
+  #chip-hr .k::before { content: ""; display: inline-block; width: 14px; height: 9px; margin-right: 6px;
+    background: currentColor;
+    -webkit-mask: url(assets/img/pixel/heart.svg) center / contain no-repeat;
+            mask: url(assets/img/pixel/heart.svg) center / contain no-repeat; }
+
+  /* ---- narration (reading surface — stays light and non-pixel) ---- */
+  .narration { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--hud-line);
+    border-radius: var(--radius); padding: 16px 18px; margin-top: 16px; font-size: 0.97em; box-shadow: var(--shadow-sm); }
+  .narration .you-did { display: inline-block; margin-bottom: 9px; padding: 1px 10px 2px;
+    background: var(--hud-bg); border: 1px solid var(--hud-line); border-radius: 3px;
+    font-family: var(--font-pixel); font-weight: 400; font-size: 1.05em; letter-spacing: 0.07em;
+    text-transform: uppercase; color: var(--hud-green); }
+  .narration .event-line { display: block; margin-top: 12px; padding: 8px 12px; font-size: 0.95em;
+    background: var(--warning-bg); border-left: 3px solid var(--warning); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    color: var(--warning); font-weight: 600; }
+
+  /* ---- action console (dark) ---- */
+  .choices { padding: 14px 16px 16px; margin-top: 16px; }
+  .choices h2 { display: flex; align-items: center; gap: 9px; margin: 0 0 10px; padding: 0; border: 0;
+    font-family: var(--font-pixel); font-weight: 400; font-size: 1.4em; letter-spacing: 0.07em;
+    text-transform: uppercase; color: var(--hud-green); }
+  .choices h2::before { content: "\25B8"; font-family: var(--font); font-size: 0.6em; opacity: 0.65; }
+  .choice-btn { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left;
+    background: var(--hud-bg-2); border: 1px solid var(--hud-line); border-radius: 3px;
+    padding: 11px 13px; margin: 6px 0; font-size: 0.93em; font-weight: 500; color: #E4EDF9; cursor: pointer;
+    transition: border-color var(--ease), background var(--ease), transform var(--ease); }
+  .choice-btn::before { content: "\25B8"; flex: none; font-size: 0.88em; line-height: 1;
+    color: var(--hud-green); opacity: 0.5; transition: opacity var(--ease); }
+  .choice-btn > span:first-of-type { flex: 1 1 auto; min-width: 0; }
+  .choice-btn .mins { flex: none; font-family: var(--font-pixel); font-weight: 400; font-size: 1.15em;
+    letter-spacing: 0.04em; color: #8FA6C4; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .choice-btn:hover { background: var(--hud-bg-3); border-color: var(--hud-green); }
+  .choice-btn:hover::before { opacity: 1; }
+  .choice-btn:hover .mins { color: var(--hud-green); }
+  .choice-btn:active { transform: translateY(1px); }
+  .choice-btn:focus-visible { outline-color: var(--hud-green); }
+  .choice-btn.decide { background: #2A1C22; border-color: #8A4A3C; }
+  .choice-btn.decide::before { color: #F0A48D; opacity: 0.7; }
+  .choice-btn.decide:hover { background: #3A252C; border-color: #F0A48D; }
+  .choice-btn.decide:hover .mins { color: #F0A48D; }
+  details.more { margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--hud-line-soft); }
+  details.more summary { cursor: pointer; padding: 4px 0; color: var(--hud-ink);
+    font-family: var(--font-pixel); font-weight: 400; font-size: 1.15em; letter-spacing: 0.07em; text-transform: uppercase; }
+  details.more summary:hover { color: var(--hud-green); }
+  details.more h3 { margin: 14px 0 4px; color: var(--hud-ink-dim);
+    font-family: var(--font-pixel); font-weight: 400; font-size: 1.06em; letter-spacing: 0.11em; text-transform: uppercase; }
+
+  /* ---- transcript (dark terminal) ---- */
+  .transcript-panel { margin-top: 16px; padding: 10px 16px 12px; }
+  .transcript-panel summary { cursor: pointer; color: var(--hud-green);
+    font-family: var(--font-pixel); font-weight: 400; font-size: 1.2em; letter-spacing: 0.08em; text-transform: uppercase; }
+  .sim-log { max-height: 360px; overflow-y: auto; display: flex; flex-direction: column-reverse; margin-top: 8px;
+    padding-right: 4px; scrollbar-width: thin; scrollbar-color: var(--hud-line) var(--hud-bg); }
+  .sim-log .entry { padding: 9px 0; border-bottom: 1px solid var(--hud-line-soft); font-size: 0.92em; color: var(--hud-ink); }
   .sim-log .entry:first-child { border-bottom: 0; }
-  .sim-log .stamp { color: var(--text-faint); font-size: 0.85em; font-variant-numeric: tabular-nums; margin-right: 8px; white-space: nowrap; }
-  .sim-log .event { color: var(--warning); font-weight: 600; }
-  .sim-log .you { color: var(--primary); font-weight: 600; }
+  .sim-log .stamp { font-family: var(--font-pixel); font-size: 1.12em; letter-spacing: 0.04em;
+    color: var(--hud-ink-dim); font-variant-numeric: tabular-nums; margin-right: 9px; white-space: nowrap; }
+  .sim-log .event { color: var(--hud-amber); font-weight: 600; }
+  .sim-log .you { color: var(--hud-green); font-weight: 600; }
 
-  /* ---- panels / debrief ---- */
-  .sim-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; }
+  /* ---- light panels / debrief ---- */
+  .sim-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow-sm); }
   .sim-panel h2 { font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.06em; color: var(--primary); margin: 0 0 10px; border: 0; padding: 0; }
+  #debrief h3 { margin-top: 22px; padding-bottom: 4px; border-bottom: 2px solid var(--border); color: var(--primary);
+    font-family: var(--font-pixel); font-weight: 400; font-size: 1.28em; letter-spacing: 0.07em; text-transform: uppercase; }
   .debrief-list { list-style: none; margin: 0; padding: 0; }
-  .debrief-list li { padding: 7px 0 7px 30px; position: relative; border-bottom: 1px solid var(--border); font-size: 0.95em; }
+  .debrief-list li { padding: 9px 0 9px 34px; position: relative; border-bottom: 1px solid var(--border); font-size: 0.95em; }
   .debrief-list li:last-child { border-bottom: 0; }
-  .debrief-list li::before { position: absolute; left: 2px; font-weight: 800; }
-  .debrief-list li.hit::before { content: "✓"; color: var(--success); }
-  .debrief-list li.miss::before { content: "✗"; color: var(--danger); }
+  .debrief-list li::before { position: absolute; left: 0; top: 11px; width: 21px; height: 21px;
+    display: flex; align-items: center; justify-content: center; border-radius: 3px;
+    font-family: var(--font-pixel); font-weight: 400; font-size: 1.2em; line-height: 1; }
+  .debrief-list li.hit::before { content: "✓"; color: #08240F; background: var(--hud-green); }
+  .debrief-list li.miss::before { content: "✗"; color: #fff; background: var(--danger); }
   .debrief-list li .why { display: block; color: var(--text-muted); font-size: 0.9em; }
-  .flag-item { background: var(--warning-bg); border: 1px solid var(--warning-border); border-radius: var(--radius-sm); padding: 10px 14px; margin: 8px 0; font-size: 0.93em; }
-  .beta-tag { display: inline-block; background: var(--warning-bg); color: var(--warning); border: 1px solid var(--warning-border); font-size: 0.7em; font-weight: 750; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 10px; border-radius: 999px; vertical-align: middle; margin-left: 8px; }
+  .flag-item { background: var(--warning-bg); border: 1px solid var(--warning-border); border-left: 4px solid var(--warning);
+    border-radius: var(--radius-sm); padding: 10px 14px; margin: 8px 0; font-size: 0.93em; }
+  .beta-tag { display: inline-block; background: var(--hud-bg); color: var(--hud-green); border: 1px solid var(--hud-line);
+    font-family: var(--font-pixel); font-weight: 400; font-size: 0.6em; letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 1px 10px 2px; border-radius: 3px; vertical-align: middle; margin-left: 10px; }
 
   /* ---- scene art states (field-sketch style) ---- */
   #scene .o { stroke: #3A424D; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; fill: #FBF7EE; }
@@ -89,14 +207,39 @@
   #scene.shiver1 #pt-fig { animation: shiverA 0.34s infinite; }
   #scene.shiver2 #pt-fig { animation: shiverA 0.16s infinite; }
   @media (prefers-reduced-motion: reduce) { #scene #pt-fig { animation: none !important; } }
+  /* ---- more scenarios (dark console, mirrors .sim-console on the niche pages) ---- */
+  #more-sims { padding: 18px 22px 16px; }
+  #more-sims .more-head { display: flex; align-items: center; gap: 16px; margin-bottom: 10px; }
+  #more-sims .more-head .duck { width: 48px; height: 40px; }
+  #more-sims h2 { margin: 0 0 3px; color: var(--hud-green);
+    font-family: var(--font-pixel); font-weight: 400; font-size: 1.55em; letter-spacing: 0.05em; text-transform: uppercase; }
+  #more-sims .more-head p { margin: 0; color: var(--hud-ink); font-size: 0.93em; }
   .sim-list { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 28px; }
   @media (max-width: 700px) { .sim-list { columns: 1; } }
-  .sim-list li { break-inside: avoid; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .sim-list li { break-inside: avoid; position: relative; padding: 9px 0 9px 22px; border-bottom: 1px solid var(--hud-line-soft); }
+  .sim-list li::before { content: "\25B8"; position: absolute; left: 0; top: 9px;
+    font-size: 0.86em; line-height: 2.2; color: var(--hud-green); opacity: 0.65; }
   .sim-list a { text-decoration: none; }
   .sim-list a:hover b { text-decoration: underline; }
-  .sim-list b { color: var(--link); }
-  .sim-list .dot { color: var(--text-faint); font-size: 0.8em; text-transform: uppercase; letter-spacing: 0.05em; margin-left: 6px; }
-  .sim-list .why { display: block; color: var(--text-muted); font-size: 0.88em; }
+  .sim-list b { color: var(--hud-green); font-family: var(--font-pixel); font-weight: 400; font-size: 1.24em; letter-spacing: 0.03em; }
+  .sim-list .dot { color: var(--hud-ink-dim); font-family: var(--font-pixel); font-size: 1.05em;
+    text-transform: uppercase; letter-spacing: 0.06em; margin-left: 7px; }
+  .sim-list .why { display: block; color: #94ABC9; font-size: 0.88em; }
+
+  /* ---- phone ---- */
+  @media (max-width: 560px) {
+    :root { --frame-pad: 6px; }
+    .hud-bar-label { display: none; }
+    .hud-bar { padding: 6px 10px; }
+    .choices { padding: 12px 12px 14px; }
+    .transcript-panel { padding: 10px 12px 12px; }
+    #more-sims { padding: 16px 14px 14px; }
+    #more-sims .more-head { gap: 12px; }
+    .sim-panel { padding: 16px; }
+    .sim-panel h2.hud-head { margin: -16px -16px 14px; padding: 8px 16px 9px; }
+    .status-strip { grid-template-columns: repeat(2, 1fr); }
+    .status-strip .chip { padding: 7px 10px 8px; }
+  }
 </style>
 </head>
 <body>
@@ -114,7 +257,7 @@
 
 <header class="lesson-head">
   <div class="wrap">
-    <div class="eyebrow"><span>Practice scenario</span><span class="dot">One decision at a time — no script</span></div>
+    <div class="eyebrow"><span class="px px-wheel" aria-hidden="true"></span><span>Practice scenario</span><span class="dot">One decision at a time — no script</span></div>
     <h1>The Rider Down <span class="beta-tag">Beta</span></h1>
     <p class="lead">Work the accident one decision at a time. The sim suggests what a rescuer might plausibly do next — right moves and tempting mistakes alike — and only tells you what you actually assess. The patient changes in front of you as time passes and as you act. End it with a decision, then debrief. Nothing you do here is recorded anywhere.</p>
   </div>
@@ -123,14 +266,21 @@
 <main id="content" class="wrap sim-main">
 
   <div class="sim-panel" id="briefing" style="margin-top:20px;">
-    <h2>Dispatch</h2>
+    <h2 class="hud-head"><span class="px px-flag" aria-hidden="true"></span>Dispatch</h2>
     <p>You and a riding partner are 40 minutes of rough trail from the trailhead on a dual-sport ride. Rounding a corner, you find another rider down — his bike is on its side ten yards past him, engine off. He's on his back on the gravel, open-face helmet still on, clutching at his right leg. It's 48°F and overcast, late afternoon. Your partner pulls up behind you. You have your kit, and your phone shows one bar.</p>
-    <p style="margin-bottom:0;"><button class="btn" id="start-btn">Approach the scene →</button></p>
+    <p style="margin-bottom:0;"><button class="btn hud-btn" id="start-btn">Approach the scene →</button></p>
   </div>
 
   <div id="sim-ui" hidden>
 
-    <div class="stage-panel">
+    <div class="stage-panel hud-shell">
+      <div class="hud-bar">
+        <img class="duck" src="assets/img/pixel/duck.svg" alt="" width="24" height="20">
+        <span class="hud-bar-label" aria-hidden="true">The Rider Down</span>
+        <span class="hud-rec" aria-hidden="true"></span>
+        <span class="chip clock"><span class="k">Clock</span> <b id="clock">T+0 min</b></span>
+      </div>
+      <div class="scene-frame">
       <svg id="scene" viewBox="0 55 800 285" role="img" aria-label="A rider lying on his back on a gravel trail, his motorcycle on its side beyond him, under an overcast sky." aria-describedby="scene-desc">
         <desc id="scene-desc">Field-sketch illustration of the scene. It updates as you act.</desc>
         <defs>
@@ -138,10 +288,42 @@
             <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="7" result="n"/>
             <feDisplacementMap in="SourceGraphic" in2="n" scale="2.4"/>
           </filter>
+          <linearGradient id="skyg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#D2DBE2"/>
+            <stop offset="1" stop-color="#EDEADC"/>
+          </linearGradient>
         </defs>
 
         <!-- paper -->
         <rect x="0" y="0" width="800" height="340" fill="#FBF7EE"/>
+
+        <!-- painted washes: overcast sky, ridge haze, gravel — under the ink -->
+        <g>
+          <rect x="0" y="55" width="800" height="152" fill="url(#skyg)"/>
+          <g fill="#FFFFFF" opacity="0.5">
+            <ellipse cx="160" cy="103" rx="46" ry="12"/><ellipse cx="196" cy="97" rx="30" ry="9"/>
+            <ellipse cx="592" cy="88" rx="52" ry="13"/><ellipse cx="632" cy="94" rx="30" ry="8"/>
+          </g>
+          <g filter="url(#rough)">
+            <path d="M-10,205 L110,152 L240,192 L400,150 L545,196 L690,158 L810,198 L810,340 L-10,340 Z" fill="#C5CDD3"/>
+            <g fill="#F4F6F4" opacity="0.85">
+              <path d="M97,158 L110,152 L122,158 L116,162 L110,159 L103,162 Z"/>
+              <path d="M388,156 L400,150 L413,156 L406,161 L400,158 L393,161 Z"/>
+              <path d="M679,163 L690,158 L701,163 L695,167 L690,164 L684,167 Z"/>
+            </g>
+            <path d="M-10,232 L90,210 L220,228 L380,206 L540,230 L680,210 L810,226 L810,340 L-10,340 Z" fill="#B9BFA9"/>
+            <path d="M-10,247 Q200,242 420,247 T810,244 L810,340 L-10,340 Z" fill="#E3DAC3"/>
+            <path d="M-10,264 Q200,259 430,263 T810,260 L810,309 Q720,299 480,305 Q240,311 -10,306 Z" fill="#EFE7D2"/>
+            <g fill="#66755C" opacity="0.9">
+              <polygon points="111,226 120,197 129,226"/>
+              <polygon points="159,230 168,201 177,230"/>
+              <polygon points="409,224 418,195 427,224"/>
+              <polygon points="453,228 462,199 471,228"/>
+              <polygon points="693,226 702,197 711,226"/>
+              <polygon points="739,230 748,201 757,230"/>
+            </g>
+          </g>
+        </g>
 
         <!-- terrain, bike, partner -->
         <g filter="url(#rough)">
@@ -172,14 +354,14 @@
 
           <!-- downed bike -->
           <g transform="rotate(13 660 258)">
-            <circle cx="612" cy="258" r="15" class="ln"/>
+            <circle cx="612" cy="258" r="15" class="ln" style="fill:#454B52"/>
             <circle cx="612" cy="258" r="2" class="dot"/>
-            <path d="M612,244 L612,272 M598,258 L626,258 M602,248 L622,268 M602,268 L622,248" class="ln thin faint"/>
-            <circle cx="706" cy="254" r="15" class="ln"/>
+            <path d="M612,244 L612,272 M598,258 L626,258 M602,248 L622,268 M602,268 L622,248" class="ln thin faint" style="stroke:#8A9199"/>
+            <circle cx="706" cy="254" r="15" class="ln" style="fill:#454B52"/>
             <circle cx="706" cy="254" r="2" class="dot"/>
-            <path d="M706,240 L706,268 M692,254 L720,254 M696,244 L716,264 M696,264 L716,244" class="ln thin faint"/>
-            <polygon points="618,251 656,232 698,247 670,259 628,260" class="o w2"/>
-            <rect x="648" y="226" width="16" height="8" rx="3" class="o w2"/>
+            <path d="M706,240 L706,268 M692,254 L720,254 M696,244 L716,264 M696,264 L716,244" class="ln thin faint" style="stroke:#8A9199"/>
+            <polygon points="618,251 656,232 698,247 670,259 628,260" class="o w2" style="fill:#A34E3B"/>
+            <rect x="648" y="226" width="16" height="8" rx="3" class="o w2" style="fill:#8A4232"/>
             <path d="M696,247 L712,232 M712,232 l5,3" class="ln"/>
           </g>
 
@@ -187,7 +369,7 @@
           <g transform="translate(-10 0)">
             <circle cx="95" cy="204" r="6.5" class="o skin"/>
             <path d="M88.5,204 A6.5,6.5 0 0 1 101.5,204 Z" class="o w2"/>
-            <rect x="88" y="210" width="14" height="25" rx="5" class="o w"/>
+            <rect x="88" y="210" width="14" height="25" rx="5" class="o w" style="fill:#71805F"/>
             <path d="M101,214 L114,204 l4,1" class="ln"/>
             <path d="M91,235 L91,255 M99,235 L99,255" class="ln"/>
           </g>
@@ -260,20 +442,20 @@
         <!-- daylight fading -->
         <rect id="dusk" x="0" y="0" width="800" height="340" fill="#4A4433" opacity="0"/>
       </svg>
+      </div>
       <div class="status-strip" id="status-strip">
-        <span class="chip clock">Clock <b id="clock">T+0 min</b></span>
-        <span class="chip">48°F · overcast · <b id="daylight">~2.5 hrs light</b></span>
-        <span class="chip" id="chip-hr">Pulse <b>—</b></span>
-        <span class="chip" id="chip-rr">Breathing <b>—</b></span>
-        <span class="chip" id="chip-avpu">AVPU <b>—</b></span>
-        <span class="chip" id="chip-skin">Skin <b>—</b></span>
-        <span class="chip" id="chip-last">Last vitals <b>not taken</b></span>
+        <span class="chip wx"><span class="k">48°F · overcast</span> <b id="daylight">~2.5 hrs light</b></span>
+        <span class="chip" id="chip-hr"><span class="k">Pulse</span> <b>—</b></span>
+        <span class="chip" id="chip-rr"><span class="k">Breathing</span> <b>—</b></span>
+        <span class="chip" id="chip-avpu"><span class="k">AVPU</span> <b>—</b></span>
+        <span class="chip" id="chip-skin"><span class="k">Skin</span> <b>—</b></span>
+        <span class="chip" id="chip-last"><span class="k">Last vitals</span> <b>not taken</b></span>
       </div>
     </div>
 
     <div class="narration" id="narration" aria-live="polite"></div>
 
-    <div class="choices" id="choices">
+    <div class="choices hud-shell" id="choices">
       <h2>What do you do?</h2>
       <div id="choice-list"></div>
       <details class="more" id="more-actions">
@@ -286,7 +468,7 @@
       </details>
     </div>
 
-    <details class="transcript-panel" id="transcript">
+    <details class="transcript-panel hud-shell" id="transcript">
       <summary>Full transcript</summary>
       <div class="sim-log" id="log"></div>
     </details>
@@ -295,19 +477,26 @@
 
   <div id="debrief" hidden>
     <div class="sim-panel" style="margin-top:20px;">
-      <h2>Debrief</h2>
+      <h2 class="hud-head"><span class="px px-cross" aria-hidden="true"></span>Debrief</h2>
       <p id="debrief-summary" style="font-size:1.05em;"></p>
       <div id="debrief-flags"></div>
       <h3 style="margin-top:20px;">Critical actions</h3>
       <ul class="debrief-list" id="debrief-crit"></ul>
       <p style="margin-top:20px;">Review: <a href="lessons/02_Patient_Assessment.html">Lesson 2 — Patient Assessment</a> · <a href="lessons/06_Musculoskeletal.html">Lesson 6 — Musculoskeletal Injuries</a> · <a href="lessons/13_Evacuation.html">Lesson 13 — Evacuation</a></p>
-      <p style="margin-bottom:0;"><button class="btn" onclick="location.reload()">↺ Run it again</button> <a class="btn secondary" href="index.html#lessons">Back to the course</a></p>
+      <p style="margin-bottom:0;"><button class="btn hud-btn" onclick="location.reload()">↺ Run it again</button> <a class="btn secondary" href="index.html#lessons">Back to the course</a></p>
     </div>
   </div>
 
-  <div class="sim-panel" id="more-sims" style="margin-top:24px;">
-    <h2>More scenarios</h2>
-    <p style="margin-top:0;">Fifteen shorter drills, each built around one habit worth owning. Same rules: no script, no recording, tempting mistakes on the menu.</p>
+  <div class="trail-divider" aria-hidden="true"></div>
+
+  <div class="hud-shell" id="more-sims" style="margin-top:24px;">
+    <div class="more-head">
+      <img class="duck" src="assets/img/pixel/duck.svg" alt="" width="48" height="40">
+      <div>
+        <h2>More scenarios</h2>
+        <p style="margin-top:0;">Fifteen shorter drills, each built around one habit worth owning. Same rules: no script, no recording, tempting mistakes on the menu.</p>
+      </div>
+    </div>
     <ul class="sim-list">
       <li><a href="sims/hero-complex.html"><b>Hero Complex</b> <span class="dot">Scene safety</span></a><span class="why">A hiker is down at the base of a live scree slope and her friend is screaming your name. Scene safety before patient contact — practice it here.</span></li>
       <li><a href="sims/guy-whos-fine.html"><b>The Guy Who's Fine</b> <span class="dot">Serial vitals</span></a><span class="why">A 15-foot ground fall, and Dale is already making jokes. Vitals are a trend, not a snapshot — practice catching the trend.</span></li>
