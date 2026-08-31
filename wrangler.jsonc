@@ -1,10 +1,12 @@
 // Cloudflare Pages config for the openwfa project.
+// Account: the dedicated OpenWFA account (9756d21c…) — pinned via CLOUDFLARE_ACCOUNT_ID
+// in tools/deploy_cf.sh, because Pages configs reject an "account_id" key.
 // Static site lives in dist/ (built by tools/deploy_cf.sh); the sync API is a
 // Pages Function in functions/api/. See db/migrations/ for the D1 schema.
 //
 // Environments (see tools/deploy_cf.sh — it picks the target from your git branch):
 //   production (deploy from main)      -> openwfa.com, D1 "openwfa"
-//   preview    (deploy from any other) -> <branch>.wfa-precourse.pages.dev, D1 "openwfa-preview"
+//   preview    (deploy from any other) -> <branch>.openwfa.pages.dev, D1 "openwfa-preview"
 // Preview runs with DEV_MODE=true: the sign-in API returns the magic link directly
 // instead of emailing it, so previews are testable with no email provider configured.
 {
@@ -17,7 +19,7 @@
     {
       "binding": "DB",
       "database_name": "openwfa",
-      "database_id": "5f243f8c-2698-4ee7-bf04-c1dad1877979",
+      "database_id": "01146cda-ebd0-4f99-b315-59657c0bb5f9",
       "migrations_dir": "db/migrations"
     }
   ],
@@ -28,7 +30,7 @@
         {
           "binding": "DB",
           "database_name": "openwfa-preview",
-          "database_id": "6ca38db4-d6e7-4c1d-ae7f-c205d56e2512",
+          "database_id": "af8cd074-b8b2-4845-806f-52e3874c8a69",
           "migrations_dir": "db/migrations"
         }
       ],
