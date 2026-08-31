@@ -38,6 +38,10 @@ export async function onRequest(context) {
     if (path === "/api/auth/verify" && m === "GET") return await authVerify(request, env, url);
     if (path === "/api/auth/logout" && m === "POST") return await logout(request, env);
     if (path === "/api/me" && m === "GET") return await me(request, env);
+    if (path === "/api/health" && m === "GET") {
+      const email = env.EMAIL ? "cloudflare" : env.RESEND_API_KEY ? "resend" : env.DEV_MODE === "true" ? "dev" : "none";
+      return json({ ok: true, email });
+    }
     if (path === "/api/progress" && m === "GET") return await getProgress(request, env);
     if (path === "/api/progress" && (m === "PUT" || m === "POST")) return await putProgress(request, env);
     if (path === "/api/account/delete" && m === "POST") return await deleteAccount(request, env);
