@@ -1,0 +1,45 @@
+// Cloudflare Pages config for the openwfa project.
+// Static site lives in dist/ (built by tools/deploy_cf.sh); the sync API is a
+// Pages Function in functions/api/. See db/migrations/ for the D1 schema.
+//
+// Environments (see tools/deploy_cf.sh — it picks the target from your git branch):
+//   production (deploy from main)      -> openwfa.com, D1 "openwfa"
+//   preview    (deploy from any other) -> <branch>.wfa-precourse.pages.dev, D1 "openwfa-preview"
+// Preview runs with DEV_MODE=true: the sign-in API returns the magic link directly
+// instead of emailing it, so previews are testable with no email provider configured.
+{
+  "name": "openwfa",
+  "compatibility_date": "2026-08-01",
+  "pages_build_output_dir": "dist",
+
+  // Top-level bindings apply to production (and local `wrangler pages dev`).
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "openwfa",
+      "database_id": "5f243f8c-2698-4ee7-bf04-c1dad1877979",
+      "migrations_dir": "db/migrations"
+    }
+  ],
+
+  "env": {
+    "preview": {
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "openwfa-preview",
+          "database_id": "6ca38db4-d6e7-4c1d-ae7f-c205d56e2512",
+          "migrations_dir": "db/migrations"
+        }
+      ],
+      "vars": { "DEV_MODE": "true" }
+    }
+  }
+
+  // Email for magic links — configure ONE of these for production:
+  //  A) Cloudflare Email Sending (Workers Paid): add  "send_email": [{ "name": "EMAIL" }]
+  //     and run:  npx wrangler email sending enable openwfa.com
+  //  B) Resend free tier: set secret RESEND_API_KEY on the Pages project:
+  //     npx wrangler pages secret put RESEND_API_KEY --project-name openwfa
+  // Local dev: put DEV_MODE=true in .dev.vars and the API returns the link directly.
+}

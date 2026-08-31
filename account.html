@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sync Your Progress | Wilderness First Aid</title>
+<meta name="description" content="Optional email sign-in that backs up your lesson progress, quiz scores, and exam record so they follow you between devices. Off by default; delete it any time.">
+<meta name="theme-color" content="#1B4F8A">
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+  .acct-wrap { max-width: 640px; margin: 0 auto; padding: 40px 24px 64px; }
+  .acct-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 26px 28px; margin: 22px 0; box-shadow: var(--shadow-sm); }
+  .acct-card h2 { margin-top: 0; font-size: 1.25em; }
+  .acct-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+  .acct-row input[type=email] { flex: 1; min-width: 220px; padding: 10px 14px; font-size: 1em; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); }
+  .acct-status { font-size: 0.95em; color: var(--text-muted); margin-top: 10px; min-height: 1.4em; }
+  .acct-status.err { color: var(--danger); }
+  .acct-status.ok { color: var(--success); }
+  .acct-meta { color: var(--text-muted); font-size: 0.92em; }
+  .danger-zone { border-color: var(--danger-border); }
+  .btn.danger { background: var(--danger-bg); color: var(--danger); border: 1px solid var(--danger-border); }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#content">Skip to content</a>
+<header class="site-nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="2" y="2" width="28" height="28" rx="7" fill="currentColor" opacity="0.12"/><path d="M6 23 L12 12 L16 18 L19 14 L26 23 Z" fill="currentColor" opacity="0.85"/><path d="M16 6 v6 M13 9 h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg><span>Wilderness First Aid</span><span class="brand-sub">Free online course</span></a>
+    <nav class="nav-links" aria-label="Site navigation">
+      <a href="index.html#lessons">All lessons</a>
+      <a class="hide-sm" href="final_exam.html">Final exam</a>
+    </nav>
+  </div>
+</header>
+
+<main id="content" class="acct-wrap">
+  <h1>Sync your progress</h1>
+  <p class="lead">The course never requires an account. Your progress lives in this browser. If you want it to follow you — phone on the trail, laptop at home — turn on sync: we email you a sign-in link, then keep a backup of your lesson progress, quiz scores, kit checklist, and exam record.</p>
+
+  <div class="acct-card" id="card-signedout" hidden>
+    <h2>Turn on sync</h2>
+    <p>Enter your email and we'll send a one-time sign-in link. No password. We store your email address and your progress — nothing else — and you can delete both with one click.</p>
+    <form class="acct-row" id="link-form">
+      <input type="email" id="email" autocomplete="email" placeholder="you@example.com" required aria-label="Email address">
+      <button class="btn" type="submit" id="send-btn">Email me a sign-in link</button>
+    </form>
+    <div class="acct-status" id="signedout-status" role="status" aria-live="polite"></div>
+  </div>
+
+  <div class="acct-card" id="card-signedin" hidden>
+    <h2>Sync is on</h2>
+    <p class="acct-meta">Signed in as <strong id="me-email"></strong>. This device syncs automatically as you study. Sign in with the same email on another device and your progress merges — the best score from each device wins.</p>
+    <div class="acct-row">
+      <button class="btn secondary" type="button" id="sync-now">Sync now</button>
+      <button class="btn secondary" type="button" id="sign-out">Sign out on this device</button>
+    </div>
+    <div class="acct-status" id="signedin-status" role="status" aria-live="polite"></div>
+  </div>
+
+  <div class="acct-card danger-zone" id="card-danger" hidden>
+    <h2>Delete synced data</h2>
+    <p class="acct-meta">Removes your email and synced progress from our server everywhere, immediately. Progress already stored in this browser stays here.</p>
+    <div class="acct-row"><button class="btn danger" type="button" id="delete-acct">Delete my synced data</button></div>
+  </div>
+
+  <div class="acct-card" id="card-noapi" hidden>
+    <h2>Sync isn't available on this mirror</h2>
+    <p class="acct-meta">You're viewing a copy of the site that serves files only. Use <a href="https://openwfa.com/account.html">openwfa.com</a> for progress sync — the course itself works the same everywhere.</p>
+  </div>
+
+  <p class="acct-meta">Prefer no account? Nothing changes for you: progress keeps saving in your browser, and this page is the only place sync is ever mentioned.</p>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#lessons">All lessons</a>
+      <a href="final_exam.html">Final exam</a>
+      <a href="https://github.com/owenriverk/wfa-precourse">Source on GitHub</a>
+    </div>
+    <p class="foot-disclaimer">Educational use only. This course teaches lay-rescuer wilderness first aid and does not replace hands-on training or professional medical care. In an emergency, call your local emergency number.</p>
+  </div>
+</footer>
+
+<script src="assets/js/sync.js"></script>
+<script>
+(function () {
+  'use strict';
+  var S = window.WFA_SYNC;
+  var qs = new URLSearchParams(location.search);
+  var $ = function (id) { return document.getElementById(id); };
+  function show(id, on) { $(id).hidden = !on; }
+  function status(id, msg, cls) { var el = $(id); el.textContent = msg || ''; el.className = 'acct-status' + (cls ? ' ' + cls : ''); }
+
+  function renderSignedOut(msg, cls) {
+    show('card-signedout', true); show('card-signedin', false); show('card-danger', false);
+    if (msg) status('signedout-status', msg, cls);
+  }
+  function renderSignedIn(email) {
+    show('card-signedout', false); show('card-signedin', true); show('card-danger', true);
+    $('me-email').textContent = email;
+  }
+  function renderNoApi() {
+    show('card-noapi', true); show('card-signedout', false); show('card-signedin', false); show('card-danger', false);
+  }
+
+  function boot() {
+    S.me().then(function (res) {
+      if (res.status === 200) {
+        S.enable();
+        renderSignedIn(res.data.email);
+        if (qs.get('signedin')) {
+          status('signedin-status', 'Signed in. Syncing…');
+          history.replaceState(null, '', 'account.html');
+        }
+        S.syncNow().then(function (r) {
+          if (r.status === 200) status('signedin-status', 'Synced just now.', 'ok');
+        }).catch(function () { status('signedin-status', 'Offline — will sync next time you\'re online.'); });
+      } else {
+        S.disable();
+        renderSignedOut(qs.get('linkerror') ? 'That link expired or was already used. Request a fresh one.' : '', qs.get('linkerror') ? 'err' : '');
+      }
+    }).catch(renderNoApi);
+  }
+
+  $('link-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var email = $('email').value.trim();
+    if (!email) return;
+    $('send-btn').disabled = true;
+    status('signedout-status', 'Sending…');
+    S.requestLink(email).then(function (res) {
+      $('send-btn').disabled = false;
+      if (res.status === 200 && res.data.dev_link) {
+        // Local development only: no email provider configured.
+        status('signedout-status', 'Dev mode — use this link: ' + res.data.dev_link);
+      } else if (res.status === 200) {
+        status('signedout-status', 'Check your email — the link works once and expires in 20 minutes.', 'ok');
+      } else {
+        status('signedout-status', res.data.error || 'Something went wrong. Try again.', 'err');
+      }
+    }).catch(function () { $('send-btn').disabled = false; status('signedout-status', 'Network error. Try again.', 'err'); });
+  });
+
+  $('sync-now').addEventListener('click', function () {
+    status('signedin-status', 'Syncing…');
+    S.syncNow().then(function (r) {
+      status('signedin-status', r.status === 200 ? 'Synced just now.' : 'Sign-in expired — request a new link.', r.status === 200 ? 'ok' : 'err');
+    }).catch(function () { status('signedin-status', 'Network error. Try again.', 'err'); });
+  });
+
+  $('sign-out').addEventListener('click', function () {
+    S.signOut().then(function () { renderSignedOut('Signed out on this device. Your progress stays in this browser and on the server.'); })
+      .catch(function () { renderSignedOut('Signed out on this device.'); });
+  });
+
+  $('delete-acct').addEventListener('click', function () {
+    if (!confirm('Delete your email and synced progress from the server? This cannot be undone.')) return;
+    S.deleteAccount().then(function () { renderSignedOut('Deleted. Nothing about you remains on the server.', 'ok'); })
+      .catch(function () { renderSignedOut('Network error — try again.', 'err'); });
+  });
+
+  boot();
+})();
+</script>
+</body>
+</html>

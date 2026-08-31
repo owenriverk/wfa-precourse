@@ -4,3 +4,6 @@
 .backups/
 dist/
 .claude/
+.dev.vars
+node_modules/
+.wrangler/

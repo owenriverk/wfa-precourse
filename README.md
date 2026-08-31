@@ -38,12 +38,18 @@ final_exam.html       final exam + record of completion
 reference.html        printable field reference card + fillable SOAP form
 kit.html              first aid kit checklist (saved locally) + gear guidance
 sim.html              sandbox practice scenario (beta): deterministic patient state machine
+account.html          optional progress sync (email sign-in; off by default)
+functions/api/        Cloudflare Pages Function: the sync/auth API
+db/migrations/        D1 schema for the sync API
+assets/js/sync.js     client half of progress sync (inert until enabled)
 lessons/NN_*.html     one file per lesson (content + quiz data)
 assets/css/site.css   shared design system (responsive, print)
 assets/js/lesson.js   shared lesson engine (tabs, deep links, quiz, scenario toggles)
 ```
 
-Each lesson page declares its quiz in a `window.WFA_LESSON` object at the bottom of the file; `lesson.js` renders it. Progress and scores are kept in the visitor's own `localStorage` (`wfa_completed_NN`, `wfa_score_NN`, `wfa_total_NN`, `wfa_final_exam`) and never leave the browser.
+Each lesson page declares its quiz in a `window.WFA_LESSON` object at the bottom of the file; `lesson.js` renders it. Progress and scores are kept in the visitor's own `localStorage` (`wfa_completed_NN`, `wfa_score_NN`, `wfa_total_NN`, `wfa_final_exam`) and by default never leave the browser.
+
+**Optional progress sync.** `account.html` offers an opt-in, passwordless email sign-in that backs up the `wfa_*` progress keys so they follow the learner between devices. The API is a Cloudflare Pages Function (`functions/api/`) with a D1 database (`db/migrations/`), configured in `wrangler.jsonc`; the client is `assets/js/sync.js`, which makes zero network requests until sync is turned on. Merges are order-free (best score wins), the server stores only an email address plus the progress blob, and deletion is one click on the account page. Sign-in links are emailed via Cloudflare Email Sending (`EMAIL` binding) or Resend (`RESEND_API_KEY` secret); with `DEV_MODE=true` in `.dev.vars`, the link is returned directly for local testing.
 
 To preview locally:
 

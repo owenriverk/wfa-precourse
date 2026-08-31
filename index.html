@@ -430,7 +430,7 @@
   <section class="section-block faq" id="faq" aria-labelledby="faq-h">
     <h2 id="faq-h">Questions</h2>
     <p class="sub">The short version: it's free, it's open, and it's not a certification.</p>
-    <details><summary>Is this really free?</summary><p>Yes. There is no account, no paywall, and no tracking. Your progress and quiz scores are stored in your own browser and never leave your device. The whole site is <a href="https://github.com/owenriverk/wfa-precourse">open source on GitHub</a>.</p></details>
+    <details><summary>Is this really free?</summary><p>Yes. There is no account required, no paywall, and no tracking. Your progress and quiz scores are stored in your own browser by default. If you want them to follow you between devices, an optional <a href="account.html">email sign-in</a> can back them up and sync them &mdash; off unless you turn it on, deletable any time. The whole site is <a href="https://github.com/owenriverk/wfa-precourse">open source on GitHub</a>.</p></details>
     <details><summary>Who is this for?</summary><p>Anyone who spends time where an ambulance can't reach you quickly: hikers, backpackers, paddlers, dual-sport and adventure riders, climbers, hunters, trip leaders, and parents taking kids outdoors. No medical background is needed. It also works well as preparation for, or a refresher after, an in-person wilderness first aid course.</p></details>
     <details><summary>Does finishing the course make me certified?</summary><p>No. Completing the final exam produces a <strong>record of completion</strong> — a personal study record showing your name, score, and date. Wilderness first aid skills like splinting, wound care, and CPR need hands-on practice with an instructor. Use this course to build the knowledge so that in-person training can focus on the hands-on part.</p></details>
     <details><summary>What level is the material?</summary><p>Lay-rescuer wilderness first aid. Nothing here requires equipment or authority you won't have: the focus is on recognizing what's wrong, doing what a first aider can safely do, and deciding how urgently to get help. Helping a patient use their own epinephrine auto-injector or inhaler, and common over-the-counter medications, are within scope. The <a href="curriculum.html">lesson-by-lesson curriculum</a> spells out what each one covers before you start.</p></details>
@@ -456,6 +456,7 @@
       <a class="hide-sm" href="reference.html">Field card</a>
       <a class="hide-sm" href="final_exam.html">Final exam</a>
       <a href="#faq">FAQ</a>
+      <a href="account.html">Sync progress</a>
       <a href="https://github.com/owenriverk/wfa-precourse">Source on GitHub</a>
     </div>
     <p class="foot-disclaimer"><strong>Wilderness First Aid — free online course.</strong> For educational use only. In an emergency, call your local emergency number.</p>
@@ -513,6 +514,16 @@
     }
   } catch (e) {}
 })();
+</script>
+<script src="assets/js/sync.js" defer></script>
+<script>
+// If sync pulls newer progress from another device while this page is open,
+// refresh the lesson ticks once (guarded so it can never loop).
+window.addEventListener('wfa-sync-applied', function () {
+  try {
+    if (!sessionStorage.getItem('wfa_sync_reloaded')) { sessionStorage.setItem('wfa_sync_reloaded', '1'); location.reload(); }
+  } catch (e) { /* storage unavailable */ }
+});
 </script>
 </body>
 </html>

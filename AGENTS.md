@@ -11,7 +11,7 @@ Free, open-access first aid education (FOAMed) for **lay rescuers who can't atte
 2. **No certification language.** The site issues a *record of completion*, never a "certification," "cert," or anything implying credential.
 3. **No day-based structure.** No "Day 1." Lessons are self-paced units called **lessons** (never "modules").
 4. **The state machine owns medical ground truth.** In any sim, every clinical fact (vitals, injury, physiology trends, what an action reveals) lives in deterministic, in-repo, auditable code. An LLM — if ever added — only *voices* the patient and maps free text onto existing action ids. It never invents findings, never decides outcomes.
-5. **Nothing the learner does is recorded.** Sims say so explicitly. Keep it true.
+5. **Nothing the learner does is recorded by default.** Progress lives in the learner's browser. The only exception is the opt-in progress sync (`account.html` + `functions/api/`): when a learner turns it on, their email address and `wfa_*` progress keys — nothing else — are stored server-side, and one click deletes both. **Sim state is never synced or recorded, ever.** Sims say so explicitly. Keep it true.
 6. **Educational use only.** Every page carries the disclaimer: this supports training, it does not replace hands-on instruction or professional care. Sims additionally state they teach decision-making, not hands-on skill.
 7. **Never teach something a lesson contradicts.** Cross-check sim strings against the lessons; cite the lesson number in debrief rationale. If sim and lesson disagree, the sim is wrong.
 
