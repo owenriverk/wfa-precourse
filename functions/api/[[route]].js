@@ -20,7 +20,7 @@
  *  POST /api/account/delete                -> delete account + all data
  */
 
-const SESSION_COOKIE = "wfa_s";
+const SESSION_COOKIE = "__Host-wfa_s"; // __Host- = browser-enforced: Secure, Path=/, no Domain — a subdomain can never plant it
 const SESSION_MAX_AGE = 400 * 24 * 3600; // 400 days: the browser cap; "don't worry about cookie refresh"
 const LINK_TTL_S = 20 * 60;
 const MAX_BODY_BYTES = 64 * 1024;
@@ -255,6 +255,10 @@ function sessionCookie(value, maxAge) {
 }
 
 async function readJson(request) {
+  // Writes must declare JSON. SameSite=Lax already blocks cross-site cookie sends;
+  // this closes the door on exotic form-based bodies too.
+  const ct = request.headers.get("Content-Type") || "";
+  if (!ct.includes("application/json")) return null;
   const len = parseInt(request.headers.get("Content-Length") || "0", 10);
   if (len > MAX_BODY_BYTES) return null;
   try {

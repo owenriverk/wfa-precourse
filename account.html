@@ -21,6 +21,10 @@
   .acct-meta { color: var(--text-muted); font-size: 0.92em; }
   .danger-zone { border-color: var(--danger-border); }
   .btn.danger { background: var(--danger-bg); color: var(--danger); border: 1px solid var(--danger-border); }
+  .autosave { display: flex; gap: 14px; align-items: center; background: var(--success-bg); border: 1px solid var(--success-border); border-radius: var(--radius); padding: 14px 18px; margin: 0 0 16px; }
+  .autosave-check { flex: none; width: 40px; height: 40px; border-radius: 999px; background: var(--success); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 1.4em; font-weight: 800; }
+  .autosave strong { font-size: 1.05em; }
+  .autosave #last-sync { color: var(--success); font-weight: 650; }
   [hidden] { display: none !important; }
 </style>
 </head>
@@ -52,6 +56,9 @@
 
   <div class="acct-card" id="card-signedin" hidden>
     <h2>Sync is on — everything is automatic</h2>
+    <div class="autosave"><div class="autosave-check" aria-hidden="true">✓</div>
+      <div><strong>Autosaves as you study. Nothing to do.</strong><br><span id="last-sync">Checking…</span></div>
+    </div>
     <p class="acct-meta">Signed in as <strong id="me-email"></strong>. There's nothing to save and nothing to remember: as you study, this browser backs up your lesson progress, quiz scores, kit checklist, and exam record on its own, and pulls in anything new from your other devices. To add a device, just sign in there with the same email — everything merges, and your best score always wins.</p>
     <div class="acct-row">
       <button class="btn secondary" type="button" id="sync-now">Sync now</button>
@@ -94,6 +101,15 @@
   var S = window.WFA_SYNC;
   var qs = new URLSearchParams(location.search);
   var $ = function (id) { return document.getElementById(id); };
+  var lastSyncAt = null;
+  function renderLastSync() {
+    var el = $('last-sync'); if (!el) return;
+    if (!lastSyncAt) { el.textContent = 'Waiting for first backup…'; return; }
+    var m = Math.floor((Date.now() - lastSyncAt) / 60000);
+    el.textContent = m < 1 ? 'Backed up just now' : 'Backed up ' + (m === 1 ? 'a minute' : m + ' minutes') + ' ago';
+  }
+  setInterval(renderLastSync, 30000);
+  function markSynced() { lastSyncAt = Date.now(); renderLastSync(); }
   function show(id, on) { $(id).hidden = !on; }
   function status(id, msg, cls) { var el = $(id); el.textContent = msg || ''; el.className = 'acct-status' + (cls ? ' ' + cls : ''); }
 
@@ -119,8 +135,8 @@
           history.replaceState(null, '', 'account.html');
         }
         S.syncNow().then(function (r) {
-          if (r.status === 200) status('signedin-status', 'Synced just now.', 'ok');
-        }).catch(function () { status('signedin-status', 'Offline — will sync next time you\'re online.'); });
+          if (r.status === 200) { markSynced(); status('signedin-status', ''); }
+        }).catch(function () { var el = $('last-sync'); if (el) el.textContent = 'Offline — will back up automatically when you\'re back online.'; });
       } else {
         S.disable();
         renderSignedOut(qs.get('linkerror') ? 'That link expired or was already used. Request a fresh one.' : '', qs.get('linkerror') ? 'err' : '');
@@ -150,7 +166,8 @@
   $('sync-now').addEventListener('click', function () {
     status('signedin-status', 'Syncing…');
     S.syncNow().then(function (r) {
-      status('signedin-status', r.status === 200 ? 'Synced just now.' : 'Sign-in expired — request a new link.', r.status === 200 ? 'ok' : 'err');
+      if (r.status === 200) { markSynced(); status('signedin-status', ''); }
+      else status('signedin-status', 'Sign-in expired — request a new link.', 'err');
     }).catch(function () { status('signedin-status', 'Network error. Try again.', 'err'); });
   });
 
