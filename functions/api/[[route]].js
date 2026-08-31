@@ -65,13 +65,24 @@ async function authRequest(request, env, url) {
   if (perEmail.n >= 5 || perIp.n >= 15) {
     return json({ error: "Too many sign-in requests. Try again in an hour." }, 429);
   }
+  // Opportunistic cleanup: expired tokens are useless, so each request sweeps
+  // yesterday's (keeps the table tiny without needing a cron).
+  await env.DB.prepare("DELETE FROM login_tokens WHERE expires_at < ?1").bind(now - 86400).run();
   const token = randToken();
   await env.DB.prepare(
     "INSERT INTO login_tokens (token_hash, email, ip, created_at, expires_at) VALUES (?1, ?2, ?3, ?4, ?5)"
   ).bind(await sha256hex(token), email, ip, now, now + LINK_TTL_S).run();
 
   const link = `${url.origin}/api/auth/verify?token=${token}`;
-  const dev = await sendMagicLink(env, email, link);
+  let dev;
+  try {
+    dev = await sendMagicLink(env, email, link);
+  } catch (e) {
+    if (e && e.message === "no email provider configured") {
+      return json({ error: "Email sign-in isn't set up on this deployment yet. Your progress is still saved in this browser." }, 503);
+    }
+    throw e;
+  }
   const res = { ok: true, sent: !dev };
   if (dev) res.dev_link = link; // local dev only: no email provider configured, DEV_MODE=true
   return json(res);
