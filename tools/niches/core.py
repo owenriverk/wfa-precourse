@@ -41,12 +41,12 @@ NICHES = [
           'up already fluent in assessment — that part costs nothing but evenings.'),
          ('What medical skills do SAR volunteers actually use?',
           'Less drama than you’d guess. Most subjects are found cold, dehydrated, and scared rather than '
-          'broken — so the workhorse skills are the <a href="../lessons/09_Cold.html">hypothermia '
-          'wrap</a>, gentle packaging, <a href="../lessons/02_Patient_Assessment.html">serial vitals</a>, '
+          'broken — so the workhorse skills are the <a href="../lessons/09_Cold">hypothermia '
+          'wrap</a>, gentle packaging, <a href="../lessons/02_Patient_Assessment">serial vitals</a>, '
           'and the long, boring carry-out.'),
          ('How should I prepare for SAR tryouts?',
           'Fitness and land navigation are on you. For the medical station, drill the assessment order '
-          'until it survives adrenaline — the <a href="../sims/hero-complex.html">practice scenarios</a> '
+          'until it survives adrenaline — the <a href="../sims/hero-complex">practice scenarios</a> '
           'here exist for exactly that. Teams notice the candidate who checks the scene before the '
           'subject.')],
  'slug': 'sar',
@@ -88,17 +88,17 @@ NICHES = [
           'The question is never “helmet on or off?” — it’s “does this helmet help or hurt this '
           'patient?” An alert rider with a clear airway can keep the lid on. If the airway is in '
           'trouble, it comes off with two people, head held in line, no yanking. '
-          '<a href="../lessons/07_Spine.html">Lesson 7</a> walks the whole decision.'),
+          '<a href="../lessons/07_Spine">Lesson 7</a> walks the whole decision.'),
          ('What belongs in a dual-sport first aid kit?',
           'Less than you think, if you know more than most. Gloves, gauze, a pressure wrap, and '
           'something rigid to splint with cover the classic rider-down injuries — and half a splint is '
-          'already on the bike as tools and armor. The <a href="../kit.html">kit checklist</a> has the '
+          'already on the bike as tools and armor. The <a href="../kit">kit checklist</a> has the '
           'full list.'),
          ('What if the crash site has no cell coverage?',
           'Then the plan you made at breakfast is the rescue. Someone at home knows your route and your '
           'drop-dead time; the group remembers where coverage last existed; and if riders leave for '
           'help, two go, one stays, carrying a written note. '
-          '<a href="../lessons/13_Evacuation.html">Evacuation</a> teaches the math before you need it.')],
+          '<a href="../lessons/13_Evacuation">Evacuation</a> teaches the math before you need it.')],
  'slug': 'riders',
  'title': 'Wilderness First Aid for Dual-Sport & ADV Riders'},
 
@@ -138,10 +138,10 @@ NICHES = [
           'No. Broadheads and skinning knives make exactly the wounds tourniquets exist for, and the '
           'doctrine is tourniquet-first for a life-threatening limb bleed — not “try pressure for ten '
           'minutes and hope.” A commercial tourniquet weighs a few ounces and rides next to the tags. '
-          '<a href="../lessons/04_Bleeding_Wounds.html">Lesson 4</a> covers when and how.'),
+          '<a href="../lessons/04_Bleeding_Wounds">Lesson 4</a> covers when and how.'),
          ('What do you do when someone falls from a treestand?',
           'Treat the ground, not the story. A fall from height is a high-energy mechanism: keep him '
-          'still, ask the <a href="../lessons/07_Spine.html">spine questions</a>, and resist the urge to '
+          'still, ask the <a href="../lessons/07_Spine">spine questions</a>, and resist the urge to '
           'sit him up to “see if he’s okay.” The conservative call is the right call every time.'),
          ('What does a heart attack look like in the field?',
           'Often like a guy insisting it’s the coffee. Crushing chest pressure with sweating means all '
@@ -183,18 +183,18 @@ NICHES = [
  'faq': [('What do you do for a bad ankle six miles in?',
           'Run the blunt field test: can she take four steps on it, and is the bone itself (the ankle '
           'knobs, the midfoot) free of point tenderness? Fail either check and you treat it as broken: '
-          'splint it and start the <a href="../lessons/13_Evacuation.html">evacuation decision</a> '
+          'splint it and start the <a href="../lessons/13_Evacuation">evacuation decision</a> '
           'early, while there’s daylight left to spend. Pass both and it can usually walk itself out, '
           'supported and watched.'),
          ('How much first aid kit is enough for a weekend?',
           'Enough to stop a real bleed, splint a limb, and handle the small stuff that actually ruins '
           'trips — blisters, burns, splinters. That fits in a sandwich bag. The '
-          '<a href="../kit.html">checklist</a> covers it; the skills to use it weigh nothing and matter '
+          '<a href="../kit">checklist</a> covers it; the skills to use it weigh nothing and matter '
           'more.'),
          ('Is it safe to hike alone after learning this?',
           'Solo travel trades away your rescuer, and no course changes that. What changes the odds: a '
           'written plan left with someone who’ll act on it, a hard turnaround time, and knowing which '
-          'injuries walk out and which don’t. <a href="../lessons/15_Kits_Preparation.html">Kits & '
+          'injuries walk out and which don’t. <a href="../lessons/15_Kits_Preparation">Kits & '
           'Preparation</a> covers the plan you leave behind.')],
  'slug': 'backpackers',
  'title': 'Free Wilderness First Aid for Backpackers'},
@@ -242,7 +242,7 @@ NICHES = [
          ('Someone’s down past a blind feature — move them?',
           'A rider in the landing zone is a scene-safety problem before he’s a spine problem. Post '
           'someone up-trail to stop traffic first. If you truly must move him, move him as one unit, '
-          'spine in line — <a href="../sims/dont-sit-him-up.html">practice it here</a> before it’s '
+          'spine in line — <a href="../sims/dont-sit-him-up">practice it here</a> before it’s '
           'real.')],
  'slug': 'mtb',
  'title': 'Free First Aid for Mountain Bikers'},
@@ -291,7 +291,7 @@ NICHES = [
          ('Should runners carry anything at all?',
           'A pair of gloves and an elastic wrap earn their few grams. Cheaper still: knowing your '
           'partners’ medical stories — the diabetes, the bee allergy, the heart history. Start from the '
-          '<a href="../kit.html">kit checklist</a> and cut ruthlessly.')],
+          '<a href="../kit">kit checklist</a> and cut ruthlessly.')],
  'slug': 'trail-runners',
  'title': 'Free Wilderness First Aid for Trail Runners'},
 

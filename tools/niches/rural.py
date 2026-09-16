@@ -283,7 +283,7 @@ NICHES = [
           'Your phone’s GPS works without cell signal — pull the coordinates from any map app and read '
           'them slowly, twice. Add the road number if the BLM signed it, the last landmark a driver '
           'would recognize, and offer to meet the ambulance partway at something findable. '
-          '<a href="../lessons/13_Evacuation.html">The call itself is a skill</a>; practice it before '
+          '<a href="../lessons/13_Evacuation">The call itself is a skill</a>; practice it before '
           'the day it matters.'),
          ('Which burns can I handle in the van?',
           'First, cool it: cool (not ice-cold) running water for a solid 10–20 minutes — the one move '

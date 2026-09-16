@@ -120,7 +120,7 @@
       nav.appendChild(a);
     } else {
       var home = document.createElement('a');
-      home.className = 'btn next'; home.href = '../index.html#final-exam';
+      home.className = 'btn next'; home.href = '/#final-exam';
       home.innerHTML = '<span>You finished the last lesson — take the final exam</span><span aria-hidden="true">→</span>';
       nav.appendChild(home);
     }
@@ -221,7 +221,7 @@
       '<p>' + esc(msg) + '</p>' +
       '<div class="actions">' +
         '<button type="button" class="btn secondary" id="quiz-retry">Retry quiz</button>' +
-        (nextHref ? '<a class="btn" href="' + nextHref + '">Next lesson →</a>' : '<a class="btn" href="../index.html#final-exam">Go to the final exam →</a>') +
+        (nextHref ? '<a class="btn" href="' + nextHref + '">Next lesson →</a>' : '<a class="btn" href="/#final-exam">Go to the final exam →</a>') +
       '</div>';
     scoreEl.hidden = false;
     document.getElementById('quiz-retry').addEventListener('click', function () {

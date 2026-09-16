@@ -47,7 +47,7 @@ NICHES = [
           'sounds like in week six.'),
          ('What should I actually have memorized before campers arrive?',
           'Two things cold: which of your campers carry epinephrine and exactly where it lives, and '
-          'that <a href="../lessons/14_Water_Lightning.html">drowning changes the order</a> — breaths '
+          'that <a href="../lessons/14_Water_Lightning">drowning changes the order</a> — breaths '
           'first, before compressions. Everything else can live in a reference card; those two have to '
           'live in you.'),
          ('A camper says they’re fine — do I believe them?',

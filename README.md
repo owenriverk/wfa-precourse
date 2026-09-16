@@ -30,7 +30,7 @@ Total study time is roughly 7.5 hours. The 40-question final exam covers lessons
 
 ## How it's built
 
-Plain HTML, CSS, and JavaScript with no build step. GitHub Pages deploys `main` via `.github/workflows/pages.yml`.
+Plain HTML, CSS, and JavaScript with no build step. Cloudflare Pages serves the site at openwfa.com; `tools/deploy_cf.sh` deploys the current branch (`main` → production, anything else → a preview URL).
 
 ```
 index.html            landing page
@@ -54,9 +54,14 @@ Each lesson page declares its quiz in a `window.WFA_LESSON` object at the bottom
 To preview locally:
 
 ```
-python3 -m http.server 8000
-# then open http://localhost:8000/
+npx wrangler pages dev .
+# then open http://localhost:8788/
 ```
+
+Internal links are extensionless (`/kit`, not `/kit.html`) because that is the form
+Cloudflare Pages serves and the form every canonical and sitemap entry declares. A
+plain static file server will 404 on them; `wrangler pages dev` applies the same
+extension stripping as production and runs the `functions/` API alongside the pages.
 
 ## Content rules
 

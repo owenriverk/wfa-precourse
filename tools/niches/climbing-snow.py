@@ -175,13 +175,13 @@ NICHES = [
           'follows every winter problem, and the evacuation clock.'),
          ('My partner’s out of the tree well and breathing — now what?',
           'Listen to the breathing. A snore means the airway is partly blocked — '
-          '<a href="../lessons/03_Airway.html">position it</a> now, not once help is called. Then get '
+          '<a href="../lessons/03_Airway">position it</a> now, not once help is called. Then get '
           'insulation between him and the snow, and check his level of response every few minutes. '
           '“Breathing” is a starting point, not an all-clear.'),
          ('How do you spot hypothermia on a tour?',
           'Watch the partner, not the thermometer. Clumsy transitions, unusual quiet, and the fumbled '
           'buckle are early data; shivering that stops without rewarming is worsening, not improving. '
-          'Dry layers, calories, and the <a href="../sims/the-burrito.html">wrap</a> all work best '
+          'Dry layers, calories, and the <a href="../sims/the-burrito">wrap</a> all work best '
           'embarrassingly early.')],
  'slug': 'backcountry-skiers',
  'title': 'Free Wilderness First Aid for Backcountry Skiers'},

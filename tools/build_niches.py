@@ -101,10 +101,10 @@ TPL = """<!DOCTYPE html>
 
 <header class="site-nav">
   <div class="wrap">
-    <a class="brand" href="../index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="2" y="2" width="28" height="28" rx="7" fill="currentColor" opacity="0.12"/><path d="M6 23 L12 12 L16 18 L19 14 L26 23 Z" fill="currentColor" opacity="0.85"/><path d="M16 6 v6 M13 9 h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg><span>Wilderness First Aid</span><span class="brand-sub">Free online course</span></a>
+    <a class="brand" href="/"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="2" y="2" width="28" height="28" rx="7" fill="currentColor" opacity="0.12"/><path d="M6 23 L12 12 L16 18 L19 14 L26 23 Z" fill="currentColor" opacity="0.85"/><path d="M16 6 v6 M13 9 h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg><span>Wilderness First Aid</span><span class="brand-sub">Free online course</span></a>
     <nav class="nav-links" aria-label="Course navigation">
-      <a href="../index.html#lessons">All lessons</a>
-      <a href="../sim.html">Practice</a>
+      <a href="/#lessons">All lessons</a>
+      <a href="../sim">Practice</a>
     </nav>
   </div>
 </header>
@@ -151,10 +151,10 @@ TPL = """<!DOCTYPE html>
 {faq}
   <section class="section-block">
     <h2>What this is</h2>
-    <p>Fifteen lessons, a 40-question knowledge check, sixteen practice scenarios, a printable <a href="../reference.html">field reference card</a>, and a <a href="../kit.html">kit checklist</a>. Free, no account, nothing recorded about you, source on <a href="https://github.com/owenriverk/wfa-precourse">GitHub</a>. It teaches decision-making, not hands-on skill — practice the hands-on parts on a real, padded, complaining friend.</p>
+    <p>Fifteen lessons, a 40-question knowledge check, sixteen practice scenarios, a printable <a href="../reference">field reference card</a>, and a <a href="../kit">kit checklist</a>. Free, no account, nothing recorded about you, source on <a href="https://github.com/owenriverk/wfa-precourse">GitHub</a>. It teaches decision-making, not hands-on skill — practice the hands-on parts on a real, padded, complaining friend.</p>
     <div class="cta-row">
-      <a class="btn lg" href="../lessons/01_Provider_Safety.html">Start Lesson 1 →</a>
-      <a class="btn secondary lg" href="../sim.html">Try a scenario</a>
+      <a class="btn lg" href="../lessons/01_Provider_Safety">Start Lesson 1 →</a>
+      <a class="btn secondary lg" href="../sim">Try a scenario</a>
     </div>
 {see_also}  </section>
 </main>
@@ -162,10 +162,10 @@ TPL = """<!DOCTYPE html>
 <footer class="site-footer">
   <div class="wrap">
     <div class="foot-links">
-      <a href="../index.html">Home</a>
-      <a href="../index.html#lessons">All lessons</a>
-      <a href="../sim.html">Practice</a>
-      <a href="../credits.html">Art &amp; credits</a>
+      <a href="/">Home</a>
+      <a href="/#lessons">All lessons</a>
+      <a href="../sim">Practice</a>
+      <a href="../credits">Art &amp; credits</a>
       <a href="https://github.com/owenriverk/wfa-precourse">Source on GitHub</a>
     </div>
     <p class="foot-disclaimer">Educational use only. This course supports wilderness first aid training and does not replace hands-on instruction or professional medical care. In an emergency, call your local emergency number.</p>
@@ -205,7 +205,7 @@ def see_also_block(n):
     rot = [sibs[(i + k) % len(sibs)] for k in range(1, len(sibs))]
     picks = [s for s in rot if s["slug"] != n["slug"]][:3]
     label = CAT_PEER_LABEL.get(n.get("cat", ""), "Nearby worlds:")
-    links = " · ".join('<a href="%s.html">%s</a>' % (s["slug"], s["eyebrow"].replace("For ", "", 1)) for s in picks)
+    links = " · ".join('<a href="%s">%s</a>' % (s["slug"], s["eyebrow"].replace("For ", "", 1)) for s in picks)
     return '    <p class="see-also"><strong>%s</strong> %s</p>\n' % (label, links)
 
 def faq_html(n):
@@ -229,8 +229,8 @@ def jsonld_html(n, img_url):
 
 for n in NICHES:
     days = "\n".join('      <li><strong>%s</strong> %s</li>' % (b, r) for b, r in n["days"])
-    path = "\n".join('      <li><a href="../lessons/%s.html">%s</a> — <span class="why">%s</span></li>' % (f, t, w) for f, t, w in n["path"])
-    sims = "\n".join('      <li><a href="../%s">%s</a> — <span class="hook">%s</span></li>' % (h, t, k) for h, t, k in n["sims"])
+    path = "\n".join('      <li><a href="../lessons/%s">%s</a> — <span class="why">%s</span></li>' % (f, t, w) for f, t, w in n["path"])
+    sims = "\n".join('      <li><a href="../%s">%s</a> — <span class="hook">%s</span></li>' % (h.removesuffix(".html"), t, k) for h, t, k in n["sims"])
     cert = "    " + (CERT_SHARED % n["cert"])
     img, img_url = img_block(n.get("cat", ""), n["slug"])
     og_img = ('<meta property="og:image" content="%s">\n'
@@ -257,7 +257,7 @@ for n in NICHES:
 rows = []
 for cat in CAT_ORDER + sorted(set(by_cat) - set(CAT_ORDER)):
     if cat not in by_cat: continue
-    chips = "\n".join('        <a class="crew-chip" href="for/%s.html">%s</a>' % (n["slug"], (lambda s: s[0].upper() + s[1:])(n["eyebrow"].replace("For ", "", 1)))
+    chips = "\n".join('        <a class="crew-chip" href="for/%s">%s</a>' % (n["slug"], (lambda s: s[0].upper() + s[1:])(n["eyebrow"].replace("For ", "", 1)))
                        for n in sorted(by_cat[cat], key=lambda x: x["slug"]))
     rows.append('      <h3><span class="px px-%s" aria-hidden="true"></span>%s</h3>\n      <div class="crew-row">\n%s\n      </div>'
                 % (CAT_ICON.get(cat, "heart"), cat, chips))
@@ -303,7 +303,7 @@ for source, p in sorted(_photos.items(), key=lambda kv: kv[1]["meta"].get("title
     creator = (meta.get("creator") or "").strip()
     lic = meta.get("license", "")
     who = (" by %s" % creator) if creator else ""
-    used = ", ".join('<a href="for/%s.html">%s</a>' % (n["slug"], n["eyebrow"].replace("For ", "", 1))
+    used = ", ".join('<a href="for/%s">%s</a>' % (n["slug"], n["eyebrow"].replace("For ", "", 1))
                      for n in p["pages"])
     rows.append('      <li><a href="%s" rel="noopener">%s</a>%s — %s, via Wikimedia Commons. Used on: %s</li>'
                 % (source, title, who, lic, used))
@@ -353,10 +353,10 @@ CREDITS = """<!DOCTYPE html>
 
 <header class="site-nav">
   <div class="wrap">
-    <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="2" y="2" width="28" height="28" rx="7" fill="currentColor" opacity="0.12"/><path d="M6 23 L12 12 L16 18 L19 14 L26 23 Z" fill="currentColor" opacity="0.85"/><path d="M16 6 v6 M13 9 h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg><span>Wilderness First Aid</span><span class="brand-sub">Free online course</span></a>
+    <a class="brand" href="/"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="2" y="2" width="28" height="28" rx="7" fill="currentColor" opacity="0.12"/><path d="M6 23 L12 12 L16 18 L19 14 L26 23 Z" fill="currentColor" opacity="0.85"/><path d="M16 6 v6 M13 9 h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg><span>Wilderness First Aid</span><span class="brand-sub">Free online course</span></a>
     <nav class="nav-links" aria-label="Course navigation">
-      <a href="index.html#lessons">All lessons</a>
-      <a href="sim.html">Practice</a>
+      <a href="/#lessons">All lessons</a>
+      <a href="sim">Practice</a>
     </nav>
   </div>
 </header>
@@ -377,9 +377,9 @@ CREDITS = """<!DOCTYPE html>
 <footer class="site-footer">
   <div class="wrap">
     <div class="foot-links">
-      <a href="index.html">Home</a>
-      <a href="index.html#lessons">All lessons</a>
-      <a href="sim.html">Practice</a>
+      <a href="/">Home</a>
+      <a href="/#lessons">All lessons</a>
+      <a href="sim">Practice</a>
       <a href="https://github.com/owenriverk/wfa-precourse">Source on GitHub</a>
     </div>
     <p class="foot-disclaimer">Educational use only. This course supports wilderness first aid training and does not replace hands-on instruction or professional medical care. In an emergency, call your local emergency number.</p>

@@ -43,7 +43,7 @@ NICHES = [
  'faq': [('The swimmer’s out and coughing — is that an emergency?',
           'It’s an evacuation, and the river doesn’t get a vote on that. A cough that persists after '
           'going under means water reached the lungs, and that injury can worsen over the next several '
-          'hours — the rule is <a href="../lessons/14_Water_Lightning.html">any symptoms after '
+          'hours — the rule is <a href="../lessons/14_Water_Lightning">any symptoms after '
           'submersion, evacuate for evaluation</a>, not “wait and see” at camp. No symptoms still '
           'earns hours of close watching and dry layers; unresponsive in the water means breaths '
           'first, before compressions.'),
@@ -51,7 +51,7 @@ NICHES = [
           'No — and this course won’t teach you to, because that’s a clinician’s job with imaging and '
           'anesthesia behind it. What you can do well on a gravel bar: sling it, support it in the '
           'position of comfort, check the hand before and after, and change the trip plan. '
-          '<a href="../lessons/06_Musculoskeletal.html">Lesson 6</a> covers the sling.'),
+          '<a href="../lessons/06_Musculoskeletal">Lesson 6</a> covers the sling.'),
          ('Does a wetsuit mean I don’t need to worry about cold?',
           'It means the schedule is longer, not cancelled. Every swim is a cold-water event, even in '
           'July, even in neoprene — and a long swim followed by wind on a wet boater is how hypothermia '

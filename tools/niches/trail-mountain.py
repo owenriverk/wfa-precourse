@@ -43,8 +43,8 @@ NICHES = [
  'faq': [('What actually ends thru-hikes?',
           'Rarely bears, rarely cliffs. Feet, wet cold, dehydration, and ordinary bodies doing '
           'extraordinary mileage — the dangerous stuff is the stuff that looks like a bad day until it '
-          'isn’t. <a href="../lessons/09_Cold.html">Cold Injuries</a> and '
-          '<a href="../lessons/11_Medical.html">Medical Emergencies</a> cover the two that sneak up.'),
+          'isn’t. <a href="../lessons/09_Cold">Cold Injuries</a> and '
+          '<a href="../lessons/11_Medical">Medical Emergencies</a> cover the two that sneak up.'),
          ('Do I actually need to worry about snakes?',
           'You’ll walk past far more than you’ll ever see, and that’s fine — until the road-walk morning '
           'one objects. The protocol has no folklore in it: mark the swelling edge with a time, '
@@ -53,7 +53,7 @@ NICHES = [
          ('What’s a realistic thru-hiker first aid kit?',
           'One that restocks at gas stations: tape for feet, gloves, gauze, an elastic wrap, and the '
           'over-the-counter basics. If an item survives three shakedowns and you still can’t say what '
-          'it’s for, mail it home. Start from the <a href="../kit.html">kit checklist</a> and argue '
+          'it’s for, mail it home. Start from the <a href="../kit">kit checklist</a> and argue '
           'with every gram.')],
  'slug': 'thru-hikers',
  'title': 'Free Wilderness First Aid for Thru-Hikers'},

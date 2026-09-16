@@ -1,5 +1,5 @@
 # WFA Course — AI Agent Guide
-*Rules for scenarios, sims, and student interaction · owenriverk.github.io/wfa-precourse*
+*Rules for scenarios, sims, and student interaction · openwfa.com*
 
 ## 1. What this product is
 
