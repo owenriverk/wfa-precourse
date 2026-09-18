@@ -105,6 +105,7 @@ TPL = """<!DOCTYPE html>
     <nav class="nav-links" aria-label="Course navigation">
       <a href="/#lessons">All lessons</a>
       <a href="../sim">Practice</a>
+      <a class="save-btn" href="../account">Save progress</a>
     </nav>
   </div>
 </header>
@@ -357,6 +358,7 @@ CREDITS = """<!DOCTYPE html>
     <nav class="nav-links" aria-label="Course navigation">
       <a href="/#lessons">All lessons</a>
       <a href="sim">Practice</a>
+      <a class="save-btn" href="account">Save progress</a>
     </nav>
   </div>
 </header>
