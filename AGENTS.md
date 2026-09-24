@@ -25,6 +25,7 @@ Free, open-access first aid education (FOAMed) for **lay rescuers who can't atte
 - **Splinting**: immobilize the **joints above and below**; pad it; no strap over the fracture site; check **CSM before and after**, re-check periodically; keep a toe/fingertip window visible; splint before moving.
 - **Hypothermia/packaging**: insulation **under** the patient matters most; vapor barrier; wrap torso *and* legs; cover the head; calories if fully alert. **Shivering that stops without rewarming is worsening, not improving.** Handle gently.
 - **Frostbite**: never thaw tissue that might refreeze; never walk on thawed feet; refreezing is catastrophic. Walking out on frozen feet beats thawing-then-refreezing.
+- **Shock position**: flat, prevent heat loss (insulate underneath), treat the cause, evacuate. Per AHA/Red Cross first aid guidance, raising the feet 6–12 in is an *option* only with no trauma and no pain; with trauma, keep them flat.
 - **Heat**: a spectrum; altered mental status = heat stroke = **cool first with whatever you have, right where you are**, then evacuate.
 - **Anaphylaxis**: epinephrine first and early — hives plus airway/breathing/GI involvement means epi *now*; second dose at 5–15 min if not improving; antihistamines are an adjunct, never a substitute. Adult auto-injector: 0.3 mg.
 - **Cardiac**: crushing/pressure chest pain with sweating = stop all exertion, sit them down, aspirin (chewed) if no allergy/contraindication, call for help early. Denial is part of the presentation.
