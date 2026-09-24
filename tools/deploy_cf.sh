@@ -23,6 +23,6 @@ rsync -a --exclude 'dist' --exclude '.git' --exclude '.github' --exclude '.backu
       --exclude 'functions' --exclude 'db' --exclude 'wrangler.jsonc' --exclude '.dev.vars' \
       --exclude 'node_modules' --exclude '.wrangler' --exclude 'WFA_Lessons_Compiled.pdf' \
       --exclude 'tools' --exclude 'README.md' --exclude 'AGENTS.md' --exclude 'sims/SPEC.md' \
-      --exclude '.gitignore' --exclude '.nojekyll' --exclude '.DS_Store' \
+      --exclude '.gitignore' --exclude '.nojekyll' --exclude '.ai-skills' --exclude '.DS_Store' \
       ./ dist/
 npx wrangler pages deploy dist --project-name openwfa --branch "$BRANCH" --commit-dirty=true
